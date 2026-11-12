@@ -89,7 +89,10 @@ fuera del prototipo (D10, limitación de alcance documentada).
 - **Catálogo del gimnasio**: máquinas con fotos e implementos con cantidades.
 - **Estado de máquinas**: Disponible / En mantención, con **advertencia en la rutina** del alumno (D05, D06).
 - ★ **Rutina activada por la credencial**: aparece en el celular con pesos y ajustes de máquina.
-- ★ **Feedback al salir y progresión de cargas** con parámetros configurables (D07).
+- ★ **Feedback al salir y progresión de cargas** con parámetros configurables (D07). En rutinas asignadas por el
+  profesor, el feedback se registra pero las cargas no cambian automáticamente.
+- **Rutinas de tres orígenes** (D15): generadas por el sistema, creadas o asignadas por el profesor, o creadas por el alumno.
+  El alumno elige su rutina activa; el administrador habilita o deshabilita cada modalidad.
 - **Usuarios y roles**: alumno, profesor encargado, administrador.
 - **Registro corporal privado**: el alumno anota peso y perímetros (datos ficticios en las pruebas); IMC y evolución.
 
@@ -98,7 +101,6 @@ fuera del prototipo (D10, limitación de alcance documentada).
 ### Prioridad media (solo si el núcleo está listo y probado)
 
 - ★ **Reparto del orden de ejercicios** — experimental, primero una prueba de factibilidad (D08).
-- **Rutinas creadas por el alumno o asignadas por el profesor**, además de las generadas (D09, por evaluar).
 - Registro de incidencias de mal uso.
 - Reportes: asistencia por carrera y horario, horas peak, uso de máquinas y préstamos.
 - Alumnos en riesgo: aviso cuando un alumno deja de venir.
@@ -262,6 +264,14 @@ Actualizado: jueves 12 de noviembre de 2026.
 | D09 | Evaluar rutinas creadas por el alumno o asignadas por el profesor |
 | D10 | Prototipo limitado a alumnos |
 | D11 | Sin datos reales ni información médica sensible en las pruebas |
+| D12 | Generación de rutina: el alumno define objetivo (fuerza, hipertrofia, salud) y nivel (principiante, intermedio); el sistema usa plantillas por objetivo y nivel con solo máquinas registradas |
+| D13 | Entrega al celular: el alumno inicia sesión una vez en la app web; al pasar la credencial, su sesión abierta recibe la rutina en tiempo real |
+| D14 | Lista de espera: número de turno; la pantalla muestra el turno llamado y el alumno vuelve a pasar la credencial |
+| D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
+| D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
+
+Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
+documento **"AforoFit — Requisitos, casos de uso y criterios de aceptación"**.
 
 Otras decisiones: ingreso con credencial con chip y QR de respaldo · repositorio público (Vercel Hobby solo
 despliega commits del dueño en repos privados) · las tareas viven en el plan de acción, no en GitHub ·
