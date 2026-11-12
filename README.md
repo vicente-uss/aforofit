@@ -8,15 +8,15 @@ Proyecto Integrador · Taller de Ingeniería de Software · Grupo 6 · Universid
 
 ## Qué hace
 
-Hoy en el gimnasio de la USS el ingreso se anota con RUT en papel, cada alumno arma su propia rutina y
-nadie controla el aforo. AforoFit usa el momento de la entrada para ordenar todo:
+Hoy en el gimnasio de la USS el ingreso se anota con RUT en papel y se traspasa a Excel, las salidas no se
+registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento de la entrada para ordenar todo:
 
-1. El alumno pasa su **credencial** por un lector en la entrada.
-2. Su **rutina del día** aparece al instante en su celular, con pesos y ajustes de cada máquina.
-3. El sistema **reparte el orden de los ejercicios** entre los que están adentro para evitar filas.
-4. Si una máquina está en mantención, **las rutinas la reemplazan solas**.
-5. Al salir, el alumno responde **fácil / justo / me costó** y su próxima rutina se ajusta.
-6. Una pantalla muestra el **aforo en vivo**; el encargado gestiona el **préstamo de implementos**.
+1. El alumno pasa su **credencial** por un lector en la entrada: se valida su habilitación y el horario, y queda registrado.
+2. Si el gimnasio está lleno, pasa a una **lista de espera** con número de turno.
+3. Su **rutina del día** aparece en su celular, con pesos, ajustes de máquina y avisos si alguna está en mantención.
+4. Al salir, pasa la credencial otra vez: se libera el cupo y, si usó la rutina, responde **fácil / justo / me costó**.
+5. Una pantalla muestra el **aforo en vivo**.
+6. Los profesores registran los **préstamos de implementos** para la cancha, con la TNE como garantía.
 
 Es un prototipo académico que funciona con **datos de prueba**.
 
@@ -70,6 +70,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 ## Documentación
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
+- [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
 - **AforoFit — Plan de acción del proyecto**: tareas por ciclo, responsables y puntos de decisión.
 - **AforoFit — Kit de arranque**: guías de infraestructura, lector NFC, entrevista y modelo de datos.
 
