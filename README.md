@@ -20,6 +20,12 @@ registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento
 
 Es un prototipo académico que funciona con **datos de prueba**.
 
+## Prototipo navegable
+
+**[Abrir el prototipo en Figma Make](https://www.figma.com/make/onv7W4YD13BPc7HAQ5jjef)**: cubre los 16 casos de uso
+con datos de prueba (alumno, profesor encargado, administrador y pantalla de aforo). Antes de mostrarlo, usa
+**Restablecer demo** en el login. Es la referencia visual para construir la app real en Next.js.
+
 ## Stack
 
 | Parte | Tecnología |
@@ -34,7 +40,7 @@ Es un prototipo académico que funciona con **datos de prueba**.
 Requisitos: Node.js LTS y Git.
 
 ```bash
-git clone https://github.com/TU-USUARIO/aforofit.git
+git clone https://github.com/vicente-uss/aforofit.git
 cd aforofit
 npm install
 ```
@@ -71,6 +77,9 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
+- [`docs/requisitos-casos-uso-criterios.md`](docs/requisitos-casos-uso-criterios.md): requisitos, casos de uso y criterios de aceptación (CA01–CA22).
+- [`docs/revision-prototipo-2026-11-16.md`](docs/revision-prototipo-2026-11-16.md): revisión del prototipo de Figma Make y correcciones aplicadas.
+- [Prototipo en Figma Make](https://www.figma.com/make/onv7W4YD13BPc7HAQ5jjef): interfaz navegable de todos los actores.
 - **AforoFit — Plan de acción del proyecto**: tareas por ciclo, responsables y puntos de decisión.
 - **AforoFit — Kit de arranque**: guías de infraestructura, lector NFC, entrevista y modelo de datos.
 
