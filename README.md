@@ -33,7 +33,7 @@ con datos de prueba (alumno, profesor encargado, administrador y pantalla de afo
 | Frontend | Next.js (App Router) + TypeScript + Tailwind |
 | Backend y base de datos | Supabase (PostgreSQL, Auth, Realtime) |
 | Despliegue | Vercel |
-| Ingreso | Lector NFC USB de 13,56 MHz en modo teclado; QR como respaldo |
+| Ingreso | TNE en un lector USB de 13,56 MHz en modo teclado; QR como respaldo |
 
 ## Cómo ejecutarlo
 
@@ -78,6 +78,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
 - [`docs/requisitos-casos-uso-criterios.md`](docs/requisitos-casos-uso-criterios.md): requisitos, casos de uso y criterios de aceptación (CA01–CA22).
+- [`docs/pruebas-tarjetas.md`](docs/pruebas-tarjetas.md): prueba de tarjetas y lector elegido.
 - [`docs/revision-prototipo-2026-11-16.md`](docs/revision-prototipo-2026-11-16.md): revisión del prototipo de Figma Make y correcciones aplicadas.
 - [Prototipo en Figma Make](https://www.figma.com/make/onv7W4YD13BPc7HAQ5jjef): interfaz navegable de todos los actores.
 - **AforoFit — Plan de acción del proyecto**: tareas por ciclo, responsables y puntos de decisión.

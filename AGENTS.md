@@ -80,7 +80,7 @@ fuera del prototipo (D10, limitación de alcance documentada).
 
 ### Prioridad alta (comprometido para la entrega final)
 
-- **Ingreso y salida con credencial** (credencial USS o TNE) y QR como respaldo (D02).
+- **Ingreso y salida con credencial**: la TNE es la credencial principal (D17); la credencial USS queda por confirmar. QR como respaldo.
 - **Aforo en vivo** con capacidad configurable (inicial: 20) en una pantalla pública (D01).
 - **Lista de espera** con número de turno cuando el gimnasio está lleno.
 - **Habilitación** de alumnos con certificado vigente por **período académico** configurable (D03).
@@ -158,9 +158,13 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 - **Frontend**: Next.js (App Router) + TypeScript + Tailwind, web responsiva. Creado con la plantilla oficial `with-supabase`.
 - **Backend y base de datos**: Supabase (PostgreSQL + Auth + Realtime).
 - **Despliegue**: Vercel. Cada push a `main` publica en producción; cada pull request genera una vista previa.
-- **Lector de credenciales**: lector NFC USB de 13,56 MHz en modo teclado (HID), conectado al computador
-  All-in-One del gimnasio. Al acercar la tarjeta escribe su UID como texto seguido de Enter. En la app es solo un
-  campo de texto enfocado. Registrar siempre las credenciales con el mismo lector.
+- **Lector de credenciales**: lector USB de 13,56 MHz para tarjetas MIFARE, en modo teclado (HID), conectado al
+  computador All-in-One del gimnasio. Elegido: "Lector Usb Tarjeta Llavero Rfid Id Serie 13.56 Mhz Mf1 S50"
+  ($14.990, Mercado Libre); se compra cuando se apruebe el Avance 2. Al acercar la tarjeta escribe el UID como
+  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. En la app es solo un campo de texto
+  enfocado. La función `normalizarUid` lo convierte al formato hexadecimal que muestra NFC Tools
+  (ej. ficticio: `0729785092` → `04:A3:7F:2B`), que es el que se guarda en `tarjetas.uid`. Detalle en
+  `docs/pruebas-tarjetas.md`.
 - **Respaldo de ingreso**: código QR.
 
 ```
@@ -235,15 +239,20 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: jueves 12 de noviembre de 2026.
+Actualizado: lunes 16 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima.
 - Repositorio en GitHub, proyecto en Supabase y despliegue en Vercel creados.
 - Entrevista con el encargado del gimnasio (decisiones D01–D11).
+- Requisitos, casos de uso y criterios de aceptación (`docs/requisitos-casos-uso-criterios.md`).
+- Prototipo en Figma Make revisado y corregido (`docs/revision-prototipo-2026-11-16.md`).
+- Diagramas de casos de uso, entidad-relación, secuencia del ingreso y estados (`docs/diagramas.md`).
+- Prueba de tarjetas con NFC Tools: la TNE es MIFARE Classic 4K de 13,56 MHz con UID fijo; lector elegido
+  (`docs/pruebas-tarjetas.md`).
 
 **Pendiente para el Avance 2 (martes 17)**
-- [ ] Comprar el lector NFC USB tipo teclado y probarlo con la credencial USS, la TNE y la Bip! (Pau)
+- [ ] Comprar el lector de 13,56 MHz cuando se apruebe el Avance 2 y confirmar el formato del UID con una TNE
 - [ ] Inventario de máquinas con fotos y cantidades exactas de implementos (Bastián)
 - [ ] Primer borrador del modelo de datos con las reglas actualizadas (Benjamín)
 - [ ] Revisión de pantallas del alumno y del profesor encargado (Isidora)
@@ -269,16 +278,17 @@ Actualizado: jueves 12 de noviembre de 2026.
 | D14 | Lista de espera: número de turno; la pantalla muestra el turno llamado y el alumno vuelve a pasar la credencial |
 | D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
 | D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
+| D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; se descarta el carnet de identidad (UID aleatorio y datos personales); la credencial USS queda por confirmar; lector de 13,56 MHz |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 documento **"AforoFit — Requisitos, casos de uso y criterios de aceptación"**.
 
-Otras decisiones: ingreso con credencial con chip y QR de respaldo · repositorio público (Vercel Hobby solo
+Otras decisiones: ingreso con la TNE y QR de respaldo · repositorio público (Vercel Hobby solo
 despliega commits del dueño en repos privados) · las tareas viven en el plan de acción, no en GitHub ·
 la IA se usa para casi todo y el equipo revisa y decide.
 
 **Preguntas abiertas**
-- ¿La credencial USS tiene chip de 13,56 MHz con UID fijo? ¿Y la TNE?
+- ¿La credencial USS tiene chip de 13,56 MHz con UID fijo? (la TNE sí, probada el 16 de noviembre)
 - Cantidades exactas de implementos disponibles para préstamo.
 - ¿Es factible el reparto automático de ejercicios? (prueba de factibilidad y consulta a usuarios)
 - Fechas oficiales del período académico.
