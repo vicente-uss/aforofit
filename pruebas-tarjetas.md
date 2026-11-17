@@ -16,7 +16,7 @@ Se leyeron las tarjetas con la app NFC Tools en un celular Android con NFC. Un c
 | TNE 2 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `AC:CD:**:**` (4 bytes, fijo) |
 | TNE 3 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `DC:94:**:**` (4 bytes, fijo) |
 | Carnet de identidad | Sí, pero se descarta | ISO 14443-4, MIFARE Plus | Empieza con `08`: UID aleatorio |
-| Credencial USS (TUI) | Sí | Por registrar | Por registrar (enmascarado) |
+| Credencial USS (TUI) | Sí | ISO 14443-4 (NfcA), emula MIFARE Classic 4K · SAK 0x38 | `B7:76:**:**` (4 bytes, fijo) |
 
 Los UID se muestran enmascarados.
 
@@ -25,7 +25,9 @@ Los UID se muestran enmascarados.
   credencial y cumplen la regla de credencial única.
 - El carnet de identidad no sirve: su UID cambia en cada lectura y se trata de un documento con datos personales
   reales, lo que va contra D11 y RNF07.
-- La TUI (credencial USS) también funciona y se acepta. Aun así, **la TNE es la credencial principal** para el
+- La TUI (credencial USS) también funciona: es una tarjeta ISO 14443-4 sobre NfcA que emula MIFARE Classic 4K y
+  tiene un UID de 4 bytes que no empieza con `08`, o sea, fijo. El lector HID solo lee el UID, así que la acepta
+  igual que la TNE. Aun así, **la TNE es la credencial principal** para el
   ingreso y los préstamos (D17), porque todos los alumnos la tienen. El QR queda de respaldo.
 
 ## 2. Cotizaciones del lector

@@ -233,7 +233,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avance-2/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón |
+| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de pendón y de tríptico |
 | Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
 | 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, pendón instalado, defensa de todos |
@@ -263,10 +263,9 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comprar el lector de 13,56 MHz (Avance 2 aprobado) y probar `/ingreso` con una TNE y una TUI reales,
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
-- [ ] Registrar en `docs/pruebas-tarjetas.md` el tipo de chip de la TUI (con el UID enmascarado)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y aforo en tiempo real
 - [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
-- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y borrador del pendón
+- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de pendón y de tríptico
 - [ ] Cambiar la contraseña de `admin.demo` (aparece en un comentario del repo público)
 
 **Decisiones tomadas** (entrevista del 12 de noviembre)
