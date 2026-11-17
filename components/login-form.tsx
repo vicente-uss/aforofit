@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { esRol, panelDeRol } from "@/lib/auth/roles";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,22 +27,39 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
+
+      // Se lee el rol del perfil y se envía al panel correspondiente.
+      const { data: perfil, error: errorPerfil } = await supabase
+        .from("perfiles")
+        .select("rol")
+        .eq("id", data.user.id)
+        .maybeSingle();
+      if (errorPerfil || !perfil || !esRol(perfil.rol)) {
+        await supabase.auth.signOut();
+        throw new Error("Tu usuario no tiene un perfil asignado.");
+      }
+
+      router.push(panelDeRol(perfil.rol));
+      router.refresh();
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      const mensaje = error instanceof Error ? error.message : "";
+      setError(
+        mensaje === "Invalid login credentials"
+          ? "Correo o contraseña incorrectos."
+          : mensaje || "Ocurrió un error. Inténtalo de nuevo.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -51,20 +69,21 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Ingresa con tu correo para acceder a tu panel
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Correo</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="nombre@aforofit.cl"
+                  autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -72,17 +91,18 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Contraseña</Label>
                   <Link
                     href="/auth/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -90,18 +110,12 @@ export function LoginForm({
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? "Ingresando..." : "Ingresar"}
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
-              >
-                Sign up
-              </Link>
-            </div>
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              Las cuentas las crea el administrador del gimnasio.
+            </p>
           </form>
         </CardContent>
       </Card>
