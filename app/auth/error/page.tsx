@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Suspense } from "react";
 
@@ -11,12 +12,10 @@ async function ErrorContent({
   return (
     <>
       {params?.error ? (
-        <p className="text-sm text-muted-foreground">
-          Code error: {params.error}
-        </p>
+        <p className="text-sm text-muted-foreground">Detalle: {params.error}</p>
       ) : (
         <p className="text-sm text-muted-foreground">
-          An unspecified error occurred.
+          Ocurrió un error no especificado.
         </p>
       )}
     </>
@@ -34,14 +33,18 @@ export default function Page({
         <div className="flex flex-col gap-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">
-                Sorry, something went wrong.
-              </CardTitle>
+              <CardTitle className="text-2xl">Algo salió mal</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
               <Suspense>
                 <ErrorContent searchParams={searchParams} />
               </Suspense>
+              <Link
+                href="/auth/login"
+                className="text-sm underline underline-offset-4"
+              >
+                Volver a iniciar sesión
+              </Link>
             </CardContent>
           </Card>
         </div>
