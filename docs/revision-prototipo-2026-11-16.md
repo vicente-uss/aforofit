@@ -71,7 +71,7 @@ El alumno llamado usa su cupo reservado; cualquier otro solo entra si quedan cup
 | 5 | `certVigente` no revisaba el fin del período académico | Se agregó la condición `fecha <= periodo.fin` | RF04, D03 | Corregido |
 | 6 | El feedback solo se activaba para el alumno de demo | Feedback pendiente y rutina activa guardados por alumno | RF18 | Corregido |
 | 7 | La estatura para el IMC estaba fija | Campo Estatura en el modal Registrar medición | RF27 | Corregido |
-| 8 | Las fotos de las máquinas son de Unsplash | Reemplazarlas por las fotos del inventario de Bastián | P7 | Pendiente |
+| 8 | Las fotos de las máquinas son de Unsplash | Usar las [fotos del inventario](../fotos-maquinas/) en Figma | P7 | Fotos disponibles en el repositorio; reemplazo en Figma sin verificar |
 
 ## Paso a Next.js y Supabase
 
@@ -100,7 +100,7 @@ Vicente lo cruza contra las 9 reglas de negocio antes de crear las tablas.
 
 ## Checklist de cierre
 
-En el Avance 2 se presentan como ajustes detectados en una revisión y ya corregidos: muestra el proceso de ingeniería.
+El checklist registra correcciones del prototipo Figma y evidencia del Avance 2. Para el estado del código Next.js, consulta el [documento de cierre](cierre-avances-1-y-2.md).
 
 - [x] Pantalla del profesor para crear y asignar rutinas (punto 1)
 - [x] Tabla de tarjetas: un UID para el ingreso y el préstamo (punto 2)
@@ -109,10 +109,11 @@ En el Avance 2 se presentan como ajustes detectados en una revisión y ya correg
 - [x] Validación del fin del período académico (punto 5)
 - [x] Feedback por alumno (punto 6)
 - [x] Campo de estatura en el registro corporal (punto 7)
-- [ ] Fotos reales de las máquinas (punto 8, con Bastián)
+- [x] Fotos del inventario disponibles en el repositorio.
+- [ ] Verificar que Figma use esas fotos (punto 8, con Bastián).
 - [x] Capturas por actor incluidas en las láminas de interfaces del [Avance 2](entregas/avances/AforoFit-Avance2-Grupo6.pdf).
 
-### Pendientes detectados en la segunda revisión (16 de noviembre)
+### Correcciones registradas en la segunda revisión (16 de noviembre)
 
 - [x] Rutina activa por alumno (`rutinaActivaPorAlumno`)
 - [x] El profesor puede editar las rutinas que ya asignó

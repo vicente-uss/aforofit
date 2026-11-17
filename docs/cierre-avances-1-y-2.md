@@ -54,9 +54,22 @@ Los avances 1 y 2 obtuvieron **7,0**, según el registro del equipo. La [pauta d
 | Pruebas iniciales, dificultades y correcciones | 14 pruebas del normalizador y matriz CA01–CA22 | Ejecutar pruebas del flujo implementado y del lector físico. Registrar resultado esperado, resultado real, evidencia, problema y corrección. |
 | Borrador del pendón y plan de cierre | Problema, flujo, arquitectura y capturas ya preparadas | Preparar contenido y estructura del pendón, con evidencia del prototipo y estado de cada función. La pauta exige además planificar el cierre en noviembre. |
 
-El equipo calendarizó el Avance 3 para el **24 de noviembre**. [AGENTS.md](../AGENTS.md) también menciona un tríptico en el plan interno. La [pauta adjunta](bases-proyecto-integrador.md) especifica el pendón.
+El equipo calendarizó el Avance 3 para el **24 de noviembre**. La [pauta adjunta](bases-proyecto-integrador.md) exige el pendón. [AGENTS.md](../AGENTS.md) registra el tríptico como tarea interna por confirmar.
 
-**Validaciones abiertas:** lector USB y formato emitido para TNE y TUI, cantidades de implementos, fechas oficiales del período académico, factibilidad del reparto automático y regla de vencimiento de un turno llamado.
+### Pendientes revisados
+
+Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas del Avance 1 quedó registrado como no elaborado.
+
+| Área | Pendiente o validación | Evidencia de partida |
+|---|---|---|
+| Credenciales | Confirmar adquisición del lector y probar físicamente TNE y TUI, formato de UID y Enter. Conectar credenciales a perfiles y preparar respaldo QR. | Lector elegido, lecturas en celular, entrada manual y 14 pruebas unitarias del normalizador. |
+| Ingreso y aforo | Implementar identificación, habilitación, horario, capacidad, entrada y salida, cierre automático, turnos y pantalla pública en tiempo real. Acordar el vencimiento del turno llamado. | Kiosco, reglas y diagramas del flujo. |
+| Datos y catálogo | Completar el modelo físico según las tablas nuevas. Confirmar cantidades de implementos, completar ajustes de máquinas y verificar el uso de las fotos del inventario en Figma. | Scripts iniciales de perfiles y catálogo, inventario y fotos en el repositorio. |
+| Rutinas y feedback | Completar plantillas para las seis combinaciones de objetivo y nivel. Integrar rutina en el celular y feedback según el plan del hito. Validar parámetros y redondeo de cargas. | Diseño de rutinas, decisiones D07 y D12–D15 y simulación en Figma. |
+| Habilitación | Confirmar fechas oficiales del período académico. | Fechas provisionales documentadas, con habilitación por período. |
+| Pruebas y calidad | Ejecutar el flujo y registrar evidencia según CA01–CA22. Completar criterios directos para los seis RF prioritarios identificados en la matriz. Revisar el error de lint en Tailwind. | Matriz de aceptación, compilación aprobada en la auditoría previa y 14 pruebas de UID aprobadas nuevamente en la rama. |
+| Entregables académicos | Completar estimación, PPT, demo y borrador del pendón con su plan de cierre. Confirmar alcance del tríptico interno. | Pauta, rúbrica y evidencias de avances anteriores. |
+| Alcance posterior | Validar la factibilidad del reparto automático, que sigue siendo experimental. Mantener visible el trabajo pendiente de préstamos, gestión administrativa y registro corporal según el alcance vigente. | Requisitos priorizados, Figma y [alcance vigente](../AGENTS.md#3-alcance). |
 
 ### Responsables de referencia
 

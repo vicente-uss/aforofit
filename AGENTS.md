@@ -232,7 +232,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avances/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de pendón y de tríptico |
+| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón y plan de cierre |
 | Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
 | 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, pendón instalado, defensa de todos |
@@ -265,7 +265,10 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
 - [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
-- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de pendón y de tríptico
+- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y borrador del pendón con plan de cierre.
+- [ ] Tríptico: confirmar alcance y fecha como tarea interna; la pauta adjunta exige el pendón.
+
+Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
 **Decisiones tomadas** (entrevista del 12 de noviembre)
 

@@ -278,5 +278,5 @@ Los préstamos no cambian el aforo (D04).
 
 ## Pendientes
 
-- Ajustar el modelo entidad-relación cuando Benjamín cree las tablas.
+- Contrastar el modelo entidad-relación con los [scripts de perfiles y catálogo](../supabase/sql/) ya disponibles y actualizarlo a medida que se creen las tablas del flujo central.
 - Definir qué pasa con un turno llamado que no se presenta (por ejemplo, si vence a los 5 minutos).

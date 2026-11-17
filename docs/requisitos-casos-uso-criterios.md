@@ -196,6 +196,8 @@ Son 22 criterios para los requisitos de prioridad alta. Cada uno se convierte en
 | CA21 | RF24 | Un préstamo con todos los implementos devueltos | El profesor entrega la TNE y la marca como devuelta | El préstamo se cierra y ya no aparece entre los abiertos |
 | CA22 | RF27 | El alumno A registró sus medidas | El alumno B o un profesor intentan consultarlas | El sistema no se las muestra |
 
+**Cobertura registrada:** CA01–CA22 trazan explícitamente 21 de los 31 RF. Los de prioridad alta sin vínculo directo son RF01, RF11, RF19, RF20, RF21 y RF25. La ejecución y evidencia de cada criterio se registrarán en el Avance 3.
+
 ## 7. Supuestos y pendientes
 
 Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables y se declaran en la presentación.
@@ -205,8 +207,8 @@ Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables
 | Período académico | 3 de marzo al 23 de diciembre, pendiente de confirmación oficial | Vicente |
 | Redondeo de cargas | Las cargas ajustadas se redondean al múltiplo de 2,5 kg más cercano | Benjamín |
 | Plantillas de rutina | Falta escribir las plantillas por objetivo y nivel (6 combinaciones) | Benjamín |
-| Lector | La TNE (MIFARE Classic, 13,56 MHz) y la TUI funcionan; la TNE es la principal. Lector de 13,56 MHz elegido; el Avance 2 fue aprobado, se compra para el Avance 3 | Equipo |
+| Lector | TNE y TUI leídas con NFC Tools en celular. Lector USB de 13,56 MHz elegido. Queda adquirirlo y comprobar ambas tarjetas y el formato del UID. [Registro](pruebas-tarjetas.md) | Pau / Equipo |
 | Implementos | Cantidades exactas disponibles para préstamo | Bastián |
-| Máquinas | Inventario completo con fotos, patrones de movimiento y ajustes | Bastián |
+| Máquinas | Inventario inicial, fotos y patrones registrados. Los ajustes específicos de máquina faltan en la carga del catálogo | Bastián |
 | Reparto (RF28) | Factibilidad por validar con usuarios y una prueba técnica | Vicente y Benjamín |
 | Funcionarios | El gimnasio real los acepta; quedan fuera del prototipo como limitación de alcance | Equipo |

@@ -24,7 +24,7 @@ Es un prototipo académico que funciona con **datos de prueba**.
 
 | Estado | Evidencia |
 |---|---|
-| Implementado en Next.js y Supabase | Login y paneles base por rol, catálogo en la base de datos y pantalla `/ingreso` que captura y normaliza UID, con respaldo manual. |
+| Implementado en Next.js y documentado en SQL | Login y paneles base por rol, scripts de catálogo para Supabase y pantalla `/ingreso` que captura y normaliza UID, con respaldo manual. |
 | Demostrado en Figma Make | Flujos de ingreso, salida, aforo, turnos, rutinas y préstamos con datos de prueba. |
 | Pendiente en la app | Prueba con el lector USB, vinculación de credenciales, registro de visitas y turnos, aforo en vivo, QR e integración de rutinas con el ingreso. |
 
@@ -82,6 +82,10 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 [`AGENTS.md`](AGENTS.md) antes de empezar (Claude Code lo lee solo a través de [`CLAUDE.md`](CLAUDE.md)).
 
 ## Documentación
+
+- [Cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md): entregables, evidencia y pendientes para el Avance 3.
+- [Bases y rúbrica del Proyecto Integrador](docs/bases-proyecto-integrador.md): alcance y criterios por hito.
+- Material de apoyo: [Ingeniería de Requerimientos](docs/ingenieria-de-requerimientos.md) e [Ingeniería de Software](docs/ingenieria-de-software.md).
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
