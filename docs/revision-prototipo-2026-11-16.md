@@ -110,7 +110,7 @@ En el Avance 2 se presentan como ajustes detectados en una revisión y ya correg
 - [x] Feedback por alumno (punto 6)
 - [x] Campo de estatura en el registro corporal (punto 7)
 - [ ] Fotos reales de las máquinas (punto 8, con Bastián)
-- [ ] Capturas por actor para la diapositiva de diseño de interfaces del Avance 2
+- [x] Capturas por actor incluidas en las láminas de interfaces del [Avance 2](entregas/avances/AforoFit-Avance2-Grupo6.pdf).
 
 ### Pendientes detectados en la segunda revisión (16 de noviembre)
 
