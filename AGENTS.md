@@ -231,8 +231,8 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 | Fecha | Hito | Contenido exigido |
 |---|---|---|
-| Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima, sin observaciones |
-| Mar 17 nov | Avance 2 ✅ | Aprobado con nota 7; al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avance-2/` |
+| Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
+| Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avance-2/` |
 | **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón |
 | Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
@@ -243,8 +243,8 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 
 **Hecho**
-- Avance 1 aprobado con nota máxima.
-- Avance 2 aprobado con nota 7. Presentación (PPTX y PDF, 23 láminas) en `docs/entregas/avance-2/`.
+- Avance 1 aprobado con nota máxima (7,0).
+- Avance 2 aprobado con nota máxima (7,0). Presentación (PPTX y PDF, 23 láminas) en `docs/entregas/avance-2/`.
 - Repositorio en GitHub, proyecto en Supabase y despliegue en Vercel creados.
 - Entrevista con el encargado del gimnasio (decisiones D01–D11).
 - Requisitos, casos de uso y criterios de aceptación (`docs/requisitos-casos-uso-criterios.md`).
