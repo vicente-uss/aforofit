@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+Para comprender el producto y su trazabilidad en un solo archivo, consulta el [documento maestro](docs/cierre-avances-1-y-2.md). Aplica las instrucciones operativas de AGENTS.md.
+
 Todo el contexto del proyecto está en AGENTS.md. Léelo completo antes de trabajar.
 
 @AGENTS.md

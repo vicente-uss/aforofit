@@ -1,5 +1,7 @@
 # AforoFit — Prueba de tarjetas y elección del lector
 
+El documento maestro incorpora esta sección en el [anexo de pruebas de credenciales](cierre-avances-1-y-2.md#anexo-b-pruebas-de-credenciales).
+
 16 de noviembre de 2026 · Grupo 6
 
 Este documento registra las lecturas realizadas con NFC Tools en un celular y el lector USB elegido para la entrada del gimnasio.

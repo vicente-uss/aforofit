@@ -1,5 +1,7 @@
 # AGENTS.md — Contexto del proyecto AforoFit
 
+Para una lectura integral, usa el [documento maestro](docs/cierre-avances-1-y-2.md). Incluye las decisiones, reglas, requisitos, criterios, diagramas, evidencia y entrevista. Este archivo conserva las instrucciones de trabajo y el estado de referencia.
+
 Este archivo es la fuente única de contexto para cualquier IA o persona que trabaje en el proyecto.
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
@@ -142,6 +144,8 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
    implementos pendientes no puede abrir otra solicitud; el sistema indica si la TNE de garantía ya fue devuelta.
    Los préstamos no cambian el aforo.
 
+**Validaciones abiertas:** crear un criterio directo para la unicidad de visita abierta (R5) y confirmar si la garantía TNE pendiente bloquea otro préstamo después de devolver todos los implementos (R9). El modelo de estados representa ese bloqueo.
+
 ## 5. Flujo central (lo que se demuestra en vivo)
 
 | Etapa | Qué pasa | Requisito de las bases |
@@ -232,7 +236,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avances/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de pendón y de tríptico |
+| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón y plan de cierre |
 | Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
 | 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, pendón instalado, defensa de todos |
@@ -265,9 +269,14 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
 - [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
-- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de pendón y de tríptico
+- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y borrador del pendón con plan de cierre.
+- [ ] Tríptico: confirmar alcance y fecha como tarea interna; la pauta adjunta exige el pendón.
 
-**Decisiones tomadas** (entrevista del 12 de noviembre)
+Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
+
+### Decisiones vigentes D01–D17
+
+D01–D11 provienen de la entrevista, D12–D16 del diseño y D17 del levantamiento de credenciales.
 
 | Código | Decisión |
 |---|---|
@@ -290,7 +299,7 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 | D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) se leyó con NFC Tools y su compatibilidad con el lector USB sigue pendiente; la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
-documento **"AforoFit — Requisitos, casos de uso y criterios de aceptación"**.
+[documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
 
 Otras decisiones: ingreso con la TNE y QR de respaldo · repositorio público (Vercel Hobby solo
 despliega commits del dueño en repos privados) · las tareas viven en el plan de acción, no en GitHub ·

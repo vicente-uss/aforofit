@@ -1,5 +1,7 @@
 # AforoFit — Entrevista de levantamiento de requisitos
 
+El documento maestro incorpora esta sección en el [anexo con el registro íntegro de la entrevista](cierre-avances-1-y-2.md#anexo-a-entrevista-completa).
+
 **Proyecto Integrador · Ingeniería Civil Informática · Grupo 6 · USS Bellavista**
 
 **Fecha:** Jueves 12 de noviembre de 2026  
@@ -127,7 +129,7 @@ Sin embargo, la TNE universitaria sí se utiliza como garantía para solicitar i
 
 El encargado consideró útil incorporar un mecanismo de identificación electrónica para registrar entradas y salidas.
 
-**Pendiente:** comprobar la compatibilidad del lector NFC con la credencial USS, TNE y Bip!.
+**Seguimiento al cierre del Avance 2:** el levantamiento consideró credencial USS, TNE y Bip!. El diseño vigente prioriza TNE y TUI. Pasaron la lectura con NFC Tools en celular y queda pendiente su prueba con el lector USB. [Registro de tarjetas](pruebas-tarjetas.md).
 
 ---
 
@@ -445,12 +447,12 @@ Estos valores son parámetros iniciales configurables. Todavía no se ha validad
 
 ## I. Pendientes de validación
 
-| N.º | Pendiente | Responsable |
+| N.º | Estado al cierre del Avance 2 | Responsable |
 |---|---|---|
-| 1 | Inventario completo de máquinas con cantidades, características y fotografías | Bastián |
-| 2 | Cantidades exactas de implementos disponibles para préstamo | Bastián / Vicente |
-| 3 | Cotización y compatibilidad del lector NFC con las tarjetas | Pau |
-| 4 | Viabilidad práctica del reparto automático de ejercicios | Vicente / Equipo |
+| 1 | Inventario inicial consolidado: 11 tipos y 12 equipos en el [catálogo SQL](../supabase/sql/004_datos_catalogo.sql) y [fotos en el repositorio](../fotos-maquinas/). Queda completar los ajustes específicos de máquina. | Bastián |
+| 2 | Cantidades exactas de implementos pendientes de confirmar. | Bastián / Vicente |
+| 3 | Lector USB cotizado y elegido. Adquisición y prueba física con TNE y TUI pendientes. | Pau |
+| 4 | Viabilidad del reparto automático pendiente de validación. | Vicente / Equipo |
 
 **Acciones complementarias:**
 
@@ -526,4 +528,4 @@ Las decisiones del proyecto que difieran de `AGENTS.md` deberán incorporarse a 
 
 **Estado final:** Levantamiento inicial de requisitos completado y antecedentes distribuidos al equipo.
 
-**Próxima etapa:** elaboración de requisitos priorizados, casos de uso, criterios de aceptación y presentación del Avance 2 del martes 17 de noviembre de 2026.
+**Seguimiento:** los [requisitos priorizados, casos de uso y criterios de aceptación](requisitos-casos-uso-criterios.md) se completaron para el Avance 2 del martes 17 de noviembre de 2026. El [documento de cierre](cierre-avances-1-y-2.md) reúne la evidencia.
