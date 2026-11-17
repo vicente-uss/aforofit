@@ -95,8 +95,6 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 - [`supabase/sql/`](supabase/sql/): scripts de la base de datos, en orden de ejecución (`001`, `002`…).
 - [`docs/revision-prototipo-2026-11-16.md`](docs/revision-prototipo-2026-11-16.md): revisión del prototipo de Figma Make y correcciones aplicadas.
 - [Prototipo en Figma Make](https://www.figma.com/make/onv7W4YD13BPc7HAQ5jjef): interfaz navegable de todos los actores.
-- **AforoFit — Plan de acción del proyecto**: tareas por ciclo, responsables y puntos de decisión.
-- **AforoFit — Kit de arranque**: guías de infraestructura, lector NFC, entrevista y modelo de datos.
 
 ## Equipo
 
