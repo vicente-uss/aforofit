@@ -6,7 +6,7 @@ Proyecto Integrador · Taller de Ingeniería de Software · Grupo 6 · Universid
 
 ---
 
-## Qué hace
+## Qué propone
 
 Hoy en el gimnasio de la USS el ingreso se anota con RUT en papel y se traspasa a Excel, las salidas no se
 registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento de la entrada para ordenar todo:
@@ -19,6 +19,14 @@ registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento
 6. Los profesores registran los **préstamos de implementos** para la cancha, con la TNE como garantía.
 
 Es un prototipo académico que funciona con **datos de prueba**.
+
+## Estado al cierre del Avance 2
+
+| Estado | Evidencia |
+|---|---|
+| Implementado en Next.js y Supabase | Login y paneles base por rol, catálogo en la base de datos y pantalla `/ingreso` que captura y normaliza UID, con respaldo manual. |
+| Demostrado en Figma Make | Flujos de ingreso, salida, aforo, turnos, rutinas y préstamos con datos de prueba. |
+| Pendiente en la app | Prueba con el lector USB, vinculación de credenciales, registro de visitas y turnos, aforo en vivo, QR e integración de rutinas con el ingreso. |
 
 ## Prototipo navegable
 
@@ -33,7 +41,7 @@ con datos de prueba (alumno, profesor encargado, administrador y pantalla de afo
 | Frontend | Next.js (App Router) + TypeScript + Tailwind |
 | Backend y base de datos | Supabase (PostgreSQL, Auth, Realtime) |
 | Despliegue | Vercel |
-| Ingreso | TNE en un lector USB de 13,56 MHz en modo teclado; QR como respaldo |
+| Ingreso | Lector USB de 13,56 MHz en modo teclado seleccionado para TNE y TUI. Prueba física y respaldo QR pendientes. |
 
 ## Cómo ejecutarlo
 

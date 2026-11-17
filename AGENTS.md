@@ -4,8 +4,7 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: jueves 12 de noviembre de 2026, después de la entrevista con el encargado del gimnasio
-(ver `docs/entrevista-encargado-2026-11-12.md`).
+Última actualización: martes 17 de noviembre de 2026, al cierre del Avance 2.
 
 ## 1. Qué es AforoFit
 
@@ -80,7 +79,7 @@ fuera del prototipo (D10, limitación de alcance documentada).
 
 ### Prioridad alta (comprometido para la entrega final)
 
-- **Ingreso y salida con credencial**: la TNE es la credencial principal (D17); la TUI (credencial USS) también funciona. QR como respaldo.
+- **Ingreso y salida con credencial**: la TNE es la credencial principal (D17); la TUI (credencial USS) también se contempla. QR como respaldo.
 - **Aforo en vivo** con capacidad configurable (inicial: 20) en una pantalla pública (D01).
 - **Lista de espera** con número de turno cuando el gimnasio está lleno.
 - **Habilitación** de alumnos con certificado vigente por **período académico** configurable (D03).
@@ -160,10 +159,10 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 - **Despliegue**: Vercel. Cada push a `main` publica en producción; cada pull request genera una vista previa.
 - **Lector de credenciales**: lector USB de 13,56 MHz para tarjetas MIFARE, en modo teclado (HID), conectado al
   computador All-in-One del gimnasio. Elegido: "Lector Usb Tarjeta Llavero Rfid Id Serie 13.56 Mhz Mf1 S50"
-  ($14.990, Mercado Libre); el Avance 2 ya fue aprobado, así que se compra para el Avance 3. Al acercar la tarjeta escribe el UID como
-  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. En la app es solo un campo de texto
-  enfocado. La función `normalizarUid` lo convierte al formato hexadecimal que muestra NFC Tools
-  (ej. ficticio: `0729785092` → `04:A3:7F:2B`), que es el que se guarda en `tarjetas.uid`. Detalle en
+  ($14.990, Mercado Libre), previsto para el Avance 3. Según el vendedor, el lector escribe el UID como
+  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. Falta comprobarlo con el lector físico.
+  La app recibe el código en un campo enfocado y `normalizarUid` lo convierte al formato hexadecimal de NFC Tools
+  (ej. ficticio: `0729785092` → `04:A3:7F:2B`), previsto para `tarjetas.uid`. Detalle en
   `docs/pruebas-tarjetas.md`.
 - **Respaldo de ingreso**: código QR.
 
@@ -250,23 +249,23 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 - Requisitos, casos de uso y criterios de aceptación (`docs/requisitos-casos-uso-criterios.md`).
 - Prototipo en Figma Make revisado y corregido (`docs/revision-prototipo-2026-11-16.md`).
 - Diagramas de casos de uso, entidad-relación, secuencia del ingreso y estados (`docs/diagramas.md`).
-- Prueba de tarjetas con NFC Tools: la TNE es MIFARE Classic 4K de 13,56 MHz con UID fijo y la TUI (credencial
-  USS) también funciona; lector elegido (`docs/pruebas-tarjetas.md`).
+- Prueba con NFC Tools en celular: se leyeron tres TNE y una TUI. Se eligió el lector USB para la prueba física
+  (`docs/pruebas-tarjetas.md`).
 - Login con roles: tabla `perfiles` con RLS y trigger, paneles `/alumno`, `/profesor` y `/admin`, rutas
-  protegidas en el servidor y `/ingreso` y `/aforo` públicas (`supabase/sql/001_perfiles_roles.sql`).
+  protegidas en el servidor y kiosco público en `/ingreso` (`supabase/sql/001_perfiles_roles.sql`).
+- Contraseña de `admin.demo` rotada, según confirmó el equipo.
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
-- Pantalla `/ingreso` de kiosco: lee el UID de la TNE y lo normaliza con `lib/ingreso/normalizarUid.ts`
+- Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
   (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comprar el lector de 13,56 MHz (Avance 2 aprobado) y probar `/ingreso` con una TNE y una TUI reales,
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
-- [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y aforo en tiempo real
+- [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
 - [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de pendón y de tríptico
-- [ ] Cambiar la contraseña de `admin.demo` (aparece en un comentario del repo público)
 
 **Decisiones tomadas** (entrevista del 12 de noviembre)
 
@@ -288,7 +287,7 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 | D14 | Lista de espera: número de turno; la pantalla muestra el turno llamado y el alumno vuelve a pasar la credencial |
 | D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
 | D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
-| D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) también funciona y se acepta; la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
+| D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) se leyó con NFC Tools y su compatibilidad con el lector USB sigue pendiente; la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 documento **"AforoFit — Requisitos, casos de uso y criterios de aceptación"**.

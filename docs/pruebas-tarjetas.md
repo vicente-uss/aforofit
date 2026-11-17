@@ -2,7 +2,7 @@
 
 16 de noviembre de 2026 · Grupo 6
 
-Este documento registra qué tarjetas puede leer el sistema y qué lector se usará en la entrada del gimnasio.
+Este documento registra las lecturas realizadas con NFC Tools en un celular y el lector USB elegido para la entrada del gimnasio.
 Respalda la decisión D17 de [`AGENTS.md`](../AGENTS.md).
 
 ## 1. Prueba con NFC Tools
@@ -16,7 +16,7 @@ Se leyeron las tarjetas con la app NFC Tools en un celular Android con NFC. Un c
 | TNE 2 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `AC:CD:**:**` (4 bytes, fijo) |
 | TNE 3 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `DC:94:**:**` (4 bytes, fijo) |
 | Carnet de identidad | Sí, pero se descarta | ISO 14443-4, MIFARE Plus | Empieza con `08`: UID aleatorio |
-| Credencial USS (TUI) | Sí | Por registrar | Por registrar (enmascarado) |
+| Credencial USS (TUI) | Sí | ISO 14443-4 sobre NfcA, SAK `0x38` | `B7:76:**:**` (4 bytes) |
 
 Los UID se muestran enmascarados.
 
@@ -25,8 +25,8 @@ Los UID se muestran enmascarados.
   credencial y cumplen la regla de credencial única.
 - El carnet de identidad no sirve: su UID cambia en cada lectura y se trata de un documento con datos personales
   reales, lo que va contra D11 y RNF07.
-- La TUI (credencial USS) también funciona y se acepta. Aun así, **la TNE es la credencial principal** para el
-  ingreso y los préstamos (D17), porque todos los alumnos la tienen. El QR queda de respaldo.
+- Se leyó una TUI (credencial USS) con NFC Tools. Su compatibilidad con el lector USB sigue pendiente.
+  **La TNE es la credencial principal** para el ingreso y los préstamos (D17), porque todos los alumnos la tienen. El QR queda de respaldo.
 
 ## 2. Cotizaciones del lector
 
@@ -41,14 +41,14 @@ una cerradura y no por USB al computador.
 
 El Avance 2 fue aprobado el 17 de noviembre: el lector se compra para el Avance 3.
 
-## 3. Formato del UID que entrega el lector
+## 3. Formato esperado del UID del lector USB
 
 El vendedor confirmó lo siguiente:
 - Se reconoce como teclado HID, sin drivers, en Windows y Mac.
 - Al pasar la tarjeta escribe el código y presiona Enter.
 - Entrega el UID como **número decimal calculado con los bytes en orden inverso (LSB)**, no en hexadecimal.
 
-En la base de datos el UID se guarda en hexadecimal, en el mismo orden que muestra NFC Tools. La función
+El modelo prevé guardar el UID en hexadecimal, en el mismo orden que muestra NFC Tools. La función
 `normalizarUid` hace la conversión (ejemplos con UID ficticios):
 
 | Lo que escribe el lector | UID guardado |
@@ -57,7 +57,8 @@ En la base de datos el UID se guarda en hexadecimal, en el mismo orden que muest
 | `3566231068` | `1C:5E:90:D4` |
 | `1063913394` | `B2:07:6A:3F` |
 
-El ingreso manual y el QR usan directamente el formato hexadecimal.
+El formulario manual solicita el UID en hexadecimal. El QR sigue pendiente.
 
-**Al recibir el lector:** abrir el Bloc de notas, pasar una TNE y comparar el número con su UID en NFC Tools, convertido de la misma forma. Si no coincide,
-ajustar `normalizarUid` antes de registrar tarjetas.
+**Prueba física pendiente:** abrir el Bloc de notas y pasar una TNE y una TUI por el lector USB. Registrar si
+emite Enter y comparar cada lectura normalizada con el UID en NFC Tools. Si el formato difiere, ajustar
+`normalizarUid` antes de registrar tarjetas.
