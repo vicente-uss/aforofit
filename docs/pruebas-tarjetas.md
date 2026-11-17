@@ -16,7 +16,7 @@ Se leyeron las tarjetas con la app NFC Tools en un celular Android con NFC. Un c
 | TNE 2 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `AC:CD:**:**` (4 bytes, fijo) |
 | TNE 3 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `DC:94:**:**` (4 bytes, fijo) |
 | Carnet de identidad | Sí, pero se descarta | ISO 14443-4, MIFARE Plus | Empieza con `08`: UID aleatorio |
-| Credencial USS | Pendiente | — | — |
+| Credencial USS (TUI) | Sí | Por registrar | Por registrar (enmascarado) |
 
 Los UID se muestran enmascarados.
 
@@ -25,8 +25,8 @@ Los UID se muestran enmascarados.
   credencial y cumplen la regla de credencial única.
 - El carnet de identidad no sirve: su UID cambia en cada lectura y se trata de un documento con datos personales
   reales, lo que va contra D11 y RNF07.
-- La credencial USS se probará cuando el equipo tenga una. Mientras tanto, **la TNE es la credencial principal**
-  para el ingreso y los préstamos (D17). El QR queda de respaldo.
+- La TUI (credencial USS) también funciona y se acepta. Aun así, **la TNE es la credencial principal** para el
+  ingreso y los préstamos (D17), porque todos los alumnos la tienen. El QR queda de respaldo.
 
 ## 2. Cotizaciones del lector
 
@@ -39,7 +39,7 @@ Los UID se muestran enmascarados.
 También se revisaron lectores duales de pared (Dahua y similares). Se descartaron porque se conectan cableados a
 una cerradura y no por USB al computador.
 
-El lector se compra cuando el profesor apruebe el Avance 2.
+El Avance 2 fue aprobado el 17 de noviembre: el lector se compra para el Avance 3.
 
 ## 3. Formato del UID que entrega el lector
 

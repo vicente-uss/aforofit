@@ -205,7 +205,7 @@ Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables
 | Período académico | 3 de marzo al 23 de diciembre, pendiente de confirmación oficial | Vicente |
 | Redondeo de cargas | Las cargas ajustadas se redondean al múltiplo de 2,5 kg más cercano | Benjamín |
 | Plantillas de rutina | Falta escribir las plantillas por objetivo y nivel (6 combinaciones) | Benjamín |
-| Lector | La TNE funciona (MIFARE Classic, 13,56 MHz); falta confirmar la credencial USS. Lector de 13,56 MHz elegido, se compra al aprobarse el Avance 2 | Equipo |
+| Lector | La TNE (MIFARE Classic, 13,56 MHz) y la TUI funcionan; la TNE es la principal. Lector de 13,56 MHz elegido; el Avance 2 fue aprobado, se compra para el Avance 3 | Equipo |
 | Implementos | Cantidades exactas disponibles para préstamo | Bastián |
 | Máquinas | Inventario completo con fotos, patrones de movimiento y ajustes | Bastián |
 | Reparto (RF28) | Factibilidad por validar con usuarios y una prueba técnica | Vicente y Benjamín |
