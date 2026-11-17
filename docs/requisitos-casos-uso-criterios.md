@@ -1,5 +1,7 @@
 # AforoFit — Requisitos, casos de uso y criterios de aceptación
 
+El documento maestro incorpora esta sección en el [requisitos, casos y criterios](cierre-avances-1-y-2.md#requisitos-casos-y-criterios).
+
 Nov 12, 2026 · @Vixoo
 
 Contenido de análisis para el Avance 2 del martes 17 de noviembre. Se basa en AGENTS.md, la entrevista con el encargado del 12 de noviembre (P1–P7, D01–D11) y las decisiones de diseño y credenciales D12–D17.
@@ -251,6 +253,8 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 | CA43 | RF31 | Un alumno de prueba y un umbral de inasistencia acordado | La inasistencia alcanza el umbral configurado | Se muestra la alerta al administrador |
 
 ## 7. Supuestos y pendientes
+
+Queda pendiente incorporar un criterio directo para la unicidad de visita abierta (R5) y confirmar el efecto de una TNE no devuelta sobre un nuevo préstamo (R9). Estos puntos están consolidados en el [documento maestro](cierre-avances-1-y-2.md#reglas-de-negocio-r1r9).
 
 Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables y se declaran en la presentación.
 

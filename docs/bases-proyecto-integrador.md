@@ -1,5 +1,7 @@
 # Proyecto Integrador
 
+> Nota del repositorio: el [documento maestro](cierre-avances-1-y-2.md) reúne la aplicación de esta pauta a AforoFit.
+
 TALLER DE INGENIERÍA DE SOFTWARE
 
 BASES, ENTREGAS Y RÚBRICAS DE EVALUACIÓN

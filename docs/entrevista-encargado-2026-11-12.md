@@ -1,5 +1,7 @@
 # AforoFit — Entrevista de levantamiento de requisitos
 
+El documento maestro incorpora esta sección en el [anexo con el registro íntegro de la entrevista](cierre-avances-1-y-2.md#anexo-a-entrevista-completa).
+
 **Proyecto Integrador · Ingeniería Civil Informática · Grupo 6 · USS Bellavista**
 
 **Fecha:** Jueves 12 de noviembre de 2026  

@@ -6,7 +6,7 @@ Base de conocimiento del ramo **ICIF-H002** para estudiar y aplicar ingeniería 
 
 Para estudiantes y asistentes de IA, el punto de partida es la pregunta de trabajo: ¿qué necesidad está respaldada por evidencia y cómo sabremos que la solución responde a ella? El mapa enlaza la teoría con las tareas del equipo.
 
-En AforoFit, las decisiones vigentes se consultan en `AGENTS.md` y los documentos del proyecto. La pauta docente fija lo exigido en cada entrega. Este documento aporta conceptos y métodos. Para citar el material, indica **capítulo y diapositiva**.
+En AforoFit, las decisiones vigentes se consultan en `AGENTS.md` y los documentos del proyecto. La pauta docente fija lo exigido en cada entrega. Este documento aporta conceptos y métodos. Para citar el material, indica **capítulo y diapositiva**. Para consultar el alcance, las decisiones y la evidencia de AforoFit en un solo lugar, usa el [documento maestro](cierre-avances-1-y-2.md).
 
 ## Mapa de consulta
 
@@ -2690,4 +2690,3 @@ post remediación v/s
 ### Diapositiva 18
 
 ¡Tus consultas son importantes! Espacio para preguntas
-

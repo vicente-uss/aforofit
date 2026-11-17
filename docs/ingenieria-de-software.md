@@ -6,7 +6,7 @@ Base de conocimiento del ramo para estudiar y tomar decisiones durante el desarr
 
 Para estudiantes y asistentes de IA, esta referencia ayuda a decidir qué modelo elaborar, qué probar y cómo justificar una estimación. El índice vincula cada tema con la **semana y diapositiva** de origen.
 
-En AforoFit, la pauta docente determina qué se entrega y `AGENTS.md` y los documentos del proyecto describen las decisiones y el estado vigente. Al aplicar la teoría, cita la diapositiva pertinente y registra el supuesto, la decisión técnica o la evidencia del proyecto por separado.
+En AforoFit, la pauta docente determina qué se entrega y `AGENTS.md` y los documentos del proyecto describen las decisiones y el estado vigente. Al aplicar la teoría, cita la diapositiva pertinente y registra el supuesto, la decisión técnica o la evidencia del proyecto por separado. Para consultar el alcance, las decisiones y la evidencia de AforoFit en un solo lugar, usa el [documento maestro](cierre-avances-1-y-2.md).
 
 ## Índice por tema
 

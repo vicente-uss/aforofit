@@ -83,7 +83,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 
 ## Documentación
 
-- [Cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md): entregables, evidencia y pendientes para el Avance 3.
+- [Documento maestro de AforoFit](docs/cierre-avances-1-y-2.md): alcance, reglas, requisitos completos, criterios, diagramas, evidencia, entrevista y pendientes para el Avance 3.
 - [Bases y rúbrica del Proyecto Integrador](docs/bases-proyecto-integrador.md): alcance y criterios por hito.
 - Material de apoyo: [Ingeniería de Requerimientos](docs/ingenieria-de-requerimientos.md) e [Ingeniería de Software](docs/ingenieria-de-software.md).
 

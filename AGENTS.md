@@ -1,5 +1,7 @@
 # AGENTS.md — Contexto del proyecto AforoFit
 
+Para una lectura integral, usa el [documento maestro](docs/cierre-avances-1-y-2.md). Incluye las decisiones, reglas, requisitos, criterios, diagramas, evidencia y entrevista. Este archivo conserva las instrucciones de trabajo y el estado de referencia.
+
 Este archivo es la fuente única de contexto para cualquier IA o persona que trabaje en el proyecto.
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
@@ -141,6 +143,8 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 9. **Préstamos**: una solicitud puede tener varios implementos; se registran devoluciones parciales; un alumno con
    implementos pendientes no puede abrir otra solicitud; el sistema indica si la TNE de garantía ya fue devuelta.
    Los préstamos no cambian el aforo.
+
+**Validaciones abiertas:** crear un criterio directo para la unicidad de visita abierta (R5) y confirmar si la garantía TNE pendiente bloquea otro préstamo después de devolver todos los implementos (R9). El modelo de estados representa ese bloqueo.
 
 ## 5. Flujo central (lo que se demuestra en vivo)
 

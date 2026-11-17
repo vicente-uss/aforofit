@@ -1,5 +1,7 @@
 # AforoFit — Revisión del prototipo de Figma Make
 
+El documento maestro incorpora esta sección en el [anexo de revisión de Figma](cierre-avances-1-y-2.md#anexo-c-revisión-de-figma).
+
 16 de noviembre de 2026 · Vicente Galleguillos
 
 Para: Benjamín Velásquez. **Estado al 16 de noviembre: las 8 correcciones de código y los 4 ajustes de la segunda revisión están aplicados en el prototipo de Figma Make** (versión 5 de los datos de prueba). Solo queda reemplazar las fotos de las máquinas por las reales y sacar las capturas para el Avance 2. El prototipo cubre los 16 casos de uso; antes de presentar, usar “Restablecer demo” en el login.

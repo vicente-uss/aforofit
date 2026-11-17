@@ -1,5 +1,7 @@
 # AforoFit — Diagramas de análisis y diseño
 
+El documento maestro incorpora esta sección en el [diagramas y estados](cierre-avances-1-y-2.md#diagramas-completos).
+
 Grupo 6 · Taller de Ingeniería de Software · Avance 2 · Actualizado el 16 de noviembre de 2026
 
 Este documento reúne los diagramas formales del sistema. Se basa en [`AGENTS.md`](../AGENTS.md), en los
@@ -69,8 +71,7 @@ Tres actores y 16 casos de uso. El alumno concentra el flujo central (CU01 a CU0
 
 ## 2. Modelo entidad-relación
 
-Catorce tablas. El alumno es el centro: tiene tarjetas, visitas, turnos, rutinas y mediciones. Todas las tablas
-tienen RLS activado.
+El modelo de diseño propone catorce tablas y políticas RLS. El alumno se relaciona con tarjetas, visitas, turnos, rutinas y mediciones. Los scripts existentes cubren perfiles y catálogo.
 
 ```mermaid
 erDiagram
@@ -193,7 +194,7 @@ erDiagram
     }
 ```
 
-**Reglas que se aplican en la base de datos:**
+**Restricciones previstas en el diseño de la base de datos:**
 - `tarjetas.uid` es único: una credencial pertenece a un solo alumno (regla 1).
 - Índice único parcial en `visitas (alumno_id) where salida is null`: una visita abierta por alumno (regla 5).
 - `prestamo_items.devueltos <= cantidad`.
@@ -285,7 +286,7 @@ stateDiagram-v2
 | Devuelto | Todo devuelto y la TNE sigue con el profesor | No |
 | Cerrado | Todo devuelto y `tne_devuelta = true` | Sí |
 
-Los préstamos no cambian el aforo (D04).
+Los préstamos no cambian el aforo (D04). El diagrama conserva el bloqueo de otro préstamo mientras la TNE siga en garantía. Pendiente confirmar esa condición con el equipo y alinearla con R9 y su criterio.
 
 ---
 
