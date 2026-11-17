@@ -208,6 +208,7 @@ npm install       # instalar dependencias
 npm run dev       # desarrollo en http://localhost:3000
 npm run build     # verificar que compila antes de un pull request
 npm run lint      # revisar estilo
+npm test          # pruebas unitarias (Vitest)
 ```
 
 ## 8. Equipo
@@ -254,12 +255,14 @@ Actualizado: martes 17 de noviembre de 2026.
   protegidas en el servidor y `/ingreso` y `/aforo` públicas (`supabase/sql/001_perfiles_roles.sql`).
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
+- Pantalla `/ingreso` de kiosco: lee el UID de la TNE y lo normaliza con `lib/ingreso/normalizarUid.ts`
+  (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
 
 **Pendiente**
-- [ ] Pantalla `/ingreso` que lee la TNE y normaliza el UID (`lib/ingreso/normalizarUid.ts`)
 - [ ] Subir las 11 fotos al bucket `maquinas` con los nombres que usa `004_datos_catalogo.sql`
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
-- [ ] Comprar el lector de 13,56 MHz cuando se apruebe el Avance 2 y confirmar el formato del UID con una TNE
+- [ ] Comprar el lector de 13,56 MHz cuando se apruebe el Avance 2 y probar `/ingreso` con una TNE real,
+  comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3: tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y aforo en tiempo real
 
 **Decisiones tomadas** (entrevista del 12 de noviembre)
