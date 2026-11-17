@@ -118,19 +118,22 @@ erDiagram
     EJERCICIOS {
         uuid id PK
         uuid rutina_id FK
-        int maquina_id FK
+        bigint maquina_id FK
         int orden
         int series
         int repeticiones
         numeric carga_kg
     }
     MAQUINAS {
-        int id PK
+        bigint id PK
         text nombre
+        text ejercicio
         text grupo_muscular
+        text patron_movimiento
         text ajustes
-        text foto_url
-        bool en_mantencion
+        int cantidad
+        text estado "disponible o en_mantencion"
+        text foto_url "ruta en el bucket maquinas"
     }
     FEEDBACK {
         uuid id PK
@@ -155,13 +158,13 @@ erDiagram
     }
     PRESTAMO_ITEMS {
         uuid prestamo_id PK, FK
-        int implemento_id PK, FK
+        bigint implemento_id PK, FK
         int cantidad
         int devueltos
     }
     IMPLEMENTOS {
-        int id PK
-        text nombre
+        bigint id PK
+        text nombre UK
         text categoria
         int cantidad_total
     }

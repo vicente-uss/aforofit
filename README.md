@@ -79,6 +79,8 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
 - [`docs/requisitos-casos-uso-criterios.md`](docs/requisitos-casos-uso-criterios.md): requisitos, casos de uso y criterios de aceptación (CA01–CA22).
 - [`docs/pruebas-tarjetas.md`](docs/pruebas-tarjetas.md): prueba de tarjetas y lector elegido.
+- [`docs/diagramas.md`](docs/diagramas.md): casos de uso, entidad-relación, secuencia del ingreso y estados (archivos `.drawio` en `docs/diagramas/`).
+- [`supabase/sql/`](supabase/sql/): scripts de la base de datos, en orden de ejecución (`001`, `002`…).
 - [`docs/revision-prototipo-2026-11-16.md`](docs/revision-prototipo-2026-11-16.md): revisión del prototipo de Figma Make y correcciones aplicadas.
 - [Prototipo en Figma Make](https://www.figma.com/make/onv7W4YD13BPc7HAQ5jjef): interfaz navegable de todos los actores.
 - **AforoFit — Plan de acción del proyecto**: tareas por ciclo, responsables y puntos de decisión.

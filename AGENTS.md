@@ -239,7 +239,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: lunes 16 de noviembre de 2026.
+Actualizado: martes 17 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima.
@@ -250,13 +250,17 @@ Actualizado: lunes 16 de noviembre de 2026.
 - Diagramas de casos de uso, entidad-relación, secuencia del ingreso y estados (`docs/diagramas.md`).
 - Prueba de tarjetas con NFC Tools: la TNE es MIFARE Classic 4K de 13,56 MHz con UID fijo; lector elegido
   (`docs/pruebas-tarjetas.md`).
+- Login con roles: tabla `perfiles` con RLS y trigger, paneles `/alumno`, `/profesor` y `/admin`, rutas
+  protegidas en el servidor y `/ingreso` y `/aforo` públicas (`supabase/sql/001_perfiles_roles.sql`).
+- Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
+  `maquinas` para las fotos (`supabase/sql/002` a `004`).
 
-**Pendiente para el Avance 2 (martes 17)**
+**Pendiente**
+- [ ] Pantalla `/ingreso` que lee la TNE y normaliza el UID (`lib/ingreso/normalizarUid.ts`)
+- [ ] Subir las 11 fotos al bucket `maquinas` con los nombres que usa `004_datos_catalogo.sql`
+- [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comprar el lector de 13,56 MHz cuando se apruebe el Avance 2 y confirmar el formato del UID con una TNE
-- [ ] Inventario de máquinas con fotos y cantidades exactas de implementos (Bastián)
-- [ ] Primer borrador del modelo de datos con las reglas actualizadas (Benjamín)
-- [ ] Revisión de pantallas del alumno y del profesor encargado (Isidora)
-- [ ] Requisitos priorizados, casos de uso y criterios de aceptación (Vicente)
+- [ ] Avance 3: tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y aforo en tiempo real
 
 **Decisiones tomadas** (entrevista del 12 de noviembre)
 
