@@ -270,7 +270,9 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
-**Decisiones tomadas** (entrevista del 12 de noviembre)
+### Decisiones vigentes D01–D17
+
+D01–D11 provienen de la entrevista, D12–D16 del diseño y D17 del levantamiento de credenciales.
 
 | Código | Decisión |
 |---|---|
@@ -293,7 +295,7 @@ Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-rev
 | D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) se leyó con NFC Tools y su compatibilidad con el lector USB sigue pendiente; la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
-documento **"AforoFit — Requisitos, casos de uso y criterios de aceptación"**.
+[documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
 
 Otras decisiones: ingreso con la TNE y QR de respaldo · repositorio público (Vercel Hobby solo
 despliega commits del dueño en repos privados) · las tareas viven en el plan de acción, no en GitHub ·
