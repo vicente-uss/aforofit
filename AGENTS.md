@@ -106,7 +106,7 @@ fuera del prototipo (D10, limitación de alcance documentada).
 - Reportes: asistencia por carrera y horario, horas peak, uso de máquinas y préstamos.
 - Alumnos en riesgo: aviso cuando un alumno deja de venir.
 
-Nada de prioridad media puede aparecer en el pendón como implementado si no lo está.
+Nada de prioridad media puede aparecer en el afiche como implementado si no lo está.
 
 ### Trabajo futuro (declarado, no se construye)
 
@@ -219,10 +219,10 @@ npm test          # pruebas unitarias (Vitest)
 | Integrante | Rol | Responsable de |
 |---|---|---|
 | Vicente Galleguillos | Jefe de proyecto | Plan, requisitos, estimación, plan de pruebas, documentación, PPT de avances, relación con el encargado |
-| Benjamín Velásquez | Backend y reglas de negocio | Modelo de datos, generador de rutina, progresión, capacidad y lista de espera |
+| Benjamín Velásquez | Frontend y prototipo | Prototipo en Figma Make, pantallas por actor, rutina en el celular, feedback, panel del profesor encargado, pantalla pública, registro corporal |
 | Pau Urzúa | Ingreso y hardware | Lector de credenciales, QR de respaldo, entrada y salida, aforo en vivo, préstamo de implementos |
-| Isidora Moscoso | Frontend alumno y encargado | Rutina en el celular, feedback, panel del profesor encargado, registro corporal |
-| Bastián González | Administración y QA | Catálogo con fotos, inventario de implementos, habilitación, reportes, diseño del pendón, ejecución de pruebas |
+| Isidora Moscoso | Backend y base de datos | Supabase: modelo de datos, RLS, login con roles, generador de rutina, progresión, capacidad y lista de espera |
+| Bastián González | Administración y QA | Catálogo con fotos, inventario de implementos, habilitación, reportes, diseño del afiche, ejecución de pruebas |
 
 Las tareas se siguen en el documento **"AforoFit — Plan de acción del proyecto"** (cada uno marca su casilla).
 Las guías de arranque están en **"AforoFit — Kit de arranque"**.
@@ -236,14 +236,14 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avances/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón y plan de cierre |
-| Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
+| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de afiche y plan de cierre |
+| Jue 26 nov | Afiche definitivo | Aprobado; formato según lo que el profesor envíe por Blackboard; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
-| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, pendón instalado, defensa de todos |
+| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche, defensa de todos |
 
 ## 10. Estado actual
 
-Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
+Actualizado: jueves 19 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
@@ -269,8 +269,8 @@ Actualizado: martes 17 de noviembre de 2026 (después del Avance 2).
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
 - [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
-- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y borrador del pendón con plan de cierre.
-- [ ] Tríptico: confirmar alcance y fecha como tarea interna; la pauta adjunta exige el pendón.
+- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de afiche con plan de cierre.
+- [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 

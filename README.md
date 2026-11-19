@@ -101,7 +101,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 | Integrante | Rol |
 |---|---|
 | Vicente Galleguillos | Jefe de proyecto |
-| Benjamín Velásquez | Backend y reglas de negocio |
+| Benjamín Velásquez | Frontend y prototipo |
 | Pau Urzúa | Ingreso y hardware |
-| Isidora Moscoso | Frontend alumno y encargado |
+| Isidora Moscoso | Backend y base de datos |
 | Bastián González | Administración y QA |

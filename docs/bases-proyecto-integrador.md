@@ -1,5 +1,7 @@
 # Proyecto Integrador
 
+> **Actualización del 19 de noviembre de 2026:** el profesor reemplazó el pendón (y el tríptico) por **un solo afiche**. El formato, las medidas y la fecha los enviará por Blackboard. Donde esta pauta dice “pendón”, el equipo trabaja sobre el afiche.
+
 > Nota del repositorio: el [documento maestro](cierre-avances-1-y-2.md) reúne la aplicación de esta pauta a AforoFit.
 
 TALLER DE INGENIERÍA DE SOFTWARE

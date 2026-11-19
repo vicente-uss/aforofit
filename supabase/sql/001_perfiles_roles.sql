@@ -58,7 +58,7 @@ on conflict (id) do nothing;
 
 -- 5. Roles de prueba ---------------------------------------------------------
 -- Crear primero los usuarios en Authentication → Users → Add user
--- (Auto Confirm User marcado, clave Demo1234!):
+-- (Auto Confirm User marcado; la clave se entrega al equipo por interno):
 --   alumno.demo@aforofit.cl · profesor.demo@aforofit.cl · admin.demo@aforofit.cl
 -- Luego descomentar y ejecutar:
 --

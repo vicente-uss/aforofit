@@ -163,7 +163,7 @@ fuera del prototipo (D10, limitación de alcance documentada).
 - Reportes: asistencia por carrera y horario, horas peak, uso de máquinas y préstamos.
 - Alumnos en riesgo: aviso cuando un alumno deja de venir.
 
-Nada de prioridad media puede aparecer en el pendón como implementado si no lo está.
+Nada de prioridad media puede aparecer en el afiche como implementado si no lo está.
 
 #### Trabajo futuro (declarado, no se construye)
 
@@ -499,12 +499,12 @@ Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables
 | Tema | Supuesto o pendiente | Responsable |
 | --- | --- | --- |
 | Período académico | 3 de marzo al 23 de diciembre, pendiente de confirmación oficial | Vicente |
-| Redondeo de cargas | Las cargas ajustadas se redondean al múltiplo de 2,5 kg más cercano | Benjamín |
-| Plantillas de rutina | Falta escribir las plantillas por objetivo y nivel (6 combinaciones) | Benjamín |
+| Redondeo de cargas | Las cargas ajustadas se redondean al múltiplo de 2,5 kg más cercano | Isidora |
+| Plantillas de rutina | Falta escribir las plantillas por objetivo y nivel (6 combinaciones) | Isidora |
 | Lector | TNE y TUI leídas con NFC Tools en celular. Lector USB de 13,56 MHz elegido. Queda adquirirlo y comprobar ambas tarjetas y el formato del UID. [Registro](pruebas-tarjetas.md) | Pau / Equipo |
 | Implementos | Cantidades exactas disponibles para préstamo | Bastián |
 | Máquinas | Inventario inicial, fotos y patrones registrados. Los ajustes específicos de máquina faltan en la carga del catálogo | Bastián |
-| Reparto (RF28) | Factibilidad por validar con usuarios y una prueba técnica | Vicente y Benjamín |
+| Reparto (RF28) | Factibilidad por validar con usuarios y una prueba técnica | Vicente e Isidora |
 | Funcionarios | El gimnasio real los acepta; quedan fuera del prototipo como limitación de alcance | Equipo |
 
 ### 8. Matriz de cobertura
@@ -914,9 +914,9 @@ Los préstamos no cambian el aforo (D04). El diagrama conserva el bloqueo de otr
 | Estimación de esfuerzo, duración, recursos y riesgos | Equipo, stack, lector seleccionado y calendario | Justificar esfuerzo, fechas, disponibilidad, recursos y riesgos de ejecución. |
 | Demo de software en desarrollo | Login, catálogo en base de datos y kiosco que normaliza UID | Conectar credencial, alumno habilitado, visita y salida con aforo verificable. Cubrir horario, cupo lleno y turnos. La PPT también anunció rutina en el celular y feedback para este hito. |
 | Pruebas iniciales, dificultades y correcciones | 14 pruebas del normalizador y matriz CA01–CA22 | Ejecutar pruebas del flujo implementado y del lector físico. Registrar resultado esperado, resultado real, evidencia, problema y corrección. |
-| Borrador del pendón y plan de cierre | Problema, flujo, arquitectura y capturas ya preparadas | Preparar contenido y estructura del pendón, con evidencia del prototipo y estado de cada función. La pauta exige además planificar el cierre en noviembre. |
+| Propuesta de afiche y plan de cierre | Problema, flujo, arquitectura y capturas ya preparadas | Preparar contenido y diseño del afiche, con evidencia del prototipo y estado de cada función. La pauta exige además planificar el cierre en noviembre. |
 
-El equipo calendarizó el Avance 3 para el **24 de noviembre**. La [pauta adjunta](bases-proyecto-integrador.md) exige el pendón. [AGENTS.md](../AGENTS.md) registra el tríptico como tarea interna por confirmar.
+El equipo calendarizó el Avance 3 para el **24 de noviembre**. La [pauta adjunta](bases-proyecto-integrador.md) pedía un pendón; el 19 de noviembre el profesor lo reemplazó, junto con el tríptico, por un solo afiche, cuyo formato enviará por Blackboard.
 
 ### Pendientes revisados
 
@@ -930,7 +930,7 @@ Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas
 | Rutinas y feedback | Completar plantillas para las seis combinaciones de objetivo y nivel. Integrar rutina en el celular y feedback según el plan del hito. Validar parámetros y redondeo de cargas. | Diseño de rutinas, decisiones D07 y D12–D15 y simulación en Figma. |
 | Habilitación | Confirmar fechas oficiales del período académico. | Fechas provisionales documentadas, con habilitación por período. |
 | Pruebas y calidad | Ejecutar el flujo y registrar evidencia según CA01–CA22. Usar los criterios complementarios cuando corresponda según la cobertura y el alcance de las pruebas. Revisar el error de lint en Tailwind. | Matriz de aceptación, compilación aprobada en la auditoría previa y 14 pruebas de UID aprobadas nuevamente en la rama. |
-| Entregables académicos | Completar estimación, PPT, demo y borrador del pendón con su plan de cierre. Confirmar alcance del tríptico interno. | Pauta, rúbrica y evidencias de avances anteriores. |
+| Entregables académicos | Completar estimación, PPT, demo y propuesta de afiche con su plan de cierre (reemplaza al pendón y al tríptico). | Pauta, rúbrica y evidencias de avances anteriores. |
 | Alcance posterior | Validar la factibilidad del reparto automático, que sigue siendo experimental. Mantener visible el trabajo pendiente de préstamos, gestión administrativa y registro corporal según el alcance vigente. | Requisitos priorizados, Figma y [alcance vigente](#3-alcance). |
 
 ### Responsables de referencia
@@ -938,10 +938,10 @@ Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas
 | Integrante | Foco documentado |
 |---|---|
 | Vicente Galleguillos | Coordinación, requisitos, estimación, plan de pruebas, documentación y PPT. |
-| Benjamín Velásquez | Modelo de datos y reglas de negocio, capacidad, turnos y rutinas. |
+| Benjamín Velásquez | Prototipo en Figma Make, interfaces por actor, rutina en el celular y feedback. |
 | Pau Urzúa | Lector, credenciales, ingreso, salida, aforo y préstamos. |
-| Isidora Moscoso | Interfaces del alumno y encargado, rutinas, feedback y registro corporal. |
-| Bastián González | Catálogo, administración, QA, evidencia de pruebas y pendón. |
+| Isidora Moscoso | Backend en Supabase: modelo de datos, RLS, login con roles, capacidad, turnos y rutinas. |
+| Bastián González | Catálogo, administración, QA, evidencia de pruebas y afiche. |
 
 Para metodología y ejemplos, consultar [Ingeniería de Requerimientos](ingenieria-de-requerimientos.md) e [Ingeniería de Software](ingenieria-de-software.md). Para operar o modificar AforoFit, partir por el [README](../README.md) y las reglas vigentes en [AGENTS.md](../AGENTS.md).
 
@@ -950,10 +950,10 @@ Para metodología y ejemplos, consultar [Ingeniería de Requerimientos](ingenier
 | Integrante | Rol | Responsable de |
 |---|---|---|
 | Vicente Galleguillos | Jefe de proyecto | Plan, requisitos, estimación, plan de pruebas, documentación, PPT de avances, relación con el encargado |
-| Benjamín Velásquez | Backend y reglas de negocio | Modelo de datos, generador de rutina, progresión, capacidad y lista de espera |
+| Benjamín Velásquez | Frontend y prototipo | Prototipo en Figma Make, pantallas por actor, rutina en el celular, feedback, panel del profesor encargado, pantalla pública, registro corporal |
 | Pau Urzúa | Ingreso y hardware | Lector de credenciales, QR de respaldo, entrada y salida, aforo en vivo, préstamo de implementos |
-| Isidora Moscoso | Frontend alumno y encargado | Rutina en el celular, feedback, panel del profesor encargado, registro corporal |
-| Bastián González | Administración y QA | Catálogo con fotos, inventario de implementos, habilitación, reportes, diseño del pendón, ejecución de pruebas |
+| Isidora Moscoso | Backend y base de datos | Supabase: modelo de datos, RLS, login con roles, generador de rutina, progresión, capacidad y lista de espera |
+| Bastián González | Administración y QA | Catálogo con fotos, inventario de implementos, habilitación, reportes, diseño del afiche, ejecución de pruebas |
 
 Las tareas se siguen en el documento **"AforoFit — Plan de acción del proyecto"** (cada uno marca su casilla).
 Las guías de arranque están en **"AforoFit — Kit de arranque"**.
@@ -967,10 +967,10 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avances/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · borrador del pendón y plan de cierre |
-| Jue 26 nov | Pendón definitivo | Aprobado y enviado a imprimir; solo funcionalidades implementadas o marcadas como futuras |
+| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de afiche y plan de cierre |
+| Jue 26 nov | Afiche definitivo | Aprobado; formato según lo que el profesor envíe por Blackboard; solo funcionalidades implementadas o marcadas como futuras |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
-| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, pendón instalado, defensa de todos |
+| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche, defensa de todos |
 
 ## Checklist íntegro del Avance 3
 
@@ -982,47 +982,47 @@ El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista part
 
 | Pendiente | Responsable propuesto | Evidencia de cierre |
 |---|---|---|
-| [ ] Estimar el tamaño del software | Vicente, con apoyo de Benjamín | Cálculo con LOC, puntos de función o ambos. Indicar alcance contado, método, fuentes y supuestos. |
+| [ ] Estimar el tamaño del software | Vicente, con apoyo de Isidora | Cálculo con LOC, puntos de función o ambos. Indicar alcance contado, método, fuentes y supuestos. |
 | [ ] Estimar esfuerzo, duración, recursos y riesgos | Vicente y equipo | Horas-persona, duración con la disponibilidad real, recursos y riesgos con mitigación. Explicar cómo se llegó a los valores. |
 | [ ] Preparar una demostración del prototipo programado | Pau, Benjamín e Isidora | Guion con un recorrido ejecutable, datos ficticios y evidencia de lo demostrado. |
 | [ ] Registrar pruebas iniciales, dificultades y correcciones | Bastián y responsables de cada función | Matriz con criterio, resultado esperado y observado, versión probada, evidencia y acción correctiva. |
-| [ ] Elaborar el borrador del pendón y su plan de cierre | Bastián y Vicente | Borrador de contenido y estructura, con responsables y fechas para concluirlo en noviembre. Identificar como futuras las funciones aún pendientes. |
-| [ ] Preparar la PPT y ensayar la defensa | Vicente y equipo | Diapositivas con estimaciones, avance técnico, pruebas y pendón. Guion con participación de los integrantes. |
+| [ ] Elaborar la propuesta de afiche y su plan de cierre | Bastián y Vicente | Propuesta de contenido y diseño del afiche (reemplaza al pendón y al tríptico), con el formato que el profesor enviará por Blackboard y fechas para concluirlo en noviembre. Identificar como futuras las funciones aún pendientes. |
+| [ ] Preparar la PPT y ensayar la defensa | Vicente y equipo | Diapositivas con estimaciones, avance técnico, pruebas y afiche. Guion con participación de los integrantes. |
 
 ### 2. Construcción y verificación de la demo
 
 | Pendiente | Responsable propuesto | Dependencia y evidencia de cierre |
 |---|---|---|
 | [ ] Confirmar adquisición del lector y probar TNE y TUI por USB | Pau | Comparar con NFC Tools el UID que entrega cada tarjeta y comprobar el formato, comportamiento como teclado y tecla Enter. Registrar los resultados sin exponer identificadores reales. [Pruebas de tarjetas](pruebas-tarjetas.md) |
-| [ ] Vincular credenciales y completar el modelo físico | Benjamín y Pau | Tablas de credenciales, visitas y turnos con migración reproducible. Probar una credencial ligada a un solo alumno y una visita abierta por alumno. Actualizar el [modelo de datos](#2-modelo-entidad-relación) según lo implementado. |
-| [ ] Implementar ingreso y salida a partir del kiosco | Pau y Benjamín | Usar el UID normalizado, validar habilitación, horario y capacidad, registrar entrada y salida y devolver un resultado claro para cada rechazo. Definir acceso autorizado a la operación de registro. |
-| [ ] Implementar turnos y cierre automático de visitas | Benjamín y Pau | Coordinar la regla de vencimiento de turno. Demostrar cola ordenada, revalidación al llamar el turno, liberación del cupo y cierre automático. Comprobar que dos ingresos simultáneos con un cupo no superan la capacidad. |
-| [ ] Mostrar aforo y turno llamado en la pantalla pública | Pau, Benjamín e Isidora | La vista pública refleja entradas, salidas y turnos según la configuración, sin mostrar información privada. Depende del registro de visitas y turnos. |
-| [ ] Preparar el respaldo QR | Pau y Benjamín | Un QR válido permite identificar al alumno con las mismas reglas de ingreso. Registrar el estado en la PPT si aún está en desarrollo. |
-| [ ] Completar las seis plantillas base de rutina | Benjamín | Plantillas para tres objetivos y dos niveles, con máquinas del catálogo. Registrar los supuestos y validar la progresión y el redondeo de cargas. |
-| [ ] Integrar rutina en el celular y feedback | Isidora y Benjamín | La rutina activa aparece tras registrar el ingreso y se guarda el feedback al salir. Son funciones anunciadas para el hito en la PPT del Avance 2. Registrar con precisión el estado alcanzado. |
+| [ ] Vincular credenciales y completar el modelo físico | Isidora y Pau | Tablas de credenciales, visitas y turnos con migración reproducible. Probar una credencial ligada a un solo alumno y una visita abierta por alumno. Actualizar el [modelo de datos](#2-modelo-entidad-relación) según lo implementado. |
+| [ ] Implementar ingreso y salida a partir del kiosco | Pau e Isidora | Usar el UID normalizado, validar habilitación, horario y capacidad, registrar entrada y salida y devolver un resultado claro para cada rechazo. Definir acceso autorizado a la operación de registro. |
+| [ ] Implementar turnos y cierre automático de visitas | Isidora y Pau | Coordinar la regla de vencimiento de turno. Demostrar cola ordenada, revalidación al llamar el turno, liberación del cupo y cierre automático. Comprobar que dos ingresos simultáneos con un cupo no superan la capacidad. |
+| [ ] Mostrar aforo y turno llamado en la pantalla pública | Benjamín, Pau e Isidora | La vista pública refleja entradas, salidas y turnos según la configuración, sin mostrar información privada. Depende del registro de visitas y turnos. |
+| [ ] Preparar el respaldo QR | Pau e Isidora | Un QR válido permite identificar al alumno con las mismas reglas de ingreso. Registrar el estado en la PPT si aún está en desarrollo. |
+| [ ] Completar las seis plantillas base de rutina | Isidora | Plantillas para tres objetivos y dos niveles, con máquinas del catálogo. Registrar los supuestos y validar la progresión y el redondeo de cargas. |
+| [ ] Integrar rutina en el celular y feedback | Benjamín e Isidora | La rutina activa aparece tras registrar el ingreso y se guarda el feedback al salir. Son funciones anunciadas para el hito en la PPT del Avance 2. Registrar con precisión el estado alcanzado. |
 | [ ] Verificar compilación, pruebas y lint de la versión de demo | Bastián y equipo | Guardar la versión y el resultado. La referencia de partida son las 14 pruebas aprobadas del normalizador UID. Revisar el error de lint en la configuración de Tailwind. |
 
-**Orden técnico sugerido:** contrato de datos y reglas de ingreso → credenciales y visitas → turnos y aforo → prueba integrada. El lector, las estimaciones, la PPT y el pendón pueden prepararse en paralelo. La entrada manual del kiosco sirve para ensayar el software mientras se valida el lector.
+**Orden técnico sugerido:** contrato de datos y reglas de ingreso → credenciales y visitas → turnos y aforo → prueba integrada. El lector, las estimaciones, la PPT y el afiche pueden prepararse en paralelo. La entrada manual del kiosco sirve para ensayar el software mientras se valida el lector.
 
 ### 3. Decisiones, datos y alcance que siguen abiertos
 
 | Pendiente | Responsable propuesto | Qué registrar |
 |---|---|---|
-| [ ] Definir el vencimiento del turno llamado | Benjamín y Vicente | Plazo, comportamiento al vencer y forma de llamar al siguiente. Actualizar regla, caso, diagrama y criterio afectados. |
+| [ ] Definir el vencimiento del turno llamado | Isidora y Vicente | Plazo, comportamiento al vencer y forma de llamar al siguiente. Actualizar regla, caso, diagrama y criterio afectados. |
 | [ ] Confirmar fechas oficiales del período académico | Vicente | Fuente y fechas confirmadas. Mientras tanto, conservar como supuesto el 3 de marzo al 23 de diciembre. |
 | [ ] Confirmar cantidades de implementos | Bastián y Vicente | Inventario validado con el encargado. Las cantidades actuales del catálogo son preliminares. |
 | [ ] Completar ajustes de máquinas y verificar fotos en Figma | Bastián | Fichas con los ajustes que falten y confirmación de qué fotos aparecen en Figma. El inventario inicial y las fotos ya están en el repositorio. |
-| [ ] Resolver la cobertura de las funciones de prioridad media | Vicente y Benjamín | Acordar una métrica para evaluar el reparto experimental y un umbral de inasistencia para las alertas. Incidencias y reportes permanecen identificados como prioridad media. |
+| [ ] Resolver la cobertura de las funciones de prioridad media | Vicente e Isidora | Acordar una métrica para evaluar el reparto experimental y un umbral de inasistencia para las alertas. Incidencias y reportes permanecen identificados como prioridad media. |
 | [ ] Planificar las funciones restantes del alcance vigente | Equipo | Registrar estado y siguiente paso de préstamos y devoluciones, catálogo y gestión administrativa, habilitación y configuración, y registro corporal privado. |
-| [ ] Confirmar si el equipo hará un tríptico | Vicente y equipo | Decisión y responsable si se realiza. La pauta docente pide el pendón. |
+| [ ] Revisar en Blackboard el formato del afiche | Vicente | Medidas, soporte y fecha que indique el profesor. Ajustar la propuesta a ese formato. |
 
 ### 4. Evidencia para cerrar el hito
 
 - [ ] Priorizar pruebas del flujo que se vaya a demostrar. Usar los [CA01–CA22 y los criterios complementarios](#6-criterios-de-aceptación). Distinguir pruebas de Figma, unitarias, integración, hardware y sistema.
 - [ ] Probar identificación válida y desconocida, habilitación, horario, cupo, entrada y salida, espera y cambio de aforo. Agregar QR, rutina y feedback según el avance ejecutable.
 - [ ] Registrar qué se ejecutó, qué pasó, qué falló y qué quedó pendiente. Un criterio escrito define el resultado esperado y la ejecución aporta la evidencia.
-- [ ] Alinear PPT, demo y pendón con las [decisiones vigentes](#decisiones-d01d17), los [requisitos](#8-matriz-de-cobertura) y los [diagramas](#trazabilidad-del-diseño).
+- [ ] Alinear PPT, demo y afiche con las [decisiones vigentes](#decisiones-d01d17), los [requisitos](#8-matriz-de-cobertura) y los [diagramas](#trazabilidad-del-diseño).
 
 ## Anexo A. Entrevista completa
 
