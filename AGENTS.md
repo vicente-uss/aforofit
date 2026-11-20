@@ -163,7 +163,7 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 - **Despliegue**: Vercel. Cada push a `main` publica en producción; cada pull request genera una vista previa.
 - **Lector de credenciales**: lector USB de 13,56 MHz para tarjetas MIFARE, en modo teclado (HID), conectado al
   computador All-in-One del gimnasio. Elegido: "Lector Usb Tarjeta Llavero Rfid Id Serie 13.56 Mhz Mf1 S50"
-  ($14.990, Mercado Libre), previsto para el Avance 3. Según el vendedor, el lector escribe el UID como
+  ($14.990 + $3.990 de envío = $18.980, Mercado Libre), comprado por Pau. Según el vendedor, el lector escribe el UID como
   **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. Falta comprobarlo con el lector físico.
   La app recibe el código en un campo enfocado y `normalizarUid` lo convierte al formato hexadecimal de NFC Tools
   (ej. ficticio: `0729785092` → `04:A3:7F:2B`), previsto para `tarjetas.uid`. Detalle en
@@ -243,7 +243,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: jueves 19 de noviembre de 2026.
+Actualizado: viernes 20 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
@@ -262,14 +262,19 @@ Actualizado: jueves 19 de noviembre de 2026.
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
 - Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
   (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
+- Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante).
+- Estimación del Avance 3: 207 puntos de función no ajustados (10,35 KLOC), COCOMO 81 orgánico de 27,9 PM,
+  8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
+  "AforoFit — Estimación Avance 3").
+- Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
-- [ ] Comprar el lector de 13,56 MHz (Avance 2 aprobado) y probar `/ingreso` con una TNE y una TUI reales,
+- [ ] Probar el lector en `/ingreso` con una TNE y una TUI reales,
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
-- [ ] Avance 3: estimación por LOC y/o puntos de función con supuestos; esfuerzo, duración, recursos y riesgos
-- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 y propuesta de afiche con plan de cierre.
+- [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana, factor LOC/PF, plan de Figma, costo del afiche)
+- [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
