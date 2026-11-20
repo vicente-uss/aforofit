@@ -61,6 +61,20 @@ El modelo prevé guardar el UID en hexadecimal, en el mismo orden que muestra NF
 
 El formulario manual solicita el UID en hexadecimal. El QR sigue pendiente.
 
-**Prueba física pendiente:** abrir el Bloc de notas y pasar una TNE y una TUI por el lector USB. Registrar si
-emite Enter y comparar cada lectura normalizada con el UID en NFC Tools. Si el formato difiere, ajustar
-`normalizarUid` antes de registrar tarjetas.
+## 4. Prueba física del lector USB (20 de noviembre de 2026)
+
+Realizada por Pau con el lector recibido. Resultado: **funciona tal como indicó el vendedor**.
+
+| Tarjeta | Resultado |
+|---|---|
+| TNE | Se lee: escribe el UID en decimal (orden inverso) y presiona Enter |
+| TUI (credencial USS) | Se lee igual que la TNE |
+| Tarjetas bancarias sin contacto | También responden, porque usan la misma tecnología de 13,56 MHz |
+
+Implicancias:
+- Se confirma D17: la TNE sigue como credencial principal y la **TUI también sirve** con el lector USB.
+- Una tarjeta bancaria entrega un UID, pero no se vincula a ningún alumno: en `/ingreso` aparece como
+  "Credencial no registrada". El profesor no debe vincular tarjetas bancarias. Además, muchas generan un UID
+  aleatorio en cada lectura, así que no sirven como credencial.
+- Falta registrar la comparación lectura normalizada vs. NFC Tools por tarjeta, con los UID enmascarados
+  (ej. `2A:26:**:**`), y medir el tiempo de ingreso (CA29) cuando `/ingreso` esté conectado.

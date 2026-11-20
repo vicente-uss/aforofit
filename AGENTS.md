@@ -262,7 +262,9 @@ Actualizado: viernes 20 de noviembre de 2026.
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
 - Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
   (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
-- Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante); recibido el 20 de noviembre.
+- Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante). Probado el 20 de noviembre:
+  funciona como teclado con TNE, TUI y tarjetas bancarias, y entrega el UID en decimal invertido como dijo el vendedor
+  (`docs/pruebas-tarjetas.md`).
 - Estimación del Avance 3: 207 puntos de función no ajustados (10,35 KLOC), COCOMO 81 orgánico de 27,9 PM,
   8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
@@ -270,8 +272,7 @@ Actualizado: viernes 20 de noviembre de 2026.
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
-- [ ] Probar el lector en `/ingreso` con una TNE y una TUI reales,
-  comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
+- [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
 - [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF); costo del afiche según Blackboard
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
@@ -301,7 +302,7 @@ D01–D11 provienen de la entrevista, D12–D16 del diseño y D17 del levantamie
 | D14 | Lista de espera: número de turno; la pantalla muestra el turno llamado y el alumno vuelve a pasar la credencial |
 | D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
 | D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
-| D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) se leyó con NFC Tools y su compatibilidad con el lector USB sigue pendiente; la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
+| D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) también funciona con el lector USB (probado por Pau el 20 de noviembre); la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 [documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
