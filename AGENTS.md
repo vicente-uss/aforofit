@@ -262,7 +262,7 @@ Actualizado: viernes 20 de noviembre de 2026.
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
 - Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
   (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
-- Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante).
+- Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante); recibido el 20 de noviembre.
 - Estimación del Avance 3: 207 puntos de función no ajustados (10,35 KLOC), COCOMO 81 orgánico de 27,9 PM,
   8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
@@ -273,7 +273,7 @@ Actualizado: viernes 20 de noviembre de 2026.
 - [ ] Probar el lector en `/ingreso` con una TNE y una TUI reales,
   comparando contra NFC Tools (`docs/pruebas-tarjetas.md`)
 - [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
-- [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana, factor LOC/PF, plan de Figma, costo del afiche)
+- [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF); costo del afiche según Blackboard
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
 

@@ -110,9 +110,9 @@ Costo        = 27,9 × $2.000.000 = $55,8 millones (supuesto de la clase; sin li
 | Categoría | Recursos | Costo |
 |---|---|---:|
 | Humanos | Vicente (jefe de proyecto), Benjamín (frontend y prototipo), Isidora (backend y base de datos), Pau (ingreso y hardware), Bastián (administración, QA y afiche) | Teórico: $1.847.575 (costo mensual × meses × dedicación); no se paga |
-| Software y servicios | Vercel Hobby, Supabase, GitHub y Figma Make | $0 (por confirmar el plan de Figma) |
+| Software y servicios | Vercel Hobby, Supabase, GitHub y Figma Make (plan estudiante, 3.000 créditos de IA) | $0 |
 | Infraestructura | Lector USB de 13,56 MHz MF1 S50 ($14.990) + envío ($3.990); computador All-in-One del gimnasio (existente) | $18.980 |
-| Otros | Impresión del afiche | Por cotizar |
+| Otros | Impresión del afiche (formato e impresión por Blackboard) | Por cotizar |
 
 El lector lo compró **Pau**: $18.980 con envío, **unos $3.800 por integrante** ($3.796).
 
@@ -123,7 +123,7 @@ Son 16 en la hoja Riesgos de la planilla. Exposición = probabilidad × impacto,
 | ID | Riesgo | Exposición | Mitigación | Responsable |
 |---|---|---:|---|---|
 | R08 | El núcleo no queda terminado antes del congelamiento | 9 | Solo prioridad alta; avanzar por módulo según los PF; revisión cada martes | Vicente |
-| R01 | El lector no llega a tiempo o falla con la TNE | 6 | Probarlo apenas llegue; respaldo: ingreso manual del UID y QR | Pau |
+| R01 | El lector falla con la TNE (recibido el 20 de noviembre; exposición baja a 3) | 3 | Probarlo con TNE y TUI; respaldo: ingreso manual del UID y QR | Pau |
 | R04 | Realtime falla durante la demo | 6 | Recarga periódica como respaldo; aforo visible también en el panel del profesor | Isidora |
 | R05 | Internet inestable en la expo | 6 | Compartir internet desde un celular; datos de demo precargados | Vicente |
 | R06 | Reglas de negocio mal implementadas | 6 | Validarlas en `registrar_ingreso`; un caso de prueba por regla | Isidora |
@@ -133,5 +133,5 @@ Son 16 en la hoja Riesgos de la planilla. Exposición = probabilidad × impacto,
 
 - Horas por semana por integrante (8) y semanas de desarrollo (4, del 10 de noviembre al 3 de diciembre).
 - Factor de 50 LOC por punto de función.
-- Plan de Figma Make y costo de impresión del afiche.
+- Costo de impresión del afiche (lo informa el profesor por Blackboard).
 - El conteo de DET y FTR. Si una función se reclasifica, se cambia en la planilla y todo se recalcula.
