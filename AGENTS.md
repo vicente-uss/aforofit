@@ -269,6 +269,8 @@ Actualizado: viernes 20 de noviembre de 2026.
   8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
+- Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
+  (`docs/afiche-contenido.md`); falta el formato de Blackboard y el diseño (Bastián).
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
