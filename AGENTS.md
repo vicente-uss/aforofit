@@ -164,7 +164,7 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 - **Lector de credenciales**: lector USB de 13,56 MHz para tarjetas MIFARE, en modo teclado (HID), conectado al
   computador All-in-One del gimnasio. Elegido: "Lector Usb Tarjeta Llavero Rfid Id Serie 13.56 Mhz Mf1 S50"
   ($14.990 + $3.990 de envío = $18.980, Mercado Libre), comprado por Pau. Según el vendedor, el lector escribe el UID como
-  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. Falta comprobarlo con el lector físico.
+  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter (comprobado con el lector físico el 20 de noviembre).
   La app recibe el código en un campo enfocado y `normalizarUid` lo convierte al formato hexadecimal de NFC Tools
   (ej. ficticio: `0729785092` → `04:A3:7F:2B`), previsto para `tarjetas.uid`. Detalle en
   `docs/pruebas-tarjetas.md`.
@@ -256,7 +256,7 @@ Actualizado: viernes 20 de noviembre de 2026.
 - Prueba con NFC Tools en celular: se leyeron tres TNE y una TUI. Se eligió el lector USB para la prueba física
   (`docs/pruebas-tarjetas.md`).
 - Login con roles: tabla `perfiles` con RLS y trigger, paneles `/alumno`, `/profesor` y `/admin`, rutas
-  protegidas en el servidor y kiosco público en `/ingreso` (`supabase/sql/001_perfiles_roles.sql`).
+  protegidas en el servidor (`supabase/sql/001_perfiles_roles.sql`).
 - Contraseña de `admin.demo` rotada, según confirmó el equipo.
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
@@ -269,6 +269,10 @@ Actualizado: viernes 20 de noviembre de 2026.
   8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
+- Pantallas del flujo central (pull request `vicente/pantallas-flujo-central`): `/ingreso` exige sesión de profesor
+  o admin y llama a `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo`
+  pública en tiempo real con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado
+  del aforo en `lib/aforo/estado.ts`, con pruebas en Vitest (26 en total). Falta probarlas contra la base de Isidora.
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado

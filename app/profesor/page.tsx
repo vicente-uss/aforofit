@@ -12,12 +12,19 @@ async function Contenido() {
       perfil={perfil}
       secciones={[
         {
+          titulo: "Kiosco de ingreso",
+          descripcion: "Pantalla del lector: entrada, salida, turno y vinculación de credenciales.",
+          href: "/ingreso",
+        },
+        {
           titulo: "Aforo en vivo",
-          descripcion: "Quiénes están dentro y cuántos cupos quedan.",
+          descripcion: "Pantalla pública con la ocupación y el turno llamado.",
+          href: "/aforo",
         },
         {
           titulo: "Lista de espera",
           descripcion: "Turnos en espera y llamado del siguiente.",
+          href: "/profesor/espera",
         },
         {
           titulo: "Préstamos",

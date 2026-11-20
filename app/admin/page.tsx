@@ -12,6 +12,11 @@ async function Contenido() {
       perfil={perfil}
       secciones={[
         {
+          titulo: "Kiosco de ingreso",
+          descripcion: "Pantalla del lector: entrada, salida, turno y vinculación de credenciales.",
+          href: "/ingreso",
+        },
+        {
           titulo: "Máquinas e implementos",
           descripcion: "Catálogo con fotos y cantidades.",
         },

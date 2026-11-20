@@ -45,3 +45,14 @@ export async function requerirRol(rol: Rol): Promise<Perfil> {
   if (perfil.rol !== rol) redirect(panelDeRol(perfil.rol));
   return perfil;
 }
+
+/**
+ * Valida en el servidor que el usuario tenga alguno de los roles permitidos
+ * (ej. el kiosco /ingreso lo usan el profesor y el admin).
+ */
+export async function requerirAlgunRol(roles: Rol[]): Promise<Perfil> {
+  const perfil = await obtenerPerfil();
+  if (!perfil) redirect("/auth/login");
+  if (!roles.includes(perfil.rol)) redirect(panelDeRol(perfil.rol));
+  return perfil;
+}
