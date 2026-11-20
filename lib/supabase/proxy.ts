@@ -3,8 +3,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { esRol, panelDeRol, ROLES } from "../auth/roles";
 import { hasEnvVars } from "../utils";
 
-// Rutas públicas: la pantalla del lector (/ingreso) y la pantalla de aforo (/aforo).
-const RUTAS_PUBLICAS = ["/ingreso", "/aforo"];
+// Ruta pública: la pantalla de aforo (/aforo), que solo muestra cifras.
+// El kiosco /ingreso exige sesión de profesor o admin, porque registra ingresos (lo valida su página).
+const RUTAS_PUBLICAS = ["/aforo"];
 
 // Páginas de /auth que se pueden abrir con o sin sesión (recuperar clave, errores, confirmación).
 const RUTAS_AUTH_LIBRES = [
@@ -76,7 +77,7 @@ export async function updateSession(request: NextRequest) {
     return respuesta;
   };
 
-  // Rutas públicas: se dejan pasar siempre (las usa la pantalla del lector y la de aforo).
+  // Rutas públicas: se dejan pasar siempre (la pantalla de aforo).
   if (RUTAS_PUBLICAS.some((ruta) => coincide(pathname, ruta))) {
     return supabaseResponse;
   }
