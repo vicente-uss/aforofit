@@ -98,7 +98,8 @@ alumno_id uuid not null references public.alumnos(id)
 ```
 
 Así, `select("numero, estado, creado_en, alumnos(nombre)")` devuelve `alumnos` como un **objeto** y no como un array.
-Los estados son `esperando`, `llamado` y `usado`. La pantalla `/profesor/espera` lee `esperando` y `llamado`.
+Los estados son `esperando`, `llamado`, `usado` y `expirado`. La base de datos usa `expirado` cuando un turno
+llamado no se reclama en `turno_expira_minutos`. La pantalla `/profesor/espera` lee solo `esperando` y `llamado`.
 
 ## 6. Tabla `configuracion`
 
