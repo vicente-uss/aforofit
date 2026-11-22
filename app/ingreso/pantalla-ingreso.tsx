@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
   interpretarRespuesta,
@@ -30,6 +31,7 @@ type Lectura = {
 type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null };
 
 const MAX_LECTURAS = 10; // historial solo en memoria
+const MAX_ALUMNOS_BUSCADOS = 8;
 const VENTANA_REPETIDA_MS = 3000; // se ignora la misma tarjeta si se repite antes de 3 s
 const INTERVALO_FOCO_MS = 2000; // cada cuánto se recupera el foco del lector
 const DURACION_MENSAJE_MS = 6000; // cuánto queda visible el resultado antes de volver a "Acerca tu TNE"
@@ -174,18 +176,25 @@ export function PantallaIngreso() {
     evento.preventDefault();
     const texto = busqueda.trim();
     if (texto.length < 2) return;
-    const { data, error: errorBusqueda } = await supabaseRef.current
-      .from("alumnos")
-      .select("id, nombre, rut, carrera")
-      .or(`nombre.ilike.%${texto}%,rut.ilike.%${texto}%`)
-      .order("nombre")
-      .limit(8);
+    // Dos consultas en vez de .or(): el texto del usuario no se interpola en el filtro.
+    const patron = patronContiene(texto);
+    const consultar = (columna: "nombre" | "rut") =>
+      supabaseRef.current
+        .from("alumnos")
+        .select("id, nombre, rut, carrera")
+        .ilike(columna, patron)
+        .order("nombre")
+        .limit(MAX_ALUMNOS_BUSCADOS);
+    const [porNombre, porRut] = await Promise.all([consultar("nombre"), consultar("rut")]);
+    const errorBusqueda = porNombre.error ?? porRut.error;
     if (errorBusqueda) {
+      console.error("Error al buscar alumnos:", errorBusqueda);
       setAvisoVincular("No se pudo buscar alumnos.");
       return;
     }
-    setAlumnos(data ?? []);
-    setAvisoVincular(data && data.length === 0 ? "No se encontraron alumnos." : null);
+    const encontrados = unirAlumnos([porNombre.data ?? [], porRut.data ?? []], MAX_ALUMNOS_BUSCADOS);
+    setAlumnos(encontrados);
+    setAvisoVincular(encontrados.length === 0 ? "No se encontraron alumnos." : null);
   };
 
   const vincular = async (alumno: AlumnoBuscado) => {
