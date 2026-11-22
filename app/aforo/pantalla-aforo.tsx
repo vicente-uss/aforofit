@@ -50,10 +50,19 @@ export function PantallaAforo() {
     // Cambios en vivo: el número cambia sin recargar (CA10, 2 segundos o menos).
     const canal = supabase
       .channel("aforo-publico")
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "aforo" }, (cambio) => {
-        setSinConexion(false);
-        setAforo(cambio.new as FilaAforo);
-      })
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "aforo", filter: "id=eq.1" },
+        (cambio) => {
+          // Un DELETE no trae fila nueva: se vuelve a leer la tabla.
+          if (cambio.eventType === "DELETE") {
+            void leer();
+            return;
+          }
+          setSinConexion(false);
+          setAforo(cambio.new as FilaAforo);
+        },
+      )
       .subscribe();
 
     const intervalo = setInterval(leer, INTERVALO_RESPALDO_MS);
