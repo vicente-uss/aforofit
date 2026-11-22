@@ -7,10 +7,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
+  interpretarRespuesta,
+  interpretarVinculacion,
+  mensajeErrorRpc,
   mensajeIngreso,
+  mensajeRespuestaInvalida,
+  textoErrorRpc,
   textoMotivo,
   type MensajeKiosco,
-  type ResultadoIngreso,
   type TonoMensaje,
 } from "@/lib/ingreso/mensajes";
 import { createClient } from "@/lib/supabase/client";
@@ -131,26 +135,36 @@ export function PantallaIngreso() {
     // Las reglas 1 a 6 se validan en la base de datos (registrar_ingreso), no aquí:
     // así el lector, el ingreso manual y el QR pasan por el mismo lugar.
     const inicio = performance.now();
-    void supabaseRef.current
-      .rpc("registrar_ingreso", { p_uid: resultado.uid })
-      .then(({ data, error: errorRpc }) => {
-        const ms = Math.round(performance.now() - inicio);
-        const mensaje: MensajeKiosco = errorRpc
-          ? {
-              tono: "error",
-              titulo: "No se pudo registrar",
-              detalle: "Sin conexión con el servidor. Intenta de nuevo o usa el ingreso manual.",
-              ofrecerVincular: false,
-            }
-          : mensajeIngreso(data as ResultadoIngreso);
-        const completa: Lectura = { ...lectura, mensaje, ms };
-        setUltima(completa);
-        setLecturas((previas) => [completa, ...previas].slice(0, MAX_LECTURAS));
-        if (mensaje.ofrecerVincular) setUidPorVincular(resultado.uid);
+    const terminar = (mensaje: MensajeKiosco) => {
+      const completa: Lectura = { ...lectura, mensaje, ms: Math.round(performance.now() - inicio) };
+      setUltima(completa);
+      setLecturas((previas) => [completa, ...previas].slice(0, MAX_LECTURAS));
+      if (mensaje.ofrecerVincular) setUidPorVincular(resultado.uid);
 
-        // El mensaje queda unos segundos y la pantalla vuelve a esperar otra tarjeta.
-        if (mensaje.ofrecerVincular) cancelarLimpieza();
-        else programarLimpieza();
+      // El mensaje queda unos segundos y la pantalla vuelve a esperar otra tarjeta.
+      if (mensaje.ofrecerVincular) cancelarLimpieza();
+      else programarLimpieza();
+    };
+
+    // Promise.resolve porque el constructor de Supabase es "thenable" y no tiene .catch().
+    void Promise.resolve(supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid }))
+      .then(({ data, error: errorRpc }) => {
+        if (errorRpc) {
+          console.error("Error en registrar_ingreso:", errorRpc);
+          terminar(mensajeErrorRpc(errorRpc));
+          return;
+        }
+        const respuesta = interpretarRespuesta(data);
+        if (!respuesta) {
+          console.error("registrar_ingreso respondió fuera del contrato.");
+          terminar(mensajeRespuestaInvalida());
+          return;
+        }
+        terminar(mensajeIngreso(respuesta));
+      })
+      .catch((errorInesperado: unknown) => {
+        console.error("Falló la llamada a registrar_ingreso:", errorInesperado);
+        terminar(mensajeErrorRpc({}));
       });
     return true;
   }, [cancelarLimpieza, programarLimpieza]);
@@ -180,12 +194,20 @@ export function PantallaIngreso() {
       p_uid: uidPorVincular,
       p_alumno_id: alumno.id,
     });
+    if (errorVincular) {
+      console.error("Error en vincular_credencial:", errorVincular);
+      setAvisoVincular(textoErrorRpc(errorVincular).titulo);
+      return;
+    }
+    const respuesta = interpretarVinculacion(data);
+    if (!respuesta) {
+      console.error("vincular_credencial respondió fuera del contrato.");
+      setAvisoVincular("Respuesta inválida de la base de datos.");
+      return;
+    }
     // La función puede rechazar (ej. el UID ya pertenece a otro alumno, CA03).
-    const respuesta = data as { ok?: boolean; motivo?: string | null } | null;
-    if (errorVincular || respuesta?.ok === false) {
-      setAvisoVincular(
-        respuesta?.motivo ? textoMotivo(respuesta.motivo) : errorVincular?.message ?? "No se pudo vincular.",
-      );
+    if (!respuesta.ok) {
+      setAvisoVincular(textoMotivo(respuesta.motivo));
       return;
     }
     cerrarVincular();
@@ -196,6 +218,7 @@ export function PantallaIngreso() {
       ms: null,
       mensaje: {
         tono: "info",
+        tipo: "Vinculación",
         titulo: `Credencial vinculada a ${alumno.nombre}`,
         detalle: "Pasa la tarjeta otra vez para entrar",
         ofrecerVincular: false,

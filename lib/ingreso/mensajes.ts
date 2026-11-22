@@ -19,7 +19,7 @@ export type RespuestaVinculacion = { ok: boolean; motivo: string | null };
 export type TonoMensaje = "exito" | "info" | "espera" | "error";
 
 // Tipo de resultado que muestra el historial, sin datos del alumno.
-export type TipoLectura = "Entrada" | "Salida" | "Turno" | "Rechazo" | "Error";
+export type TipoLectura = "Entrada" | "Salida" | "Turno" | "Rechazo" | "Vinculación" | "Error";
 
 export type MensajeKiosco = {
   tono: TonoMensaje;
