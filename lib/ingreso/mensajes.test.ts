@@ -1,5 +1,17 @@
-import { describe, expect, it } from "vitest";
-import { mensajeIngreso, textoMotivo, type ResultadoIngreso } from "./mensajes";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  enmascararUid,
+  interpretarRespuesta,
+  interpretarVinculacion,
+  mensajeErrorRpc,
+  mensajeIngreso,
+  textoMotivo,
+  type ResultadoIngreso,
+} from "./mensajes";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 // Respuesta base con datos ficticios; cada prueba cambia lo que necesita.
 const base: ResultadoIngreso = {
@@ -58,8 +70,84 @@ describe("mensajeIngreso", () => {
 });
 
 describe("textoMotivo", () => {
-  it("motivo desconocido o nulo: mensaje genérico", () => {
+  it("motivo desconocido: mensaje genérico y console.warn", () => {
+    const aviso = vi.spyOn(console, "warn").mockImplementation(() => {});
     expect(textoMotivo("algo_nuevo")).toBe("No se pudo registrar el ingreso");
+    expect(textoMotivo("constructor")).toBe("No se pudo registrar el ingreso");
+    expect(aviso).toHaveBeenCalledTimes(2);
+  });
+
+  it("motivo nulo: mensaje genérico sin aviso", () => {
+    const aviso = vi.spyOn(console, "warn").mockImplementation(() => {});
     expect(textoMotivo(null)).toBe("No se pudo registrar el ingreso");
+    expect(aviso).not.toHaveBeenCalled();
+  });
+
+  it("incluye los motivos de vincular_credencial (CA03)", () => {
+    expect(textoMotivo("credencial_de_otro_alumno")).toBe("La credencial ya pertenece a otro alumno");
+    expect(textoMotivo("alumno_no_encontrado")).toBe("Alumno no encontrado");
+  });
+});
+
+describe("interpretarRespuesta", () => {
+  it("acepta una respuesta con la forma del contrato", () => {
+    expect(interpretarRespuesta(base)).toEqual(base);
+  });
+
+  it("acepta alumno nulo en un rechazo", () => {
+    const rechazo = { ...base, resultado: "rechazo", motivo: "credencial_no_registrada", alumno: null };
+    expect(interpretarRespuesta(rechazo)).toEqual(rechazo);
+  });
+
+  it("rechaza null", () => {
+    expect(interpretarRespuesta(null)).toBeNull();
+  });
+
+  it("rechaza un array", () => {
+    expect(interpretarRespuesta([base])).toBeNull();
+  });
+
+  it("rechaza un objeto incompleto", () => {
+    expect(interpretarRespuesta({ resultado: "entrada" })).toBeNull();
+  });
+
+  it("rechaza un resultado fuera de la lista o un alumno mal formado", () => {
+    expect(interpretarRespuesta({ ...base, resultado: "otro" })).toBeNull();
+    expect(interpretarRespuesta({ ...base, alumno: { id: "a1" } })).toBeNull();
+    expect(interpretarRespuesta({ ...base, ocupacion: "12" })).toBeNull();
+  });
+});
+
+describe("interpretarVinculacion", () => {
+  it("acepta la forma del contrato", () => {
+    expect(interpretarVinculacion({ ok: true, motivo: null })).toEqual({ ok: true, motivo: null });
+  });
+
+  it("rechaza null y objetos incompletos", () => {
+    expect(interpretarVinculacion(null)).toBeNull();
+    expect(interpretarVinculacion({ motivo: null })).toBeNull();
+  });
+});
+
+describe("mensajeErrorRpc", () => {
+  it("función inexistente", () => {
+    expect(mensajeErrorRpc({ code: "PGRST202" }).titulo).toBe("Falta la base de datos del ingreso");
+  });
+
+  it("errores de permiso", () => {
+    expect(mensajeErrorRpc({ code: "42501" }).titulo).toBe("Sin permiso");
+    expect(mensajeErrorRpc({ code: "PGRST301" }).titulo).toBe("Sin permiso");
+  });
+
+  it("cualquier otro error: sin conexión", () => {
+    expect(mensajeErrorRpc({ code: "" }).titulo).toBe("Sin conexión");
+    expect(mensajeErrorRpc({}).titulo).toBe("Sin conexión");
+  });
+});
+
+describe("enmascararUid", () => {
+  it("muestra solo los 2 últimos bytes", () => {
+    expect(enmascararUid("04:A3:7F:2B")).toBe("••:••:7F:2B");
+    expect(enmascararUid("04:11:22:33:44:7F:2B")).toBe("••:••:••:••:••:7F:2B");
   });
 });
