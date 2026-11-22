@@ -48,11 +48,15 @@ export function ListaEspera() {
   useEffect(() => {
     const supabase = supabaseRef.current;
     void leer();
-    // Cualquier cambio en turnos o en el aforo vuelve a leer la lista.
+    // Basta escuchar la fila de aforo: todo cambio de turnos pasa por registrar_ingreso,
+    // que actualiza esa fila. La tabla turnos no está publicada en Realtime (ver el contrato).
     const canal = supabase
       .channel("lista-espera")
-      .on("postgres_changes", { event: "*", schema: "public", table: "turnos" }, () => void leer())
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "aforo" }, () => void leer())
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "aforo", filter: "id=eq.1" },
+        () => void leer(),
+      )
       .subscribe();
     const intervalo = setInterval(leer, INTERVALO_RESPALDO_MS);
     return () => {
