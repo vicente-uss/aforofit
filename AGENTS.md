@@ -245,7 +245,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: viernes 20 de noviembre de 2026.
+Actualizado: domingo 22 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
@@ -271,15 +271,29 @@ Actualizado: viernes 20 de noviembre de 2026.
   8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
-- Pantallas del flujo central (pull request `vicente/pantallas-flujo-central`): `/ingreso` exige sesión de profesor
-  o admin y llama a `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo`
-  pública en tiempo real con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado
-  del aforo en `lib/aforo/estado.ts`, con pruebas en Vitest (52 en total). Falta probarlas contra la base de Isidora.
+- Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
+  (`docs/afiche-contenido.md`); falta el formato de Blackboard y el diseño (Bastián).
+- Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
+  `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
+  RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
+- Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
+- Pantallas del flujo central (pull request #7): `/ingreso` exige sesión de profesor o admin y llama a
+  `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo` pública en tiempo real
+  con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado del aforo en
+  `lib/aforo/estado.ts`, con pruebas en Vitest (52 en total). ESLint ignora `.next` y los demás archivos generados.
+- Prueba de punta a punta con las pantallas del pull request #7 (22 de noviembre): entrada, salida, rechazo, turno y
+  `/aforo` en vivo funcionan. `/profesor/espera` se actualiza en menos de 2 s (medido el 22 de noviembre: turno
+  1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
-- [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
+- [ ] Avance 3 (24 nov): revisar y fusionar el pull request #7 de las pantallas
+- [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
+- [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
+  `/aforo` puede mostrar "Turno N" unos minutos de más
+- [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
+  kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF); costo del afiche según Blackboard
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
