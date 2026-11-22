@@ -66,6 +66,23 @@ export function PantallaIngreso() {
   const manualAbiertoRef = useRef(false);
   const ultimaAceptadaRef = useRef<{ uid: string; ms: number } | null>(null);
 
+  const cancelarLimpieza = useCallback(() => {
+    if (temporizadorRef.current) clearTimeout(temporizadorRef.current);
+    temporizadorRef.current = null;
+  }, []);
+
+  // Único temporizador del kiosco: al reprogramarlo, un mensaje anterior no borra el nuevo.
+  // No borra una lectura en validación ni una credencial que espera ser vinculada.
+  const programarLimpieza = useCallback(() => {
+    cancelarLimpieza();
+    temporizadorRef.current = setTimeout(() => {
+      setError(null);
+      setUltima((actual) => (actual && (!actual.mensaje || actual.mensaje.ofrecerVincular) ? actual : null));
+    }, DURACION_MENSAJE_MS);
+  }, [cancelarLimpieza]);
+
+  useEffect(() => cancelarLimpieza, [cancelarLimpieza]);
+
   // El campo del lector debe tener siempre el foco, salvo mientras se usa el ingreso manual.
   const enfocarLector = useCallback(() => {
     if (manualAbiertoRef.current) return;
@@ -93,6 +110,7 @@ export function PantallaIngreso() {
     const resultado = normalizarUid(texto);
     if (!resultado.ok) {
       setError(resultado.error);
+      programarLimpieza();
       return false;
     }
 
@@ -105,6 +123,7 @@ export function PantallaIngreso() {
     ultimaAceptadaRef.current = { uid: resultado.uid, ms: ahora };
 
     const lectura: Lectura = { uid: resultado.uid, hora: new Date(ahora), origen, mensaje: null, ms: null };
+    cancelarLimpieza();
     setError(null);
     setUltima(lectura);
     setUidPorVincular(null);
@@ -130,13 +149,11 @@ export function PantallaIngreso() {
         if (mensaje.ofrecerVincular) setUidPorVincular(resultado.uid);
 
         // El mensaje queda unos segundos y la pantalla vuelve a esperar otra tarjeta.
-        if (temporizadorRef.current) clearTimeout(temporizadorRef.current);
-        if (!mensaje.ofrecerVincular) {
-          temporizadorRef.current = setTimeout(() => setUltima(null), DURACION_MENSAJE_MS);
-        }
+        if (mensaje.ofrecerVincular) cancelarLimpieza();
+        else programarLimpieza();
       });
     return true;
-  }, []);
+  }, [cancelarLimpieza, programarLimpieza]);
 
   // Busca alumnos ficticios por nombre o RUT para vincular la credencial (el profesor puede leerlos).
   const buscarAlumnos = async (evento: React.FormEvent) => {
@@ -184,7 +201,7 @@ export function PantallaIngreso() {
         ofrecerVincular: false,
       },
     });
-    temporizadorRef.current = setTimeout(() => setUltima(null), DURACION_MENSAJE_MS);
+    programarLimpieza();
   };
 
   const abrirVincular = () => {
