@@ -74,6 +74,8 @@ dudó de su factibilidad: es **experimental** y requiere una prueba de factibili
 | **Profesor encargado** | Profesor de Educación Física a cargo del gimnasio (hoy son dos). Supervisa ingreso y aforo, gestiona la lista de espera, registra préstamos y devoluciones, cambia el estado de las máquinas y puede ajustar la rutina de un alumno. |
 | **Administrador** | Registra máquinas (con fotos) e implementos, habilita alumnos según su certificado y período académico, configura parámetros y revisa reportes. |
 
+Acceso a pantallas: `/ingreso` es para profesor y administrador (CU11: ambos vinculan credenciales) y `/profesor/espera` es solo para el profesor (CU02: gestiona la lista).
+
 Solo alumnos. Los funcionarios y colaboradores pueden inscribirse en el gimnasio real, pero quedan
 fuera del prototipo (D10, limitación de alcance documentada).
 
