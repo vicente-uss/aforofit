@@ -274,7 +274,7 @@ Actualizado: viernes 20 de noviembre de 2026.
 - Pantallas del flujo central (pull request `vicente/pantallas-flujo-central`): `/ingreso` exige sesión de profesor
   o admin y llama a `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo`
   pública en tiempo real con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado
-  del aforo en `lib/aforo/estado.ts`, con pruebas en Vitest (26 en total). Falta probarlas contra la base de Isidora.
+  del aforo en `lib/aforo/estado.ts`, con pruebas en Vitest (52 en total). Falta probarlas contra la base de Isidora.
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
