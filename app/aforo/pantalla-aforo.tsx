@@ -10,6 +10,7 @@ type FilaAforo = {
   capacidad: number;
   turno_llamado: number | null;
   en_espera: number;
+  umbral_casi_lleno: number | null;
   actualizado_en: string;
 };
 
@@ -33,7 +34,7 @@ export function PantallaAforo() {
     const leer = async () => {
       const { data, error } = await supabase
         .from("aforo")
-        .select("ocupacion, capacidad, turno_llamado, en_espera, actualizado_en")
+        .select("ocupacion, capacidad, turno_llamado, en_espera, umbral_casi_lleno, actualizado_en")
         .eq("id", 1)
         .maybeSingle();
       if (error || !data) {
@@ -62,7 +63,7 @@ export function PantallaAforo() {
     };
   }, []);
 
-  const estado = aforo ? estadoAforo(aforo.ocupacion, aforo.capacidad) : null;
+  const estado = aforo ? estadoAforo(aforo.ocupacion, aforo.capacidad, aforo.umbral_casi_lleno) : null;
 
   return (
     <div className="flex min-h-svh w-full flex-col bg-zinc-950 p-6 text-white md:p-12">
