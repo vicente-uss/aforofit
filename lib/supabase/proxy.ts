@@ -29,8 +29,8 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // With Fluid compute, don't put this client in a global environment
-  // variable. Always create a new one on each request.
+  // Con Fluid compute este cliente no se guarda en una variable global:
+  // se crea uno nuevo en cada solicitud.
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
@@ -54,12 +54,11 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  // No ejecutar código entre createServerClient y supabase.auth.getClaims():
+  // un error aquí puede cerrar sesiones al azar y es difícil de depurar.
 
-  // IMPORTANT: If you remove getClaims() and you use server-side rendering
-  // with the Supabase client, your users may be randomly logged out.
+  // IMPORTANTE: si se quita getClaims() con renderizado en el servidor,
+  // los usuarios pueden perder la sesión al azar.
   const { data } = await supabase.auth.getClaims();
   const claims = data?.claims;
 
@@ -125,18 +124,9 @@ export async function updateSession(request: NextRequest) {
     return redirigir(miPanel);
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
-  // If you're creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
-  //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object to fit your needs, but avoid changing
-  //    the cookies!
-  // 4. Finally:
-  //    return myNewResponse
-  // If this is not done, you may be causing the browser and server to go out
-  // of sync and terminate the user's session prematurely!
+  // IMPORTANTE: se debe devolver supabaseResponse tal como está. Si se crea otra respuesta
+  // con NextResponse.next({ request }), hay que copiarle las cookies de supabaseResponse sin
+  // modificarlas. De lo contrario, navegador y servidor se desincronizan y la sesión se cierra antes de tiempo.
 
   return supabaseResponse;
 }
