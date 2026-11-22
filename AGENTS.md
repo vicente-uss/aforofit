@@ -243,7 +243,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: viernes 20 de noviembre de 2026.
+Actualizado: domingo 22 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
@@ -271,11 +271,19 @@ Actualizado: viernes 20 de noviembre de 2026.
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 - Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
   (`docs/afiche-contenido.md`); falta el formato de Blackboard y el diseño (Bastián).
+- Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
+  `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
+  RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
+- Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
+- Prueba de punta a punta con las pantallas del pull request #7 (22 de noviembre): entrada, salida, rechazo, turno y
+  `/aforo` en vivo funcionan. `/profesor/espera` muestra bien los datos, pero se actualiza con el respaldo de 15 s.
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
-- [ ] Avance 3 (24 nov): tablas `tarjetas`, `visitas` y `turnos`, función `registrar_ingreso(uid)` y pantalla pública `/aforo` en tiempo real
+- [ ] Avance 3 (24 nov): revisar y fusionar el pull request de la base (Isidora) y el #7 de las pantallas
+- [ ] Corregir en el pull request #7 la actualización en vivo de `/profesor/espera` (escucha `turnos`, que no está en Realtime)
+- [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF); costo del afiche según Blackboard
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
