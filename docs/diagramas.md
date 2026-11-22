@@ -71,11 +71,11 @@ Tres actores y 16 casos de uso. El alumno concentra el flujo central (CU01 a CU0
 
 ## 2. Modelo entidad-relación
 
-El modelo de diseño propone catorce tablas y políticas RLS. El alumno se relaciona con tarjetas, visitas, turnos, rutinas y mediciones. Los scripts existentes cubren perfiles y catálogo.
+El modelo de diseño propone quince tablas y políticas RLS. El alumno se relaciona con tarjetas, visitas, turnos, rutinas y mediciones. Los scripts `001` a `009` ya crearon perfiles, catálogo y el flujo de ingreso (`alumnos`, `tarjetas`, `configuracion`, `visitas`, `turnos` y `aforo`). Rutinas, feedback, mediciones y préstamos siguen siendo diseño.
 
 ```mermaid
 erDiagram
-    PERFILES ||--|| ALUMNOS : "es"
+    PERFILES |o--o| ALUMNOS : "es"
     ALUMNOS ||--o{ TARJETAS : "tiene"
     ALUMNOS ||--o{ VISITAS : "registra"
     ALUMNOS ||--o{ TURNOS : "recibe"
@@ -97,16 +97,20 @@ erDiagram
     }
     ALUMNOS {
         uuid id PK
-        uuid perfil_id FK
+        uuid perfil_id FK "opcional y único"
+        text nombre
+        text rut UK "ficticio"
         text carrera
         date certificado_hasta
         text objetivo "fuerza, hipertrofia o salud"
         text nivel "principiante o intermedio"
+        timestamptz creado_en
     }
     TARJETAS {
         text uid PK "UID del chip, único"
         uuid alumno_id FK
         text tipo "credencial_uss o tne"
+        timestamptz creado_en
     }
     VISITAS {
         uuid id PK
@@ -118,9 +122,10 @@ erDiagram
     TURNOS {
         uuid id PK
         uuid alumno_id FK
-        int numero
-        text estado "esperando, llamado o usado"
+        int numero "correlativo del día"
+        text estado "esperando, llamado, usado o expirado"
         timestamptz creado_en
+        timestamptz llamado_en
     }
     RUTINAS {
         uuid id PK
@@ -188,15 +193,28 @@ erDiagram
         jsonb horario
         date periodo_inicio
         date periodo_fin
-        jsonb progresion
         int cierre_automatico_horas
+        int turno_expira_minutos
+        numeric umbral_casi_lleno
+        jsonb progresion
         jsonb modalidades_rutina
+    }
+    AFORO {
+        int id PK "una sola fila, pública"
+        int ocupacion
+        int capacidad
+        int turno_llamado
+        int en_espera
+        numeric umbral_casi_lleno
+        timestamptz actualizado_en
     }
 ```
 
-**Restricciones previstas en el diseño de la base de datos:**
+**Restricciones de la base de datos:**
 - `tarjetas.uid` es único: una credencial pertenece a un solo alumno (regla 1).
 - Índice único parcial en `visitas (alumno_id) where salida is null`: una visita abierta por alumno (regla 5).
+- `turnos`: número único por día de Santiago y un solo turno activo por alumno y día (regla 4).
+- `configuracion` y `aforo` tienen una sola fila (`id = 1`). `aforo` se publica en Realtime y no contiene datos de alumnos.
 - `prestamo_items.devueltos <= cantidad`.
 - RLS en `mediciones`: solo las lee su dueño (RNF07).
 
