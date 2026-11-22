@@ -276,14 +276,18 @@ Actualizado: domingo 22 de noviembre de 2026.
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
 - Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
 - Prueba de punta a punta con las pantallas del pull request #7 (22 de noviembre): entrada, salida, rechazo, turno y
-  `/aforo` en vivo funcionan. `/profesor/espera` muestra bien los datos, pero se actualiza con el respaldo de 15 s.
+  `/aforo` en vivo funcionan. `/profesor/espera` se actualiza en menos de 2 s (medido el 22 de noviembre: turno
+  1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
 
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
 - [ ] Avance 3 (24 nov): revisar y fusionar el pull request de la base (Isidora) y el #7 de las pantallas
-- [ ] Corregir en el pull request #7 la actualización en vivo de `/profesor/espera` (escucha `turnos`, que no está en Realtime)
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
+- [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
+  `/aforo` puede mostrar "Turno N" unos minutos de más
+- [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
+  kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF); costo del afiche según Blackboard
 - [ ] Avance 3: pruebas iniciales a partir de CA01–CA22 (Bastián), propuesta de afiche con plan de cierre y diseño de la PPT.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
