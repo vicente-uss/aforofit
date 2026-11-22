@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
+  enmascararUid,
   interpretarRespuesta,
   interpretarVinculacion,
   mensajeErrorRpc,
@@ -20,10 +21,10 @@ import {
 } from "@/lib/ingreso/mensajes";
 import { createClient } from "@/lib/supabase/client";
 
+// No guarda el UID: el historial del kiosco queda a la vista de quien pase por la entrada.
 type Lectura = {
-  uid: string;
+  id: number;
   hora: Date;
-  origen: "lector" | "manual";
   mensaje: MensajeKiosco | null; // null mientras se espera la respuesta
   ms: number | null; // tiempo de respuesta de registrar_ingreso (para medir CA29)
 };
@@ -71,6 +72,7 @@ export function PantallaIngreso() {
   const lectorRef = useRef<HTMLInputElement>(null);
   const manualAbiertoRef = useRef(false);
   const ultimaAceptadaRef = useRef<{ uid: string; ms: number } | null>(null);
+  const siguienteIdRef = useRef(1);
 
   const cancelarLimpieza = useCallback(() => {
     if (temporizadorRef.current) clearTimeout(temporizadorRef.current);
@@ -112,7 +114,7 @@ export function PantallaIngreso() {
   }, [enfocarLector]);
 
   // Procesa un código (del lector o manual). Devuelve true si el formato es válido.
-  const procesar = useCallback((texto: string, origen: Lectura["origen"]) => {
+  const procesar = useCallback((texto: string) => {
     const resultado = normalizarUid(texto);
     if (!resultado.ok) {
       setError(resultado.error);
@@ -128,7 +130,7 @@ export function PantallaIngreso() {
     }
     ultimaAceptadaRef.current = { uid: resultado.uid, ms: ahora };
 
-    const lectura: Lectura = { uid: resultado.uid, hora: new Date(ahora), origen, mensaje: null, ms: null };
+    const lectura: Lectura = { id: siguienteIdRef.current++, hora: new Date(ahora), mensaje: null, ms: null };
     cancelarLimpieza();
     setError(null);
     setUltima(lectura);
@@ -221,9 +223,8 @@ export function PantallaIngreso() {
     }
     cerrarVincular();
     setUltima({
-      uid: uidPorVincular,
+      id: siguienteIdRef.current++,
       hora: new Date(),
-      origen: "manual",
       ms: null,
       mensaje: {
         tono: "info",
@@ -258,7 +259,7 @@ export function PantallaIngreso() {
     evento.preventDefault();
     const texto = evento.currentTarget.value;
     evento.currentTarget.value = "";
-    if (texto.trim() !== "") procesar(texto, "lector");
+    if (texto.trim() !== "") procesar(texto);
   };
 
   const abrirManual = () => {
@@ -275,7 +276,7 @@ export function PantallaIngreso() {
 
   const enviarManual = (evento: React.FormEvent) => {
     evento.preventDefault();
-    if (procesar(textoManual, "manual")) cerrarManual();
+    if (procesar(textoManual)) cerrarManual();
   };
 
   return (
@@ -338,7 +339,7 @@ export function PantallaIngreso() {
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">
-                Vincular la credencial <span className="font-mono">{uidPorVincular}</span>
+                Vincular la credencial <span className="font-mono">{enmascararUid(uidPorVincular)}</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -420,15 +421,13 @@ export function PantallaIngreso() {
               <ul className="divide-y">
                 {lecturas.map((lectura) => (
                   <li
-                    key={`${lectura.hora.getTime()}-${lectura.uid}`}
+                    key={lectura.id}
                     className="flex items-center justify-between gap-4 py-2 text-lg"
                   >
                     <span className="text-muted-foreground">{formatoHora(lectura.hora)}</span>
-                    <span className="font-mono font-semibold">{lectura.uid}</span>
-                    <span className="flex-1 truncate text-base">{lectura.mensaje?.titulo}</span>
+                    <span className="flex-1 font-semibold">{lectura.mensaje?.tipo}</span>
                     <span className="w-32 text-right text-sm text-muted-foreground">
-                      {lectura.origen === "manual" ? "Manual" : "Lector"}
-                      {lectura.ms !== null && ` · ${lectura.ms} ms`}
+                      {lectura.ms !== null && `${lectura.ms} ms`}
                     </span>
                   </li>
                 ))}
