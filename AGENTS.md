@@ -74,6 +74,8 @@ dudó de su factibilidad: es **experimental** y requiere una prueba de factibili
 | **Profesor encargado** | Profesor de Educación Física a cargo del gimnasio (hoy son dos). Supervisa ingreso y aforo, gestiona la lista de espera, registra préstamos y devoluciones, cambia el estado de las máquinas y puede ajustar la rutina de un alumno. |
 | **Administrador** | Registra máquinas (con fotos) e implementos, habilita alumnos según su certificado y período académico, configura parámetros y revisa reportes. |
 
+Acceso a pantallas: `/ingreso` es para profesor y administrador (CU11: ambos vinculan credenciales) y `/profesor/espera` es solo para el profesor (CU02: gestiona la lista).
+
 Solo alumnos. Los funcionarios y colaboradores pueden inscribirse en el gimnasio real, pero quedan
 fuera del prototipo (D10, limitación de alcance documentada).
 
@@ -164,7 +166,7 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 - **Lector de credenciales**: lector USB de 13,56 MHz para tarjetas MIFARE, en modo teclado (HID), conectado al
   computador All-in-One del gimnasio. Elegido: "Lector Usb Tarjeta Llavero Rfid Id Serie 13.56 Mhz Mf1 S50"
   ($14.990 + $3.990 de envío = $18.980, Mercado Libre), comprado por Pau. Según el vendedor, el lector escribe el UID como
-  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter. Falta comprobarlo con el lector físico.
+  **número decimal con los bytes en orden inverso (LSB)** y presiona Enter (comprobado con el lector físico el 20 de noviembre).
   La app recibe el código en un campo enfocado y `normalizarUid` lo convierte al formato hexadecimal de NFC Tools
   (ej. ficticio: `0729785092` → `04:A3:7F:2B`), previsto para `tarjetas.uid`. Detalle en
   `docs/pruebas-tarjetas.md`.
@@ -256,7 +258,7 @@ Actualizado: domingo 22 de noviembre de 2026.
 - Prueba con NFC Tools en celular: se leyeron tres TNE y una TUI. Se eligió el lector USB para la prueba física
   (`docs/pruebas-tarjetas.md`).
 - Login con roles: tabla `perfiles` con RLS y trigger, paneles `/alumno`, `/profesor` y `/admin`, rutas
-  protegidas en el servidor y kiosco público en `/ingreso` (`supabase/sql/001_perfiles_roles.sql`).
+  protegidas en el servidor (`supabase/sql/001_perfiles_roles.sql`).
 - Contraseña de `admin.demo` rotada, según confirmó el equipo.
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
   `maquinas` para las fotos (`supabase/sql/002` a `004`).
@@ -275,6 +277,10 @@ Actualizado: domingo 22 de noviembre de 2026.
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
 - Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
+- Pantallas del flujo central (pull request #7): `/ingreso` exige sesión de profesor o admin y llama a
+  `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo` pública en tiempo real
+  con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado del aforo en
+  `lib/aforo/estado.ts`, con pruebas en Vitest (52 en total). ESLint ignora `.next` y los demás archivos generados.
 - Prueba de punta a punta con las pantallas del pull request #7 (22 de noviembre): entrada, salida, rechazo, turno y
   `/aforo` en vivo funcionan. `/profesor/espera` se actualiza en menos de 2 s (medido el 22 de noviembre: turno
   1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
@@ -282,7 +288,7 @@ Actualizado: domingo 22 de noviembre de 2026.
 **Pendiente**
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
-- [ ] Avance 3 (24 nov): revisar y fusionar el pull request de la base (Isidora) y el #7 de las pantallas
+- [ ] Avance 3 (24 nov): revisar y fusionar el pull request #7 de las pantallas
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más

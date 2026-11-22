@@ -1,10 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { esRol, panelDeRol, ROLES } from "../auth/roles";
+import { esRol, panelDeRol, ROLES, ROLES_KIOSCO } from "../auth/roles";
 import { hasEnvVars } from "../utils";
 
-// Rutas públicas: la pantalla del lector (/ingreso) y la pantalla de aforo (/aforo).
-const RUTAS_PUBLICAS = ["/ingreso", "/aforo"];
+// Ruta pública: la pantalla de aforo (/aforo), que solo muestra cifras.
+// El kiosco /ingreso exige sesión de profesor o admin, porque registra ingresos
+// (lo validan este proxy y su página).
+const RUTAS_PUBLICAS = ["/aforo"];
 
 // Páginas de /auth que se pueden abrir con o sin sesión (recuperar clave, errores, confirmación).
 const RUTAS_AUTH_LIBRES = [
@@ -28,8 +30,8 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // With Fluid compute, don't put this client in a global environment
-  // variable. Always create a new one on each request.
+  // Con Fluid compute este cliente no se guarda en una variable global:
+  // se crea uno nuevo en cada solicitud.
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
@@ -53,12 +55,11 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getClaims(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  // No ejecutar código entre createServerClient y supabase.auth.getClaims():
+  // un error aquí puede cerrar sesiones al azar y es difícil de depurar.
 
-  // IMPORTANT: If you remove getClaims() and you use server-side rendering
-  // with the Supabase client, your users may be randomly logged out.
+  // IMPORTANTE: si se quita getClaims() con renderizado en el servidor,
+  // los usuarios pueden perder la sesión al azar.
   const { data } = await supabase.auth.getClaims();
   const claims = data?.claims;
 
@@ -76,7 +77,7 @@ export async function updateSession(request: NextRequest) {
     return respuesta;
   };
 
-  // Rutas públicas: se dejan pasar siempre (las usa la pantalla del lector y la de aforo).
+  // Rutas públicas: se dejan pasar siempre (la pantalla de aforo).
   if (RUTAS_PUBLICAS.some((ruta) => coincide(pathname, ruta))) {
     return supabaseResponse;
   }
@@ -124,18 +125,14 @@ export async function updateSession(request: NextRequest) {
     return redirigir(miPanel);
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is.
-  // If you're creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
-  //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object to fit your needs, but avoid changing
-  //    the cookies!
-  // 4. Finally:
-  //    return myNewResponse
-  // If this is not done, you may be causing the browser and server to go out
-  // of sync and terminate the user's session prematurely!
+  // El kiosco es solo para profesor y admin: el alumno vuelve a su panel.
+  if (coincide(pathname, "/ingreso") && !ROLES_KIOSCO.includes(perfil.rol)) {
+    return redirigir(miPanel);
+  }
+
+  // IMPORTANTE: se debe devolver supabaseResponse tal como está. Si se crea otra respuesta
+  // con NextResponse.next({ request }), hay que copiarle las cookies de supabaseResponse sin
+  // modificarlas. De lo contrario, navegador y servidor se desincronizan y la sesión se cierra antes de tiempo.
 
   return supabaseResponse;
 }

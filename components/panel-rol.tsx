@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -12,9 +13,10 @@ import type { Perfil } from "@/lib/auth/perfil";
 export type SeccionPanel = {
   titulo: string;
   descripcion: string;
+  href?: string; // si existe, la tarjeta abre esa pantalla; si no, muestra "Próximamente"
 };
 
-// Panel base de cada rol: encabezado con el usuario y tarjetas "Próximamente".
+// Panel base de cada rol: encabezado con el usuario y una tarjeta por sección.
 export function PanelRol({
   perfil,
   secciones,
@@ -46,17 +48,28 @@ export function PanelRol({
         </p>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {secciones.map((seccion) => (
-            <Card key={seccion.titulo}>
-              <CardHeader>
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-lg">{seccion.titulo}</CardTitle>
-                  <Badge variant="secondary">Próximamente</Badge>
-                </div>
-                <CardDescription>{seccion.descripcion}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
+          {secciones.map((seccion) => {
+            const tarjeta = (
+              <Card
+                className={seccion.href ? "h-full transition-colors hover:border-foreground/40" : "h-full"}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-lg">{seccion.titulo}</CardTitle>
+                    {seccion.href ? <Badge>Abrir</Badge> : <Badge variant="secondary">Próximamente</Badge>}
+                  </div>
+                  <CardDescription>{seccion.descripcion}</CardDescription>
+                </CardHeader>
+              </Card>
+            );
+            return seccion.href ? (
+              <Link key={seccion.titulo} href={seccion.href}>
+                {tarjeta}
+              </Link>
+            ) : (
+              <div key={seccion.titulo}>{tarjeta}</div>
+            );
+          })}
         </div>
       </main>
     </div>
