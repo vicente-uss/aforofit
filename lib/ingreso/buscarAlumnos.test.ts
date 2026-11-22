@@ -9,6 +9,10 @@ describe("patronContiene", () => {
   it("escapa los comodines escritos por el usuario", () => {
     expect(patronContiene("50%_a")).toBe("%50\\%\\_a%");
   });
+
+  it("escapa el asterisco, comodín de PostgREST", () => {
+    expect(patronContiene("ro*as")).toBe("%ro\\*as%");
+  });
 });
 
 describe("unirAlumnos", () => {

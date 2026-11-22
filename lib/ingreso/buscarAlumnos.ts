@@ -1,8 +1,8 @@
 // Apoyo del buscador de alumnos del kiosco: funciones puras, probadas con Vitest.
 
-// Escapa los comodines de LIKE para que el texto del usuario se busque literalmente.
+// Escapa los comodines de LIKE y el `*`, que PostgREST trata como comodín en ilike.
 export function patronContiene(texto: string): string {
-  return `%${texto.replace(/[\\%_]/g, "\\$&")}%`;
+  return `%${texto.replace(/[\\%_*]/g, "\\$&")}%`;
 }
 
 // Une los resultados de varias búsquedas sin duplicados y los ordena por nombre.
