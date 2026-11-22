@@ -21,7 +21,8 @@ function inicioDelDia() {
 export function ListaEspera() {
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [aforo, setAforo] = useState<Aforo | null>(null);
-  const [error, setError] = useState(false);
+  const [errorTurnos, setErrorTurnos] = useState(false);
+  const [sinDatosAforo, setSinDatosAforo] = useState(false);
   const supabaseRef = useRef(createClient());
 
   const leer = useCallback(async () => {
@@ -37,7 +38,9 @@ export function ListaEspera() {
     ]);
     if (respuestaTurnos.error) console.error("Error al leer turnos:", respuestaTurnos.error);
     if (respuestaAforo.error) console.error("Error al leer el aforo:", respuestaAforo.error);
-    setError(Boolean(respuestaTurnos.error || respuestaAforo.error));
+    // Cada lectura informa su propio error: si falla el aforo, los turnos se siguen mostrando.
+    setErrorTurnos(Boolean(respuestaTurnos.error));
+    setSinDatosAforo(Boolean(respuestaAforo.error) || !respuestaAforo.data);
     if (!respuestaTurnos.error) setTurnos(normalizarTurnos(respuestaTurnos.data));
     if (respuestaAforo.data) setAforo(respuestaAforo.data as Aforo);
   }, []);
@@ -74,7 +77,7 @@ export function ListaEspera() {
           <CardContent className="flex items-center justify-between p-6">
             <span className="text-muted-foreground">Aforo actual</span>
             <span className="text-3xl font-bold tabular-nums">
-              {aforo ? `${aforo.ocupacion} / ${aforo.capacidad}` : "—"}
+              {sinDatosAforo ? "Sin datos del aforo" : aforo ? `${aforo.ocupacion} / ${aforo.capacidad}` : "—"}
             </span>
           </CardContent>
         </Card>
@@ -84,7 +87,7 @@ export function ListaEspera() {
             <CardTitle className="text-lg">Turnos de hoy</CardTitle>
           </CardHeader>
           <CardContent>
-            {error ? (
+            {errorTurnos ? (
               <p className="text-sm text-destructive">No se pudo leer la lista. Reintentando…</p>
             ) : turnos.length === 0 ? (
               <p className="text-sm text-muted-foreground">No hay nadie en espera.</p>
