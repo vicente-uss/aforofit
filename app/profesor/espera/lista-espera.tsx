@@ -4,14 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { normalizarTurnos, type Turno } from "@/lib/aforo/turnos";
 import { createClient } from "@/lib/supabase/client";
-
-type Turno = {
-  numero: number;
-  estado: "esperando" | "llamado";
-  creado_en: string;
-  alumnos: { nombre: string } | null;
-};
 
 type Aforo = { ocupacion: number; capacidad: number };
 
@@ -41,8 +35,10 @@ export function ListaEspera() {
         .order("numero"),
       supabase.from("aforo").select("ocupacion, capacidad").eq("id", 1).maybeSingle(),
     ]);
-    setError(Boolean(respuestaTurnos.error));
-    if (!respuestaTurnos.error) setTurnos((respuestaTurnos.data ?? []) as unknown as Turno[]);
+    if (respuestaTurnos.error) console.error("Error al leer turnos:", respuestaTurnos.error);
+    if (respuestaAforo.error) console.error("Error al leer el aforo:", respuestaAforo.error);
+    setError(Boolean(respuestaTurnos.error || respuestaAforo.error));
+    if (!respuestaTurnos.error) setTurnos(normalizarTurnos(respuestaTurnos.data));
     if (respuestaAforo.data) setAforo(respuestaAforo.data as Aforo);
   }, []);
 
