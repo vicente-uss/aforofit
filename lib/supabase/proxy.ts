@@ -1,10 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { esRol, panelDeRol, ROLES } from "../auth/roles";
+import { esRol, panelDeRol, ROLES, ROLES_KIOSCO } from "../auth/roles";
 import { hasEnvVars } from "../utils";
 
 // Ruta pública: la pantalla de aforo (/aforo), que solo muestra cifras.
-// El kiosco /ingreso exige sesión de profesor o admin, porque registra ingresos (lo valida su página).
+// El kiosco /ingreso exige sesión de profesor o admin, porque registra ingresos
+// (lo validan este proxy y su página).
 const RUTAS_PUBLICAS = ["/aforo"];
 
 // Páginas de /auth que se pueden abrir con o sin sesión (recuperar clave, errores, confirmación).
@@ -121,6 +122,11 @@ export async function updateSession(request: NextRequest) {
     (rol) => rol !== perfil.rol && coincide(pathname, panelDeRol(rol)),
   );
   if (panelAjeno) {
+    return redirigir(miPanel);
+  }
+
+  // El kiosco es solo para profesor y admin: el alumno vuelve a su panel.
+  if (coincide(pathname, "/ingreso") && !ROLES_KIOSCO.includes(perfil.rol)) {
     return redirigir(miPanel);
   }
 

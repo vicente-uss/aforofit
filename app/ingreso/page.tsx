@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { requerirAlgunRol } from "@/lib/auth/perfil";
+import { ROLES_KIOSCO } from "@/lib/auth/roles";
 import { PantallaIngreso } from "./pantalla-ingreso";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 // pueden ejecutar registrar_ingreso en la base de datos. El computador del gimnasio queda con la
 // sesión del profesor abierta.
 async function Contenido() {
-  await requerirAlgunRol(["profesor", "admin"]);
+  await requerirAlgunRol(ROLES_KIOSCO);
   return <PantallaIngreso />;
 }
 
