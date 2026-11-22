@@ -185,6 +185,7 @@ erDiagram
     CONFIGURACION {
         int id PK "una sola fila"
         int capacidad
+        numeric umbral_casi_lleno
         jsonb horario
         date periodo_inicio
         date periodo_fin
