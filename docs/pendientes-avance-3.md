@@ -45,6 +45,8 @@ El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista part
 
 ## 4. Evidencia para cerrar el hito
 
+Ver también la [auditoría integral con los frameworks](auditoria-proyecto-frameworks-2026-11-23.md), con la cronología por hito y el plan de acción.
+
 - [ ] Priorizar pruebas del flujo que se vaya a demostrar. Usar los [CA01–CA22 y los criterios complementarios](requisitos-casos-uso-criterios.md#6-criterios-de-aceptación). Distinguir pruebas de Figma, unitarias, integración, hardware y sistema.
 - [ ] Probar identificación válida y desconocida, habilitación, horario, cupo, entrada y salida, espera y cambio de aforo. Agregar QR, rutina y feedback según el avance ejecutable.
 - [ ] Registrar qué se ejecutó, qué pasó, qué falló y qué quedó pendiente. Un criterio escrito define el resultado esperado y la ejecución aporta la evidencia.

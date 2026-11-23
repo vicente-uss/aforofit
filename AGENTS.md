@@ -314,6 +314,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 parcial, televisor corregido en el pull request #9);
   le faltan repetir las capturas de `/aforo` e `/ingreso` con las correcciones, las de la lista de espera con turnos
   y el video
+- [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): definir la línea base de la
+  entrega final (CR-01) antes del afiche, validar el prototipo con el encargado con acta y registrar las pruebas por CA
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más
