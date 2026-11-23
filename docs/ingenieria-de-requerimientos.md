@@ -2,11 +2,11 @@
 
 Base de conocimiento del ramo **ICIF-H002** para estudiar y aplicar ingeniería de requerimientos. Reúne nueve capítulos del curso. Sirve para formular problemas, levantar necesidades, especificarlas y mantener el vínculo entre requisitos, criterios de aceptación y pruebas.
 
-## Uso en el proyecto
+## Cómo usar este documento
 
-Para estudiantes y asistentes de IA, el punto de partida es la pregunta de trabajo: ¿qué necesidad está respaldada por evidencia y cómo sabremos que la solución responde a ella? El mapa enlaza la teoría con las tareas del equipo.
+Sirve como referencia para cualquier proyecto de software, sea académico o profesional. El punto de partida es la pregunta de trabajo: ¿qué necesidad está respaldada por evidencia y cómo sabremos que la solución responde a ella? Las decisiones y el estado de cada proyecto se registran en su propia documentación, y las exigencias de cada entrega las fija su pauta. Este documento aporta conceptos y métodos. Para citar el material, indica **capítulo y diapositiva**.
 
-En AforoFit, las decisiones vigentes se consultan en `AGENTS.md` y los documentos del proyecto. La pauta docente fija lo exigido en cada entrega. Este documento aporta conceptos y métodos. Para citar el material, indica **capítulo y diapositiva**. Para consultar el alcance, las decisiones y la evidencia de AforoFit en un solo lugar, usa el [documento maestro](cierre-avances-1-y-2.md).
+Cada diapositiva incluye su texto y, al final, un bloque **Contenido visual de la lámina** que transcribe sus diagramas, tablas, capturas y notas adhesivas, para que el documento se entienda sin las imágenes.
 
 ## Mapa de consulta
 
@@ -64,6 +64,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de la fachada de una sede de la universidad. Fecha en el margen izquierdo: **3 de agosto de 2026**. Texto: *Presentación del curso · ICIF H002 Ingeniería de Requerimiento y Aseguramiento de la Calidad · Ingeniería Civil Informática · Prof. Rodrigo Caballero V. · rcaballerov@docente.uss.cl*. Logo de la Universidad San Sebastián.
+
 ### Diapositiva 2
 
 #### PROFESOR
@@ -80,11 +82,15 @@ Perfil Microsoft https://www.cloudskillsboost.google/public_profiles/f6a51a96-ea
 
 Perfil IBM https://www.credly.com/users/rodrigo-alejandro-caballero-vivanco/badges
 
+**Contenido visual de la lámina:** Fotografía del profesor junto a sus datos de contacto y perfiles (LinkedIn, Microsoft, Google Cloud Skills Boost e IBM/Credly). En la parte inferior, logos de instituciones de su formación: Universidad de Chile, Universidad Andrés Bello, Georgetown University y Universidad Europea.
+
 ### Diapositiva 3
 
 #### PROFESOR
 
 ACERCA DE MÍ
+
+**Contenido visual de la lámina:** Logos de organizaciones donde ha trabajado el profesor: **abastible**, **transbank** («creciendo juntos») y **Cencosud** (con las marcas de sus negocios), y banderas de Argentina, Chile, Brasil, Colombia, Perú, China y Estados Unidos (países donde ha trabajado).
 
 ### Diapositiva 4
 
@@ -112,11 +118,21 @@ mayor interés?
 
 juego me recomendarías?
 
+**Contenido visual de la lámina:** Seis tarjetas de colores con preguntas para presentarse en menos de un minuto, en este orden: (1) ¿Cuál es tu nombre? (2) ¿Cómo te gusta que te llamen? (3) ¿Algún pasatiempo interesante? (4) ¿Qué libro, serie/película o juego me recomendarías? (5) ¿Cuál es tu área de mayor interés? (6) ¿En qué rol te imaginas a los 3 años de titulado? Nota adhesiva junto a la pregunta 5: *«Ejemplo: Desarrollo de Software, Bases de Datos, IA, ML, Ciberseguridad, Infraestructura, Redes, etc.»*
+
 ### Diapositiva 5
 
 #### AVANCE CURRICULAR
 
 ICIF H002 INGENIERÍA DE REQUERIMIENTO Y ASEGURAMIENTO DE LA CALIDAD
+
+**Contenido visual de la lámina:** Malla curricular de Ingeniería Civil Informática en cinco años (10 semestres), con la asignatura **Ing. Requerimientos y Aseguramiento de Calidad** destacada con un recuadro rojo en el **semestre 8** y una flecha que la conecta con *Taller de Ingeniería de Software* y *Taller de Innovación*. Asignaturas por año:
+- **Año 1:** Introducción al Cálculo, Álgebra, Cálculo Diferencial e Integral, Álgebra Lineal, Química General y su laboratorio, Introducción a la Programación, Introducción a la Informática, Taller de Introducción a la Ingeniería, Taller de Trabajo en Equipo, Estrategias para el Aprendizaje.
+- **Año 2:** Cálculo Multivariable, Ecuaciones Diferenciales, Mecánica y su laboratorio, Electricidad y Magnetismo y su laboratorio, Probabilidades para Ingeniería, Tecnologías Digitales para la Ingeniería, Programación Orientada a Objetos, Taller de Programación Aplicada, Taller de Liderazgo y Negociación, Taller de Ingeniería y Sustentabilidad, Inglés I y II.
+- **Año 3:** Optimización, Economía Financiera, Termofluidos, Arquitectura de Computadores, Matemáticas Discretas, Redes de Computadores, Estadística para Ingeniería, Programación Avanzada, Estructura de Datos y Algoritmos, Base de Datos, Taller de Emprendimiento e Innovación I y II, Inglés III, Inglés Técnico.
+- **Año 4:** Sistemas Operativos, Formulación y Evaluación de Proyectos, Inteligencia Artificial, Aplicaciones y Tecnologías de la Web, Ing. Requerimientos y Aseguramiento de Calidad, Taller de Ingeniería de Software, Electivos de Profundización I y II, Antropología, Ética, Inglés de Especialidad; práctica industrial.
+- **Año 5:** Gestión de Proyectos, Seguridad Informática, Gestión de Operaciones TI, Gestión Estratégica, Taller en Empresa I y II, Minería de Datos y Big Data, Electivo de Formación Integral, Electivos de Profundización III y IV, Proyecto de Título; práctica profesional.
+- Franjas inferiores: Bachiller en Ciencias Básicas de la Ingeniería (años 1–2), Licenciado/a en Ciencias de la Ingeniería (años 1–4) y Título Profesional de Ingeniero/a Civil Informático (años 1–5).
 
 ### Diapositiva 6
 
@@ -166,6 +182,14 @@ práctica. Sistemas de Información
 
 RES. N° P-26-2020
 
+**Contenido visual de la lámina:** Orden correcto del texto: *«Esta asignatura tributa directamente al área de desempeño **Sistemas de Información** declarada en el perfil de egreso, en los siguientes desempeños esperados:»*, seguido de cuatro recuadros de colores:
+1. Diagnostica necesidades de usuarios, clientes y procesos con una visión integral para buscar oportunidades de mejora que permitan dar respuesta a las problemáticas detectadas en sistemas de información, haciendo uso para ello de sus habilidades de abstracción, síntesis, comunicación y trabajo en equipo.
+2. Diseña soluciones de software viables a problemas de la organización, utilizando herramientas y metodologías de modelamiento de sistemas.
+3. Desarrolla soluciones de software para sistemas de información considerando su integración en la organización, normas de calidad y seguridad, estándares y metodologías de desarrollo y las mejores prácticas de la industria, a partir del análisis de un equipo multidisciplinario.
+4. Genera información a partir de la recolección y análisis de datos para agregar valor al negocio o a procesos, a través de la integración de las ciencias de la ingeniería y la computación teórica y práctica.
+
+Fuente: RES. N° P-26-2020.
+
 ### Diapositiva 7
 
 #### DESCRIPCIÓN DEL CURSO
@@ -190,6 +214,8 @@ respecto de los resultados de su trabajo. “
 
 RES. N° P-26-2020
 
+**Contenido visual de la lámina:** Cita textual del programa de la asignatura, con *identificar y validar*, *proyectos de software* y *calidad y métricas* destacados en color.
+
 ### Diapositiva 8
 
 #### EVALUACIÓN DEL CURSO
@@ -212,6 +238,8 @@ evaluación del curso y permite reemplazar una de las evaluaciones
 
 indicadas como solemnes. Podrán optar a rendirla todos los estudiantes. RES. N° P-26-2020
 
+**Contenido visual de la lámina:** Lista con marcas de verificación de las cuatro evaluaciones (25 % cada una) y notas en cursiva sobre aprobación y evaluación recuperativa.
+
 ### Diapositiva 9
 
 #### BIBLIOGRAFÍA OBLIGATORIA
@@ -230,6 +258,8 @@ Development Library. Boston, Libro electrónico ebscohost.
 
 RES. N° P-26-2020
 
+**Contenido visual de la lámina:** Lista con marcas de verificación de la bibliografía obligatoria.
+
 ### Diapositiva 10
 
 #### BIBLIOGRAFÍA OBLIGATORIA
@@ -237,6 +267,8 @@ RES. N° P-26-2020
 CÁLCULO DE LA NOTA DE NOTA DE PRESENTACIÓN
 
 https://biblioteca.uss.cl/
+
+**Contenido visual de la lámina:** Portada del libro *Ingeniería de software*, de Ian Sommerville (6.ª edición, Addison-Wesley), y captura del visor de libros electrónicos de la biblioteca USS (https://biblioteca.uss.cl/) mostrando el libro abierto con su índice de capítulos a la izquierda.
 
 ### Diapositiva 11
 
@@ -276,6 +308,8 @@ consultar u opinar
 
 información”
 
+**Contenido visual de la lámina:** Cinco recuadros azules con las normas, en este orden: (1) Cortesía de 15 minutos para atrasos y registro de asistencia. (2) Al llegar a clases, salude a profesor y compañeros: «Buenas tardes». (3) Al terminar la clase, despídase del profesor y compañeros: «Hasta luego». (4) Si tiene alguna observación, no tenga temor en levantar la mano y participar, consultar u opinar. (5) Al recibir un correo institucional, responda: «Correo recibido, gracias por la información».
+
 ### Diapositiva 12
 
 #### INTRODUCCIÓN A LA INGENIERÍA DE REQUERIMIENTOS
@@ -300,6 +334,8 @@ necesidad, problemática)
 
 ANÁLISIS
 
+**Contenido visual de la lámina:** Diagrama de flecha curva ascendente que parte de una **IDEA** (concepto, necesidad, problemática; ícono de ampolleta) y pasa, en orden, por **ANÁLISIS → DISEÑO → CONSTRUCCIÓN → IMPLEMENTACIÓN → PRUEBAS**, hasta llegar al **PRODUCTO** (software, incremento, MVP, etc.; ícono de cubo).
+
 ---
 
 <a id="capitulo-02"></a>
@@ -315,6 +351,8 @@ INGENIERÍA DE REQUERIMIENTOS Y ASEGURAMIENTO DE LA CALIDAD Introducción a la I
 Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
+
+**Contenido visual de la lámina:** Portada con fotografía nocturna de un patio con jardines de la universidad, logo USS, título de la sesión y datos del profesor.
 
 ### Diapositiva 2
 
@@ -333,6 +371,8 @@ Introducción a la Ingeniería de Requisitos
 - Proceso de la ingeniería de requisitos
 
 - Actividades y roles en la ingeniería de requisitos
+
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje** — *Explica la importancia de la ingeniería de requisitos, su necesidad y sus dificultades en el contexto de un proyecto de desarrollo de software.*
 
 ### Diapositiva 3
 
@@ -364,6 +404,8 @@ del sistema del cliente a los desarrolladores del
 
 sistema”. (Sommerville, 2011) “”
 
+**Contenido visual de la lámina:** Lámina de definición con dos citas. En la primera (Pressman, 2010) se destacan *entender mejor el problema en cuya solución trabajarán*, *qué es lo que el cliente quiere* e *interactuarán los usuarios finales*; en la segunda (Sommerville, 2011), *pretender comunicar las necesidades del sistema del cliente*.
+
 ### Diapositiva 4
 
 “Una condición o necesidad de un usuario para
@@ -392,6 +434,8 @@ proporcionar el sistema o una restricción de éste”.
 
 (Sommerville, 2011)
 
+**Contenido visual de la lámina:** Lámina de definición de **Requerimiento** con tres citas: «Una condición o necesidad de un usuario para resolver un problema o alcanzar un objetivo» (Std IEEE 610.12-1990); «Una condición o capacidad que debe estar presente en un sistema o componentes de sistema para satisfacer un contrato, estándar, especificación u otro documento formal» (Std IEEE 610.12-1990); «Un requerimiento es simplemente una declaración abstracta de alto nivel de un servicio que debe proporcionar el sistema o una restricción de éste» (Sommerville, 2011). En la lámina, el año del estándar aparece como «1900».
+
 ### Diapositiva 5
 
 #### Características de un requerimiento
@@ -413,6 +457,17 @@ Completo Un requerimiento está completo si no necesita ampliar detalles en su r
 Consistente Un requerimiento es consistente si no es contradictorio con otro requerimiento.
 
 No ambiguo Un requerimiento no es ambiguo cuando tiene una sola interpretación. El lenguaje usado en su definición, no debe causar confusiones al lector.
+
+**Contenido visual de la lámina:** Tabla de dos columnas *(característica | explicación)* según Arias Chaves (2005):
+
+| Característica | Explicación |
+|---|---|
+| Especificado por escrito | Como todo contrato o acuerdo entre dos partes. |
+| Posible de probar o verificar | Si un requerimiento no se puede comprobar, entonces ¿cómo se sabe si se cumplió con él o no? |
+| Conciso | Es conciso si es fácil de leer y entender; su redacción debe ser simple y clara para quienes lo consulten en el futuro. |
+| Completo | Está completo si no necesita ampliar detalles en su redacción, es decir, si proporciona la información suficiente para su comprensión. |
+| Consistente | Es consistente si no es contradictorio con otro requerimiento. |
+| No ambiguo | No es ambiguo cuando tiene una sola interpretación; el lenguaje usado no debe causar confusiones al lector. |
 
 ### Diapositiva 6
 
@@ -440,6 +495,8 @@ espacio), las interfaces de usuario, la fiabilidad (como la robustez del sistema
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
 
+**Contenido visual de la lámina:** Dos flechas grandes en sentidos opuestos. **Requerimientos funcionales:** especifican las funciones que el sistema debe realizar; describen las transformaciones que el sistema efectúa sobre las entradas para generar salidas; se enfocan en el «qué» se debe hacer en lugar del «cómo»; a medida que avanza el proyecto se transforman en algoritmos, lógica y gran parte del código. **Requerimientos no funcionales:** están relacionados con las características que pueden limitar el sistema, tales como el rendimiento (tiempo y espacio), las interfaces de usuario, la fiabilidad (robustez y disponibilidad del equipo), el mantenimiento, la seguridad, la portabilidad y los estándares, entre otros. Fuente: Arias Chaves (2005).
+
 ### Diapositiva 7
 
 #### Tipos de requerimientos no funcionales
@@ -451,6 +508,29 @@ funcionales Requerimientos no
 funcionales
 
 Sommerville, I. (2011). Software Engineering 9th Ed. Pp. 88.
+
+**Contenido visual de la lámina:** Árbol jerárquico de los requerimientos no funcionales (Sommerville, 2011, p. 88):
+
+```text
+Requerimientos no funcionales
+├─ Requerimientos del producto
+│   ├─ De usabilidad
+│   ├─ De eficiencia
+│   │   ├─ De rendimiento
+│   │   └─ De espacio
+│   ├─ De confiabilidad
+│   └─ De seguridad
+├─ Requerimientos de la organización
+│   ├─ Ambientales
+│   ├─ Operacionales
+│   └─ De desarrollo
+└─ Requerimientos externos
+    ├─ Regulatorios
+    ├─ Éticos
+    └─ Legales
+        ├─ Contables
+        └─ De protección/seguridad
+```
 
 ### Diapositiva 8
 
@@ -473,6 +553,17 @@ Mejora la calidad del software La calidad en el software tiene que ver con cumpl
 Mejora la comunicación entre equipos La especificación de requerimientos representa una forma de consenso entre clientes y desarrolladores. Si este consenso no ocurre, el proyecto no será exitoso.
 
 Evita rechazos de usuarios finales La ingeniería de requerimientos obliga al cliente a considerar sus requerimientos cuidadosamente y revisarlos dentro del marco del problema, por lo que se le involucra durante todo el desarrollo del proyecto.
+
+**Contenido visual de la lámina:** Tabla de dos columnas *(beneficio | explicación)* según Herrera (2003):
+
+| Beneficio | Explicación |
+|---|---|
+| Permite gestionar las necesidades del proyecto en forma estructurada | Cada actividad de la IR consiste en una serie de pasos organizados y bien definidos. |
+| Mejora la capacidad de predecir cronogramas de proyectos, así como sus resultados | La IR proporciona un punto de partida para controles subsecuentes y actividades de mantenimiento, como estimación de costos, tiempo y recursos. |
+| Disminuye los costos y retrasos del proyecto | Reparar errores por un mal desarrollo no descubierto a tiempo es sumamente caro, especialmente las decisiones tomadas durante la IR, una de las etapas más importantes y de las primeras en llevarse a cabo. |
+| Mejora la calidad del software | La calidad tiene que ver con cumplir un conjunto de requerimientos (funcionalidad, facilidad de uso, confiabilidad, desempeño, etc.). |
+| Mejora la comunicación entre equipos | La especificación de requerimientos es una forma de consenso entre clientes y desarrolladores; si no ocurre, el proyecto no será exitoso. |
+| Evita rechazos de usuarios finales | La IR obliga al cliente a considerar sus requerimientos cuidadosamente y revisarlos dentro del marco del problema, por lo que se le involucra durante todo el desarrollo. |
 
 ### Diapositiva 9
 
@@ -516,6 +607,8 @@ problemática
 
 Herrera J., L. J. (2003) “Ingeniería de Requerimientos, Ingeniería de Software”
 
+**Contenido visual de la lámina:** Flecha curva ascendente con las cuatro actividades principales del enfoque tradicional (Herrera, 2003), en orden: **Extracción** (actividades de descubrimiento; definición de la problemática) → **Análisis** (contrastar problemas con requerimientos; bosquejo inicial del documento de ERS) → **Especificación** (se documentan y formalizan los requerimientos; se genera el documento de ERS para validación) → **Validación** (se ratifican los requerimientos especificados; se corrobora consistencia y completitud).
+
 ### Diapositiva 10
 
 #### Proceso de la ingeniería de requerimientos
@@ -525,6 +618,8 @@ Herrera J., L. J. (2003) “Ingeniería de Requerimientos, Ingeniería de Softwa
 modelos y metodologías de
 
 desarrollo de software?
+
+**Contenido visual de la lámina:** Lámina de pregunta, sin imágenes con contenido adicional.
 
 ### Diapositiva 11
 
@@ -544,6 +639,8 @@ MARCO DE TRABAJO SCRUM
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 39-83.
 
+**Contenido visual de la lámina:** Collage de seis diagramas (Pressman, 2010, pp. 39–83): Modelo cascada, Modelo incremental, Paradigma prototipado, Modelo en V, Espiral de Boehm y Marco de trabajo Scrum (cada uno se detalla en las láminas 12 a 18). Nota adhesiva: *«¡La ingeniería de requerimientos se adapta al modelo de desarrollo de software que defina el proyecto!»*
+
 ### Diapositiva 12
 
 #### Modelo Cascada (Waterfall)
@@ -557,6 +654,8 @@ culminando en el soporte continuo del software completo. La ingeniería de reque
 realiza al inicio del proyecto y una sola vez; en la fase de análisis o comunicación.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 39-40.
+
+**Contenido visual de la lámina:** Diagrama de cajas en secuencia (Pressman, 2010, pp. 39–40): **Communication** (project initiation, requirements gathering) → **Planning** (estimating, scheduling, tracking) → **Modeling** (analysis, design) → **Construction** (code, test) → **Deployment** (delivery, support, feedback).
 
 ### Diapositiva 13
 
@@ -579,6 +678,8 @@ ingeniería de requerimientos se debe
 realizar al inicio de cada incremento.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 41-42.
+
+**Contenido visual de la lámina:** Gráfico (Pressman, 2010, pp. 41–42): eje vertical *Software functionality and features*, eje horizontal *Project calendar time*. Muestra el *increment #1*, *#2* … *#n*, cada uno con la misma secuencia de cinco actividades (Communication, Planning, Modeling [analysis, design], Construction [code, test], Deployment [delivery, feedback]) y su respectiva entrega (*delivery of 1st increment*, *2nd increment*, *nth increment*), escalonados en el tiempo.
 
 ### Diapositiva 14
 
@@ -608,6 +709,8 @@ evolucionando con cada prototipo.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 43-44.
 
+**Contenido visual de la lámina:** Ciclo circular con flechas (Pressman, 2010, pp. 43–44): **Communication → Quick plan → Modeling / Quick design → Construction of prototype → Deployment, Delivery & Feedback →** de vuelta a Communication.
+
 ### Diapositiva 15
 
 #### Modelo en “V”
@@ -627,6 +730,8 @@ el lado izquierdo. En realidad, no existe una diferencia fundamental entre el ci
 verifica y valida la especificación de requerimientos.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 39-40.
+
+**Contenido visual de la lámina:** Diagrama en V (Pressman, 2010, pp. 39–40). Lado izquierdo, descendiendo: Requirements modeling → Architectural design → Component design → Code generation. Vértice: Executable software. Lado derecho, ascendiendo: Unit testing → Integration testing → System testing → Acceptance testing. Flechas horizontales unen cada nivel con su prueba: código con unitarias, componentes con integración, arquitectura con sistema y requisitos con aceptación.
 
 ### Diapositiva 16
 
@@ -651,6 +756,8 @@ combinación de productos de trabajo y condiciones que se logran a lo largo del 
 de la espiral. Los requerimientos pueden ir evolucionando en cada iteración del espiral.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 43-44.
+
+**Contenido visual de la lámina:** Espiral (Pressman, 2010, pp. 43–44) que parte desde el centro (*Start*) y recorre en cada vuelta: **Communication → Planning** (estimation, scheduling, risk analysis) **→ Modeling** (analysis, design) **→ Construction** (code, test) **→ Deployment** (delivery, feedback).
 
 ### Diapositiva 17
 
@@ -678,9 +785,13 @@ como historias de usuario en el backlog.
 
 Pressman (2010). Software Engineering 7th Ed. Pp. 82-83.
 
+**Contenido visual de la lámina:** Diagrama de Scrum (Pressman, 2010, pp. 82–83): *Product Backlog* (prioritized product features desired by the customer) → *Backlog items expanded by team* → *Sprint Backlog* (feature(s) assigned to sprint) → sprint de **30 days** con un ciclo diario de **every 24 hours** → *New functionality is demonstrated at end of sprint*. Recuadro de la reunión diaria: *Scrum: 15 minute daily meeting. Team members respond to basics: 1) What did you do since last Scrum meeting? 2) Do you have any obstacles? 3) What will you do before next meeting?*
+
 ### Diapositiva 18
 
 #### ¿Cómo funciona Scrum?
+
+**Contenido visual de la lámina:** Esquema del marco Scrum (Scrum Framework © 2020 Scrum.org): **Product Backlog → Sprint Planning → Sprint Backlog →** trabajo del **Scrum Team** con el **Daily Scrum → Increment → Sprint Review**, con retorno al Product Backlog y la **Sprint Retrospective** cerrando el ciclo. Nota adhesiva: *Roles: Scrum Master, Product Owner, Developer Team.*
 
 ### Diapositiva 19
 
@@ -690,6 +801,8 @@ Design Thinking: Un enfoque para descubrimiento, creatividad e innovación.
 
 Etapas de Design Thinking
 
+**Contenido visual de la lámina:** Cinco hexágonos de colores en secuencia (pymeup.org): **Empatizar** (entender cómo piensan, sus necesidades y lo que es realmente importante para los usuarios) → **Definir** (sintetizar la información construyendo un punto de partida desde un dolor significativo para el usuario) → **Idear** (generar muchas ideas, siendo disruptivo e innovador y construyendo en equipo una propuesta) → **Prototipar** (desarrollar prototipos rápidos y sencillos que permitan recibir retroalimentación sobre la propuesta) → **Testear** (simulando un contexto real, comprender mejor al usuario y con su retroalimentación mejorar la propuesta).
+
 ### Diapositiva 20
 
 #### Otros enfoques no tradicionales
@@ -697,6 +810,8 @@ Etapas de Design Thinking
 Design Thinking: Un framework para innovar de forma continua
 
 “Un framework para innovar”. Mari, S. (s.f.). INTIVE.
+
+**Contenido visual de la lámina:** Símbolo de infinito (Mari, s.f., INTIVE) con dos bucles: **Contexto** a la izquierda y **Forma** a la derecha. Etapas: **Empatizar** — ¿Cuál es el problema? Defina el desafío y explore el contexto humano. **Definir** — ¿Por qué es importante? Investigue, observe, comprenda y cree un punto de vista. **Idear** — ¿Cómo lo resolvemos? Haga un brainstorming de ideas, no se detenga en lo obvio. **Prototipar** — ¿Cómo lo creamos? Comience creando, experimente, falle de forma económica y veloz. **Testear** — ¿Funciona? Implemente el producto, muestre sin decir, empiece a refinar el producto.
 
 ### Diapositiva 21
 
@@ -738,6 +853,8 @@ comprender el sistema y las relaciones entre sus componentes.
 
 Sommerville, I. (2011). Software Engineering 9th Ed. Pp. 92.
 
+**Contenido visual de la lámina:** Cinco recuadros de colores (Sommerville, 2011, p. 92): **Clientes del sistema** — especifican los requerimientos y los leen para comprobar que cubren sus necesidades; especifican los cambios a los requerimientos. **Administradores** — usan el documento de requerimientos para planear una cotización para el sistema y el proceso de desarrollo. **Ingenieros del sistema** — usan los requerimientos para entender qué sistema debe desarrollarse. **Ingenieros de prueba del sistema** — usan los requerimientos para desarrollar pruebas de validación. **Ingenieros de mantenimiento del sistema** — usan los requerimientos para comprender el sistema y las relaciones entre sus componentes.
+
 ### Diapositiva 22
 
 #### Referencias Bibliográficas
@@ -756,9 +873,13 @@ Para mayor información o profundizar los contenidos, puedes consultar:
 
 - Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 23
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre con fotografía de fondo: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -776,6 +897,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título de la sesión y datos del profesor.
+
 ### Diapositiva 2
 
 #### Contenidos de esta sesión
@@ -789,6 +912,8 @@ Captura y Análisis de Requisitos
 - Modelado de requisitos (casos de uso, diagramas de flujo, etc.)
 
 - Verificación y validación de requisitos
+
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje** — *Explica la importancia de la ingeniería de requisitos, su necesidad y sus dificultades en el contexto de un proyecto de desarrollo de software.*
 
 ### Diapositiva 3
 
@@ -812,6 +937,8 @@ Glosario: Ingeniería de Requerimientos
 
 - Especificación “”
 
+**Contenido visual de la lámina:** Lámina de glosario con lista de cuatro términos marcados con ✓.
+
 ### Diapositiva 4
 
 #### Técnicas tradicionales de elicitación
@@ -827,6 +954,8 @@ Lluvia de Ideas (Brainstorming) Prototipos Casos de Uso
 Sistemas Existentes
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
+
+**Contenido visual de la lámina:** Cinco círculos superpuestos de colores (Arias Chaves, 2005) que representan las técnicas tradicionales: **Entrevistas y Cuestionarios**, **Análisis de Sistemas Existentes**, **Lluvia de Ideas (Brainstorming)**, **Prototipos** y **Casos de Uso**. Las láminas 5 a 9 destacan uno a la vez.
 
 ### Diapositiva 5
 
@@ -864,6 +993,8 @@ El éxito de esta técnica depende en gran medida de la habilidad y preparación
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
 
+**Contenido visual de la lámina:** Círculo destacado: *Entrevistas y Cuestionarios*. Herramientas de utilidad (logos): Microsoft Teams, Google Meet, Zoom, Microsoft Forms, Google Forms, constancia vía e-mail y actas y minutas de reunión (Word).
+
 ### Diapositiva 6
 
 #### Técnicas tradicionales de elicitación
@@ -898,6 +1029,8 @@ Observando cómo se maneja la información y los tipos de salidas producidas (li
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
 
+**Contenido visual de la lámina:** Círculo destacado: *Análisis de Sistemas Existentes*. Herramientas de utilidad: esquema de **pruebas de caja negra** (*Test Case Input → Black Box Testing → Test Case Output*), Git, UML, matrices de trazabilidad (Excel) y documentación del diseño actual (Word).
+
 ### Diapositiva 7
 
 #### Técnicas tradicionales de elicitación
@@ -923,6 +1056,8 @@ Este ambiente libre fomenta la creatividad y permite que ideas inusuales pero po
 Posteriormente, las ideas se filtran y se seleccionan las más viables basándose en criterios como costo y practicabilidad.
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
+
+**Contenido visual de la lámina:** Círculo destacado: *Lluvia de Ideas*. Herramientas de utilidad: XMind, Miro, draw.io, Lucidchart y MindManager, con una captura de ejemplo de un mapa mental (*Business Plan*) con ramas temáticas.
 
 ### Diapositiva 8
 
@@ -952,6 +1087,8 @@ El desarrollo del prototipo comienza con la captura de requerimientos, seguido d
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
 
+**Contenido visual de la lámina:** Círculo destacado: *Prototipos*. Herramientas de utilidad: Figma, Balsamiq, Adobe XD, Sketch, Marvel e InVision Studio, con una captura de un prototipo navegable de una app móvil (pantallas conectadas por flechas de navegación).
+
 ### Diapositiva 9
 
 #### Técnicas tradicionales de elicitación
@@ -979,6 +1116,8 @@ Casos de Uso
 Proporcionan una herramienta robusta para la obtención y documentación de requerimientos funcionales.
 
 Arias Chaves, M., (2005). La ingeniería de requerimientos y su importancia en el desarrollo de proyectos de software
+
+**Contenido visual de la lámina:** Círculo destacado: *Casos de Uso*. Herramientas de utilidad: UML, draw.io, Lucidchart y StarUML. Diagrama de ejemplo (Sommerville, 2011, p. 107) de un sistema de atención médica: el **Auxiliar médico** se asocia con *Registro de paciente* y *Ve inf. personal*; la **Enfermera**, con *Ve el registro* y *Edita el registro*; el **Médico**, con *Ve el registro*, *Edita el registro* y *Establece la consulta*; el **Administrador**, con *Ve inf. personal*, *Exporta estadísticas* y *Genera reporte*.
 
 ### Diapositiva 10
 
@@ -1010,6 +1149,8 @@ mejora la comprensión del sistema y apoya la creación de
 
 soluciones robustas y mantenibles.
 
+**Contenido visual de la lámina:** Lámina de definición de UML con el logo *Unified Modeling Language*.
+
 ### Diapositiva 11
 
 #### Elementos de un Diagrama de Casos de Uso
@@ -1033,6 +1174,8 @@ o acción ejercida por el actor dentro del sistema. • Su redacción debe
 comenzar con un verbo.
 
 Sommerville, I. (2011). Software Engineering 9th Ed. Pp. 107.
+
+**Contenido visual de la lámina:** El mismo diagrama de casos de uso de la lámina 9 con dos elementos rodeados en rojo y una flecha a su explicación: el actor **Auxiliar médico** → recuadro *Actor*; el caso de uso **Establece la consulta** → recuadro *Caso de uso*.
 
 ### Diapositiva 12
 
@@ -1076,6 +1219,8 @@ tienen múltiples interesados con diversas necesidades, se debe corroborar que l
 
 Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Cinco recuadros unidos por flechas, en este orden (Sommerville, 2011): **Comprobaciones de validez → Comprobaciones de consistencia → Comprobaciones de totalidad → Comprobaciones de realismo → Verificabilidad**, cada uno con su explicación.
+
 ### Diapositiva 13
 
 #### Referencias Bibliográficas
@@ -1092,9 +1237,13 @@ Para mayor información o profundizar los contenidos, puedes consultar:
 
 - Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 14
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -1111,6 +1260,8 @@ INGENIERÍA DE REQUERIMIENTOS Y ASEGURAMIENTO DE LA CALIDAD Documentación y ges
 Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
+
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título de la sesión y datos del profesor.
 
 ### Diapositiva 2
 
@@ -1130,6 +1281,8 @@ Documentación y gestión de requisitos:
 
 - Relación entre la ingeniería de requisitos y el desarrollo de software
 
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje de la Unidad 3** — *Explica la importancia de la ingeniería de requisitos, su necesidad y sus dificultades en el contexto de un proyecto de desarrollo de software.*
+
 ### Diapositiva 3
 
 Estándar IEEE
@@ -1142,6 +1295,8 @@ Software Requirements
 
 Specifications
 
+**Contenido visual de la lámina:** Portada del documento *IEEE Std 830-1998 — IEEE Recommended Practice for Software Requirements Specifications* (IEEE Computer Society, 20 de octubre de 1998). Nota adhesiva: *«El estándar define los puntos esenciales que toda "Especificación de Requerimientos de Software" (ERS) debe tener.»*
+
 ### Diapositiva 4
 
 #### Especificación de Requerimientos de Software
@@ -1149,6 +1304,8 @@ Specifications
 Estructura del estándar IEEE 830-1998 :
 
 De acuerdo con IEEE, un Documento de Requisitos de calidad no necesariamente debe seguir estrictamente la estructura y el formato establecidos en el estándar 830, pero sí debe contener toda la información que dicho estándar propone. Este estándar establece un marco para documentar de manera clara y precisa los requisitos funcionales y no funcionales de un sistema, facilitando la comunicación entre desarrolladores, clientes y otros interesados. Al seguir el IEEE 830, se busca asegurar que todos los aspectos críticos del sistema estén bien definidos y comprendidos, lo que ayuda a prevenir errores y malentendidos durante el desarrollo del software.
+
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998, con *debe contener toda la información que dicho estándar propone*, *facilitando la comunicación* y *bien definidos y comprendidos* destacados en color.
 
 ### Diapositiva 5
 
@@ -1162,6 +1319,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 
 1.2. Ámbito del Sistema: Aquí se describe el sistema que se va a desarrollar, incluyendo el nombre del sistema si es apropiado. Se especifica qué funciones realizará el sistema y qué no, se enumeran los beneficios y objetivos esperados y se referencia cualquier documento de nivel superior que pueda influir en el ERS, como los documentos de especificación de requisitos globales del sistema.
 
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
+
 ### Diapositiva 6
 
 #### Especificación de Requerimientos de Software
@@ -1172,6 +1331,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 
 1.5. Visión General del Documento: Esta subsección ofrece una visión general del contenido y la estructura del documento ERS. Explica brevemente cómo está organizado el documento y qué secciones contiene, proporcionando un resumen de la información que se desarrollará a continuación.
 
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
+
 ### Diapositiva 7
 
 #### Especificación de Requerimientos de Software
@@ -1181,6 +1342,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 2.1. Perspectiva del Producto: Describe cómo el sistema a desarrollar se relaciona con otros sistemas o productos. Se especifica si el producto es independiente o si forma parte de un sistema mayor, y se identifican las interfaces entre el sistema en cuestión y otros productos o sistemas, usando diagramas de bloques si es necesario.
 
 2.2. Funciones del Producto: Resume las principales funciones y capacidades del sistema. Esta sección proporciona una visión general de lo que el sistema hará, describiendo las funciones de manera general sin entrar en detalles exhaustivos, y puede usar gráficos para ilustrar las relaciones entre funciones.
+
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
 
 ### Diapositiva 8
 
@@ -1194,6 +1357,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 
 2.6. Requisitos Futuros: Anticipa mejoras o funcionalidades adicionales que se podrían considerar e implementar en el futuro. Esto permite una planificación a largo plazo y facilita la evolución del sistema a medida que surjan nuevas necesidades o oportunidades.
 
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
+
 ### Diapositiva 9
 
 #### Especificación de Requerimientos de Software
@@ -1205,6 +1370,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 2.5. Suposiciones y Dependencias: Especifica los factores que, si cambian, podrían afectar los requisitos del sistema. Se detallan suposiciones sobre el entorno del sistema, como el sistema operativo o la estructura organizativa, y cómo estos factores podrían impactar en los requisitos si sufren modificaciones.
 
 2.6. Requisitos Futuros: Anticipa mejoras o funcionalidades adicionales que se podrían considerar e implementar en el futuro. Esto permite una planificación a largo plazo y facilita la evolución del sistema a medida que surjan nuevas necesidades o oportunidades.
+
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
 
 ### Diapositiva 10
 
@@ -1218,6 +1385,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 
 3.3. Requisitos de Rendimiento: Detalla las expectativas de rendimiento del sistema, incluyendo la carga esperada, como el número de usuarios simultáneos, la cantidad de transacciones por segundo, y los requisitos de almacenamiento de datos, como la frecuencia de acceso y el volumen de registros.
 
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
+
 ### Diapositiva 11
 
 #### Especificación de Requerimientos de Software
@@ -1229,6 +1398,8 @@ Estructura esencial para la documentación de toda Especificación de Requerimie
 3.6. Otros Requisitos: Incluye cualquier requisito adicional que no encaje en las secciones anteriores. Esta categoría permite documentar requisitos especiales o menos comunes que aún son relevantes para el sistema.
 
 4. Apéndices: Contienen información adicional que no forma parte central del documento ERS pero que es útil para completar el entendimiento del mismo. Ejemplos incluyen formatos de entrada/salida de datos, análisis de costes, o restricciones relacionadas con el lenguaje de programación.
+
+**Contenido visual de la lámina:** Texto junto a la portada del estándar IEEE 830-1998 (imagen ilustrativa, sin contenido adicional).
 
 ### Diapositiva 12
 
@@ -1296,6 +1467,19 @@ dentro de su ciclo de vida • Ejemplo: • Validado • Pendiente por validar �
 
 tabla ‘PRODUCTO’ de la base de datos. • …
 
+**Contenido visual de la lámina:** Ocho tarjetas, una por campo, cada una con su descripción y ejemplo:
+
+| Campo | Descripción | Ejemplo |
+|---|---|---|
+| Código | Una identificación única para referirnos al requerimiento dentro del proyecto | RF1, RF2, RF3… |
+| Nombre | Que haga referencia a la funcionalidad de forma precisa | Actualización de campos en productos existentes |
+| Descripción | Una explicación detallada del requerimiento | Determinado usuario, en determinada interfaz gráfica, podrá actualizar los siguientes campos de productos existentes… |
+| Actor vinculado | Describe el rol, perfil o perfiles de usuario que podrán realizar la acción | Supervisor, Administrador… |
+| Entrada | Describe el o los campos que se requieren para ejecutar la acción | Código del producto, nombre de producto, descripción del producto… |
+| Proceso | Describe de forma técnica el proceso que se realizará con los datos de entrada | Se registran los datos de entrada en la tabla «PRODUCTO» de la base de datos |
+| Salida | Describe el resultado esperado de la acción una vez que se realiza el proceso | Una vez que se realiza la query de registro en la base de datos, se notifica al usuario el resultado de la acción |
+| Estatus | Describe el estado del requerimiento dentro de su ciclo de vida | Validado, Pendiente por validar… |
+
 ### Diapositiva 13
 
 #### Especificación de Requerimientos de Software
@@ -1327,6 +1511,8 @@ Baja
 RF4
 
 Impacto para el negocio
+
+**Contenido visual de la lámina:** Matriz de priorización: eje horizontal **Impacto para el negocio** (1 a 5) y eje vertical **Complejidad de desarrollo** (Baja, Media, Alta). Las celdas van del verde (baja complejidad e impacto bajo) al amarillo, naranjo y rojo (alta complejidad e impacto alto). Ejemplos ubicados con flechas: **RF1** en complejidad alta e impacto 2; **RF2** en complejidad alta e impacto 4; **RF3** en complejidad media e impacto 3; **RF4** en complejidad baja e impacto 4.
 
 ### Diapositiva 14
 
@@ -1372,6 +1558,14 @@ Sommerville, I. (2011). Software Engineering 9th Ed. Pp. 44.
 
 justificados.
 
+**Contenido visual de la lámina:** **Proceso de control de cambios**, ciclo circular de cuatro etapas:
+1. **Identificación de cambios:** captura y documentación de solicitudes de cambio; las solicitudes pueden venir de usuarios, clientes, desarrolladores o partes interesadas; registro detallado para entender completamente el alcance y la naturaleza del cambio.
+2. **Evaluación de cambios:** evaluación rigurosa del impacto en costo, tiempo, recursos y otros requisitos del sistema; evaluación colaborativa con todas las partes interesadas.
+3. **Aprobación de cambios:** realizada por un comité de control de cambios; basada en criterios claros y objetivos; solo se aprueban cambios beneficiosos y justificados.
+4. **Seguimiento de cambios:** actualización de la documentación de requisitos; ajuste de planes del proyecto; comunicación de los cambios a todo el equipo y partes interesadas; monitoreo del progreso para asegurar la correcta implementación y evitar problemas imprevistos.
+
+A la derecha, **evolución del sistema en modelos tradicionales** (Sommerville, 2011, p. 44): *Definición de requerimientos del sistema → Valoración de sistemas existentes → Propuesta de cambios al sistema → Modificación de sistemas*, con *Sistemas existentes* como entrada de la valoración y *Nuevo sistema* como resultado de la modificación.
+
 ### Diapositiva 15
 
 #### Ingeniería de Requerimientos & Desarrollo
@@ -1387,6 +1581,8 @@ Desarrollo de Software (Construcción)
 - Dependencia de requisitos claros • Hoja de ruta orientando el diseño y la
 
 implementación • Verificación y validación • Satisfacción del cliente
+
+**Contenido visual de la lámina:** Dos flechas en sentidos opuestos ante la pregunta *¿Cuál es la relación entre la ingeniería de requisitos y el desarrollo de software?* Flecha azul hacia arriba: **Ingeniería de Requisitos (ideación y análisis)**. Flecha verde hacia abajo: **Desarrollo de Software (construcción)**. Cada una con su lista de aportes.
 
 ### Diapositiva 16
 
@@ -1406,9 +1602,13 @@ Para mayor información o profundizar los contenidos, puedes consultar:
 
 - Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 17
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -1426,6 +1626,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título de la sesión y datos del profesor.
+
 ### Diapositiva 2
 
 #### Contenidos de esta sesión
@@ -1439,6 +1641,8 @@ Documentación y gestión de requisitos:
 - Redacción de objetivos generales y específicos
 
 - Métricas y directrices SMART
+
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje de la Unidad** — *Explica la importancia de la ingeniería de requisitos, su necesidad y sus dificultades en el contexto de un proyecto de desarrollo de software.*
 
 ### Diapositiva 3
 
@@ -1456,11 +1660,15 @@ Identificación de problemas
 
 - Diagrama de Ishikawa
 
+**Contenido visual de la lámina:** Ilustración de un pez payaso junto a la lista de nombres del diagrama.
+
 ### Diapositiva 4
 
 #### Identificación del problema
 
 Anavalón & Beltrán (2014) Diagrama causa efecto. Proyecto “Aplicación web para el monitoreo de indicadores de aprendizajes”.
+
+**Contenido visual de la lámina:** Diagrama de Ishikawa de ejemplo (Anavalón y Beltrán, 2014, proyecto «Aplicación web para el monitoreo de indicadores de aprendizajes»). Efecto: *Deficiencia en el sistema de monitoreo de los aprendizajes académicos que contribuyen con la generación de medidas correctivas.* Categorías y causas: **Medición** — carencia de estándares aplicados a la medición de las evaluaciones de aprendizaje. **Proceso** — diversos procesos para el almacenamiento de resultados de las evaluaciones de aprendizaje. **Información** — ausencia de información histórica de las evaluaciones de aprendizaje; propenso a pérdida de información.
 
 ### Diapositiva 5
 
@@ -1468,11 +1676,15 @@ Anavalón & Beltrán (2014) Diagrama causa efecto. Proyecto “Aplicación web p
 
 ¿Cómo puedo tomar saber qué causas identificar? (1) El modelo de las 4M:
 
+**Contenido visual de la lámina:** Plantilla del **modelo 4M** (techqualitypedia.com): espina central hacia el recuadro **PROBLEM or EFFECT**, con cuatro categorías: **MAN** y **MACHINE** arriba, **MATERIAL** y **METHOD** abajo. Cada rama tiene *Causes* y *Sub-Causes*; se rotulan los niveles **Primary Causes**, **Secondary Causes** y **Tertiary Causes**.
+
 ### Diapositiva 6
 
 #### Identificación del problema
 
 ¿Cómo puedo tomar saber qué causas identificar? (2) El modelo de las 6M:
+
+**Contenido visual de la lámina:** Ejemplo del **modelo 6M** (plantilla de XMind 8). Efecto: **MISSED DEADLINE**. Categorías y causas: **Measurement** — no progress tracking, no short term goals, no timesheet. **Method** — bureaucratic, poor prioritization, lack of planning. **People** — micro-managing boss, absent secretary, sick children. **Materials** — unstable desk, no printer paper, squeaky desk chair. **Environment** — fluorescent lights, small cubicle, office cold. **Machine** — coffee machine broken, broken truck, poor internet connection.
 
 ### Diapositiva 7
 
@@ -1480,11 +1692,15 @@ Anavalón & Beltrán (2014) Diagrama causa efecto. Proyecto “Aplicación web p
 
 Árbol de problemas
 
+**Contenido visual de la lámina:** **Árbol de problemas** sobre la imagen de un árbol. Abajo, en las raíces (franja *CAUSAS*): Causa 1, Causa 2 y Causa 3, que apuntan al **Problema Central** (tronco). Arriba, en las ramas (franja *EFECTOS*): dos **Problemas Secundarios** y Consecuencias 1 a 4, conectadas con flechas hacia arriba.
+
 ### Diapositiva 8
 
 #### Otras herramientas
 
 Focus Group
+
+**Contenido visual de la lámina:** **Focus Group**, con una ilustración de personas sentadas y globos de diálogo. Proceso en cuatro etapas con flechas: **Definir** (objetivos) → **Transmitir** (motivación) → **Generar** (diálogo) → **Validar** (apreciaciones).
 
 ### Diapositiva 9
 
@@ -1493,6 +1709,8 @@ Focus Group
 Una vez que tenemos identificado nuestro problema ¿Cómo proponemos un objetivo
 
 para cubrir la problemática?
+
+**Contenido visual de la lámina:** Lámina de pregunta, sin imágenes con contenido adicional.
 
 ### Diapositiva 10
 
@@ -1532,6 +1750,8 @@ Objetivo específico
 
 n (OE..n)
 
+**Contenido visual de la lámina:** Jerarquía de objetivos: **Objetivo General** (*¿Cuál es el objetivo principal del proyecto?*) arriba, y debajo **Objetivo Específico 1 (OE1)**, **Objetivo Específico 2 (OE2)** y **Objetivo específico n (OE..n)**, agrupados con una llave que remite a *¿Qué otros objetivos contribuyen al cumplimiento de mi objetivo general?* y *¿Cómo se impacta al negocio con el cumplimiento de mi objetivo general?*
+
 ### Diapositiva 11
 
 #### Redacción de Objetivos
@@ -1554,21 +1774,37 @@ Objetivo específico
 
 n (OE..n)
 
+**Contenido visual de la lámina:** *Usualmente, aunque no de forma obligatoria:* el diagrama 6M de *Missed deadline* con tres zonas encerradas en rojo. Flechas indican que el **efecto** (*Missed deadline*) origina el **Objetivo General** y que las **causas** encerradas (*Measurement* y *Environment*) originan los **objetivos específicos**.
+
 ### Diapositiva 12
 
 #### Redacción de Objetivos
+
+**Contenido visual de la lámina:** Infografía **SMART** (monge­guerrero.com): **S** — Specific / Específico — ¿Qué? · **M** — Measurable / Medible — ¿Cuánto? · **A** — Attainable / Alcanzable — ¿Cómo? · **R** — Realistic / Realista — ¿Con qué? · **T** — Time / Tiempo — ¿Cuándo?
 
 ### Diapositiva 13
 
 #### Redacción de Objetivos
 
+**Contenido visual de la lámina:** Ícono de diana con dardos y esquema de tres dimensiones con flechas a notas: **X: Hacer** → *¿Qué voy a hacer?*; **Y: Mediante** → *¿Mediante qué herramienta?*; **Z: Finalidad** → *¿Para qué?*. En el ejemplo, cada parte del objetivo general aparece en el color de su dimensión.
+
 ### Diapositiva 14
 
 #### Redacción de Objetivos
 
+**Contenido visual de la lámina:** Miniatura del Ishikawa de la lámina 4 junto al recuadro de su efecto. En el objetivo resultante, cada parte aparece en el color de su dimensión: X *Apoyar el monitoreo de aprendizajes académicos*, Y *por medio de una plataforma web*, Z *para contribuir en las medidas correctivas de la institución durante el tercer trimestre 2020*.
+
 ### Diapositiva 15
 
 #### Redacción de Objetivos
+
+**Contenido visual de la lámina:** Tabla de medición con notas numeradas que indican el orden de llenado:
+
+| Situación actual | Objetivo específico | Situación esperada | Métrica | Criterio de éxito |
+|---|---|---|---|---|
+| Actualmente el proceso demora 60 minutos | Disminuir el tiempo que tarda el proceso de monitoreo académico | De acuerdo a lo conversado con el cliente, se pretende realizar el proceso en a lo más 15 minutos | Tiempo en minutos | Tiempo posterior al proyecto <= 25 % del tiempo previo al proyecto |
+
+Orden: **(1)** ¿Qué voy a medir? (Métrica) → **(2)** ¿Se puede medir actualmente? (Situación actual) → **(3)** ¿Lo podré medir al finalizar el proyecto? (Situación esperada) → **(4)** ¿Cómo lo consideraremos exitoso? (Criterio de éxito).
 
 ### Diapositiva 16
 
@@ -1588,9 +1824,13 @@ Para mayor información o profundizar los contenidos, puedes consultar:
 
 - Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 17
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -1608,6 +1848,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título de la sesión y datos del profesor.
+
 ### Diapositiva 2
 
 #### Contenidos de esta sesión
@@ -1623,6 +1865,8 @@ Documentación y gestión de requisitos:
 - Uso del estándar IEEE-830 para documentar
 
 - Presentación de enunciado de Solemne 1
+
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje de la Unidad** — *Aplica los conceptos y herramientas de la ingeniería de requisitos a un caso práctico, incorporando aspectos de aseguramiento de calidad al proceso de ingeniería de desarrollo de software.*
 
 ### Diapositiva 3
 
@@ -1640,11 +1884,15 @@ quehacer del proyecto. Ejemplo:
 
 causa-efecto
 
+**Contenido visual de la lámina:** Ilustración de un pez payaso y miniatura del Ishikawa del capítulo 05 con dos causas encerradas en rojo como ejemplo del alcance.
+
 ### Diapositiva 4
 
 #### Usos del diagrama causa-efecto
 
 Anavalón & Beltrán (2014) Diagrama causa efecto. Proyecto “Aplicación web para el monitoreo de indicadores de aprendizajes”.
+
+**Contenido visual de la lámina:** Ishikawa de *Deficiencia en el sistema de monitoreo de los aprendizajes académicos…* (Anavalón y Beltrán, 2014) con dos causas encerradas en rojo: *Carencia de estándares aplicados a la medición de las evaluaciones de aprendizaje* (Medición) y *Propenso a pérdida de información* (Información). Nota adhesiva: **ALCANCE** — *Delimita qué hago y no hago dentro del proyecto, bajo mi rol de líder o ingeniero de software.*
 
 ### Diapositiva 5
 
@@ -1653,6 +1901,8 @@ Anavalón & Beltrán (2014) Diagrama causa efecto. Proyecto “Aplicación web p
 Para la narrativa del proyecto ¿Cómo podemos contextualizar la situación actual o funcionamiento
 
 de un proceso?
+
+**Contenido visual de la lámina:** Lámina de pregunta, sin imágenes con contenido adicional.
 
 ### Diapositiva 6
 
@@ -1668,17 +1918,23 @@ BPMN fue inicialmente desarrollada por la organización Business Process Managem
 
 https://www.omg.org/bpmn/
 
+**Contenido visual de la lámina:** Logos de **OMG** (Object Management Group) y **BPMN**.
+
 ### Diapositiva 7
 
 #### Especificación en Object Management Group
 
 https://www.omg.org/bpmn/
 
+**Contenido visual de la lámina:** Capturas del sitio https://www.omg.org/bpmn: página *Business Process Model & Notation (BPMN)* con la descripción de la especificación y accesos a *Specifications*, *Data sheet*, *Certification* y *More information*.
+
 ### Diapositiva 8
 
 #### Especificación en Object Management Group
 
 https://www.omg.org/spec/BPMN
+
+**Contenido visual de la lámina:** Capturas de https://www.omg.org/spec/BPMN: ficha *About the Business Process Model and Notation Specification Version 2.0.2* (acrónimo BPMN, versión 2.0.2, estado formal, publicación enero de 2014) y portada del documento *Business Process Model and Notation (BPMN) Version 2.0.2* (diciembre de 2013).
 
 ### Diapositiva 9
 
@@ -1700,6 +1956,14 @@ hacen?
 
 toman?
 
+**Contenido visual de la lámina:** Diagrama BPMN de ejemplo: **Solicitud de alta de cuentas en Amazon Web Services (AWS)**, con cuatro carriles:
+- **Solicitante:** inicio *Solicita cuenta AWS* → *Completa formulario "Solicitud de Cuenta en AWS" en el Centro de Soluciones* (objeto de datos: https://soluciones.cencosud.com/) … *Recibe notificación de resolución en el Centro de Soluciones* → fin *Fin del proceso*.
+- **Plataformas Cloud:** compuerta *¿Cuenta con toda la información requerida?* — NO → *Recaba información faltante con área solicitante* (vuelve al formulario); SÍ → *Creación del entorno y configuración base* (temporizador *1 día (SLA)*) … *Configuración final, línea base de gobierno cloud* (temporizador *2 a 3 días (SLA)*).
+- **Seguridad:** *Configuración de usuarios root, CyberArk, creación de grupos AD para roles de usuarios finales* → *Aplicación de la línea base de seguridad y roles de cuenta* (temporizador *6 a 7 días (SLA)*), con un documento de referencia.
+- **Networking:** *Creación de VPC y configuración del direccionamiento* (temporizador *1 a 2 días (SLA)*).
+
+A la izquierda: *Contexto de negocio referente a nuevas cuentas en AWS* y las preguntas *¿Quiénes participan? ¿Qué tareas hacen? ¿Qué decisiones toman?*
+
 ### Diapositiva 10
 
 #### Cómo diseñar un diagrama BPMN
@@ -1713,6 +1977,8 @@ Usado para organizar y categorizar las actividades dentro de una piscina de acue
 Piscina
 
 Representa los participantes principales de un proceso, por lo general, separados por las diferentes organizaciones. Una piscina contiene uno o más carriles (en la vida real, como una piscina olímpica). Una piscina puede ser abierta (por ejemplo, mostrar el detalle interno), cuando se presenta como un gran rectángulo que muestra uno o más carriles, o cerrada (por ejemplo, esconder el detalle interno), cuando se presenta como un rectángulo vacío que se extiende a lo ancho o alto del diagrama.
+
+**Contenido visual de la lámina:** Dos recuadros: **Piscina** (texto de la lámina) y **Carril** (texto de la lámina), junto a una miniatura del diagrama de AWS con la piscina encerrada en un óvalo y los carriles marcados.
 
 ### Diapositiva 11
 
@@ -1762,6 +2028,8 @@ representado gráficamente por un círculo de línea gruesa relleno del color ro
 
 evento inicial y el evento final. Está representado gráficamente por un círculo de doble línea simple relleno de color naranja. Este evento puede “Capturar” o “Lanzar”.
 
+**Contenido visual de la lámina:** Tres recuadros: **Eventos**, **Actividades** y **Compuertas (Control de flujo)**, cada uno con una paleta de símbolos BPMN: eventos como círculos (inicio de línea delgada, fin de línea gruesa, intermedios de doble línea, con variantes de mensaje, temporizador y otros); actividades como rectángulos de vértices redondeados (tarea, subproceso, transacción y variantes); compuertas como rombos (exclusiva, paralela, inclusiva, basada en eventos, compleja y otras).
+
 ### Diapositiva 12
 
 #### Cómo diseñar un diagrama BPMN
@@ -1779,6 +2047,8 @@ Flujo de Mensaje
 Flujo de Secuencia
 
 Se representan por una línea de puntos. Se suele usar para conectar artefactos o un texto a un objeto de flujo y puede indicar muchas direccionabilidades usando una punta de flecha no rellena (hacia el artefacto para representar a un resultado, desde el artefacto para representar una entrada, y los dos para indicar que se lee y se actualiza). La “no direccionabilidad” podría usarse con el artefacto o un texto está asociado con una secuencia o flujo de mensaje (como el flujo muestra la dirección).
+
+**Contenido visual de la lámina:** Tres recuadros con su símbolo: **Flujo de secuencia** (línea continua con flecha rellena, *Sequence Flow*), **Flujo de mensaje** (línea discontinua con círculo al inicio y punta de flecha no rellena, *Message Flow*) y **Asociaciones** (línea punteada, *Association*).
 
 ### Diapositiva 13
 
@@ -1799,6 +2069,8 @@ Anotación
 Objetos de
 
 Se representan por un rectángulo de líneas discontinuas y vértices redondeados. El Grupo se utiliza para agrupar diferentes actividades pero no afecta al flujo dentro de un diagrama.
+
+**Contenido visual de la lámina:** Tres recuadros con su símbolo: **Objetos de datos** (hoja con esquina doblada, *Data*), **Grupos** (rectángulo de línea discontinua con vértices redondeados, *Group*) y **Anotación** (corchete abierto con texto, *Annotation*).
 
 ### Diapositiva 14
 
@@ -1858,6 +2130,8 @@ se requieran
 
 singular
 
+**Contenido visual de la lámina:** Ocho recuadros verdes con buenas prácticas para elaborar un diagrama BPMN: (1) Identifique todos los actores que participan del proceso. (2) Cada actor corresponde a un carril (lane) del diagrama. (3) La lectura del proceso debe comenzar en la parte superior izquierda. (4) El flujo de trabajo debe ser trazable desde el inicio al fin del proceso. (5) El diagrama debe ser autoexplicativo. (6) Todas las tareas deben comenzar con un verbo en 3.ª persona singular. (7) Las redacciones deben ser objetivas y carecer de juicios de valor. (8) Incluir todas las tareas, eventos y compuertas que se requieran.
+
 ### Diapositiva 15
 
 #### Referencias Bibliográficas
@@ -1876,9 +2150,13 @@ Para mayor información o profundizar los contenidos, puedes consultar:
 
 - Sommerville, I. (2011). Software Engineering 9th Ed.
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 16
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -1906,6 +2184,8 @@ Get the latest version of this deck.
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Portada del toolkit **Enterprise Design Thinking by IBM — Playbacks**. Traducción y contribución: Juan Cruz Bruni y Valeria Cremona (Method Experts, Innovation Team Argentina), con sus fotografías. Fotografía de fondo de una persona presentando frente a una pantalla. *Enterprise Design Thinking Toolkit · 2021 IBM Corporation.*
+
 ### Diapositiva 2
 
 Intro Setup Invite Tell Listen 30 min Playbacks 30 min Playbacks
@@ -1920,6 +2200,8 @@ Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporati
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Lámina de texto del toolkit (encabezado *Playbacks · 30 min · Introducción*), sin imágenes con contenido adicional.
+
 ### Diapositiva 3
 
 Intro Setup Invite Tell Listen 30 min Playbacks 30 min Playbacks
@@ -1933,6 +2215,8 @@ Cuando el equipo necesite alinearse o en cualquier momento que se desee comparti
 Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporation
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** Lámina de texto del toolkit (encabezado *Playbacks · 30 min · Introducción*), sin imágenes con contenido adicional.
 
 ### Diapositiva 4
 
@@ -1954,6 +2238,8 @@ Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporati
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Lámina de texto del toolkit (encabezado *Playbacks · 30 min · Introducción*), sin imágenes con contenido adicional.
+
 ### Diapositiva 5
 
 30 min Playbacks
@@ -1964,6 +2250,8 @@ Los Playbacks -con mayúscula inicial-, son presentaciones formales para alinear
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Ilustración tipográfica de una **P mayúscula** junto a una **p minúscula** sobre líneas guía, para diferenciar el Playback formal («con mayúscula inicial»).
+
 ### Diapositiva 6
 
 30 min Playbacks
@@ -1973,6 +2261,8 @@ INTRODUCCIÓN
 Otros playbacks mas informales –con p minúscula- pueden suceder en cualquier momento para alinear al equipo y asegurar que el rumbo es el correcto.
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** La misma ilustración de **p** y **P**, para diferenciar los playbacks informales («con p minúscula»).
 
 ### Diapositiva 7
 
@@ -1987,6 +2277,8 @@ Ajusta el estilo y contenido del Playback a la audiencia. Lo que expongas inform
 Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporation
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** Lámina de texto del toolkit (encabezado *Playbacks · 30 min · Introducción*), sin imágenes con contenido adicional.
 
 ### Diapositiva 8
 
@@ -2006,9 +2298,13 @@ Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporati
 
 Enterprise Design Thinking Toolkit •© 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Reglas de la actividad en dos columnas: **Habla menos, escribe más** (escribe o dibuja tus ideas en los stickies antes de contarlas; durante las discusiones, captura los puntos clave en stickies y ponlos en la pared). **No hay ideas malas** (empieza por lo grande; recolecta las ideas de todos, agrupa y busca patrones; identifica las grandes ideas). **Mantente enfocado en el usuario** (cuenta historias acerca de tu usuario para mantenerlo como el foco de atención). **Todos participan** (todos tienen un marcador y un block de stickies). **Mantén a todos atentos** (evita conversaciones paralelas; usa el «parking lot» para capturar puntos fuera del tema central). **Atente a los tiempos de la agenda** (para lograr los objetivos necesitamos mantenernos dentro del plan). **Sí, y…** (en lugar de descartar ideas, oblígate a construir sobre ellas).
+
 ### Diapositiva 9
 
 Enterprise Design Thinking Toolkit • August 23, 2018 • © 2018 IBM Corporation
+
+**Contenido visual de la lámina:** Fotografía de una persona presentando a un grupo sentado en una sala, frente a una pantalla.
 
 ### Diapositiva 10
 
@@ -2020,6 +2316,8 @@ Listos…
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Lámina de transición: *Preparados… Listos… ¡Ahora!*
+
 ### Diapositiva 11
 
 30 min Playbacks
@@ -2027,6 +2325,8 @@ Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 INVITA A LOS  INTERESADOS Los Playbacks reúnen a los interesados de los distintos niveles y grupos de la organización. También reúnen diversas perspectivas, y promueven una cultura de transparencia e inclusión.
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** Fotografía de una presentadora junto a una pantalla con el texto *«Thanks!»*. Encabezado: **Invita a los interesados.**
 
 ### Diapositiva 12
 
@@ -2036,6 +2336,8 @@ CENTRATE EN EL USUARIO Comparte tus observaciones, reflexiones, y avances, conta
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Fotografía de un equipo trabajando frente a una pared con notas adhesivas. Encabezado: **Céntrate en el usuario.**
+
 ### Diapositiva 13
 
 30 min Playbacks
@@ -2043,6 +2345,8 @@ Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 ESCUCHA EL FEEDBACK Todos los participantes tienen la oportunidad de proporcionar retroalimentación. Toma nota sin juzgar.
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** Fotografía de cuatro personas de pie; una toma notas en una libreta. Encabezado: **Escucha el feedback.**
 
 ### Diapositiva 14
 
@@ -2054,6 +2358,8 @@ Los Playbacks revelan si el equipo está alineado o desalineado. Si surgen desac
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
 
+**Contenido visual de la lámina:** Fotografía de una persona presentando una pantalla titulada *Individual Mastery*. Encabezado: **Escucha el feedback.**
+
 ### Diapositiva 15
 
 TOOLKIT
@@ -2061,6 +2367,8 @@ TOOLKIT
 Playbacks
 
 Enterprise Design Thinking Toolkit • 2021 IBM Corporation
+
+**Contenido visual de la lámina:** Lámina de cierre del toolkit *Enterprise Design Thinking by IBM — Playbacks* con formas geométricas azules.
 
 ---
 
@@ -2078,6 +2386,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título *Sesión 10: Introducción al control de calidad del desarrollo de software* y datos del profesor.
+
 ### Diapositiva 2
 
 #### Contenidos de esta sesión
@@ -2088,11 +2398,15 @@ rcaballerov@docente.uss.cl
 
 - Ejemplos de casos en los que la falta de control de calidad ha tenido impactos negativos en el desarrollo de software.
 
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje de la Unidad** — *Aplica diversas normas, modelos y estándares de aseguramiento de la calidad al software y al ciclo de desarrollo, con el fin de asegurar que el software cumpla con los estándares de calidad exigidos en la organización.*
+
 ### Diapositiva 3
 
 Introducción al control de calidad del desarrollo de software
 
 ¿Cuándo puedes decir que un producto es de buena calidad?
+
+**Contenido visual de la lámina:** Fotografías de cuatro productos (zapatilla, teléfono inteligente, automóvil y audífonos) para la pregunta *¿Cuándo puedes decir que un producto es de buena calidad?*
 
 ### Diapositiva 4
 
@@ -2103,6 +2417,8 @@ puede valorar la calidad?
 Calidad de
 
 software
+
+**Contenido visual de la lámina:** Ícono de código *</>* y nota adhesiva: *«Quizás puedas estar pensando en atributos como confiabilidad, seguridad, usabilidad, etc. Concepto clave: ATRIBUTO.»*
 
 ### Diapositiva 5
 
@@ -2130,6 +2446,8 @@ CALIDAD
 
 Pressman (2002) . Fases de la Ingeniería de Software.
 
+**Contenido visual de la lámina:** Flecha curva ascendente (Pressman, 2002, fases de la ingeniería de software) que parte de una **IDEA** (concepto, necesidad, problemática) y recorre **Análisis → Diseño → Construcción → Implementación → Pruebas** hasta el **PRODUCTO** (software, incremento, MVP, etc.). Desde cada fase salen flechas que convergen en la palabra **CALIDAD**. Nota adhesiva: *«Los atributos de calidad se deben tener presente en cada una de las fases del desarrollo de software.»*
+
 ### Diapositiva 6
 
 La calidad de software se define como
@@ -2152,6 +2470,8 @@ software
 
 usuarios (Barbacci et al. 1995).
 
+**Contenido visual de la lámina:** Ícono de código *</>* junto al texto de definición, con *combinación deseada de atributos*, *requerimientos adicionales* y *atributos de calidad* destacados en color.
+
 ### Diapositiva 7
 
 #### Clasificación de atributos de calidad
@@ -2170,6 +2490,8 @@ el desarrollo
 
 Bass, L., Clements, P., & Kazman, R. (1998). Software Architecture in practice.
 
+**Contenido visual de la lámina:** Dos flechas grandes en sentidos opuestos (Bass, Clements y Kazman, 1998): **Observables vía ejecución** — se determinan del comportamiento. **No observables vía ejecución** — se establecen durante el desarrollo.
+
 ### Diapositiva 8
 
 #### Clasificación de atributos de calidad
@@ -2180,6 +2502,18 @@ Observables vía ejecución
 
 comportamiento
 
+**Contenido visual de la lámina:** **Tabla 1. Descripción de atributos de calidad observables vía ejecución:**
+
+| Atributo | Descripción |
+|---|---|
+| Disponibilidad (*Availability*) | Es la medida de disponibilidad del sistema para el uso (Barbacci et al., 1995). |
+| Confidencialidad (*Confidentiality*) | Es la ausencia de acceso no autorizado a la información (Barbacci et al., 1995). |
+| Funcionalidad (*Functionality*) | Habilidad del sistema para realizar el trabajo para el cual fue concebido (Kazman et al., 2001). |
+| Desempeño (*Performance*) | Es el grado en el cual un sistema o componente cumple sus funciones designadas, dentro de ciertas restricciones dadas, como velocidad, exactitud o uso de memoria (IEEE 610.12). Según Smith (1993), se refiere a aspectos temporales del comportamiento del sistema: capacidad de respuesta, tiempo requerido para responder a aspectos específicos o número de eventos procesados en un intervalo de tiempo. Según Bass et al. (1998), se refiere además a la cantidad de comunicación e interacción entre los componentes del sistema. |
+| Confiabilidad (*Reliability*) | Es la medida de la habilidad de un sistema a mantenerse operativo a lo largo del tiempo (Barbacci et al., 1995). |
+| Seguridad externa (*Safety*) | Ausencia de consecuencias catastróficas en el ambiente; medida de ausencia de errores que generan pérdidas de información (Barbacci et al., 1995). |
+| Seguridad interna (*Security*) | Es la medida de la habilidad del sistema para resistir a intentos de uso no autorizados y negación del servicio, mientras se sirve a usuarios legítimos (Kazman et al., 2001). |
+
 ### Diapositiva 9
 
 #### Clasificación de atributos de calidad
@@ -2189,6 +2523,21 @@ No observables vía ejecución
 - Se establecen
 
 durante el desarrollo
+
+**Contenido visual de la lámina:** **Tabla 2. Descripción de atributos de calidad no observables vía ejecución:**
+
+| Atributo | Descripción |
+|---|---|
+| Configurabilidad (*Configurability*) | Posibilidad que se otorga a un usuario experto a realizar ciertos cambios al sistema (Bosch et al., 1999). |
+| Integrabilidad (*Integrability*) | Es la medida en que trabajan correctamente componentes del sistema que fueron desarrollados separadamente al ser integrados (Bass et al., 1998). |
+| Integridad (*Integrity*) | Es la ausencia de alteraciones inapropiadas de la información (Barbacci et al., 1995). |
+| Interoperabilidad (*Interoperability*) | Es la medida de la habilidad de que un grupo de partes del sistema trabajen con otro sistema; es un tipo especial de integrabilidad (Bass et al., 1998). |
+| Modificabilidad (*Modifiability*) | Es la habilidad de realizar cambios futuros al sistema (Bosch et al., 1999). |
+| Mantenibilidad (*Maintainability*) | Es la capacidad de someter a un sistema a reparaciones y evolución (Barbacci et al., 1995); capacidad de modificar el sistema de manera rápida y a bajo costo (Bosch et al., 1999). |
+| Portabilidad (*Portability*) | Es la habilidad del sistema para ser ejecutado en diferentes ambientes de computación: hardware, software o una combinación de ambos (Kazman et al., 2001). |
+| Reusabilidad (*Reusability*) | Es la capacidad de diseñar un sistema de forma tal que su estructura o parte de sus componentes puedan ser reutilizados en futuras aplicaciones (Bass et al., 1998). |
+| Escalabilidad (*Scalability*) | Es el grado con el que se pueden ampliar el diseño arquitectónico, de datos o procedimental (Pressman, 2002). |
+| Capacidad de prueba (*Testability*) | Es la medida de la facilidad con la que el software, al ser sometido a una serie de pruebas, puede demostrar sus fallas; la probabilidad de que, asumiendo que tiene al menos una falla, el software fallará en su próxima ejecución de prueba (Bass et al., 1998). |
 
 ### Diapositiva 10
 
@@ -2210,6 +2559,8 @@ Modelos de
 
 calidad
 
+**Contenido visual de la lámina:** Portada del libro *Software Engineering: A Practitioner's Approach* (7.ª edición), de Roger S. Pressman.
+
 ### Diapositiva 11
 
 #### Principales modelos de calidad
@@ -2221,6 +2572,8 @@ McCall Dromey FURPS ISO/IEC
 9126
 
 25000
+
+**Contenido visual de la lámina:** Cinco círculos grises superpuestos con los nombres de los modelos: **McCall**, **Dromey**, **FURPS**, **ISO/IEC 9126** e **ISO/IEC 25000**. Las láminas 12 a 15 destacan uno a la vez.
 
 ### Diapositiva 12
 
@@ -2240,6 +2593,22 @@ Criterios asociados a los factores de calidad
 
 Modelo de McCall (McCall et al.,1977)
 
+**Contenido visual de la lámina:** **Modelo de McCall** (McCall et al., 1977). Criterios asociados a los factores de calidad:
+
+| Factor | Criterios |
+|---|---|
+| Correctitud | Rastreabilidad, completitud, consistencia |
+| Confiabilidad | Consistencia, exactitud, tolerancia a fallas |
+| Eficiencia | Eficiencia de ejecución, eficiencia de almacenamiento |
+| Integridad | Control de acceso, auditoría de acceso |
+| Usabilidad | Operabilidad, entrenamiento, comunicación |
+| Mantenibilidad | Simplicidad, concreción |
+| Capacidad de prueba | Simplicidad, instrumentación, auto-descriptividad, modularidad |
+| Flexibilidad | Auto-descriptividad, capacidad de expansión, generalidad, modularidad |
+| Portabilidad | Auto-descriptividad, independencia del sistema, independencia de máquina |
+| Reusabilidad | Auto-descriptividad, generalidad, modularidad, independencia del sistema, independencia de máquina |
+| Interoperabilidad | Modularidad, similitud de comunicación, similitud de datos |
+
 ### Diapositiva 13
 
 #### Principales modelos de calidad
@@ -2258,6 +2627,15 @@ Relación entre propiedades del producto y atributos de calidad.
 
 Modelo de Dromey (Dromey, 1996).
 
+**Contenido visual de la lámina:** **Modelo de Dromey** (Dromey, 1996). Relación entre propiedades del producto y atributos de calidad:
+
+| Propiedad del producto | Atributos de calidad |
+|---|---|
+| Correctitud | Funcionalidad, confiabilidad |
+| Internas | Mantenibilidad, eficiencia, confiabilidad |
+| Contextuales | Mantenibilidad, reusabilidad, portabilidad, confiabilidad |
+| Descriptivas | Mantenibilidad, reusabilidad, portabilidad, usabilidad |
+
 ### Diapositiva 14
 
 #### Principales modelos de calidad
@@ -2274,6 +2652,16 @@ McCall Dromey FURPS ISO/IEC
 
 Atributos de calidad – Modelo FURPS (Pressman, 2002)
 
+**Contenido visual de la lámina:** **Modelo FURPS** (Pressman, 2002):
+
+| Factor de calidad | Atributos |
+|---|---|
+| Funcionalidad | Características y capacidades del programa; generalidad de las funciones; seguridad del sistema |
+| Facilidad de uso | Factores humanos; factores estéticos; consistencia de la interfaz; documentación |
+| Confiabilidad | Frecuencia y severidad de las fallas; exactitud de las salidas; tiempo medio de fallos; capacidad de recuperación ante fallas; capacidad de predicción |
+| Rendimiento | Velocidad del procesamiento; tiempo de respuesta; consumo de recursos; rendimiento efectivo total; eficacia |
+| Capacidad de soporte | Extensibilidad; adaptabilidad; capacidad de pruebas; capacidad de configuración; compatibilidad; requisitos de instalación |
+
 ### Diapositiva 15
 
 #### Principales modelos de calidad
@@ -2287,6 +2675,19 @@ McCall Dromey FURPS ISO/IEC
 9126
 
 25000
+
+**Contenido visual de la lámina:** **Modelo ISO/IEC 9126:**
+
+| Característica | Subcaracterísticas |
+|---|---|
+| Funcionalidad | Adecuación, exactitud, interoperabilidad, seguridad |
+| Confiabilidad | Madurez, tolerancia a fallas, recuperabilidad |
+| Usabilidad | Entendibilidad, capacidad de aprendizaje, operabilidad |
+| Eficiencia | Comportamiento en tiempo, comportamiento de recursos |
+| Mantenibilidad | Analizabilidad, modificabilidad, estabilidad, capacidad de pruebas |
+| Portabilidad | Adaptabilidad, instalabilidad, reemplazabilidad |
+
+Nota adhesiva: *«El modelo ISO 25000 lo veremos la próxima semana. ¡Es el más usado en la actualidad!»*
 
 ### Diapositiva 16
 
@@ -2303,6 +2704,8 @@ Gestión de la calidad
 Importante: No confundir
 
 del Producto (Software)
+
+**Contenido visual de la lámina:** Contraposición **Gestión de la calidad del Proyecto** *v/s* **Gestión de la calidad del Producto (Software)**. Nota adhesiva: *«Ambas gestiones impactan tanto en el software final como en el cliente. La gestión de la calidad del proyecto se centra en el quehacer del equipo de desarrollo, mientras que la gestión de calidad del producto se centra en métricas técnicas.»*
 
 ### Diapositiva 17
 
@@ -2344,6 +2747,8 @@ requisitos, es probable que se escriban casos de prueba inadecuados o que se pie
 
 GeekQA (s.f.). https://geekqa.net/8-errores-comunes-que-cometen-los-testers-cuando-empiezan-en-qa/
 
+**Contenido visual de la lámina:** Cuatro columnas de colores (GeekQA, s.f.): **No entender los requisitos** — es importante entender completamente los requisitos del sistema antes de comenzar a escribir casos de prueba; si no se entienden, es probable que se escriban casos de prueba inadecuados o que se pierda algún aspecto importante del sistema. **No planificar adecuadamente** — la planificación es esencial para un proyecto de pruebas exitoso; a menudo se comete el error de no planificar adecuadamente, lo que puede llevar a retrasos y a la entrega de un producto de baja calidad. **No documentar adecuadamente** — la documentación es esencial para cualquier proyecto de pruebas; no documentar adecuadamente puede llevar a confusiones y problemas en el futuro. **No comunicar adecuadamente** — la comunicación es esencial en cualquier proyecto; no comunicarse adecuadamente con el equipo de desarrollo y otros miembros del equipo de pruebas puede llevar a problemas en el proyecto.
+
 ### Diapositiva 18
 
 Ejemplos de fallas respecto a la gestión de calidad del producto
@@ -2358,15 +2763,21 @@ Aunque el error solo duró un día, algunas pequeñas empresas perdieron hasta 1
 
 QAWERK (s.f.). https://qawerk.es/blog/los-mayores-fallos-en-las-pruebas-de-software/
 
+**Contenido visual de la lámina:** **Fallo de Amazon (2014)** (QAWERK, s.f.), con una ilustración de bolsas de compra y el texto *«£100 mil — amazon»*. El 14 de diciembre de 2014, numerosos compradores encontraron productos en Amazon a precios extremadamente bajos, debido a un error de software que redujo los precios a solo 0,01 libras. Los vendedores contactaron al servicio de atención al cliente, ya que sus negocios estaban en riesgo de quiebra. El fallo se debió al software de terceros **Repricer Express**, que aplicaba precios dinámicos desde una comparación de productos. Aunque el error solo duró un día, algunas pequeñas empresas perdieron hasta 100.000 libras; Repricer Express se negó a asumir la responsabilidad y no compensó a los afectados. Pregunta final: *¿Qué atributo de calidad de software está involucrado en este caso?*
+
 ### Diapositiva 19
 
 #### Referencias Bibliográficas
 
 - Barbacci, M., Klein, M., Longstaff, T., & Weinstock, C. (1995). Quality Attributes. Carnegie Mellon University. Technical Report. • Bass, L., Clements, P., & Kazman, R. (1998). Software Architecture in practice. Addison-Wesley. • Bosch, J. (2000). Design & Use of Software Architectures. Addison-Wesley. • Camacho, E., Cardeso, F., & Nuñez, G. (2004). Arquitecturas de Software. Guía de Estudio. • Crosby, P. (1979). Quality is Free. Nueva York: McGraw-Hill. • Dromey, G. (1996). Cornering the Chimera. IEEE Software. Vol 13, Nro. 1. • Grady, R., & Caswell, D. (1987) Software Metrics: Establishing a company-Wide Program. Prentice Hall. • ISO/IEC. (1998). Information Technology – Software Product Quality – Part 1: Quality Model. • Kazman, R., Clements, P., Klein, M. (2001). Evaluating Software Architectures. Methods and case studies. Addison Wesley. • Sommerville, I. (2002). Ingeniería de software, Pearson Educación. • Los mayores fallos en las pruebas de software (s.f.). QWERK. https://qawerk.es/blog/los- mayores-fallos-en-las-pruebas-de-software/ • 8 Errores comunes que cometen los Testers cuando empiezan en QA (s.f). GeekQA. https://geekqa.net/8-errores-comunes-que-cometen-los-testers-cuando-empiezan-en-qa/
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 20
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
 
 ---
 
@@ -2384,6 +2795,8 @@ Prof. Rodrigo Caballero V.
 
 rcaballerov@docente.uss.cl
 
+**Contenido visual de la lámina:** Portada con fotografía de fondo, logo USS, título de la sesión y datos del profesor.
+
 ### Diapositiva 2
 
 #### Contenidos de esta sesión
@@ -2393,6 +2806,8 @@ rcaballerov@docente.uss.cl
 - Análisis de casos de estudio donde se aplicaron estas herramientas y metodologías con éxito.
 
 - Demostración práctica de alguna de las herramientas utilizadas en el control de calidad del desarrollo de software.
+
+**Contenido visual de la lámina:** Nota adhesiva amarilla: **Resultado de Aprendizaje de la Unidad** — *Aplica diversas normas, modelos y estándares de aseguramiento de la calidad al software y al ciclo de desarrollo, con el fin de asegurar que el software cumpla con los estándares de calidad exigidos en la organización.*
 
 ### Diapositiva 3
 
@@ -2422,9 +2837,25 @@ modelo de calidad del producto software, e ISO/IEC
 
 productos software.
 
+**Contenido visual de la lámina:** Diagrama **Familia de normas ISO/IEC 25000** (iso25000.com): un recuadro central **ISO/IEC 2500n — División para gestión de la calidad**, rodeado por cuatro: **ISO/IEC 2501n — División para el modelo de calidad**, **ISO/IEC 2502n — División para la medición de calidad**, **ISO/IEC 2503n — División para los requisitos de calidad** e **ISO/IEC 2504n — División para la evaluación de calidad**.
+
 ### Diapositiva 4
 
 #### Atributos de calidad del Modelo ISO/IEC 25010
+
+**Contenido visual de la lámina:** Tabla **CALIDAD DEL PRODUCTO SOFTWARE** (iso25000.com), con nueve características y sus subcaracterísticas:
+
+| Característica | Subcaracterísticas |
+|---|---|
+| Adecuación funcional | Completitud funcional, corrección funcional, pertinencia funcional |
+| Eficiencia de desempeño | Comportamiento temporal, utilización de recursos, capacidad |
+| Compatibilidad | Coexistencia, interoperabilidad |
+| Capacidad de interacción | Reconocibilidad de adecuación, aprendizabilidad, operabilidad, protección frente a errores de usuario, involucración del usuario, inclusividad, asistencia al usuario, auto-descriptividad |
+| Fiabilidad | Ausencia de fallos, disponibilidad, tolerancia a fallos, recuperabilidad |
+| Seguridad | Confidencialidad, integridad, no-repudio, responsabilidad, autenticidad, resistencia |
+| Mantenibilidad | Modularidad, reusabilidad, analizabilidad, capacidad de ser modificado, capacidad de ser probado |
+| Flexibilidad | Adaptabilidad, escalabilidad, instalabilidad, reemplazabilidad |
+| Protección | Restricción operativa, identificación de riesgos, protección ante fallos, advertencia de peligro, integración segura |
 
 ### Diapositiva 5
 
@@ -2444,6 +2875,8 @@ forma automatizada vinculando métricas para cuantificar cada una de las
 
 características de calidad.
 
+**Contenido visual de la lámina:** Captura del panel de **Kiuwan** con indicadores: *Risk index* 91,87; *Global indicator* 36,42; *Effort to target* 498 h; gráfico de barras *Current/Target* por característica; gráfico circular por característica (Efficiency, Maintainability, Portability, Reliability, Security); *Lines of code* 30.861; *Files* 338; *Complexity* 93,16; *% Duplicated code* 8,89. Encerrada en rojo, la fila de defectos por característica: *Defects* 6.143; *Maintainability* 2.916; *Security* 214; *Efficiency* 1.162; *Portability* 541; *Reliability* 1.310.
+
 ### Diapositiva 6
 
 Herramientas y metodologías para el control de calidad del desarrollo de software
@@ -2451,6 +2884,8 @@ Herramientas y metodologías para el control de calidad del desarrollo de softwa
 Un vistazo a algunas de las herramientas más utilizadas para el control de
 
 calidad, con métricas en relación a los atributos de calidad
+
+**Contenido visual de la lámina:** Logos de las herramientas: **Kiuwan**, **SonarQube**, **SonarCloud**, **Selenium**, **Locust**, **Apache JMeter** y **Google Lighthouse**.
 
 ### Diapositiva 7
 
@@ -2470,6 +2905,8 @@ estático del código fuente.​
 
 https://www.kiuwan.com/
 
+**Contenido visual de la lámina:** Captura del panel de defectos de **Kiuwan**: gráficos *Defects by characteristic* (Maintainability, Efficiency, Portability, Reliability), *Defects by language* (Java) y *Defects by priority* (Very High a Very Low); indicadores *87 Violated rules*, *1.227 Defects*, *20 Very high* y *61,93 Quality indicator*; y una tabla de reglas incumplidas (por ejemplo *Cyclomatic complexity*, *Avoid catching NullPointerExceptions*, *Do not use the ternary operator*, *Provide Javadoc comments for public classes*, *Avoid catch blocks with empty bodies*) con su característica, lenguaje y esfuerzo estimado. Enlace: https://www.kiuwan.com/
+
 ### Diapositiva 8
 
 Herramientas y metodologías para el control de calidad del desarrollo de software
@@ -2486,6 +2923,8 @@ sugerencias de acción.
 
 https://www.sonarsource.com/products/
 
+**Contenido visual de la lámina:** Logos de **SonarQube** y **SonarCloud** y captura de un *Overview Report* de SonarCloud: *Overall lines of code* 362.439; *Reliability* nota D con 4.023 bugs; *Security* nota D con 17.733 vulnerabilidades y 1.263 hotspots; *Maintainability* nota A con 17.184 *code smells*; *Coverage* 1,2 %; *Duplications* 44,1 %; y una tabla de *Issues by severity*. Enlace: https://www.sonarsource.com/products/
+
 ### Diapositiva 9
 
 Herramientas y metodologías para el control de calidad del desarrollo de software
@@ -2501,6 +2940,8 @@ A diferencia de las herramientas anteriores que visibilizan diversos
 atributos, el foco de Selenium es fiabilidad y adecuación funcional.
 
 https://www.selenium.dev/
+
+**Contenido visual de la lámina:** Capturas de **Selenium IDE**: un proyecto de pruebas con la lista de comandos grabados (*execute script*, *if*, *else*, *assert*, *control flow*…) y su registro de ejecución con resultados *OK*. Enlace: https://www.selenium.dev/
 
 ### Diapositiva 10
 
@@ -2519,6 +2960,8 @@ suficiente información para entender qué está pasando con
 nuestras pruebas.
 
 https://www.locust.io/
+
+**Contenido visual de la lámina:** Logo de **Locust** y captura de su interfaz web: *Host* http://api.initech.com, *Status RUNNING* con 21.400 usuarios, 6 *workers*, 228,1 RPS y 0 % de fallas. Tabla de estadísticas por endpoint (GET /, /blog, /blog/[post-slug], POST /groups/create, GET y POST /signin, /users/[username], /v1/users/) con *# Requests*, *# Fails*, mediana, percentiles 90 y 99, promedio, mínimo, máximo, tamaño promedio y RPS. Fila *Aggregated*: 24.895 solicitudes, 0 fallas, mediana 34 ms, 228,1 RPS. Enlace: https://www.locust.io/
 
 ### Diapositiva 11
 
@@ -2552,6 +2995,8 @@ Load Testing
 
 https://jmeter.apache.org/
 
+**Contenido visual de la lámina:** Logo de **Apache JMeter** y captura de su interfaz (Apache JMeter 5.3) con un plan de prueba (*HTTP Request Defaults*, *User Defined Variables*, *HTTP Cookie Manager*, *HTTP Header Manager*, *JMeter Users*, *Home Page*, *Think Time*, *View Results Tree*). Seis botones con tipos de prueba: **Stress Testing, Endurance Testing, Spike Testing, Volume Testing, Scalability Testing y Load Testing**. Enlace: https://jmeter.apache.org/
+
 ### Diapositiva 12
 
 Herramientas y metodologías para el control de calidad del desarrollo de software
@@ -2572,6 +3017,8 @@ https://chromewebstore.google.com/detail/lighthouse/
 
 blipmdconlkpinefehnmjammfjpmpbjk?hl=es
 
+**Contenido visual de la lámina:** Logo de **Google Lighthouse** y captura de un informe: *Performance* 25, *Accessibility* 85, *Best Practices* 71, *SEO* 100 y *Progressive Web App*; escala de colores 0–49 (rojo), 50–89 (naranjo) y 90–100 (verde); métricas *First Contentful Paint* 3,3 s, *Speed Index* 7,1 s, *Largest Contentful Paint* 6,2 s, *Time to Interactive* 11,7 s, *Total Blocking Time* 2.790 ms y *Cumulative Layout Shift* 0,124.
+
 ### Diapositiva 13
 
 #### Casos de éxito aplicando estas herramientas
@@ -2585,6 +3032,8 @@ Ferrovial pudo mejorar la calidad y seguridad de cada una de sus aplicaciones. E
 Puglia Digitale aprovechó los mecanismos de Kiuwan para identificar prácticas de programación deficientes y proporcionar la información necesaria a los desarrolladores para corregir los defectos.
 
 https://www.kiuwan.com/success-stories/
+
+**Contenido visual de la lámina:** Cuatro recuadros con casos de éxito de Kiuwan (https://www.kiuwan.com/success-stories/): **Centrica** — la introducción de Kiuwan en el ciclo de vida del desarrollo de software aumentó la productividad del equipo de desarrollo, con costos mínimos de inicio y mantenimiento. **Telefónica** — Telefónica LatAm logró una mejora en la calidad y seguridad de sus aplicaciones que se tradujo en un rendimiento del 20 % en producción. **Ferrovial** — pudo mejorar la calidad y seguridad de cada una de sus aplicaciones; el análisis y la integración mejoraron el enfoque de desarrollo. **Puglia Digitale** — aprovechó los mecanismos de Kiuwan para identificar prácticas de programación deficientes y proporcionar la información necesaria a los desarrolladores para corregir los defectos.
 
 ### Diapositiva 14
 
@@ -2601,6 +3050,8 @@ Google Lighthouse
 2. Abre una página web que quieras auditar
 
 3. Haz clic derecho en la página y selecciona inspeccionar.
+
+**Contenido visual de la lámina:** A la izquierda, logo de Chrome y título *Actividad práctica con Google Lighthouse*. A la derecha, captura de la ficha de la extensión **Lighthouse** en Chrome Web Store (developers.google.com/web, destacada, 4,4 ★, más de 1.000.000 de usuarios, botón *Añadir a Chrome*) y los pasos: 1. Instala la extensión en Google Chrome (https://chromewebstore.google.com/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es). 2. Abre una página web que quieras auditar. 3. Haz clic derecho en la página y selecciona *Inspeccionar*.
 
 ### Diapositiva 15
 
@@ -2632,6 +3083,8 @@ superior.
 
 requieren para mejorar las métricas!
 
+**Contenido visual de la lámina:** Captura de las herramientas para desarrolladores de Chrome con la pestaña **Lighthouse** seleccionada en el menú de pestañas (junto a *Security*, *Recorder*, *Performance insights* y *AdBlock*) y el panel *Generate a Lighthouse report*: botón **Analyze page load**; *Mode*: Navigation (Default), Timespan, Snapshot; *Device*: Mobile o Desktop; *Categories*: Performance, Accessibility, Best practices, SEO y Progressive Web App. Flechas señalan la pestaña Lighthouse y el botón de análisis.
+
 ### Diapositiva 16
 
 #### Demostración práctica con Google Lighthouse
@@ -2641,6 +3094,8 @@ Reporte de evaluación
 Reporte de evaluación inicial
 
 post remediación v/s
+
+**Contenido visual de la lámina:** Comparación **Reporte de evaluación inicial** *v/s* **Reporte de evaluación post remediación**, con una flecha entre ambos. Inicial: Performance 25, Accessibility 85, Best Practices 71, SEO 100; First Contentful Paint 3,3 s, Speed Index 7,1 s, Largest Contentful Paint 6,2 s, Time to Interactive 11,7 s, Total Blocking Time 2.790 ms, Cumulative Layout Shift 0,124. Posterior: Performance 98, Accessibility 100, Best Practices 93, SEO 100; First Contentful Paint 1,0 s, Speed Index 1,6 s, Time to Interactive 2,0 s, First Meaningful Paint 1,5 s, First CPU Idle 2,4 s, Max Potential First Input Delay 290 ms. Nota adhesiva: *«El objetivo de los reportes generados por las herramientas de pruebas y calidad es contrastar una situación inicial contra una situación posterior a las remediaciones.»*
 
 ### Diapositiva 17
 
@@ -2662,6 +3117,10 @@ post remediación v/s
 
 - Pol, Tushar (2023). Google Lighthouse: Qué es y Cómo Utilizarlo. https://es.semrush.com/blog/como-utilizar-google-lighthouse/
 
+**Contenido visual de la lámina:** Lámina de texto, sin imágenes con contenido adicional.
+
 ### Diapositiva 18
 
 ¡Tus consultas son importantes! Espacio para preguntas
+
+**Contenido visual de la lámina:** Lámina de cierre: *¡Tus consultas son importantes! Espacio para preguntas.*
