@@ -29,10 +29,9 @@ prioridad. Reemplaza como lista de trabajo a `pendientes-avance-3.md`, que queda
 grabar el video, hacer la sesión con el encargado, revisar Blackboard, imprimir el afiche, cambiar ajustes en el panel
 de Supabase y ensayar. Esas tareas van marcadas como **Persona**.
 
-**Efecto en el CR-01:** la capacidad ya no se mide como 5 integrantes × 10 h, sino como las horas de Vicente para
-escribir prompts, revisar y probar. El cuello de botella pasa a ser la revisión: con agentes, cada función toma
-unas 1 a 2 h de trabajo humano. El orden de prioridades del CR-01 se mantiene; lo opcional (S1, S2) y RNF08 se
-vuelven realistas. Hay que actualizar la sección 2 del CR-01 antes de aprobarlo (A3-01).
+**Efecto en el CR-01:** se mantiene el supuesto de capacidad de 5 integrantes × 10 h por semana (decisión de
+Vicente, 23 de noviembre), así que el CR-01 no cambia. Si con los agentes el ritmo resulta mayor, lo opcional (S1 y
+S2) y RNF08 entran en el orden ya definido, sin otro registro de cambio.
 
 **Tipos de tarea:** **Agente** (prompt a Claude Code o Codex) · **Claude** (este asistente: documentos, PPT en
 Canva, auditorías) · **Persona** (requiere a alguien del equipo o hardware) · **Externo** (encargado o profesor).
@@ -46,7 +45,7 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 
 | ID | P | Tarea | Tipo | Quién | Cuándo | Tiempo | Depende de |
 |---|---|---|---|---|---|---|---|
-| A3-01 | P0 | Actualizar el CR-01 al modo con agentes y aprobarlo en el ensayo | Claude + Persona | Vicente y equipo | Hoy y ensayo de las 11:30 | 15 min | — |
+| A3-01 | P0 | Aprobar el CR-01 en el ensayo (sin cambios de capacidad) | Persona | Equipo | Ensayo de las 11:30 | 10 min | — |
 | A3-02 | P0 | Hoja de pruebas ejecutadas del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
 | A3-03 | P0 | Completar las láminas 17 a 23 en Canva: ER (17, el PNG ya está en `docs/diagramas/`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | Hoy | 1 h | A3-01, A3-02 |
 | A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 18, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
