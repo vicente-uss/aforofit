@@ -267,8 +267,11 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante). Probado el 20 de noviembre:
   funciona como teclado con TNE, TUI y tarjetas bancarias, y entrega el UID en decimal invertido como dijo el vendedor
   (`docs/pruebas-tarjetas.md`).
-- Estimación del Avance 3: 207 puntos de función no ajustados (10,35 KLOC), COCOMO 81 orgánico de 27,9 PM,
-  8,9 meses y 3,2 personas, recursos, costos y 16 riesgos (`docs/estimacion.md` y la planilla
+- Estimación del Avance 3 con el método de clase (Semanas 5, 6 y 7): 207 puntos de función no ajustados con
+  justificación por función (10,35 KLOC con el supuesto de 50 LOC/PF), COCOMO 81 orgánico de 27,9 PM, 8,9 meses y
+  3,2 personas, segundo método por productividad (clase: 20,7 y 5,75 PM; observada del equipo: 1,57 y 2,45 PM),
+  esfuerzo disponible de 1,32 PM (5 integrantes × 10 h por semana cada uno × 4 semanas), factores propios, costos
+  por rol con contingencia del 12 % ($2.530.265 teórico) y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3").
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 - Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
@@ -286,8 +289,12 @@ Actualizado: lunes 23 de noviembre de 2026.
   1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
 - Pull requests #8 (base de datos) y #7 (pantallas) fusionados el 22 de noviembre: el flujo central completo está
   en producción en https://aforofit.vercel.app (kiosco, aforo en vivo y lista de espera contra la base real).
-- PPT del Avance 3 en borrador (18 láminas con notas del orador y referencias a las clases de las semanas 5, 6 y 7);
-  las láminas 12 a 17 esperan la evidencia de la revisión del equipo del 23 de noviembre.
+- PPT del Avance 3 rehecha (23 láminas, en Canva) con notas del orador y referencias a las clases de las semanas 5,
+  6 y 7. La estimación ocupa las láminas 5 a 14; las láminas 17 a 22 esperan la evidencia de la revisión del
+  equipo del 23 de noviembre. Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
+  usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
+- Planilla de estimación compartida con Bastián; contraseñas de los usuarios de prueba entregadas por privado; las
+  tarjetas de Pau quedan vinculadas para la demo.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche lo imprime la universidad. El gasto real sigue siendo el lector ($18.980).
 
@@ -302,10 +309,11 @@ Actualizado: lunes 23 de noviembre de 2026.
   `/aforo` puede mostrar "Turno N" unos minutos de más
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Avance 3: confirmar los supuestos de la estimación (horas por semana y factor LOC/PF). La analogía con el repo
-  quedó desactualizada: el 23 de noviembre hay unas 2.168 LOC de TypeScript y 608 de SQL (sin pruebas) para unos 87 PF
-  terminados, frente a 1.671 LOC y 24 PF del 19 de noviembre
-- [ ] Avance 3: completar las láminas 12 a 17 de la PPT con la evidencia del equipo y ensayar (24 nov, 11:30).
+- [ ] Avance 3: confirmar los supuestos de la estimación (10 h por semana por integrante y 50 LOC/PF). El contraste con
+  el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
+  ambas mediciones incluyen la plantilla `with-supabase`
+- [ ] Avance 3: completar las láminas 17 a 22 de la PPT con la evidencia del equipo (la auditoría de interfaces de
+  Benjamín ya llegó) y ensayar (24 nov, 11:30).
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
