@@ -163,7 +163,7 @@ Mantener durante todo el proyecto:
 - [ ] Hay una lista de incertidumbres, exclusiones y decisiones pendientes.
 - [ ] Existe información suficiente para seleccionar un enfoque; lo desconocido se declara.
 
-**Entregable:** ficha de contexto y alcance inicial. Para un tratamiento exhaustivo de ingeniería de requisitos puede emplearse el framework complementario de Requerimientos y Calidad, pero este documento también contiene los mínimos para comenzar.
+**Entregable:** ficha de contexto y alcance inicial. Para un tratamiento exhaustivo de ingeniería de requisitos puede emplearse el [framework complementario de Requerimientos y Calidad](framework-requerimientos-calidad.md), pero este documento también contiene los mínimos para comenzar.
 
 ---
 
@@ -1318,6 +1318,8 @@ La **estimación mejora** cuando la organización registra resultados reales y a
 ---
 
 ## 14. Integración con el framework de Requerimientos y Calidad
+
+Ver el [Framework de Ingeniería de Requerimientos y Aseguramiento de la Calidad](framework-requerimientos-calidad.md).
 
 *Fuente: criterio del framework.*
 

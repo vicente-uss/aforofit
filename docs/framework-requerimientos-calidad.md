@@ -7,7 +7,7 @@
 
 > **Propósito.** Este documento transforma los contenidos prácticos de las clases en un procedimiento de trabajo autónomo. No es un apunte de diapositivas ni una exigencia de usar todas las técnicas. Explica **qué hacer, cuándo elegir cada opción, qué producir, qué validar y cuándo avanzar**. Los ejemplos son hipotéticos y sirven para cualquier dominio. Las plantillas, criterios de selección y «puertas de salida» constituyen una organización operativa del contenido docente, no un estándar oficial de la USS.
 
-**Auditoría:** contrastado lámina por lámina con los PDF oficiales de los capítulos 01 a 09 el 23 de noviembre de 2026. Cada sección indica su **fuente** (capítulo y diapositivas); lo que no sale de una lámina se marca como *criterio del framework*. La transcripción citable del material está en [ingenieria-de-requerimientos.md](ingenieria-de-requerimientos.md).
+**Auditoría:** contrastado lámina por lámina con los PDF oficiales de los capítulos 01 a 09 el 23 de noviembre de 2026. Cada sección indica su **fuente** (capítulo y diapositivas); lo que no sale de una lámina se marca como *criterio del framework*. La transcripción citable del material está en [ingenieria-de-requerimientos.md](ingenieria-de-requerimientos.md). Para diseñar, construir, probar y estimar, el complemento es el [Framework de Ingeniería de Software](framework-ingenieria-de-software.md).
 
 **Alcance:** identificar y delimitar un problema; comprender los procesos y sus participantes; obtener, analizar, especificar, priorizar, validar y gestionar requisitos; establecer atributos de calidad; planificar su comprobación; medir resultados y gestionar cambios. **Fuera de alcance:** prescribir un lenguaje, arquitectura, plataforma o metodología de construcción.
 
