@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { textoCupos } from "@/lib/aforo/estado";
+import { useAforo } from "@/lib/aforo/useAforo";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
@@ -54,6 +56,8 @@ function formatoHora(fecha: Date) {
 }
 
 export function PantallaIngreso() {
+  // Aforo en vivo solo para mostrarlo: no participa en la validación ni bloquea el ingreso.
+  const { aforo, sinConexion: sinAforo } = useAforo("aforo-kiosco");
   const [ultima, setUltima] = useState<Lectura | null>(null);
   const [lecturas, setLecturas] = useState<Lectura[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -295,6 +299,14 @@ export function PantallaIngreso() {
       <header className="border-b bg-background">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 p-4">
           <span className="text-xl font-bold tracking-tight">AforoFit</span>
+          {/* Línea de aforo visible en reposo: el profesor ve el cupo sin pasar una tarjeta. */}
+          <span className="text-lg font-semibold tabular-nums md:text-xl">
+            {aforo
+              ? `Aforo: ${aforo.ocupacion} / ${aforo.capacidad} · ${textoCupos(aforo.ocupacion, aforo.capacidad)}`
+              : sinAforo
+                ? "Aforo no disponible"
+                : "Cargando aforo…"}
+          </span>
           <Badge variant="secondary">Ingreso al gimnasio</Badge>
         </div>
       </header>
