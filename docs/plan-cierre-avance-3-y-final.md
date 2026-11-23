@@ -129,3 +129,44 @@ después se muestra en la demo, pero el afiche lo deja como «próxima versión�
 | El lector no está cuando hace falta | Pau no está en la sala | Ingreso manual (misma función) y video |
 | Alguien del equipo no puede explicar su área en la defensa | En el ensayo | Guion por integrante (F-15) y que cada uno apruebe los pull requests de su área |
 | Cambios de último minuto rompen la demo | Error en producción después del jueves | Desde el sábado solo correcciones; volver a la versión anterior en Vercel si algo falla |
+
+## 5. Checklist de Vicente: hoy y mañana
+
+### Hoy en la noche, al recibir las entregas del equipo
+
+- [ ] Enviar a Claude cada entrega a medida que llegue, aunque esté incompleta: Pau (casos con el lector, CA29 y
+  video), Benjamín (capturas nuevas, prueba de turnos y frase de la lámina 19), Isidora (diagrama o ideas para la
+  lámina 17) y Bastián (hoja de pruebas, Lighthouse y avance del afiche)
+- [ ] Aprobar la vista previa de las láminas 17 a 23 en Canva antes de guardarlas (las arma Claude con esas entregas)
+- [ ] Revisar el [CR-01](cr-01-linea-base-entrega-final.md) para llegar al ensayo con una opinión (10 min)
+- [ ] Dejar la base lista para la demo en el SQL Editor de Supabase y comprobar que
+  https://aforofit.vercel.app/aforo muestre **0 / 20**:
+
+  ```sql
+  update visitas set salida = now() where salida is null;
+  update turnos set estado = 'expirado' where estado in ('esperando','llamado');
+  update configuracion set capacidad = 20 where id = 1;
+  ```
+
+**Si alguna entrega no llega:**
+
+- [ ] Video: grabarlo en 30 s con el ingreso manual del kiosco
+- [ ] Capturas: sacarlas desde producción (sin el indicador «N»)
+- [ ] Lighthouse: Chrome → F12 → Lighthouse → Analyze, en `/aforo` y en `/ingreso`, y anotar los 4 puntajes
+
+### Mañana martes 24
+
+- [ ] Antes de las 11:30: confirmar con Pau que lleve el lector y sus tarjetas vinculadas
+- [ ] 11:30, ensayo: el equipo aprueba, ajusta o rechaza el CR-01; ensayar la respuesta a «¿cómo cierran la brecha?»
+  (está en el guion)
+- [ ] Antes de presentar: bajar la capacidad a 2 para mostrar el turno (lámina 18) y volverla a 20 al terminar:
+
+  ```sql
+  update configuracion set capacidad = 2 where id = 1;
+  ```
+
+- [ ] 13:10: Avance 3
+- [ ] Cerca de las 17:00: sesión con el encargado con el guion de la
+  [sección 9 de los complementos](complementos-avances-1-y-2.md#9-validación-con-el-encargado-playback); contarle
+  a Claude el resultado para completar el acta
+- [ ] En la noche: pedir el prompt de F-01 (rutina, base de datos) y empezar la entrega final
