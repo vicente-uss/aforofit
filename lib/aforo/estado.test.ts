@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { estadoAforo } from "./estado";
+import { estadoAforo, textoCupos } from "./estado";
 
 describe("estadoAforo", () => {
   it("bajo el umbral: Disponible", () => {
@@ -25,5 +25,24 @@ describe("estadoAforo", () => {
     expect(estadoAforo(15, 20, undefined).etiqueta).toBe("Disponible");
     expect(estadoAforo(15, 20, 0).etiqueta).toBe("Disponible");
     expect(estadoAforo(15, 20, 1.5).etiqueta).toBe("Disponible");
+  });
+});
+
+describe("textoCupos", () => {
+  it("sin cupos cuando el gimnasio está lleno", () => {
+    expect(textoCupos(20, 20)).toBe("Sin cupos");
+  });
+  it("singular con un solo cupo", () => {
+    expect(textoCupos(19, 20)).toBe("1 cupo disponible");
+  });
+  it("plural con varios cupos", () => {
+    expect(textoCupos(1, 20)).toBe("19 cupos disponibles");
+    expect(textoCupos(0, 20)).toBe("20 cupos disponibles");
+  });
+  it("ocupación mayor que la capacidad: sin cupos, nunca negativo", () => {
+    expect(textoCupos(22, 20)).toBe("Sin cupos");
+  });
+  it("capacidad 0: sin cupos", () => {
+    expect(textoCupos(0, 0)).toBe("Sin cupos");
   });
 });

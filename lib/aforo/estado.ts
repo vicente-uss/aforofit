@@ -19,3 +19,12 @@ export function estadoAforo(
   if (proporcion >= umbralUsado) return { etiqueta: "Casi lleno", porcentaje };
   return { etiqueta: "Disponible", porcentaje };
 }
+
+// Cupos libres en palabras, para la pantalla pública y el kiosco (hallazgo de la auditoría del 23 de noviembre).
+// Nunca devuelve números negativos: si la ocupación supera la capacidad, no hay cupos.
+export function textoCupos(ocupacion: number, capacidad: number): string {
+  const cupos = Math.max(capacidad - ocupacion, 0);
+  if (cupos === 0) return "Sin cupos";
+  if (cupos === 1) return "1 cupo disponible";
+  return `${cupos} cupos disponibles`;
+}
