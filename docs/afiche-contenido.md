@@ -106,12 +106,12 @@ aforo en vivo, con lista de espera cuando el gimnasio está lleno.
 
 ## 4. Qué funciones se pueden mencionar
 
-| Función | Cómo aparece en el afiche | Estado al 20 nov | Verificar el 26 nov |
+| Función | Cómo aparece en el afiche | Estado al 23 nov | Verificar el 26 nov |
 |---|---|---|---|
-| Ingreso y salida con TNE o TUI | Implementado | En pull request (pantallas y base de datos) | ☐ |
-| Validación de certificado, horario y cupo | Implementado | En pull request | ☐ |
-| Lista de espera con turno | Implementado | En pull request | ☐ |
-| Aforo en vivo en pantalla pública | Implementado | En pull request | ☐ |
+| Ingreso y salida con TNE o TUI | Implementado | En producción | ☐ |
+| Validación de certificado, horario y cupo | Implementado | En producción | ☐ |
+| Lista de espera con turno | Implementado | En producción | ☐ |
+| Aforo en vivo en pantalla pública | Implementado | En producción | ☐ |
 | Login por rol (alumno, profesor y admin) | Implementado | En producción | ☐ |
 | Catálogo de máquinas e implementos | Implementado solo si hay pantalla | Solo en la base de datos | ☐ |
 | Rutina en el celular al pasar la credencial | "Próximamente" si no está | Pendiente | ☐ |

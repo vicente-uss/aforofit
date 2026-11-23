@@ -111,8 +111,9 @@ Costo        = 27,9 × $2.000.000 = $55,8 millones (supuesto de la clase; sin li
 |---|---|---:|
 | Humanos | Vicente (jefe de proyecto), Benjamín (frontend y prototipo), Isidora (backend y base de datos), Pau (ingreso y hardware), Bastián (administración, QA y afiche) | Teórico: $1.847.575 (costo mensual × meses × dedicación); no se paga |
 | Software y servicios | Vercel Hobby, Supabase, GitHub y Figma Make (plan estudiante, 3.000 créditos de IA) | $0 |
+| Inteligencia artificial | Claude Pro (US$20 al mes) de dos integrantes que ya lo tenían, no comprado para el proyecto; Gemini Pro con cuenta de estudiante | $0 para el proyecto |
 | Infraestructura | Lector USB de 13,56 MHz MF1 S50 ($14.990) + envío ($3.990); computador All-in-One del gimnasio (existente) | $18.980 |
-| Otros | Impresión del afiche (formato e impresión por Blackboard) | Por cotizar |
+| Otros | Impresión del afiche (la imprime la universidad) | $0 |
 
 El lector lo compró **Pau**: $18.980 con envío, **unos $3.800 por integrante** ($3.796).
 
@@ -133,5 +134,6 @@ Son 16 en la hoja Riesgos de la planilla. Exposición = probabilidad × impacto,
 
 - Horas por semana por integrante (8) y semanas de desarrollo (4, del 10 de noviembre al 3 de diciembre).
 - Factor de 50 LOC por punto de función.
-- Costo de impresión del afiche (lo informa el profesor por Blackboard).
+- La analogía con el repo (sección 3) usa la medición del 19 de noviembre; con lo construido al 23 de noviembre
+  (unos 87 PF) el factor observado cambia y hay que recalcularlo.
 - El conteo de DET y FTR. Si una función se reclasifica, se cambia en la planilla y todo se recalcula.
