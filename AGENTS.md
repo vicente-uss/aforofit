@@ -308,7 +308,8 @@ Actualizado: lunes 23 de noviembre de 2026.
 - [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
   video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
   Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
-  de interfaces; le faltan las capturas de la lista de espera con turnos y el video
+  de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 y televisor parciales); le faltan las
+  capturas de la lista de espera con turnos y el video
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más
