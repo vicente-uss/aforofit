@@ -171,7 +171,7 @@ Matriz de atributos, métricas y evidencias (FW-IR 10.6 y P09). Atributos elegid
 
 | RNF | Atributo | Métrica y umbral | Herramienta | Responsable | Cuándo | Criterio | Evidencia o estado |
 |---|---|---|---|---|---|---|---|
-| RNF01 | Eficiencia: tiempo de respuesta | Ingreso en 3 s o menos | Cronómetro y los milisegundos de «Últimas lecturas» del kiosco | Pau | 23 nov y 30 nov | CA29 | En curso |
+| RNF01 | Eficiencia: tiempo de respuesta | Ingreso en 3 s o menos | Cronómetro y los milisegundos de «Últimas lecturas» del kiosco | Pau | 23 nov y 30 nov | CA29 | ✅ 1,2 s o menos en 4 lecturas, medido desde el video ([medición](medicion-ca29-2026-11-23.md)); repetir en la red de la universidad |
 | RNF02 | Eficiencia: tiempo real | Aforo y rutina en 2 s o menos | Cronómetro entre dos pantallas | Pau y Benjamín | 22 nov (aforo), 29 nov (rutina) | CA10 y CA11 | `/profesor/espera` medida el 22 nov (turno 1.011 ms, llamado 454 ms); falta `/aforo` formal y la rutina |
 | RNF03 | Compatibilidad | Funciona en el computador, Android y iPhone sin instalar nada | Prueba manual en los tres equipos | Bastián | 29 nov | CA30 | Pendiente |
 | RNF04 | Compatibilidad | Lector como teclado sin drivers; respaldo | Lector comprado | Pau | 20 nov | CA31 | Lector probado con TNE y TUI; respaldo según el CR-01 |

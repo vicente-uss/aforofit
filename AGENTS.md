@@ -307,7 +307,9 @@ Actualizado: lunes 23 de noviembre de 2026.
 
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
-- [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
+- [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
+  desde el video de la prueba de Pau: cumple, 1,2 s o menos en 4 lecturas (`docs/medicion-ca29-2026-11-23.md`);
+  repetir en la red de la universidad
 - [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
   video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
   Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
