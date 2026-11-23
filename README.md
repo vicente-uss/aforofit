@@ -85,7 +85,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 
 - [Documento maestro de AforoFit](docs/cierre-avances-1-y-2.md): alcance, reglas, requisitos completos, criterios, diagramas, evidencia, entrevista y pendientes para el Avance 3.
 - [Bases y rúbrica del Proyecto Integrador](docs/bases-proyecto-integrador.md): alcance y criterios por hito.
-- Material de apoyo: [Framework de Ingeniería de Requerimientos y Calidad](docs/framework-requerimientos-calidad.md) (procedimiento de trabajo), [Ingeniería de Requerimientos](docs/ingenieria-de-requerimientos.md) (transcripción de las clases) e [Ingeniería de Software](docs/ingenieria-de-software.md).
+- Material de apoyo: [Framework de Ingeniería de Requerimientos y Calidad](docs/framework-requerimientos-calidad.md) (procedimiento de trabajo), [Framework de Ingeniería de Software](docs/framework-ingenieria-de-software.md) (procedimiento de trabajo), [Ingeniería de Requerimientos](docs/ingenieria-de-requerimientos.md) (transcripción de las clases) e [Ingeniería de Software](docs/ingenieria-de-software.md).
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.

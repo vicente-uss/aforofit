@@ -22,6 +22,8 @@ Cada diapositiva incluye su texto y, al final, un bloque **Contenido visual de l
 
 ## Guía de aplicación
 
+El procedimiento completo de trabajo, con plantillas y fuentes por sección, está en el [Framework de Ingeniería de Software](framework-ingenieria-de-software.md). Este documento es la transcripción citable del material.
+
 1. **Definir requisitos.** Identificar usuarios, necesidad y alcance. Registrar requisitos funcionales y no funcionales y cómo se comprobará cada uno. Semana 1.
 2. **Modelar y diseñar.** Elegir el diagrama según la pregunta: casos de uso para actores y objetivos, secuencia para interacciones, actividades para flujos, clases para estructura y componentes o despliegue para arquitectura. Semana 2.
 3. **Planificar la calidad.** Verificar el cumplimiento de la especificación y validar que la solución satisface la necesidad. Elegir el nivel de prueba (unitaria, integración, sistema o aceptación) y el tipo según lo que se comprueba. Semana 3.
