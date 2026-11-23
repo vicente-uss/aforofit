@@ -283,7 +283,7 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Pantallas del flujo central (pull request #7, fusionado el 22 de noviembre): `/ingreso` exige sesión de profesor o admin y llama a
   `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo` pública en tiempo real
   con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado del aforo en
-  `lib/aforo/estado.ts`, con pruebas en Vitest (52 en total). ESLint ignora `.next` y los demás archivos generados.
+  `lib/aforo/estado.ts`, con pruebas en Vitest (52 en ese momento). ESLint ignora `.next` y los demás archivos generados.
 - Prueba de punta a punta con las pantallas del pull request #7 (22 de noviembre): entrada, salida, rechazo, turno y
   `/aforo` en vivo funcionan. `/profesor/espera` se actualiza en menos de 2 s (medido el 22 de noviembre: turno
   1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
@@ -293,6 +293,9 @@ Actualizado: lunes 23 de noviembre de 2026.
   6 y 7. La estimación ocupa las láminas 5 a 14; las láminas 17 a 22 esperan la evidencia de la revisión del
   equipo del 23 de noviembre. Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
   usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
+- Correcciones visuales de la auditoría de interfaces (pull request #9, fusionado el 23 de noviembre): `/aforo` muestra
+  cupos disponibles, turno llamado y espera más grandes, barra más gruesa y estado con color; `/ingreso` muestra el
+  aforo en reposo. Lectura en vivo de `aforo` compartida en `lib/aforo/useAforo.ts`. 57 pruebas en Vitest.
 - Planilla de estimación compartida con Bastián; contraseñas de los usuarios de prueba entregadas por privado; las
   tarjetas de Pau quedan vinculadas para la demo.
 - Material de apoyo genérico, auditado contra los PDF oficiales: frameworks de Ingeniería de Requerimientos y Calidad y de
@@ -308,8 +311,9 @@ Actualizado: lunes 23 de noviembre de 2026.
 - [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
   video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
   Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
-  de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 y televisor parciales); le faltan las
-  capturas de la lista de espera con turnos y el video
+  de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 parcial, televisor corregido en el pull request #9);
+  le faltan repetir las capturas de `/aforo` e `/ingreso` con las correcciones, las de la lista de espera con turnos
+  y el video
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más

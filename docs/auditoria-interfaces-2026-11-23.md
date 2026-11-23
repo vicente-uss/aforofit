@@ -14,7 +14,7 @@ siempre se corrige: algunas diferencias son decisiones de diseño (D14) o sirven
 |---|---|---|
 | CA37 · Interfaz 100 % en español | **Cumple** | `/ingreso`, `/aforo`, `/profesor/espera` y `/profesor` en español, sin textos residuales en inglés |
 | CA32 · Celular de 360 px | **Parcial** | `/profesor` se apila en una columna sin desborde. El indicador «N» de Next.js tapa parte de «Mantención» (solo en desarrollo; no aparece para el usuario final). En `/aforo`, «Nadie en espera» y «Actualizado» quedan muy pequeños |
-| Legibilidad de `/aforo` en televisor | **Parcial** | La cifra principal y «Disponible» se leen de lejos. Son pequeños «Nadie en espera» y la barra, no hay cupos libres explícitos y el turno llamado no se destaca |
+| Legibilidad de `/aforo` en televisor | **Parcial → corregido** | En la revisión, la cifra principal y «Disponible» se leían de lejos, pero «Nadie en espera» y la barra eran pequeños, no había cupos libres explícitos y el turno llamado no se destacaba. Corregido en el pull request #9 (23 de noviembre); falta volver a capturar |
 
 ## 2. `/ingreso` (kiosco)
 
@@ -68,8 +68,8 @@ siempre se corrige: algunas diferencias son decisiones de diseño (D14) o sirven
 | Botones «Llamar siguiente turno» y «Marcar como llamado» | **Se queda así** | D14: el turno se llama solo cuando se libera un cupo y el alumno vuelve a pasar la credencial |
 | Milisegundos en «Últimas lecturas» | **Se queda así** | Son la medición de CA29 (tiempo de respuesta) que hace Pau |
 | Lista de espera vacía y turno llamado no visible | **Repetir la prueba con turnos** | La revisión se hizo sin nadie esperando; se repite con capacidad 1 (pendiente de Benjamín) |
-| `/aforo`: cupos disponibles, turno y «Nadie en espera» más grandes, barra más gruesa y estado con color | **Corregir antes de la entrega final** | Mejora la lectura en el televisor con poco trabajo |
-| `/ingreso`: aforo actual visible en reposo | **Corregir antes de la entrega final** | El profesor ve el cupo sin pasar una tarjeta |
+| `/aforo`: cupos disponibles, turno y «Nadie en espera» más grandes, barra más gruesa y estado con color | **Corregido** (pull request #9, 23 de noviembre) | Mejora la lectura en el televisor con poco trabajo |
+| `/ingreso`: aforo actual visible en reposo | **Corregido** (pull request #9, 23 de noviembre) | El profesor ve el cupo sin pasar una tarjeta |
 | Panel del día con métricas, menú lateral, gráficos y reloj | **Después del Avance 3** | Mejoras grandes, fuera del flujo central |
 | Indicador «N» en las capturas | **Recortar o volver a capturar** | Es el indicador de desarrollo de Next.js |
 
@@ -82,10 +82,19 @@ siempre se corrige: algunas diferencias son decisiones de diseño (D14) o sirven
 | [`evidencia/auditoria-interfaces/aforo-tv.png`](evidencia/auditoria-interfaces/aforo-tv.png) | `/aforo` a pantalla completa en 0 / 20 (vista de televisor) |
 | [`evidencia/auditoria-interfaces/profesor-movil-360.png`](evidencia/auditoria-interfaces/profesor-movil-360.png) | `/profesor` en celular de 360 px (CA32) |
 
-Todas usan datos ficticios. Las capturas tienen el indicador «N» de Next.js en la esquina; para la PPT hay que recortarlo.
+Todas usan datos ficticios. Son **anteriores a las correcciones del pull request #9**: `/aforo` e `/ingreso` ya no se ven así,
+así que para la PPT hay que repetirlas. Tienen el indicador «N» de Next.js en la esquina; en las nuevas hay que recortarlo.
+
+### Correcciones aplicadas (pull request #9, 23 de noviembre)
+
+- `/aforo`: cupos disponibles en palabras («19 cupos disponibles», «1 cupo disponible», «Sin cupos»), tarjeta «Turno
+  llamado» más grande, «Nadie en espera» más grande y con más contraste, barra más gruesa y estado como insignia de color.
+- `/ingreso`: línea fija «Aforo: N / capacidad · cupos» en el encabezado, que no participa en la validación.
+- La lectura en vivo de `aforo` quedó compartida en `lib/aforo/useAforo.ts`; `textoCupos` tiene 5 pruebas en Vitest (57 en total).
 
 ## 8. Pendiente
 
+- [ ] Repetir las capturas de `/aforo` e `/ingreso` con las correcciones del pull request #9
 - [ ] Captura de `/profesor/espera` (no venía en el informe)
 - [ ] Prueba con turnos (capacidad 1): turno en espera y turno llamado en `/aforo` y `/profesor/espera`
 - [ ] Video de 30 segundos: entrada y salida con `/aforo` actualizándose
