@@ -146,7 +146,7 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
    implementos pendientes no puede abrir otra solicitud; el sistema indica si la TNE de garantía ya fue devuelta.
    Los préstamos no cambian el aforo.
 
-**Validaciones abiertas:** crear un criterio directo para la unicidad de visita abierta (R5) y confirmar si la garantía TNE pendiente bloquea otro préstamo después de devolver todos los implementos (R9). El modelo de estados representa ese bloqueo.
+**Validaciones abiertas:** R5 ya tiene criterio directo (CA44, con el índice único y la prueba SQL). Queda confirmar si la garantía TNE pendiente bloquea otro préstamo después de devolver todos los implementos (R9). El modelo de estados representa ese bloqueo.
 
 ## 5. Flujo central (lo que se demuestra en vivo)
 
@@ -316,6 +316,10 @@ Actualizado: lunes 23 de noviembre de 2026.
   y el video
 - [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): aprobar la línea base de la
   entrega final (`docs/cr-01-linea-base-entrega-final.md`, propuesta) antes del afiche, validar el prototipo con el encargado con acta y registrar las pruebas por CA
+- [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
+  interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
+  guion del Playback con el encargado. Falta la revisión de otro integrante, el acta del Playback (24 nov, 17:00) y
+  decidir RNF08 (pantalla mínima de capacidad o limitación declarada)
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más

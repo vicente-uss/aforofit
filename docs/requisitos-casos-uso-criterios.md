@@ -251,6 +251,7 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 | CA41 | RF29 | Un encargado ante una incidencia de mal uso | Registra la incidencia | La incidencia queda guardada y se puede consultar |
 | CA42 | RF30 | Datos de prueba para distintas carreras, horarios, máquinas y préstamos | El administrador consulta los reportes correspondientes | Los resultados corresponden a los datos y filtros usados |
 | CA43 | RF31 | Un alumno de prueba y un umbral de inasistencia acordado | La inasistencia alcanza el umbral configurado | Se muestra la alerta al administrador |
+| CA44 | RF06, RF07 (R5) | Un alumno con una visita abierta | Se intenta registrar una segunda visita abierta para el mismo alumno | La base de datos lo impide (índice `visitas_una_abierta_por_alumno`) y, al pasar la credencial, se registra la salida en vez de otra entrada. Prueba R5 en `supabase/pruebas/registrar_ingreso.sql` |
 
 ## 7. Supuestos y pendientes
 

@@ -265,6 +265,10 @@ Ordenado por impacto en la nota. Los responsables siguen los roles de AGENTS.md 
 
 ## 8. Qué actualizar en otros documentos
 
+> **Actualización del 23 de noviembre:** las brechas de los avances 1 y 2 quedaron trabajadas en
+> [complementos de los avances 1 y 2](complementos-avances-1-y-2.md) y la línea base en el
+> [CR-01](cr-01-linea-base-entrega-final.md). Las filas de esta auditoría pasan a ✅ cuando otro integrante los revise.
+
 - **AGENTS.md, sección 10:** agregar en «Pendiente» las acciones 2 (CR-01), 4 (acta con el encargado) y 6 (hoja de
   pruebas por CA), con un enlace a esta auditoría.
 - **`pendientes-avance-3.md`:** enlazar esta auditoría en la sección 4, «Evidencia para cerrar el hito».
