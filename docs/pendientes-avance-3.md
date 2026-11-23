@@ -9,11 +9,11 @@ El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista part
 | Pendiente | Responsable propuesto | Evidencia de cierre |
 |---|---|---|
 | [x] Estimar el tamaño del software | Vicente | Hecho el 20 de noviembre: 207 PF no ajustados y 10,35 KLOC, con alcance, método y supuestos en [estimacion.md](estimacion.md). |
-| [x] Estimar esfuerzo, duración, recursos y riesgos | Vicente | Hecho el 20 de noviembre: COCOMO orgánico, contraste con la disponibilidad real, recursos, costos y 16 riesgos en [estimacion.md](estimacion.md). Falta confirmar las horas por semana del equipo. |
-| [ ] Preparar una demostración del prototipo programado | Pau, Benjamín e Isidora | Flujo central en producción desde el 22 de noviembre y guion de demo en la lámina 13. Falta el video de respaldo (Pau y Benjamín, 23 nov). |
+| [x] Estimar esfuerzo, duración, recursos y riesgos | Vicente | Hecho el 20 de noviembre y rehecho el 23 con el método de clase: COCOMO orgánico, productividad de clase y del equipo, factores propios, costos por rol (10 h por semana por integrante) y 16 riesgos en [estimacion.md](estimacion.md). |
+| [ ] Preparar una demostración del prototipo programado | Pau, Benjamín e Isidora | Flujo central en producción desde el 22 de noviembre y guion de demo en la lámina 18. Benjamín entregó la auditoría de interfaces; faltan sus capturas de la lista de espera con turnos y el video de respaldo, y las pruebas con el lector y los tiempos de Pau (23 nov, hasta medianoche). |
 | [ ] Registrar pruebas iniciales, dificultades y correcciones | Bastián y responsables de cada función | Hoja "Pruebas" de la planilla con 30 casos ligados a los CA; la llena Bastián el 23 de noviembre. Ya pasan 52 pruebas de Vitest y 42 SQL. |
 | [ ] Elaborar la propuesta de afiche y su plan de cierre (contenido listo en [afiche-contenido.md](afiche-contenido.md)) | Bastián y Vicente | Propuesta de contenido y diseño del afiche (reemplaza al pendón y al tríptico), con el formato que el profesor enviará por Blackboard y fechas para concluirlo en noviembre. Identificar como futuras las funciones aún pendientes. |
-| [ ] Preparar la PPT y ensayar la defensa | Vicente y equipo | Guion y diseño listos (borrador de 18 láminas en PowerPoint con notas del orador). Faltan la evidencia de las láminas 12 a 17 y el ensayo del 24 de noviembre a las 11:30. |
+| [ ] Preparar la PPT y ensayar la defensa | Vicente y equipo | PPT de 23 láminas en Canva con notas del orador y guion actualizado. Faltan la evidencia de las láminas 17 a 22 y el ensayo del 24 de noviembre a las 11:30. |
 
 ## 2. Construcción y verificación de la demo
 

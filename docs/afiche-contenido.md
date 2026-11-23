@@ -1,6 +1,6 @@
 # Contenido del afiche · AforoFit
 
-Actualizado: viernes 20 de noviembre de 2026. Reemplaza al pendón y al tríptico (aviso del profesor del
+Actualizado: lunes 23 de noviembre de 2026. Reemplaza al pendón y al tríptico (aviso del profesor del
 19 de noviembre). El **formato** (tamaño, orientación, soporte e impresión) llega por Blackboard. Este
 documento deja listo el **contenido** para que Bastián lo diseñe apenas llegue.
 
@@ -129,7 +129,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 | Vie 20 | Contenido listo (este documento) | Vicente |
 | Al llegar el formato por Blackboard | Armar la grilla con el tamaño real y ubicar los bloques | Bastián |
 | Lun 23 | Insertar las capturas de Benjamín, la foto del lector y los resultados de pruebas | Bastián |
-| Mar 24 | Mostrar el borrador en el Avance 3 (lámina 17) y anotar las observaciones del profesor | Bastián |
+| Mar 24 | Mostrar el borrador en el Avance 3 (lámina 22) y anotar las observaciones del profesor | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
 | Jue 26 | Enviar al profesor para su aprobación | Bastián y Vicente |
 

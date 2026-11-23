@@ -26,7 +26,7 @@ Los diagramas describen el **diseño del Avance 2**. Los ID se desarrollan en el
 | Diagrama | Herramienta | Archivo | Estado |
 |---|---|---|---|
 | Casos de uso | draw.io | [`diagramas/casos-de-uso.drawio`](diagramas/casos-de-uso.drawio) | Listo |
-| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Propuesta, se ajusta al crear las tablas |
+| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Flujo de ingreso implementado (`005` a `009`); rutinas, feedback, mediciones y préstamos siguen como diseño |
 | Secuencia del ingreso | Mermaid (este archivo; draw.io lo importa con Organizar → Insertar → Mermaid) | — | Listo |
 | Estados de la visita y del préstamo | draw.io y Mermaid (este archivo) | [`diagramas/estados.drawio`](diagramas/estados.drawio) | Listo |
 | Flujo central y arquitectura | Imágenes de la presentación | [`diagramas/`](diagramas/) | Listo |
@@ -221,6 +221,8 @@ erDiagram
 ---
 
 ## 3. Secuencia del ingreso (CU01, CU02 y CU04)
+
+> **Diseño frente a lo implementado (23 de noviembre).** El diagrama muestra el diseño lógico. En la implementación, el kiosco hace una sola llamada a `registrar_ingreso(uid)`, que valida credencial, certificado, horario y cupo dentro de la base de datos y devuelve entrada, salida, turno o rechazo ([contrato](contrato-flujo-ingreso.md)). Las pantallas en tiempo real escuchan la tabla `aforo`, no `visitas`. La entrega de la rutina al celular sigue pendiente.
 
 ```mermaid
 sequenceDiagram

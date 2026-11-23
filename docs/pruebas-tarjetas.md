@@ -41,7 +41,7 @@ Los UID se muestran enmascarados.
 También se revisaron lectores duales de pared (Dahua y similares). Se descartaron porque se conectan cableados a
 una cerradura y no por USB al computador.
 
-El Avance 2 fue aprobado el 17 de noviembre: el lector se compra para el Avance 3.
+El Avance 2 fue aprobado el 17 de noviembre. Pau compró el lector ($14.990 + $3.990 de envío) y lo probó el 20 de noviembre (sección 4).
 
 ## 3. Formato esperado del UID del lector USB
 

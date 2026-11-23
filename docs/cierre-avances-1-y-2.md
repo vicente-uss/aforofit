@@ -1,6 +1,6 @@
 # AforoFit — Documento maestro al cierre del Avance 2
 
-**Corte: 17 de noviembre de 2026.** Documento de continuidad para incorporar a una persona al equipo o dar contexto a una IA antes del Avance 3. Se lee en orden: propuesta original, análisis y diseño, evidencia técnica y trabajo siguiente.
+**Corte: 17 de noviembre de 2026.** El estado vigente está en [AGENTS.md, sección 10](../AGENTS.md#10-estado-actual), y lo construido para el Avance 3 en [pendientes-avance-3.md](pendientes-avance-3.md). Documento de continuidad para incorporar a una persona al equipo o dar contexto a una IA antes del Avance 3. Se lee en orden: propuesta original, análisis y diseño, evidencia técnica y trabajo siguiente.
 
 Los avances 1 y 2 obtuvieron **7,0**, según el registro del equipo. La [pauta docente](bases-proyecto-integrador.md) define lo evaluado. Los PDF muestran lo presentado. El registro de decisiones y reglas está consolidado más abajo. Para retomar una tarea, consulta también el artefacto enlazado y revisa el código de la rama donde trabajarás.
 
@@ -919,6 +919,8 @@ Los préstamos no cambian el aforo (D04). El diagrama conserva el bloqueo de otr
 El equipo calendarizó el Avance 3 para el **24 de noviembre**. La [pauta adjunta](bases-proyecto-integrador.md) pedía un pendón; el 19 de noviembre el profesor lo reemplazó, junto con el tríptico, por un solo afiche, cuyo formato enviará por Blackboard.
 
 ### Pendientes revisados
+
+> Al 23 de noviembre ya están resueltos el lector físico, la vinculación de credenciales, las visitas, los turnos, el cierre automático, el aforo en vivo y el vencimiento del turno (pull requests #7 y #8, en producción). La tabla siguiente se conserva como registro del corte del 17 de noviembre.
 
 Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas del Avance 1 quedó registrado como no elaborado.
 

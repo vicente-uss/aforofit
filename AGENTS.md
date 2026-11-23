@@ -6,7 +6,7 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: martes 17 de noviembre de 2026, al cierre del Avance 2.
+Última actualización: lunes 23 de noviembre de 2026, antes del Avance 3.
 
 ## 1. Qué es AforoFit
 
@@ -295,6 +295,10 @@ Actualizado: lunes 23 de noviembre de 2026.
   usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
 - Planilla de estimación compartida con Bastián; contraseñas de los usuarios de prueba entregadas por privado; las
   tarjetas de Pau quedan vinculadas para la demo.
+- Material de apoyo genérico, auditado contra los PDF oficiales: frameworks de Ingeniería de Requerimientos y Calidad y de
+  Ingeniería de Software (`docs/framework-*.md`) y transcripciones completas, con el contenido visual de cada lámina, de
+  Ingeniería de Requerimientos (9 capítulos) y de Ingeniería de Software (semanas 1 a 7, incluida COCOMO)
+  (`docs/ingenieria-de-*.md`). No mencionan AforoFit, así que sirven para otros proyectos.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche lo imprime la universidad. El gasto real sigue siendo el lector ($18.980).
 
@@ -303,7 +307,8 @@ Actualizado: lunes 23 de noviembre de 2026.
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
 - [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
   video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
-  Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 12 (Isidora)
+  Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
+  de interfaces; le faltan las capturas de la lista de espera con turnos y el video
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más

@@ -20,13 +20,14 @@ registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento
 
 Es un prototipo académico que funciona con **datos de prueba**.
 
-## Estado al cierre del Avance 2
+## Estado al 23 de noviembre (Avance 3)
 
 | Estado | Evidencia |
 |---|---|
-| Implementado en Next.js y documentado en SQL | Login y paneles base por rol, scripts de catálogo para Supabase y pantalla `/ingreso` que captura y normaliza UID, con respaldo manual. |
-| Demostrado en Figma Make | Flujos de ingreso, salida, aforo, turnos, rutinas y préstamos con datos de prueba. |
-| Pendiente en la app | Prueba con el lector USB, vinculación de credenciales, registro de visitas y turnos, aforo en vivo, QR e integración de rutinas con el ingreso. |
+| En producción en https://aforofit.vercel.app | Login por rol; kiosco `/ingreso` con el lector USB (entrada, salida, rechazo con motivo, lista de espera y vinculación de credenciales); aforo en vivo en `/aforo`; lista de espera del profesor en `/profesor/espera`. Reglas 1 a 6 validadas en la base de datos (`registrar_ingreso`). |
+| Pruebas | 52 pruebas de Vitest y 42 pruebas SQL de las reglas, en verde. Lector físico probado con TNE y TUI el 20 de noviembre. |
+| Demostrado en Figma Make | Flujos completos de los tres actores, incluidas rutinas y préstamos, con datos de prueba. |
+| Pendiente en la app | Respaldo QR, rutina en el celular, feedback y progresión, préstamos de implementos, gestión administrativa y registro corporal. |
 
 ## Prototipo navegable
 
@@ -41,7 +42,7 @@ con datos de prueba (alumno, profesor encargado, administrador y pantalla de afo
 | Frontend | Next.js (App Router) + TypeScript + Tailwind |
 | Backend y base de datos | Supabase (PostgreSQL, Auth, Realtime) |
 | Despliegue | Vercel |
-| Ingreso | Lector USB de 13,56 MHz en modo teclado seleccionado para TNE y TUI. Prueba física y respaldo QR pendientes. |
+| Ingreso | Lector USB de 13,56 MHz en modo teclado, probado con TNE y TUI el 20 de noviembre. Ingreso manual como respaldo; QR pendiente. |
 
 ## Cómo ejecutarlo
 
