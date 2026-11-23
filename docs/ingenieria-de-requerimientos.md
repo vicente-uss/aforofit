@@ -26,32 +26,7 @@ En AforoFit, las decisiones vigentes se consultan en `AGENTS.md` y los documento
 
 ## Guía de aplicación para el equipo
 
-La siguiente secuencia y las plantillas son una síntesis de trabajo elaborada a partir del material.
-
-1. **Delimitar el problema.** Registrar afectados, evidencia, causas y efectos. Derivar el objetivo general y los objetivos específicos. Usar un árbol de problemas o un diagrama causa-efecto cuando ayude a ordenar las causas. Capítulo 05.
-2. **Levantar información.** Identificar interesados y elegir técnicas según la pregunta que se quiere responder. Registrar la fuente y fecha de cada hallazgo. Capítulo 03.
-3. **Modelar el proceso y los actores.** Usar BPMN para explicar cómo fluye el trabajo entre participantes y casos de uso para describir la interacción de los actores con el sistema. Capítulos 03 y 06.
-4. **Especificar los requisitos.** Documentar alcance, contexto, restricciones y requisitos específicos en la ERS. Asignar identificadores y vincular cada requisito con su fuente y la forma de comprobarlo. Capítulos 02 y 04.
-5. **Validar con interesados.** Revisar que los requisitos reflejen la necesidad, sean consistentes y se puedan comprobar. Usar un Playback para compartir avances, recoger observaciones y acordar ajustes. Capítulos 03 y 07.
-6. **Gestionar cambios y calidad.** Registrar solicitud, impacto, decisión y documentos o pruebas afectados. Elegir métricas y herramientas según el atributo de calidad que se quiere evaluar. Capítulos 04, 08 y 09.
-
-### Ficha de requisito y trazabilidad
-
-| ID | Tipo | Requisito | Fuente | Prioridad | Criterio de aceptación | Prueba o evidencia | Estado |
-|---|---|---|---|---|---|---|---|
-| RF-01 | Funcional | El sistema debe registrar la salida de un alumno con una visita abierta. | Ejemplo ilustrativo | Alta | Dada una visita abierta, cuando se registra la salida, se guarda su hora y se libera un cupo. | Probar con una visita abierta y revisar el registro y el aforo. | Ejemplo |
-
-Para un requisito no funcional, registrar el atributo, las condiciones de medición y un umbral verificable. Si el umbral está pendiente, marcarlo como supuesto a validar. Para un cambio, registrar **fecha, solicitud, motivo, impacto, decisión y responsable**.
-
-### Cómo usar esta referencia como contexto
-
-- Buscar primero el concepto pertinente en el mapa y comprobarlo en el capítulo antes de aplicarlo.
-- Identificar la fuente de cada requisito del proyecto: entrevista, pauta, decisión del equipo u otra evidencia. Registrar un supuesto como tal hasta validarlo.
-- Separar la definición del requisito, su criterio de aceptación y el resultado de la prueba. Un criterio escrito permite planificar la prueba. El resultado y su evidencia acreditan lo observado.
-
-### Ejemplo aplicado a AforoFit
-
-Si el equipo observa que el gimnasio registra entradas y carece de un registro de salidas, puede vincular ese hallazgo con la necesidad de conocer la ocupación. De ahí se deriva un requisito de salida, un criterio que compruebe el cierre de la visita y una prueba que mida el cambio de aforo. El ejemplo explica la trazabilidad entre artefactos. El identificador y el estado reales se consultan en la documentación vigente del proyecto.
+El procedimiento de trabajo (qué hacer, cuándo elegir cada técnica, qué producir y cuándo avanzar), con plantillas y fuentes por sección, está en el [Framework de Ingeniería de Requerimientos y Aseguramiento de la Calidad](framework-requerimientos-calidad.md). Este documento se mantiene como la transcripción citable del material: para citar, indica **capítulo y diapositiva**.
 
 ## Material de clase por capítulo
 

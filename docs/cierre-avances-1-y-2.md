@@ -943,7 +943,7 @@ Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas
 | Isidora Moscoso | Backend en Supabase: modelo de datos, RLS, login con roles, capacidad, turnos y rutinas. |
 | Bastián González | Catálogo, administración, QA, evidencia de pruebas y afiche. |
 
-Para metodología y ejemplos, consultar [Ingeniería de Requerimientos](ingenieria-de-requerimientos.md) e [Ingeniería de Software](ingenieria-de-software.md). Para operar o modificar AforoFit, partir por el [README](../README.md) y las reglas vigentes en [AGENTS.md](../AGENTS.md).
+Para metodología y ejemplos, consultar el [Framework de Ingeniería de Requerimientos y Calidad](framework-requerimientos-calidad.md), [Ingeniería de Requerimientos](ingenieria-de-requerimientos.md) e [Ingeniería de Software](ingenieria-de-software.md). Para operar o modificar AforoFit, partir por el [README](../README.md) y las reglas vigentes en [AGENTS.md](../AGENTS.md).
 
 ### 8. Equipo
 
