@@ -88,6 +88,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-14 | Medir los RNF que faltan: RNF02 en la rutina, RNF03 en computador, Android y iPhone, RNF05 a 360 px | Persona | CA11, CA30, CA32 | Sáb 28 | 45 min |
 | F-15 | Guion de defensa por integrante: qué explica cada uno y 3 preguntas probables de su área | Claude + Persona | Rúbrica 4 «Participación» | Dom 29 | 1 h |
 | F-16 | Activar en Supabase la protección contra claves filtradas | Persona | RNF06 | Cualquier día | 2 min |
+| F-26 | Aviso visible en `/ingreso` cuando la página pierde el foco («Lector en pausa: haz clic aquí») y guía para abrir el kiosco en modo pantalla completa de Chrome (hallazgo de Pau, 23 nov) | Agente | RNF04 · CA31 | Mié 25 | 30 min |
 | F-17 | Revisión cruzada de los complementos de los avances 1 y 2 por otro integrante | Persona | FW-IR 9.2 | Antes del 30 | 20 min |
 | F-18 | Decidir R9 (¿una TNE pendiente bloquea otro préstamo?) con el encargado | Externo | R9 | Mar 24, 17:00 | En A3-12 |
 
@@ -101,6 +102,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-22 | Rutinas creadas por el alumno o asignadas por el profesor | Agente | RF13 a RF15 · CA15, CA16, CA38 |
 | F-23 | Turno llamado que vence solo, sin esperar otra lectura (detalle menor aceptado) | Agente | RF10 |
 | F-24 | Pantallas del catálogo: máquinas con foto e implementos | Agente | RF19, RF21 · CA25, CA27 |
+| F-27 | Al vincular, elegir si la tarjeta es TNE o TUI (hoy se guarda todo como `tne`); mostrar las tarjetas que ya tiene el alumno | Agente | RF02 · D17 |
 | F-25 | Confirmar con el encargado las cantidades de implementos y el período académico | Externo | Preguntas abiertas |
 
 **Regla para P2:** solo se suma al afiche lo que esté fusionado y probado **antes del jueves 26**. Lo que entre

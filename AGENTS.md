@@ -323,6 +323,13 @@ Actualizado: lunes 23 de noviembre de 2026.
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más
+- [ ] Hallazgo de Pau con el lector (23 nov): si la pestaña o la ventana del kiosco no está activa, el lector escribe en
+  otra parte y la lectura se pierde. Es propio de un lector tipo teclado: el navegador no puede capturar teclas sin el
+  foco. La página ya recupera el foco dentro de sí misma cada 2 s. Medidas: kiosco a pantalla completa (modo kiosco de
+  Chrome) y aviso visible «Lector en pausa: haz clic aquí» cuando la página pierde el foco (F-26 del plan de cierre)
+- [ ] Hallazgo de Pau (23 nov): un alumno puede tener varias tarjetas vinculadas. Es correcto según R1 (una tarjeta
+  pertenece a un solo alumno, no al revés) y D17 (TNE y TUI); `tarjetas.tipo` ya distingue `tne` y `credencial_uss`.
+  Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Avance 3: confirmar los supuestos de la estimación (10 h por semana por integrante y 50 LOC/PF). El contraste con
