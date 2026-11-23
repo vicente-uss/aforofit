@@ -305,7 +305,7 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche lo imprime la universidad. El gasto real sigue siendo el lector ($18.980).
 
-**Pendiente**
+**Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados) y medir CA29
 - [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
@@ -363,7 +363,9 @@ Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios 
 
 Otras decisiones: ingreso con la TNE y QR de respaldo · repositorio público (Vercel Hobby solo
 despliega commits del dueño en repos privados) · las tareas viven en el plan de acción, no en GitHub ·
-la IA se usa para casi todo y el equipo revisa y decide.
+la IA se usa para casi todo y el equipo revisa y decide · desde el 23 de noviembre el desarrollo se hace con agentes
+(Claude Code y Codex) coordinados por Vicente; cada pull request lo aprueba otro integrante y cada uno defiende su área
+(`docs/plan-cierre-avance-3-y-final.md`, sección 0).
 
 **Preguntas abiertas**
 - Cantidades exactas de implementos disponibles para préstamo.

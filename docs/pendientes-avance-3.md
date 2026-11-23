@@ -1,5 +1,7 @@
 # Pendientes de inicio del Avance 3 · AforoFit
 
+> **Desde el 23 de noviembre**, la lista de trabajo vigente es el [plan de cierre](plan-cierre-avance-3-y-final.md). Este documento queda como registro del inicio del hito.
+
 El documento maestro incorpora esta sección en el [copia del checklist al inicio del hito](cierre-avances-1-y-2.md#checklist-íntegro-del-avance-3).
 
 El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista parte del [cierre de los avances 1 y 2](cierre-avances-1-y-2.md) y de la [pauta docente](bases-proyecto-integrador.md). Las casillas corresponden a trabajo pendiente o por confirmar. La asignación de cada tarea se propone a partir de los roles de [AGENTS.md](../AGENTS.md).
