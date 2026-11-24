@@ -1608,11 +1608,11 @@ Se leyeron las tarjetas con la app NFC Tools en un celular Android con NFC. Un c
 
 | Tarjeta | ¿Se lee? | Tipo | UID |
 |---|---|---|---|
-| TNE 1 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `2A:26:**:**` (4 bytes, fijo) |
+| TNE 1 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `••:••:••:••` (4 bytes, fijo) |
 | TNE 2 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `AC:CD:**:**` (4 bytes, fijo) |
 | TNE 3 | Sí | ISO 14443-3A, NXP MIFARE Classic 4K | `DC:94:**:**` (4 bytes, fijo) |
 | Carnet de identidad | Sí, pero se descarta | ISO 14443-4, MIFARE Plus | Empieza con `08`: UID aleatorio |
-| Credencial USS (TUI) | Sí | ISO 14443-4 sobre NfcA, SAK `0x38` | `B7:76:**:**` (4 bytes) |
+| Credencial USS (TUI) | Sí | ISO 14443-4 sobre NfcA, SAK `0x38` | `••:••:••:••` (4 bytes) |
 
 Los UID se muestran enmascarados.
 

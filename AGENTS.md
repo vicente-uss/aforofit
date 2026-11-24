@@ -280,6 +280,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
 - Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
+- Hoja de pruebas ejecutadas, ronda 1 (23 nov, commit `00c41f6`): 57 Vitest, 42 SQL y 4 lecturas reales en OK, CA32
+  parcial, 18 criterios del flujo de ingreso con evidencia y 8 defectos registrados (`docs/pruebas-ejecutadas.md`)
 - Pantallas del flujo central (pull request #7, fusionado el 22 de noviembre): `/ingreso` exige sesión de profesor o admin y llama a
   `registrar_ingreso` (entrada, salida, turno, rechazo y vinculación de credenciales), `/aforo` pública en tiempo real
   con respaldo cada 15 s, y `/profesor/espera`. Textos en `lib/ingreso/mensajes.ts` y estado del aforo en

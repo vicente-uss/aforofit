@@ -46,13 +46,13 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 | ID | P | Tarea | Tipo | Quién | Cuándo | Tiempo | Depende de |
 |---|---|---|---|---|---|---|---|
 | A3-01 | P0 | Aprobar el CR-01 en el ensayo (sin cambios de capacidad) | Persona | Equipo | Ensayo de las 11:30 | 10 min | — |
-| A3-02 | P0 | Hoja de pruebas ejecutadas del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
+| A3-02 ✅ | P0 | Hoja de pruebas ejecutadas ([hecha](pruebas-ejecutadas.md)) del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
 | A3-03 | P0 | Completar las láminas 17 a 23 en Canva: ER (17, el PNG ya está en `docs/diagramas/`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | Hoy | 1 h | A3-01, A3-02 |
 | A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 18, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
 | A3-05 | P0 | Ensayo con todos y la respuesta a «¿cómo cierran la brecha?» | Persona | Equipo | Mar 11:30 | 45 min | A3-03 |
-| A3-06 | P1 | Video de respaldo de 30 s: entrada, salida y `/aforo` actualizándose (con ingreso manual si no está el lector) | Persona | Vicente o Pau | Hoy | 15 min | — |
+| A3-06 ✅ | P1 | Video de respaldo (hecho: 41 s, en el Drive del equipo) de 30 s: entrada, salida y `/aforo` actualizándose (con ingreso manual si no está el lector) | Persona | Vicente o Pau | Hoy | 15 min | — |
 | A3-07 | P1 | Capturas nuevas de `/aforo` (0/20 y lleno con turno) e `/ingreso` desde **producción**, donde no aparece el indicador «N» | Persona | Vicente o Benjamín | Hoy | 10 min | — |
-| A3-08 | P1 | Medir CA29 con el lector: 5 lecturas, tiempo de cada una con los ms del kiosco | Persona | Pau | Hoy o mañana antes de clases | 10 min | Lector |
+| A3-08 ✅ | P1 | Medir CA29 ([hecho desde el video](medicion-ca29-2026-11-23.md)) con el lector: 5 lecturas, tiempo de cada una con los ms del kiosco | Persona | Pau | Hoy o mañana antes de clases | 10 min | Lector |
 | A3-09 | P1 | Lighthouse de `/aforo` e `/ingreso` desde Chrome (DevTools → Lighthouse) y anotar los 4 puntajes | Persona | Vicente o Bastián | Hoy | 10 min | — |
 | A3-10 | P1 | Borrador visual del afiche (aunque falte el formato de Blackboard) | Claude + Persona | Vicente con Bastián | Hoy o mañana | 45 min | A3-01 |
 | A3-11 | P2 | Declarar la regla de conteo LOC (qué se excluye: plantilla, pruebas, SQL) en `estimacion.md` | Claude | — | Hoy | 10 min | — |

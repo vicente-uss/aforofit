@@ -85,6 +85,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 ## Documentación
 
 - [Documento maestro de AforoFit](docs/cierre-avances-1-y-2.md): alcance, reglas, requisitos completos, criterios, diagramas, evidencia, entrevista y pendientes para el Avance 3.
+- [Pruebas ejecutadas](docs/pruebas-ejecutadas.md): resultados por criterio de aceptación y defectos.
 - [Plan de cierre del Avance 3 y la entrega final](docs/plan-cierre-avance-3-y-final.md): pendientes por hito y prioridad.
 - [Complementos de los avances 1 y 2](docs/complementos-avances-1-y-2.md): objetivos medibles, interesados, enfoque, plan, verificación, plan de calidad, ADR y Playback.
 - [CR-01, línea base de la entrega final](docs/cr-01-linea-base-entrega-final.md) (propuesta).
