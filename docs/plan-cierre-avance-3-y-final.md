@@ -84,8 +84,8 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-09 | Configuración mínima desde `/admin`: capacidad, horario y cierre automático (D24; el período académico ya no aplica por D20). Solo después de F-01 a F-03 | Agente | RF26 · CA34 | Jue 26 | 45 min |
 | F-28 | Botón «Cerrar visita» en `/profesor` para quien no marcó la salida (D21, pedido del encargado), con prueba | Agente | R6 · RF08 | Jue 26 | 30 min |
 | F-29 | Nombre e inicial del apellido junto al turno llamado en `/aforo` y `/profesor/espera` (D22, pedido del encargado), con prueba | Agente | RF10 · D14 | Mié 25 | 30 min |
-| F-31 | Cantidades reales de implementos (`supabase/sql/010_implementos_reales.sql`, Playback) | Persona | RF21 | Mié 25 | 5 min |
-| F-32 | Regla 2 con vigencia de un año desde la emisión (D20) en requisitos, CA y pruebas SQL | Claude | R2 · RF25 · CA28 | Mié 25 | 20 min |
+| F-31 ✅ | Cantidades reales de implementos (`supabase/sql/010_implementos_reales.sql`, aplicado el 24 nov: 5 implementos, 9 unidades; PR #10) | Persona | RF21 | Mar 24 | Hecho |
+| F-32 | Regla 2 con vigencia de un año desde la emisión (D20): quitar de `registrar_ingreso` el rechazo `fuera_de_periodo` y actualizar requisitos, CA y pruebas SQL | Agente + Claude | R2 · RF25 · CA28 | Mié 25 | 20 min |
 | F-10 | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
 | F-11 | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
 | F-12 | Matriz de cobertura con las columnas «implementado» y «resultado de prueba» | Claude | Rúbrica 4 «Coherencia» | Dom 29 | 30 min |

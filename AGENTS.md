@@ -350,8 +350,10 @@ Actualizado: martes 24 de noviembre de 2026.
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
 - [ ] Pedidos del Playback (24 nov): nombre e inicial del apellido junto al turno llamado en `/aforo` (F-29, D22),
-  botón «Cerrar visita» en `/profesor` para quien no marcó la salida (F-28, D21), cantidades reales de implementos
-  (F-31) y regla 2 con vigencia de un año (F-32, D20). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
+  botón «Cerrar visita» en `/profesor` para quien no marcó la salida (F-28, D21) y regla 2 con vigencia de un año
+  (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
+  chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
+  `supabase/sql/010`, PR #10 pendiente de aprobación). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
 - [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
