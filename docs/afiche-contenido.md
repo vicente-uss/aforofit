@@ -139,7 +139,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 | Vie 20 | Contenido listo (este documento) | Vicente |
 | Al llegar el formato por Blackboard | Armar la grilla con el tamaño real y ubicar los bloques | Bastián |
 | Lun 23 | Insertar las capturas de Benjamín, la foto del lector y los resultados de pruebas | Bastián |
-| Mar 24 | Mostrar el borrador en el Avance 3 (lámina 22) y anotar las observaciones del profesor | Bastián |
+| Mar 24 | Mostrar el borrador en el Avance 3 (lámina 24) y anotar las observaciones del profesor | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
 | Jue 26 | Enviar al profesor para su aprobación | Bastián y Vicente |
 | Vie 27 a lun 30 | Enviar a imprimir apenas se apruebe (lo imprime la universidad) y confirmar fecha de retiro | Bastián |

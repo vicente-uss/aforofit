@@ -3,7 +3,7 @@
 Actualizado: lunes 23 de noviembre de 2026, 22:00. Las cifras y fórmulas están en la planilla
 **"AforoFit — Estimación Avance 3"** (hojas Resumen, Puntos de función, Pesos IFPUG, LOC por componentes, COCOMO,
 Productividad, Factores propios, Recursos y costos, Costos por rol, Riesgos y Pruebas). Si cambia un supuesto, se
-cambia en la planilla y se actualiza este resumen. La PPT del Avance 3 lo presenta en las láminas 5 a 14.
+cambia en la planilla y se actualiza este resumen. La PPT del Avance 3 lo presenta en las láminas 3 a 16 (supuestos en la 9, fórmula inicial en la 10, COCOMO en la 11 y la 12, contraste en la 13 y factores propios en la 14).
 
 **Resultado:** AforoFit mide **207 puntos de función no ajustados** y **5.350 LOC** (5,35 KLOC), dos medidas
 tomadas por separado que coinciden en unas 26 LOC por PF. COCOMO 81 básico orgánico estima **14,0 persona-mes,
@@ -186,20 +186,24 @@ unas **26**. Por eso «10 PF por persona-mes» no es comparable para este equipo
 productividad debe venir de proyectos comparables, con la misma tecnología (semana 6, láminas 13 a 17). La de
 LOC con productividad de clase (2,97 PM) es la más defendible de las dos.
 
-### 4.1 Duración con la fórmula inicial (Semana 6, lámina 10; FW-IS 13.1)
+### 4.1 Duración y costo con la fórmula inicial (Semana 6, lámina 10; Semana 7; FW-IS 13.1)
 
 ```
 Horas-persona = PM × 152 h · Capacidad = 5 integrantes × 10 h = 50 h por semana
 Duración mínima aritmética = horas-persona ÷ capacidad semanal
+Costo laboral = PM × $2.000.000 por persona-mes (supuesto de la clase)
 ```
 
-| Método | PM | Horas | Semanas con el equipo real |
-|---|---:|---:|---:|
-| LOC, productividad de clase | 2,97 | 452 | 9,0 |
-| LOC, productividad observada | 1,90 | 288 | 5,8 |
-| PF, productividad de clase | 20,7 | 3.146 | 62,9 |
-| PF, productividad observada | 1,57 | 238 | 4,8 |
-| **Disponible** (4 semanas) | **1,32** | **200** | **4,0** |
+| Método | PM | Horas | Semanas con el equipo real | Costo laboral |
+|---|---:|---:|---:|---:|
+| LOC, productividad de clase | 2,97 | 452 | 9,0 | $5.944.444 |
+| LOC, productividad observada | 1,90 | 288 | 5,8 | $3.794.865 |
+| PF, productividad de clase | 20,7 | 3.146 | 62,9 | $41.400.000 |
+| PF, productividad observada | 1,57 | 238 | 4,8 | $3.130.672 |
+| **Disponible** (4 semanas) | **1,32** | **200** | **4,0** | **$2.631.579** |
+
+El costo laboral es el de un equipo pagado a $2.000.000 por persona-mes; el presupuesto teórico por rol, con la
+dedicación real del equipo, está en la sección 8 ($2.530.265).
 
 Es una aproximación aritmética: no considera dependencias ni tareas que no se pueden hacer en paralelo.
 
@@ -255,6 +259,9 @@ genérico de la versión 0.2 (207 × 50 = 10,35 KLOC) daría 27,9 PM, 8,9 meses 
   - ↓ Plantilla oficial y servicios administrados (Supabase Auth, RLS y Realtime, sin servidor propio).
   - ↓ Alcance acotado a la prioridad alta y sin integraciones (0 EIF).
   - ↑ Experiencia dispar del equipo y dedicación parcial (10 h por integrante a la semana).
+- **Productividad implícita de COCOMO:** 5.350 LOC ÷ 13,96 PM = **unas 383 LOC por persona-mes** (hoja COCOMO,
+  B39), frente a 1.800 de la clase y 2.820 del equipo. Por eso COCOMO da casi 5 veces más que la fórmula inicial
+  por LOC.
 - **Lectura:** COCOMO está calibrado con proyectos profesionales de los años 80, sin IA, sin plantillas ni
   servicios administrados, y para un producto final documentado y probado. Por eso **no se promete la fecha de
   COCOMO**: se usa para dimensionar el trabajo. Las estimaciones por productividad dicen que el alcance completo
@@ -328,6 +335,10 @@ R01 (el lector falla con la TNE), R02 y R03 quedaron cerrados.
 | R10 | Poca disponibilidad del equipo por cierre de semestre | 6 | Responsable y respaldo por tarea; recortar la prioridad media | Vicente |
 
 ## 10. Supuestos a confirmar
+
+La lámina 9 de la PPT los resume en cuatro: alcance (confirmado), tamaño y esfuerzo disponible (por confirmar),
+y productividad y costo (medido o tomado de la clase).
+
 
 - Horas por semana por integrante (10) y semanas de desarrollo (4, del 10 de noviembre al 3 de diciembre). Las
   horas cambian el esfuerzo disponible y la productividad observada, no el tamaño ni COCOMO.

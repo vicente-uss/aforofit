@@ -48,7 +48,7 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 | A3-01 ✅ | P0 | Aprobar el CR-01 (aprobado por el equipo el lun 23, sin cambios) | Persona | Equipo | Lun 23 | 10 min | — |
 | A3-02 ✅ | P0 | Hoja de pruebas ejecutadas ([hecha](pruebas-ejecutadas.md)) del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
 | A3-03 | P0 | Completar las láminas 17 a 23 en Canva: ER implementado (17, `docs/diagramas/entidad-relacion-implementado.png`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | ✅ Hecho (lun 23) | 1 h | A3-01, A3-02 |
-| A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 18, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
+| A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 20, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
 | A3-05 | P0 | Ensayo con todos y la respuesta a «¿cómo cierran la brecha?» | Persona | Equipo | Mar 11:30 | 45 min | A3-03 |
 | A3-06 ✅ | P1 | Video de respaldo (hecho: 41 s, en el Drive del equipo) de 30 s: entrada, salida y `/aforo` actualizándose (con ingreso manual si no está el lector) | Persona | Vicente o Pau | Hoy | 15 min | — |
 | A3-07 ✅ | P1 | Capturas nuevas ([hechas](evidencia/capturas-2026-11-23/README.md)) de `/aforo` (0/20 y lleno con turno) e `/ingreso` desde **producción**, donde no aparece el indicador «N» | Persona | Vicente o Benjamín | Hoy | 10 min | — |
@@ -161,7 +161,7 @@ después se muestra en la demo, pero el afiche lo deja como «próxima versión�
 - [ ] Antes de las 11:30: confirmar con Pau que lleve el lector y sus tarjetas vinculadas
 - [ ] 11:30, ensayo (el CR-01 ya está aprobado): ensayar la respuesta a «¿cómo cierran la brecha?»
   (está en el guion)
-- [ ] Antes de presentar: bajar la capacidad a 2 para mostrar el turno (lámina 18) y volverla a 20 al terminar:
+- [ ] Antes de presentar: bajar la capacidad a 2 para mostrar el turno (lámina 20) y volverla a 20 al terminar:
 
   ```sql
   update configuracion set capacidad = 2 where id = 1;

@@ -281,7 +281,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   descomposición en componentes (1.855 medidas en el repo + 3.495 estimadas por analogía; escenarios 4.651 a 7.098),
   que coinciden en unas 26 LOC/PF. Fórmula inicial (esfuerzo = tamaño ÷ productividad): 2,97 PM por LOC con
   productividad de clase, 20,7 PM por PF con productividad de clase (no comparable: viene de unas 180 LOC/PF),
-  1,90 y 1,57 PM con la productividad observada. COCOMO 81 orgánico: **14,0 PM, 6,8 meses y 2,1 personas**, unas 10
+  1,90 y 1,57 PM con la productividad observada (costo laboral de $3,1 a $5,9 millones a $2.000.000 por PM; la planilla
+  también da la productividad implícita de COCOMO, unas 383 LOC por PM). COCOMO 81 orgánico: **14,0 PM, 6,8 meses y 2,1 personas**, unas 10
   veces el esfuerzo disponible de 1,32 PM (5 integrantes × 10 h por semana × 4 semanas). Costos por rol con
   contingencia del 12 % ($2.530.265 teórico) y 16 riesgos (`docs/estimacion.md` y la planilla
   "AforoFit — Estimación Avance 3", con la hoja nueva LOC por componentes). La versión 0.2 (10,35 KLOC con 50 LOC/PF
@@ -289,7 +290,9 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 - Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
   (`docs/afiche-contenido.md`). Borrador visual en A4 vertical hecho el 23 de noviembre (canvas "AforoFit — Borrador del
-  afiche"), con roles, credenciales y cifras verificados contra este archivo; falta la foto del lector y el formato de Blackboard.
+  afiche"), con roles, credenciales y cifras verificados contra este archivo. Versión 2 (23 nov, noche): logo USS
+  autorizado, esquema funcional, metodología con PF, LOC y COCOMO, y resultados con conclusión, para cubrir los seis
+  bloques de las bases (`docs/evidencia/afiche/afiche-borrador-v2-2026-11-23.png`); falta la foto del lector y el formato de Blackboard.
 - Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
@@ -309,9 +312,11 @@ Actualizado: lunes 23 de noviembre de 2026.
   1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
 - Pull requests #8 (base de datos) y #7 (pantallas) fusionados el 22 de noviembre: el flujo central completo está
   en producción en https://aforofit.vercel.app (kiosco, aforo en vivo y lista de espera contra la base real).
-- PPT del Avance 3 rehecha (23 láminas, en Canva) con notas del orador y referencias a las clases de las semanas 5,
-  6 y 7. La estimación ocupa las láminas 5 a 14; las láminas 17 a 23 tienen la evidencia del 23 de noviembre
-  (ER implementado, capturas, pruebas 115 de 116, dificultades y línea base del CR-01). Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
+- PPT del Avance 3 rehecha (25 láminas, en Canva) con notas del orador y referencias a las clases de las semanas 5,
+  6 y 7. La estimación ocupa las láminas 3 a 18: tamaño (3 a 8), supuestos (9), fórmula inicial por LOC y por PF
+  (10), COCOMO (11 y 12), contraste (13), factores propios (14), costos (15 y 16), riesgos (17) y planificación (18);
+  cada cifra lleva su fórmula. Las láminas 19 a 25 tienen la evidencia del 23 de noviembre (ER implementado, demo,
+  interfaces, pruebas 115 de 116, dificultades, afiche v2 y línea base del CR-01). Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
   usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
 - Correcciones visuales de la auditoría de interfaces (pull request #9, fusionado el 23 de noviembre): `/aforo` muestra
   cupos disponibles, turno llamado y espera más grandes, barra más gruesa y estado con color; `/ingreso` muestra el
@@ -355,7 +360,7 @@ Actualizado: lunes 23 de noviembre de 2026.
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Avance 3: confirmar los supuestos de la estimación: 10 h por semana por integrante y los tamaños unitarios por
   componente de la medición en LOC (`docs/estimacion.md` 2.3 y 10). Regla de conteo en `docs/estimacion.md` 2.1
-- [ ] Avance 3: ensayar (24 nov, 11:30). El CR-01 ya está aprobado, así que la lámina 23 queda como está.
+- [ ] Avance 3: ensayar (24 nov, 11:30). El CR-01 ya está aprobado, así que la lámina 25 queda como está.
 - [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
   congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por
