@@ -27,7 +27,8 @@ Los UID se muestran enmascarados.
   credencial y cumplen la regla de credencial única.
 - El carnet de identidad no sirve: su UID cambia en cada lectura y se trata de un documento con datos personales
   reales, lo que va contra D11 y RNF07.
-- Se leyó una TUI (credencial USS) con NFC Tools. Su compatibilidad con el lector USB sigue pendiente.
+- Se leyó una TUI (credencial USS) con NFC Tools. Su compatibilidad con el lector USB quedó pendiente ese día y
+  se confirmó el 20 de noviembre (ver la prueba física más abajo).
   **La TNE es la credencial principal** para el ingreso y los préstamos (D17), porque todos los alumnos la tienen. El QR queda de respaldo.
 
 ## 2. Cotizaciones del lector

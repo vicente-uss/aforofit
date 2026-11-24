@@ -80,6 +80,10 @@ aforo en vivo, con lista de espera cuando el gimnasio está lleno.
 4. **El aforo se actualiza** en la pantalla pública. Al salir, vuelves a pasar la tarjeta.
 
 ### Evidencia (columna derecha)
+
+> **Borrador del 23 de noviembre:** las cifras medidas son 115 de 116 pruebas en OK, 1,2 s o menos para entrar o salir
+> (CA29, umbral 3 s) y menos de 0,1 s para que el aforo cambie después del kiosco (CA10). Roles verificados contra
+> AGENTS.md (sección 8) y credenciales TNE y TUI contra D17.
 - Captura del kiosco `/ingreso` con un mensaje de entrada (datos ficticios).
 - Captura de la pantalla pública `/aforo` con el turno llamado.
 - Foto del lector USB de 13,56 MHz: funciona como teclado, sin drivers, con TNE y TUI.

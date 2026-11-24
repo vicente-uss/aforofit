@@ -275,7 +275,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   "AforoFit — Estimación Avance 3").
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 - Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
-  (`docs/afiche-contenido.md`); falta el formato de Blackboard y el diseño (Bastián).
+  (`docs/afiche-contenido.md`). Borrador visual en A4 vertical hecho el 23 de noviembre (canvas "AforoFit — Borrador del
+  afiche"), con roles, credenciales y cifras verificados contra este archivo; falta la foto del lector y el formato de Blackboard.
 - Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
@@ -339,7 +340,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
   ambas mediciones incluyen la plantilla `with-supabase`
 - [ ] Avance 3: ensayar (24 nov, 11:30) y aprobar el CR-01; si no se aprueba, revertir la lámina 23.
-- [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
+- [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por
+  Blackboard. Borrador listo; falta la foto del lector (Pau) y ajustar al formato (Bastián).
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
