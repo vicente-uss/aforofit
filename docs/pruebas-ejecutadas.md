@@ -17,8 +17,9 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | Unitarias | Vitest (`npm test`) | 57 | ✅ 57 OK |
 | Integración en la base | `supabase/pruebas/registrar_ingreso.sql` | 42 | ✅ 42 OK |
 | Sistema con el lector real | Prueba grabada por Pau, medida en [medicion-ca29](medicion-ca29-2026-11-23.md) | 4 lecturas | ✅ 4 OK |
+| Sistema con turnos (ingreso manual, capacidad 1) | [Capturas](evidencia/capturas-2026-11-23/README.md), 21:05 a 21:08 | 4 lecturas | ✅ 4 OK (218 a 269 ms) |
 | Revisión de interfaces | [Auditoría de interfaces](auditoria-interfaces-2026-11-23.md) de Benjamín | 4 pantallas | 🟡 CA32 parcial; corregido en el pull request #9 |
-| **Total** | | **107** | **106 OK y 1 parcial** |
+| **Total** | | **111** | **110 OK y 1 parcial** |
 
 ### Por criterio de aceptación
 
@@ -29,13 +30,13 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | CA03 | Una credencial no se vincula a dos alumnos | Integración y unitaria | 1 caso SQL, 1 de Vitest | ✅ | SQL «Credencial de otro alumno: rechazo» |
 | CA04 | Certificado vencido: rechazo | Integración, unitaria y sistema | 1 caso SQL, 1 de Vitest; lectura real con alumno vencido | ✅ | SQL; video de Pau («Certificado no vigente») |
 | CA05 | Fuera de horario: rechazo | Integración y unitaria | 5 casos SQL (lunes 21:05 y 07:59, sábado 13:01, domingo, último ingreso a las 21:00) | ✅ | SQL R3 |
-| CA06 | Gimnasio lleno: turno en orden | Integración y unitaria | 5 casos SQL con capacidad 2 | ✅ | SQL CA06 y R4 |
-| CA07 | La salida llama al turno y este entra | Integración | 5 casos SQL, incluido el cupo reservado | ✅ | SQL CA07 |
+| CA06 | Gimnasio lleno: turno en orden | Integración y unitaria | 5 casos SQL con capacidad 2 | ✅ | SQL CA06 y R4; capturas 03 a 06 |
+| CA07 | La salida llama al turno y este entra | Integración | 5 casos SQL, incluido el cupo reservado; prueba en producción con turno llamado y entrada | ✅ | SQL CA07; capturas 08 y 09 |
 | CA08 | Segunda pasada registra la salida | Integración, unitaria y sistema | 4 casos SQL; salida real con el lector | ✅ | SQL; video de Pau (aforo 1 → 0) |
 | CA09 | Cierre automático a las 3 horas | Integración | 3 casos SQL | ✅ | SQL CA09 |
 | CA10 | `/aforo` se actualiza en 2 s o menos | Sistema | Fotogramas del video: menos de 0,1 s después del kiosco; `/profesor/espera` 1.011 y 454 ms (22 nov) | ✅ | [medicion-ca29](medicion-ca29-2026-11-23.md) |
 | CA23 | Cada rol accede solo a lo suyo (RLS) | Integración | 4 casos SQL: el alumno ve solo su visita y no escribe; anon solo lee el aforo | ✅ | SQL RNF y Contrato |
-| CA29 | Ingreso en 3 s o menos | Sistema | 4 lecturas reales medidas desde el video | ✅ 1,2 s o menos | [medicion-ca29](medicion-ca29-2026-11-23.md) |
+| CA29 | Ingreso en 3 s o menos | Sistema | 4 lecturas reales medidas desde el video; respuesta del sistema de 218 a 269 ms en 4 lecturas manuales | ✅ 1,2 s o menos | [medicion-ca29](medicion-ca29-2026-11-23.md) |
 | CA31 | Lector como teclado sin drivers | Sistema | Lector USB con TNE y TUI (20 nov) y prueba del 23 nov; normalización con 14 casos de Vitest | ✅ lector · ⏸ QR pospuesto (CR-01) | [pruebas-tarjetas](pruebas-tarjetas.md); `normalizarUid.test.ts` |
 | CA32 | Vista utilizable a 360 px | Revisión | Auditoría de interfaces | 🟡 Parcial; la parte de `/aforo` se corrigió en el pull request #9 | [auditoría](auditoria-interfaces-2026-11-23.md) |
 | CA35 | URL pública y video de respaldo | Sistema | URL activa; video de respaldo de 41 s | ✅ | https://aforofit.vercel.app |

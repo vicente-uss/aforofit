@@ -316,8 +316,7 @@ Actualizado: lunes 23 de noviembre de 2026.
   video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
   Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
   de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 parcial, televisor corregido en el pull request #9);
-  le faltan repetir las capturas de `/aforo` e `/ingreso` con las correcciones, las de la lista de espera con turnos
-  y el video
+  las capturas nuevas del flujo con turnos quedaron en `docs/evidencia/capturas-2026-11-23/` (23 nov, 21:05)
 - [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): aprobar la línea base de la
   entrega final (`docs/cr-01-linea-base-entrega-final.md`, propuesta) antes del afiche, validar el prototipo con el encargado con acta y registrar las pruebas por CA
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
