@@ -1,6 +1,6 @@
 # Contenido del afiche · AforoFit
 
-Actualizado: lunes 23 de noviembre de 2026. Reemplaza al pendón y al tríptico (aviso del profesor del
+Actualizado: lunes 23 de noviembre de 2026, 22:30. Reemplaza al pendón y al tríptico (aviso del profesor del
 19 de noviembre). El **formato** (tamaño, orientación, soporte e impresión) llega por Blackboard. Este
 documento deja listo el **contenido** para que Bastián lo diseñe apenas llegue.
 
@@ -48,14 +48,14 @@ contexto, evidencia y franja inferior.
 - **Evidencia real:** capturas de la app y foto del lector. Nada de stock, íconos decorativos, fichas de cifras
   todas iguales ni barras de color de adorno.
 - **Jerarquía por tamaño:** título, frase central, subtítulos, texto y notas. Unas 300 a 400 palabras en total.
-- **Logos:** solo los elementos institucionales que el profesor autorice. Nada de logos de terceros (Vercel,
-  Supabase, Figma) sin permiso: las tecnologías van como texto.
+- **Logos:** el logo de la USS va en el encabezado (autorizado, confirmado por el equipo el 23 de noviembre). Nada
+  de logos de terceros (Vercel, Supabase, Figma): las tecnologías van como texto.
 
 ## 3. Textos
 
 ### Encabezado
 **AforoFit** · Control de ingreso y aforo para el gimnasio de la USS Bellavista
-Grupo 6 · Taller de Ingeniería de Software · 2026
+Grupo 6 · Taller de Ingeniería de Software · 2026 · logo de la Universidad San Sebastián (autorizado)
 
 ### Frase central
 > **Pasas tu TNE y el gimnasio sabe cuántos hay adentro.**
@@ -65,19 +65,21 @@ Subfrase: *La entrada es el único momento en que todos pasan por el mismo lugar
 QR → https://aforofit.vercel.app/aforo, con la leyenda "Míralo en vivo".
 
 ### Problema (columna izquierda)
-Hoy el ingreso se anota en papel y después se traspasa a Excel. Nadie registra las salidas, así que nadie sabe
-cuántos siguen adentro. El aforo de 20 personas se controla a ojo, la espera se maneja a mano y los
-certificados médicos se revisan uno por uno.
+El ingreso se anota en papel y se pasa a Excel. Nadie registra las salidas, así que no se sabe cuántos siguen
+adentro, y el límite de 20 personas se controla a ojo.
 
 ### Objetivo
 Registrar entradas y salidas con la credencial del alumno, validar su habilitación y el horario, y mostrar el
 aforo en vivo, con lista de espera cuando el gimnasio está lleno.
 
-### Cómo funciona (flujo de 4 pasos, como diagrama)
-1. **Pasa tu TNE** (o tu TUI) por el lector.
-2. **El sistema valida**: certificado vigente, horario y cupo.
-3. **Entras o recibes un turno** si el gimnasio está lleno.
-4. **El aforo se actualiza** en la pantalla pública. Al salir, vuelves a pasar la tarjeta.
+### Cómo funciona (esquema funcional y arquitectura simplificada)
+Cinco cajas unidas por flechas, que muestran a la vez el flujo y las piezas del sistema:
+
+1. **TNE o TUI** · lector USB de 13,56 MHz
+2. **Kiosco web** · Next.js en Vercel
+3. **Supabase valida** · certificado, horario y cupo
+4. **Entra**, o recibe un turno si está lleno (caja con el color de acento)
+5. **Pantalla /aforo** en vivo · al salir, se repite
 
 ### Evidencia (columna derecha)
 
@@ -103,7 +105,10 @@ aforo en vivo, con lista de espera cuando el gimnasio está lleno.
   - Bastián González (administración y QA)
 - **Tecnologías:** Next.js · Supabase (PostgreSQL, Auth y Realtime) · Vercel · lector USB de 13,56 MHz.
 - **Metodología:** requisitos levantados en entrevista con el encargado del gimnasio, prototipo validado en
-  Figma Make y estimación por puntos de función y COCOMO.
+  Figma Make y estimación por puntos de función, LOC y COCOMO.
+- **Resultados y conclusión** (exigido por las bases): *«Sin papel: cada entrada y salida queda registrada y el
+  aforo se ve en vivo. El flujo central ya funciona con el lector real.»* Si la rutina entra en producción antes
+  de imprimir, la conclusión se actualiza.
 - **Limitaciones:** prototipo académico con datos ficticios, solo para alumnos y sin conexión a los sistemas
   de la USS. El certificado no se sube: solo se registra su vigencia.
 - **Próximamente:** las funciones marcadas así en la sección 4.
@@ -137,6 +142,8 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 | Mar 24 | Mostrar el borrador en el Avance 3 (lámina 22) y anotar las observaciones del profesor | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
 | Jue 26 | Enviar al profesor para su aprobación | Bastián y Vicente |
+| Vie 27 a lun 30 | Enviar a imprimir apenas se apruebe (lo imprime la universidad) y confirmar fecha de retiro | Bastián |
+| 1 a 3 dic | Retirar el afiche impreso e instalarlo en el lugar de la exposición antes de la defensa, según las condiciones de montaje que informe la coordinación | Bastián y Pau |
 
 ## 6. Revisión antes de enviarlo
 
@@ -146,4 +153,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 - [ ] Sin datos reales: capturas con alumnos ficticios y UID enmascarados.
 - [ ] El QR abre https://aforofit.vercel.app/aforo.
 - [ ] Una fuente, un color de acento y todo alineado a la grilla.
-- [ ] Los logos están autorizados por el profesor.
+- [ ] Solo el logo de la USS (autorizado); ningún logo de terceros.
+- [ ] Están los seis bloques de las bases: título, integrantes y logo · problema y objetivo · metodología,
+  tecnologías y esquema · funcionalidades y evidencias · resultados, beneficios, limitaciones y conclusión ·
+  diseño legible y consistente con el prototipo.
