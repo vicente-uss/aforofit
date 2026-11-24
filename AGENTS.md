@@ -150,7 +150,9 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
    la ocupación registrada puede no coincidir con la real.
 7. **Mantención**: una máquina En mantención aparece con advertencia en las rutinas que la incluyen
    (sin reemplazo automático en este prototipo).
-8. **Progresión**: fácil = +2,5 kg · justo = igual · me costó = −5 %. Si el profesor ajustó la rutina, manda su versión.
+8. **Progresión**: fácil = +2,5 kg · justo = igual · me costó = −5 %, redondeado al múltiplo de 2,5 kg más cercano
+   (`redondeo_kg`). «Me costó» siempre baja al menos un paso y nunca deja la carga negativa (D25: sin eso, con 25 kg
+   o menos el −5 % se perdía al redondear). Si el profesor ajustó la rutina, manda su versión.
    Valores iniciales, aún no validados para todos los ejercicios.
 9. **Préstamos**: una solicitud puede tener varios implementos; se registran devoluciones parciales; un alumno con
    implementos pendientes **o con su TNE de garantía sin retirar** no puede abrir otra solicitud (D19); el sistema
@@ -336,6 +338,12 @@ Actualizado: martes 24 de noviembre de 2026.
 - Playback con el encargado (24 de noviembre, 17:10, con Vicente): validó el flujo de ingreso sin cambios, prefiere el
   turno automático, confirmó R9 y corrigió la vigencia del certificado (un año desde la emisión). Demo con ingreso manual
   porque el lector estaba con Pau. Decisiones D19 a D24 (`docs/acta-playback-2026-11-24.md`).
+- F-01, base de datos de la rutina (PR #11, rama `rutina-base`, 24 de noviembre; en revisión por Isidora):
+  `supabase/sql/011_rutinas.sql` con 6 plantillas que usan solo máquinas registradas, `elegir_objetivo_nivel` (B1),
+  `generar_rutina`, `registrar_feedback` con la regla 8 y D25 (B4), `rutina_del_dia` con el aviso de mantención (R7),
+  RLS en las tablas nuevas y `visitas` en Realtime para que el celular se entere de la entrada (D13). Pruebas: 62 SQL
+  (`supabase/pruebas/rutinas.sql`) y 42 de `registrar_ingreso`, en un PostgreSQL local que imita Supabase; 71 en Vitest
+  (`lib/rutina/progresion.ts`).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -354,6 +362,9 @@ Actualizado: martes 24 de noviembre de 2026.
   (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
   chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
   `supabase/sql/010`, PR #10 fusionado). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
+- [ ] F-01: aprobar el PR #11 (Isidora), ejecutar `011_rutinas.sql` en Supabase y correr ahí las pruebas SQL
+  (deben dar 62 y 42 OK). Las cargas iniciales de las plantillas son de ejemplo: declararlas como supuesto o validarlas
+  con el encargado
 - [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
@@ -367,8 +378,8 @@ Actualizado: martes 24 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
-  congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
+- [ ] Entrega final: B1, B2 y B4 ya están en la base (PR #11); faltan las pantallas de B1, B3 y B4 (F-02) y B5 (F-03)
+  antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
@@ -376,9 +387,9 @@ Actualizado: martes 24 de noviembre de 2026.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
-### Decisiones vigentes D01–D24
+### Decisiones vigentes D01–D25
 
-D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamiento de credenciales, D18 del CR-01 y D19–D24 del [Playback del 24 de noviembre](docs/acta-playback-2026-11-24.md).
+D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamiento de credenciales, D18 del CR-01, D19–D24 del [Playback del 24 de noviembre](docs/acta-playback-2026-11-24.md) y D25 de la revisión del PR #11.
 
 | Código | Decisión |
 |---|---|
@@ -406,6 +417,7 @@ D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamien
 | D22 | `/aforo` muestra junto al turno llamado el nombre y la inicial del apellido, nunca el nombre completo ni el RUT |
 | D23 | El encargado no prioriza rutina ni préstamos; el equipo decide según el beneficio para la evaluación y se mantiene el CR-01 |
 | D24 | RNF08: pantalla mínima en `/admin` (capacidad, horario y cierre automático) después de la rutina; si no alcanza el jueves 26, limitación declarada. CA34 queda parcial |
+| D25 | Regla 8: «me costó» siempre baja al menos un paso de redondeo (`redondeo_kg`), sin quedar negativa (revisión del PR #11, 24 nov) |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 [documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
