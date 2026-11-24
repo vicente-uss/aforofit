@@ -6,7 +6,7 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: martes 24 de noviembre de 2026, después del Avance 3.
+Última actualización: martes 24 de noviembre de 2026, después del Avance 3 y del Playback con el encargado.
 
 ## 1. Qué es AforoFit
 
@@ -28,7 +28,7 @@ reales de la USS y sin datos médicos reales. Debe ejecutarse en vivo en la demo
 | Personal | Dos profesores de Educación Física, que además atienden la cancha y tareas administrativas |
 | Máquinas con esperas | Poleas y estaciones de press banca |
 | Infraestructura | Computador All-in-One con internet y puerto USB disponible en el gimnasio |
-| Habilitación | Certificado médico vigente; habilita durante el año académico, no 365 días |
+| Habilitación | Certificado médico vigente; dura **un año desde su fecha de emisión** (Playback del 24 de noviembre, D20; corrige lo anotado en la entrevista, «año académico») |
 
 ### Situación actual (problema)
 
@@ -72,7 +72,7 @@ dudó de su factibilidad: es **experimental** y requiere una prueba de factibili
 |---|---|
 | **Alumno** | Entra y sale con su credencial, recibe su rutina, da feedback al salir, registra sus medidas corporales. |
 | **Profesor encargado** | Profesor de Educación Física a cargo del gimnasio (hoy son dos). Supervisa ingreso y aforo, gestiona la lista de espera, registra préstamos y devoluciones, cambia el estado de las máquinas y puede ajustar la rutina de un alumno. |
-| **Administrador** | Registra máquinas (con fotos) e implementos, habilita alumnos según su certificado y período académico, configura parámetros y revisa reportes. |
+| **Administrador** | Registra máquinas (con fotos) e implementos, habilita alumnos según la vigencia de su certificado, configura parámetros y revisa reportes. |
 
 Acceso a pantallas: `/ingreso` es para profesor y administrador (CU11: ambos vinculan credenciales) y `/profesor/espera` es solo para el profesor (CU02: gestiona la lista).
 
@@ -86,7 +86,7 @@ fuera del prototipo (D10, limitación de alcance documentada).
 - **Ingreso y salida con credencial**: la TNE es la credencial principal (D17); la TUI (credencial USS) también se contempla. QR como respaldo.
 - **Aforo en vivo** con capacidad configurable (inicial: 20) en una pantalla pública (D01).
 - **Lista de espera** con número de turno cuando el gimnasio está lleno.
-- **Habilitación** de alumnos con certificado vigente por **período académico** configurable (D03).
+- **Habilitación** de alumnos con certificado vigente: un año desde su emisión (D20, reemplaza D03).
 - **Préstamo de implementos**: una solicitud con varios implementos, devoluciones parciales y registro de la TNE
   entregada como garantía. Independiente del ingreso y del aforo (D04).
 - **Catálogo del gimnasio**: máquinas con fotos e implementos con cantidades.
@@ -138,8 +138,9 @@ Cada regla debe tener una validación en el código o una restricción en la bas
 Todos los valores numéricos y fechas son **parámetros configurables**, no fijos en el código.
 
 1. **Credencial única**: una credencial pertenece a un solo alumno; si no está registrada, se ofrece vincularla.
-2. **Habilitación**: solo ingresa un alumno con certificado vigente para el período académico en curso
-   (inicial: 3 de marzo al 23 de diciembre, supuesto pendiente de confirmación oficial).
+2. **Habilitación**: solo ingresa un alumno con certificado vigente. El certificado dura **un año desde su fecha
+   de emisión** (D20, confirmado por el encargado el 24 de noviembre): `certificado_hasta` = emisión + 12 meses.
+   Ya no depende del período académico.
 3. **Horario**: solo se permite ingresar dentro del horario y antes del último ingreso
    (lunes a viernes hasta 21:00, sábado hasta 13:00; domingo cerrado).
 4. **Capacidad**: si hay 20 personas adentro (configurable), el alumno pasa a la lista de espera con número de turno
@@ -152,10 +153,11 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 8. **Progresión**: fácil = +2,5 kg · justo = igual · me costó = −5 %. Si el profesor ajustó la rutina, manda su versión.
    Valores iniciales, aún no validados para todos los ejercicios.
 9. **Préstamos**: una solicitud puede tener varios implementos; se registran devoluciones parciales; un alumno con
-   implementos pendientes no puede abrir otra solicitud; el sistema indica si la TNE de garantía ya fue devuelta.
-   Los préstamos no cambian el aforo.
+   implementos pendientes **o con su TNE de garantía sin retirar** no puede abrir otra solicitud (D19); el sistema
+   indica si la TNE de garantía ya fue devuelta. La TNE se deja físicamente con el profesor; pasarla por el lector no
+   es obligatorio. Los préstamos no cambian el aforo.
 
-**Validaciones abiertas:** R5 ya tiene criterio directo (CA44, con el índice único y la prueba SQL). Queda confirmar si la garantía TNE pendiente bloquea otro préstamo después de devolver todos los implementos (R9). El modelo de estados representa ese bloqueo.
+**Validaciones cerradas:** R5 tiene criterio directo (CA44, con el índice único y la prueba SQL). R9 quedó confirmada en el Playback del 24 de noviembre: la TNE pendiente sí bloquea otro préstamo (D19; `docs/acta-playback-2026-11-24.md`).
 
 ## 5. Flujo central (lo que se demuestra en vivo)
 
@@ -207,7 +209,7 @@ Nunca usar ni subir la clave `secret` / `service_role`. Nunca subir `.env.local`
 - **Base de datos**: Row Level Security activado en todas las tablas. El alumno solo ve sus datos;
   el registro corporal solo lo ve su dueño. Guarda cada SQL que ejecutes en Supabase en
   `supabase/sql/NNN_descripcion.sql` (ej. `001_tablas_iniciales.sql`) para tener historial.
-- **Parámetros**: capacidad, horario, período académico, progresión y cierre automático viven en una
+- **Parámetros**: capacidad, horario, progresión y cierre automático viven en una
   tabla de configuración editable por el administrador.
 - **Ramas**: `main` siempre funciona. Una rama por tarea (`ingreso-credencial`, `prestamos`) y
   pull request revisado por otro integrante antes de fusionar.
@@ -331,20 +333,26 @@ Actualizado: martes 24 de noviembre de 2026.
 - Material de apoyo del curso (frameworks de Ingeniería de Requerimientos y Calidad y de Ingeniería de Software, y
   transcripciones de las clases): se sacó del repositorio público el 24 de noviembre y se guarda fuera, en el Drive del
   equipo. Las referencias «FW-IR» y «FW-IS» de los documentos apuntan a ese material.
+- Playback con el encargado (24 de noviembre, 17:10, con Vicente): validó el flujo de ingreso sin cambios, prefiere el
+  turno automático, confirmó R9 y corrigió la vigencia del certificado (un año desde la emisión). Demo con ingreso manual
+  porque el lector estaba con Pau. Decisiones D19 a D24 (`docs/acta-playback-2026-11-24.md`).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
-- [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
   desde el video de la prueba de Pau: cumple, 1,2 s o menos en 4 lecturas (`docs/medicion-ca29-2026-11-23.md`);
   repetir en la red de la universidad
 - [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): la línea base de la
-  entrega final ya está aprobada (CR-01); falta validar el prototipo con el encargado con acta y registrar las pruebas por CA
+  entrega final ya está aprobada (CR-01) y el prototipo quedó validado con el encargado (acta del 24 de noviembre);
+  falta registrar las pruebas por CA
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
-  guion del Playback con el encargado. Falta la revisión de otro integrante, el acta del Playback (24 nov, 17:00) y
-  decidir RNF08 (pantalla mínima de capacidad o limitación declarada)
+  guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
+- [ ] Pedidos del Playback (24 nov): nombre e inicial del apellido junto al turno llamado en `/aforo` (F-29, D22),
+  botón «Cerrar visita» en `/profesor` para quien no marcó la salida (F-28, D21), cantidades reales de implementos
+  (F-31) y regla 2 con vigencia de un año (F-32, D20). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
+- [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más
@@ -366,15 +374,15 @@ Actualizado: martes 24 de noviembre de 2026.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
-### Decisiones vigentes D01–D18
+### Decisiones vigentes D01–D24
 
-D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamiento de credenciales y D18 del CR-01.
+D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamiento de credenciales, D18 del CR-01 y D19–D24 del [Playback del 24 de noviembre](docs/acta-playback-2026-11-24.md).
 
 | Código | Decisión |
 |---|---|
 | D01 | Capacidad inicial de 20 personas, configurable |
 | D02 | Registro de salida independiente de las rutinas |
-| D03 | Certificados vinculados a períodos académicos configurables |
+| D03 | ~~Certificados vinculados a períodos académicos configurables~~ Reemplazada por D20 (24 nov) |
 | D04 | Préstamos independientes del ingreso al gimnasio |
 | D05 | Máquinas con estados Disponible y En mantención |
 | D06 | Advertencia de mantención visible en las rutinas (sin reemplazo automático) |
@@ -387,9 +395,15 @@ D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamien
 | D13 | Entrega al celular: el alumno inicia sesión una vez en la app web; al pasar la credencial, su sesión abierta recibe la rutina en tiempo real |
 | D14 | Lista de espera: número de turno; la pantalla muestra el turno llamado y el alumno vuelve a pasar la credencial |
 | D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
-| D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
+| D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve. Ajuste D19: pasar la TNE por el lector es opcional; basta con identificar al alumno |
 | D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) también funciona con el lector USB (probado por Pau el 20 de noviembre); la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
 | D18 | Línea base de la entrega final (CR-01, aprobado por el equipo el 23 de noviembre): se entrega el flujo central con rutina por plantilla, feedback, progresión y estado de máquinas; préstamo básico y habilitación solo si alcanza; rutinas del profesor y del alumno, préstamos completos y registro corporal quedan diseñados para una próxima versión |
+| D19 | R9: un alumno con la TNE de garantía sin retirar no puede abrir otro préstamo, aunque haya devuelto todos los implementos; la TNE se deja físicamente con el profesor |
+| D20 | El certificado médico dura un año desde su fecha de emisión (reemplaza D03); `certificado_hasta` = emisión + 12 meses |
+| D21 | El profesor puede cerrar a mano la visita de un alumno que no marcó la salida, desde `/profesor` |
+| D22 | `/aforo` muestra junto al turno llamado el nombre y la inicial del apellido, nunca el nombre completo ni el RUT |
+| D23 | El encargado no prioriza rutina ni préstamos; el equipo decide según el beneficio para la evaluación y se mantiene el CR-01 |
+| D24 | RNF08: pantalla mínima en `/admin` (capacidad, horario y cierre automático) después de la rutina; si no alcanza el jueves 26, limitación declarada. CA34 queda parcial |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 [documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
@@ -401,9 +415,10 @@ la IA se usa para casi todo y el equipo revisa y decide · desde el 23 de noviem
 (`docs/plan-cierre-avance-3-y-final.md`, sección 0).
 
 **Preguntas abiertas**
-- Cantidades exactas de implementos disponibles para préstamo.
 - ¿Es factible el reparto automático de ejercicios? (prueba de factibilidad y consulta a usuarios)
-- Fechas oficiales del período académico.
+
+Resueltas en el Playback del 24 de noviembre: cantidades de implementos (2 balones de fútbol, 2 de vóleibol,
+2 de básquetbol, 2 paletas y 1 pelota de taca-taca) y período académico (ya no aplica: D20).
 
 ## 11. Cómo debe trabajar una IA en este proyecto
 

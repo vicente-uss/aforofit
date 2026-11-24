@@ -81,7 +81,11 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 
 | ID | Tarea | Tipo | Requisitos y criterios | Cuándo | Tiempo humano |
 |---|---|---|---|---|---|
-| F-09 | Configuración mínima desde `/admin`: capacidad, horario y período académico (cierra RNF08) | Agente | RF26 · CA34 | Jue 26 | 45 min |
+| F-09 | Configuración mínima desde `/admin`: capacidad, horario y cierre automático (D24; el período académico ya no aplica por D20). Solo después de F-01 a F-03 | Agente | RF26 · CA34 | Jue 26 | 45 min |
+| F-28 | Botón «Cerrar visita» en `/profesor` para quien no marcó la salida (D21, pedido del encargado), con prueba | Agente | R6 · RF08 | Jue 26 | 30 min |
+| F-29 | Nombre e inicial del apellido junto al turno llamado en `/aforo` y `/profesor/espera` (D22, pedido del encargado), con prueba | Agente | RF10 · D14 | Mié 25 | 30 min |
+| F-31 | Cantidades reales de implementos (`supabase/sql/010_implementos_reales.sql`, Playback) | Persona | RF21 | Mié 25 | 5 min |
+| F-32 | Regla 2 con vigencia de un año desde la emisión (D20) en requisitos, CA y pruebas SQL | Claude | R2 · RF25 · CA28 | Mié 25 | 20 min |
 | F-10 | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
 | F-11 | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
 | F-12 | Matriz de cobertura con las columnas «implementado» y «resultado de prueba» | Claude | Rúbrica 4 «Coherencia» | Dom 29 | 30 min |
@@ -91,7 +95,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-16 | Activar en Supabase la protección contra claves filtradas | Persona | RNF06 | Cualquier día | 2 min |
 | F-26 | Aviso visible en `/ingreso` cuando la página pierde el foco («Lector en pausa: haz clic aquí») y guía para abrir el kiosco en modo pantalla completa de Chrome (hallazgo de Pau, 23 nov) | Agente | RNF04 · CA31 | Mié 25 | 30 min |
 | F-17 | Revisión cruzada de los complementos de los avances 1 y 2 por otro integrante | Persona | FW-IR 9.2 | Antes del 30 | 20 min |
-| F-18 | Decidir R9 (¿una TNE pendiente bloquea otro préstamo?) con el encargado | Externo | R9 | Mar 24, 17:00 | En A3-12 |
+| F-18 ✅ | Decidir R9 con el encargado: sí bloquea (D19, acta del 24 de noviembre) | Externo | R9 | Mar 24, 17:00 | Hecho |
 
 ### P2: si sobra tiempo antes del congelamiento
 
@@ -104,7 +108,8 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-23 | Turno llamado que vence solo, sin esperar otra lectura (detalle menor aceptado) | Agente | RF10 |
 | F-24 | Pantallas del catálogo: máquinas con foto e implementos | Agente | RF19, RF21 · CA25, CA27 |
 | F-27 | Al vincular, elegir si la tarjeta es TNE o TUI (hoy se guarda todo como `tne`); mostrar las tarjetas que ya tiene el alumno | Agente | RF02 · D17 |
-| F-25 | Confirmar con el encargado las cantidades de implementos y el período académico | Externo | Preguntas abiertas |
+| F-25 ✅ | Cantidades de implementos y período académico confirmados en el Playback (F-31 y D20) | Externo | Hecho |
+| F-30 | Aviso «Olvidaste tu TNE» en el perfil del alumno, enviado por el profesor (pedido del encargado) | Agente | RF24 · P5 |
 
 **Regla para P2:** solo se suma al afiche lo que esté fusionado y probado **antes del jueves 26**. Lo que entre
 después se muestra en la demo, pero el afiche lo deja como «próxima versión».

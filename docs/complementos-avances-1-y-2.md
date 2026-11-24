@@ -234,7 +234,7 @@ Formato de la plantilla FW-IS P05. Resumen de decisiones ya tomadas que estaban 
 
 ## 9. Validación con el encargado (Playback)
 
-**Estado: pendiente.** Nadie del equipo ha mostrado el prototipo programado al encargado. Esta sección deja
+**Estado: hecho el 24 de noviembre.** Acta en [acta-playback-2026-11-24.md](acta-playback-2026-11-24.md) (D19 a D24). Lo que sigue es el guion que se usó. Esta sección deja
 preparada la sesión del martes 24 de noviembre, cerca de las 17:00 (FW-IR 11), y el acta para completarla después.
 
 ### Guion de la sesión (unos 20 minutos)
