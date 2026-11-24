@@ -338,12 +338,12 @@ Actualizado: martes 24 de noviembre de 2026.
 - Playback con el encargado (24 de noviembre, 17:10, con Vicente): validó el flujo de ingreso sin cambios, prefiere el
   turno automático, confirmó R9 y corrigió la vigencia del certificado (un año desde la emisión). Demo con ingreso manual
   porque el lector estaba con Pau. Decisiones D19 a D24 (`docs/acta-playback-2026-11-24.md`).
-- F-01, base de datos de la rutina (PR #11, rama `rutina-base`, 24 de noviembre; en revisión por Isidora):
+- F-01, base de datos de la rutina (PR #11, fusionado y aplicado en Supabase el 24 de noviembre):
   `supabase/sql/011_rutinas.sql` con 6 plantillas que usan solo máquinas registradas, `elegir_objetivo_nivel` (B1),
   `generar_rutina`, `registrar_feedback` con la regla 8 y D25 (B4), `rutina_del_dia` con el aviso de mantención (R7),
-  RLS en las tablas nuevas y `visitas` en Realtime para que el celular se entere de la entrada (D13). Pruebas: 62 SQL
-  (`supabase/pruebas/rutinas.sql`) y 42 de `registrar_ingreso`, en un PostgreSQL local que imita Supabase; 71 en Vitest
-  (`lib/rutina/progresion.ts`).
+  RLS en las tablas nuevas y `visitas` en Realtime para que el celular se entere de la entrada (D13). Pruebas en el
+  proyecto real de Supabase: 62 de 62 OK (`supabase/pruebas/rutinas.sql`) y 42 de 42 OK (`registrar_ingreso`); 6
+  plantillas con 5 o 6 ejercicios cada una; 71 en Vitest (`lib/rutina/progresion.ts`).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -362,9 +362,7 @@ Actualizado: martes 24 de noviembre de 2026.
   (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
   chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
   `supabase/sql/010`, PR #10 fusionado). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
-- [ ] F-01: aprobar el PR #11 (Isidora), ejecutar `011_rutinas.sql` en Supabase y correr ahí las pruebas SQL
-  (deben dar 62 y 42 OK). Las cargas iniciales de las plantillas son de ejemplo: declararlas como supuesto o validarlas
-  con el encargado
+- [ ] Cargas iniciales de las plantillas: son de ejemplo; declararlas como supuesto o validarlas con el encargado
 - [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
