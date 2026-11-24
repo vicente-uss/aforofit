@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -16,13 +17,18 @@ export type SeccionPanel = {
   href?: string; // si existe, la tarjeta abre esa pantalla; si no, muestra "Próximamente"
 };
 
-// Panel base de cada rol: encabezado con el usuario y una tarjeta por sección.
+// Panel base de cada rol: encabezado con el usuario, contenido propio del rol (opcional)
+// y una tarjeta por sección.
 export function PanelRol({
   perfil,
   secciones,
+  children,
+  tituloSecciones,
 }: {
   perfil: Perfil;
   secciones: SeccionPanel[];
+  children?: ReactNode;
+  tituloSecciones?: string;
 }) {
   return (
     <div className="min-h-svh w-full">
@@ -47,6 +53,9 @@ export function PanelRol({
           Panel de {ETIQUETA_ROL[perfil.rol].toLowerCase()}
         </p>
 
+        {children}
+
+        {tituloSecciones && <h2 className="mb-3 mt-8 text-lg font-semibold">{tituloSecciones}</h2>}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {secciones.map((seccion) => {
             const tarjeta = (
