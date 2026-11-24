@@ -6,6 +6,8 @@ congelamiento del lunes 30 de noviembre.
 
 ## Ronda 1 · lunes 23 de noviembre de 2026 (Avance 3)
 
+**Planilla:** la hoja «Pruebas» de la planilla «AforoFit — Estimación Avance 3» tiene los mismos resultados por caso (P01 a P30: 21 pasaron, 9 pendientes).
+
 **Versión probada:** `main` en el commit `00c41f6`, desplegada en https://aforofit.vercel.app.
 **Datos:** solo alumnos ficticios. Las pruebas SQL corren dentro de una transacción que se revierte; se comprobó
 después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo en 0).
@@ -35,7 +37,7 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | CA08 | Segunda pasada registra la salida | Integración, unitaria y sistema | 4 casos SQL; salida real con el lector | ✅ | SQL; video de Pau (aforo 1 → 0) |
 | CA09 | Cierre automático a las 3 horas | Integración | 3 casos SQL | ✅ | SQL CA09 |
 | CA10 | `/aforo` se actualiza en 2 s o menos | Sistema | Fotogramas del video: menos de 0,1 s después del kiosco; `/profesor/espera` 1.011 y 454 ms (22 nov) | ✅ | [medicion-ca29](medicion-ca29-2026-11-23.md) |
-| CA23 | Cada rol accede solo a lo suyo (RLS) | Integración | 4 casos SQL: el alumno ve solo su visita y no escribe; anon solo lee el aforo | ✅ | SQL RNF y Contrato |
+| CA23 | Cada rol accede solo a lo suyo (RLS) | Integración | 4 casos SQL: el alumno ve solo su visita y no escribe; anon solo lee el aforo | ✅ datos · ⏸ falta la redirección de pantallas en el navegador | SQL RNF y Contrato |
 | CA29 | Ingreso en 3 s o menos | Sistema | 4 lecturas reales medidas desde el video; respuesta del sistema de 218 a 269 ms en 4 lecturas manuales | ✅ 1,2 s o menos | [medicion-ca29](medicion-ca29-2026-11-23.md) |
 | CA31 | Lector como teclado sin drivers | Sistema | Lector USB con TNE y TUI (20 nov) y prueba del 23 nov; normalización con 14 casos de Vitest | ✅ lector · ⏸ QR pospuesto (CR-01) | [pruebas-tarjetas](pruebas-tarjetas.md); `normalizarUid.test.ts` |
 | CA32 | Vista utilizable a 360 px | Revisión | Auditoría de interfaces | 🟡 Parcial; la parte de `/aforo` se corrigió en el pull request #9 | [auditoría](auditoria-interfaces-2026-11-23.md) |
