@@ -353,7 +353,7 @@ Actualizado: martes 24 de noviembre de 2026.
   botón «Cerrar visita» en `/profesor` para quien no marcó la salida (F-28, D21) y regla 2 con vigencia de un año
   (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
   chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
-  `supabase/sql/010`, PR #10 pendiente de aprobación). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
+  `supabase/sql/010`, PR #10 fusionado). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
 - [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
