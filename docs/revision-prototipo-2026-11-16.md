@@ -73,7 +73,7 @@ El alumno llamado usa su cupo reservado; cualquier otro solo entra si quedan cup
 | 5 | `certVigente` no revisaba el fin del período académico | Se agregó la condición `fecha <= periodo.fin` | RF04, D03 | Corregido |
 | 6 | El feedback solo se activaba para el alumno de demo | Feedback pendiente y rutina activa guardados por alumno | RF18 | Corregido |
 | 7 | La estatura para el IMC estaba fija | Campo Estatura en el modal Registrar medición | RF27 | Corregido |
-| 8 | Las fotos de las máquinas son de Unsplash | Usar las [fotos del inventario](../fotos-maquinas/) en Figma | P7 | Fotos disponibles en el repositorio; reemplazo en Figma sin verificar |
+| 8 | Las fotos de las máquinas son de Unsplash | Usar las [fotos del inventario](../supabase/storage/maquinas/) en Figma | P7 | Fotos disponibles en el repositorio; reemplazo en Figma sin verificar |
 
 ## Paso a Next.js y Supabase
 

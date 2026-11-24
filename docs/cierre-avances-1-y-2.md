@@ -1,6 +1,6 @@
 # AforoFit — Documento maestro al cierre del Avance 2
 
-**Corte: 17 de noviembre de 2026.** El estado vigente está en [AGENTS.md, sección 10](../AGENTS.md#10-estado-actual), y lo construido para el Avance 3 en [pendientes-avance-3.md](pendientes-avance-3.md). Documento de continuidad para incorporar a una persona al equipo o dar contexto a una IA antes del Avance 3. Se lee en orden: propuesta original, análisis y diseño, evidencia técnica y trabajo siguiente.
+**Corte: 17 de noviembre de 2026.** El estado vigente está en [AGENTS.md, sección 10](../AGENTS.md#10-estado-actual), y lo construido para el Avance 3 en el [plan de cierre](plan-cierre-avance-3-y-final.md). Documento de continuidad para incorporar a una persona al equipo o dar contexto a una IA antes del Avance 3. Se lee en orden: propuesta original, análisis y diseño, evidencia técnica y trabajo siguiente.
 
 Los avances 1 y 2 obtuvieron **7,0**, según el registro del equipo. La [pauta docente](bases-proyecto-integrador.md) define lo evaluado. Los PDF muestran lo presentado. El registro de decisiones y reglas está consolidado más abajo. Para retomar una tarea, consulta también el artefacto enlazado y revisa el código de la rama donde trabajarás.
 
@@ -945,7 +945,7 @@ Estado documental al 17 de noviembre de 2026. El plan original de cuatro semanas
 | Isidora Moscoso | Backend en Supabase: modelo de datos, RLS, login con roles, capacidad, turnos y rutinas. |
 | Bastián González | Catálogo, administración, QA, evidencia de pruebas y afiche. |
 
-Para metodología y ejemplos, consultar el [Framework de Ingeniería de Requerimientos y Calidad](framework-requerimientos-calidad.md), el [Framework de Ingeniería de Software](framework-ingenieria-de-software.md), [Ingeniería de Requerimientos](ingenieria-de-requerimientos.md) e [Ingeniería de Software](ingenieria-de-software.md). Para operar o modificar AforoFit, partir por el [README](../README.md) y las reglas vigentes en [AGENTS.md](../AGENTS.md).
+Para metodología y ejemplos, consultar los frameworks y las transcripciones de las clases, que se guardan fuera del repositorio (Drive del equipo). Para operar o modificar AforoFit, partir por el [README](../README.md) y las reglas vigentes en [AGENTS.md](../AGENTS.md).
 
 ### 8. Equipo
 
@@ -976,7 +976,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## Checklist íntegro del Avance 3
 
-Esta copia corresponde al punto de partida. El [checklist operativo](pendientes-avance-3.md) permite seguir el trabajo a partir de ese corte.
+Esta copia corresponde al punto de partida. El [plan de cierre](plan-cierre-avance-3-y-final.md) permite seguir el trabajo a partir de ese corte.
 
 El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista parte del [cierre de los avances 1 y 2](cierre-avances-1-y-2.md) y de la [pauta docente](bases-proyecto-integrador.md). Las casillas corresponden a trabajo pendiente o por confirmar. La asignación de cada tarea se propone a partir de los roles de [AGENTS.md](../AGENTS.md).
 
@@ -1513,7 +1513,7 @@ Estos valores son parámetros iniciales configurables. Todavía no se ha validad
 
 | N.º | Estado al cierre del Avance 2 | Responsable |
 |---|---|---|
-| 1 | Inventario inicial consolidado: 11 tipos y 12 equipos en el [catálogo SQL](../supabase/sql/004_datos_catalogo.sql) y [fotos en el repositorio](../fotos-maquinas/). Queda completar los ajustes específicos de máquina. | Bastián |
+| 1 | Inventario inicial consolidado: 11 tipos y 12 equipos en el [catálogo SQL](../supabase/sql/004_datos_catalogo.sql) y [fotos en el repositorio](../supabase/storage/maquinas/). Queda completar los ajustes específicos de máquina. | Bastián |
 | 2 | Cantidades exactas de implementos pendientes de confirmar. | Bastián / Vicente |
 | 3 | Lector USB cotizado y elegido. Adquisición y prueba física con TNE y TUI pendientes. | Pau |
 | 4 | Viabilidad del reparto automático pendiente de validación. | Vicente / Equipo |
@@ -1732,7 +1732,7 @@ El alumno llamado usa su cupo reservado; cualquier otro solo entra si quedan cup
 | 5 | `certVigente` no revisaba el fin del período académico | Se agregó la condición `fecha <= periodo.fin` | RF04, D03 | Corregido |
 | 6 | El feedback solo se activaba para el alumno de demo | Feedback pendiente y rutina activa guardados por alumno | RF18 | Corregido |
 | 7 | La estatura para el IMC estaba fija | Campo Estatura en el modal Registrar medición | RF27 | Corregido |
-| 8 | Las fotos de las máquinas son de Unsplash | Usar las [fotos del inventario](../fotos-maquinas/) en Figma | P7 | Fotos disponibles en el repositorio; reemplazo en Figma sin verificar |
+| 8 | Las fotos de las máquinas son de Unsplash | Usar las [fotos del inventario](../supabase/storage/maquinas/) en Figma | P7 | Fotos disponibles en el repositorio; reemplazo en Figma sin verificar |
 
 ### Paso a Next.js y Supabase
 
@@ -1789,4 +1789,4 @@ El checklist registra correcciones del prototipo Figma y evidencia del Avance 2.
 - [Avance 1 presentado](entregas/avances/AforoFit-Avance1-Grupo6.pdf) y [Avance 2 presentado](entregas/avances/AforoFit-Avance2-Grupo6.pdf).
 - [Entrevista documentada](entrevista-encargado-2026-11-12.md), [pruebas de tarjetas](pruebas-tarjetas.md) y [revisión de Figma](revision-prototipo-2026-11-16.md).
 - [Documentos de requisitos](requisitos-casos-uso-criterios.md), [diagramas y sus fuentes](diagramas.md) y [scripts SQL](../supabase/sql/).
-- [Ingeniería de Requerimientos](ingenieria-de-requerimientos.md) e [Ingeniería de Software](ingenieria-de-software.md) como apoyo metodológico.
+- Transcripciones de las clases de Ingeniería de Requerimientos e Ingeniería de Software como apoyo metodológico (fuera del repositorio, en el Drive del equipo).

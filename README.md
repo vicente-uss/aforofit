@@ -92,7 +92,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 - [Auditoría integral con los frameworks](docs/auditoria-proyecto-frameworks-2026-11-23.md): cronología por hito, brechas y plan de acción.
 - [Auditoría de interfaces del 23 de noviembre](docs/auditoria-interfaces-2026-11-23.md): prototipo frente a producción, CA32, CA37 y decisiones.
 - [Bases y rúbrica del Proyecto Integrador](docs/bases-proyecto-integrador.md): alcance y criterios por hito.
-- Material de apoyo: [Framework de Ingeniería de Requerimientos y Calidad](docs/framework-requerimientos-calidad.md) (procedimiento de trabajo), [Framework de Ingeniería de Software](docs/framework-ingenieria-de-software.md) (procedimiento de trabajo), [Ingeniería de Requerimientos](docs/ingenieria-de-requerimientos.md) (transcripción de las clases) e [Ingeniería de Software](docs/ingenieria-de-software.md).
+- Fotos originales del catálogo de máquinas (las que se suben al bucket `maquinas` de Supabase): `supabase/storage/maquinas/`.
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.

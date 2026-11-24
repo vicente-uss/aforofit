@@ -15,8 +15,8 @@ con apoyo de IA; el equipo la revisa y decide.
 | Referencia | Qué aporta | Archivo |
 |---|---|---|
 | Bases y rúbricas del Proyecto Integrador | Lo **obligatorio**: contenido de cada avance y criterios con puntaje | [`bases-proyecto-integrador.md`](bases-proyecto-integrador.md) |
-| Framework de Ingeniería de Requerimientos y Calidad (FW-IR) | Lo **recomendado** para requisitos, validación, calidad y cambios (secciones 0 a 19) | [`framework-requerimientos-calidad.md`](framework-requerimientos-calidad.md) |
-| Framework de Ingeniería de Software (FW-IS) | Lo **recomendado** para enfoque, modelos, diseño, construcción, QA, entrega y estimación (hitos H1 a H9) | [`framework-ingenieria-de-software.md`](framework-ingenieria-de-software.md) |
+| Framework de Ingeniería de Requerimientos y Calidad (FW-IR) | Lo **recomendado** para requisitos, validación, calidad y cambios (secciones 0 a 19) | Fuera del repositorio (Drive del equipo) |
+| Framework de Ingeniería de Software (FW-IS) | Lo **recomendado** para enfoque, modelos, diseño, construcción, QA, entrega y estimación (hitos H1 a H9) | Fuera del repositorio (Drive del equipo) |
 
 **Regla de la auditoría** (FW-IR 18 y FW-IS 18.3): un punto cuenta como cumplido solo si hay **evidencia en el
 repositorio**, en producción o en una entrega. Un documento escrito prueba que el artefacto existe; no prueba que un
@@ -204,7 +204,7 @@ puede operar y entender sin depender de conocimiento oral?*
 | Procedimiento de cambios | 🟡 | Pull request con revisión y actualización de AGENTS.md; sin un registro de cambio de alcance |
 | Revisiones con actas | 🟡 | Revisión del prototipo (16 nov) y auditoría de interfaces (23 nov); sin acta con el encargado |
 | Versión vigente y aprobada | ✅ | PDF de los avances en `docs/entregas/avances/` y AGENTS.md vigente |
-| Traspaso con bloqueos y riesgos | ✅ | `pendientes-avance-3.md` y contrato del flujo |
+| Traspaso con bloqueos y riesgos | ✅ | Plan de cierre y contrato del flujo |
 
 ## 5. Hitos del framework de software (FW-IS 15)
 
@@ -276,5 +276,5 @@ Ordenado por impacto en la nota. Los responsables siguen los roles de AGENTS.md 
 
 - **AGENTS.md, sección 10:** agregar en «Pendiente» las acciones 2 (CR-01), 4 (acta con el encargado) y 6 (hoja de
   pruebas por CA), con un enlace a esta auditoría.
-- **`pendientes-avance-3.md`:** enlazar esta auditoría en la sección 4, «Evidencia para cerrar el hito».
+- **Lista inicial de pendientes del Avance 3:** se eliminó el 24 de noviembre; el plan de cierre la reemplaza.
 - **Guion de la PPT:** agregar la respuesta de la acción 1 a las preguntas probables.

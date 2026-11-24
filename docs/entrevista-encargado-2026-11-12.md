@@ -449,7 +449,7 @@ Estos valores son parámetros iniciales configurables. Todavía no se ha validad
 
 | N.º | Estado al cierre del Avance 2 | Responsable |
 |---|---|---|
-| 1 | Inventario inicial consolidado: 11 tipos y 12 equipos en el [catálogo SQL](../supabase/sql/004_datos_catalogo.sql) y [fotos en el repositorio](../fotos-maquinas/). Queda completar los ajustes específicos de máquina. | Bastián |
+| 1 | Inventario inicial consolidado: 11 tipos y 12 equipos en el [catálogo SQL](../supabase/sql/004_datos_catalogo.sql) y [fotos en el repositorio](../supabase/storage/maquinas/). Queda completar los ajustes específicos de máquina. | Bastián |
 | 2 | Cantidades exactas de implementos pendientes de confirmar. | Bastián / Vicente |
 | 3 | Lector USB cotizado y elegido. Adquisición y prueba física con TNE y TUI pendientes. | Pau |
 | 4 | Viabilidad del reparto automático pendiente de validación. | Vicente / Equipo |

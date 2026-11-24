@@ -271,7 +271,7 @@ Actualizado: martes 24 de noviembre de 2026.
   protegidas en el servidor (`supabase/sql/001_perfiles_roles.sql`).
 - Contraseña de `admin.demo` rotada, según confirmó el equipo.
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
-  `maquinas` para las fotos (`supabase/sql/002` a `004`).
+  `maquinas` para las fotos (`supabase/sql/002` a `004`; fotos originales en `supabase/storage/maquinas/`).
 - Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
   (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
 - Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante). Probado el 20 de noviembre:
@@ -328,10 +328,9 @@ Actualizado: martes 24 de noviembre de 2026.
   aforo en reposo. Lectura en vivo de `aforo` compartida en `lib/aforo/useAforo.ts`. 57 pruebas en Vitest.
 - Planilla de estimación compartida con Bastián; contraseñas de los usuarios de prueba entregadas por privado; las
   tarjetas de Pau quedan vinculadas para la demo.
-- Material de apoyo genérico, auditado contra los PDF oficiales: frameworks de Ingeniería de Requerimientos y Calidad y de
-  Ingeniería de Software (`docs/framework-*.md`) y transcripciones completas, con el contenido visual de cada lámina, de
-  Ingeniería de Requerimientos (9 capítulos) y de Ingeniería de Software (semanas 1 a 7, incluida COCOMO)
-  (`docs/ingenieria-de-*.md`). No mencionan AforoFit, así que sirven para otros proyectos.
+- Material de apoyo del curso (frameworks de Ingeniería de Requerimientos y Calidad y de Ingeniería de Software, y
+  transcripciones de las clases): se sacó del repositorio público el 24 de noviembre y se guarda fuera, en el Drive del
+  equipo. Las referencias «FW-IR» y «FW-IS» de los documentos apuntan a ese material.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 

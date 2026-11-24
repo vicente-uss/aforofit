@@ -1,10 +1,10 @@
 # Plan de cierre: Avance 3 y entrega final
 
 Lunes 23 de noviembre de 2026, 17:15 (actualizado el martes 24: el Avance 3 se aprobó con 7,0). Reúne **todos los pendientes abiertos** del repositorio, sacados de
-AGENTS.md 10, `pendientes-avance-3.md`, la [auditoría integral](auditoria-proyecto-frameworks-2026-11-23.md), el
+AGENTS.md 10, la lista inicial de pendientes del Avance 3, la [auditoría integral](auditoria-proyecto-frameworks-2026-11-23.md), el
 [CR-01](cr-01-linea-base-entrega-final.md), los [complementos](complementos-avances-1-y-2.md), la
 [auditoría de interfaces](auditoria-interfaces-2026-11-23.md) y `afiche-contenido.md`. Los ordena por hito y por
-prioridad. Reemplaza como lista de trabajo a `pendientes-avance-3.md`, que queda como registro del inicio del hito.
+prioridad. Es la única lista de trabajo vigente (la lista inicial de pendientes se eliminó el 24 de noviembre).
 
 ## 0. Modo de trabajo hasta el cierre
 
