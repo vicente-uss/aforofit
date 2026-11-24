@@ -26,16 +26,16 @@ objetivo específico 2 del Avance 1.
 
 | Evidencia | Dato | Fuente |
 |---|---|---|
-| Tamaño total de la prioridad alta | 207 PF | `estimacion.md` 2 |
-| Tamaño ya construido | Unos 87 PF (ingreso y aforo, acceso y usuarios, tablas del catálogo) | `estimacion.md` 5 |
+| Tamaño total de la prioridad alta | 207 PF | `estimacion.md` 3 |
+| Tamaño ya construido | Unos 87 PF (ingreso y aforo, acceso y usuarios, tablas del catálogo) | `estimacion.md` 4 |
 | Tamaño que falta | Unos **120 PF**: rutinas (51), catálogo con pantallas (resto de 32), préstamos (25), administración (16), registro corporal (14) | Descomposición por módulo de `estimacion.md` |
-| Ritmo observado del equipo | 87 PF en unas 100 h (5 integrantes × 10 h × 2 semanas): **unas 1,15 h por PF** | `estimacion.md` 5 (productividad B) |
+| Ritmo observado del equipo | 87 PF en unas 100 h (5 integrantes × 10 h × 2 semanas): **unas 1,15 h por PF** | `estimacion.md` 4 (productividad B) |
 | Horas para programar esta semana | 5 × 10 h = 50 h, menos unas 15 h de afiche, pruebas, ensayo y documentación: **unas 35 h** | Supuesto de la estimación (10 h por semana por integrante) |
 | Capacidad de esta semana | 35 h ÷ 1,15 h por PF ≈ **30 PF** | Cálculo |
 | Brecha | 120 PF que faltan frente a unos 30 posibles: **cabe un cuarto** de lo pendiente | Cálculo |
 
-Con el ritmo real del equipo, la brecha no es de 21 veces (esa cifra es la de COCOMO), sino de unas **4 veces en la
-última semana**. Igual obliga a elegir.
+Con el ritmo real del equipo, la brecha no es de 10 veces (esa cifra es la de COCOMO con el tamaño medido, versión 0.3
+de la estimación; la versión 0.2 decía 21), sino de unas **4 veces en la última semana**. Igual obliga a elegir.
 
 ## 3. Alternativas evaluadas
 

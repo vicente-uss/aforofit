@@ -55,7 +55,7 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 | A3-08 ✅ | P1 | Medir CA29 ([hecho desde el video](medicion-ca29-2026-11-23.md)) con el lector: 5 lecturas, tiempo de cada una con los ms del kiosco | Persona | Pau | Hoy o mañana antes de clases | 10 min | Lector |
 | A3-09 ✅ | P1 | Lighthouse de `/aforo` e `/ingreso` desde Chrome (DevTools → Lighthouse) y anotar los 4 puntajes | Persona | Vicente o Bastián | Hoy | 10 min | — |
 | A3-10 | P1 | Borrador visual del afiche (aunque falte el formato de Blackboard) | Claude + Persona | Vicente con Bastián | ✅ Borrador hecho (lun 23, A4 vertical); falta la foto del lector | 45 min | A3-01 |
-| A3-11 ✅ | P2 | Declarar la regla de conteo LOC (qué se excluye: plantilla, pruebas, SQL) en `estimacion.md` ([hecha](estimacion.md#31-regla-de-conteo-de-loc-declarada-el-23-de-noviembre)) | Claude | — | Hoy | 10 min | — |
+| A3-11 ✅ | P2 | Declarar la regla de conteo LOC (qué se excluye: plantilla, pruebas, SQL) en `estimacion.md` ([hecha](estimacion.md#21-regla-de-conteo-declarada-antes-de-contar)) | Claude | — | Hoy | 10 min | — |
 | A3-12 | P2 | Sesión con el encargado y acta (complementos, sección 9) | Externo | Vicente | Mar ~17:00 | 30 min | Después del avance |
 
 ## 2. Entrega final — congelamiento el lunes 30 de noviembre; expo del 1 al 3 de diciembre

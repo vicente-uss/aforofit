@@ -3,6 +3,11 @@
 Fecha: lunes 23 de noviembre de 2026, víspera del Avance 3. Preparada por Vicente Galleguillos (jefe de proyecto)
 con apoyo de IA; el equipo la revisa y decide.
 
+> **Actualización del 23 de noviembre, 22:00:** después de esta auditoría la estimación se rehízo (versión 0.3 de
+> [`estimacion.md`](estimacion.md)). El tamaño ahora se mide por separado en LOC (5.350, por componentes) y en PF
+> (207), con la regla de conteo declarada; COCOMO bajó de 27,9 a 14,0 PM y la brecha frente a lo disponible, de unas
+> 21 a unas 10 veces. Las cifras de 27,9 PM, 10,35 KLOC y 21 veces que aparecen abajo son las de la versión 0.2.
+
 ## 0. Alcance y método
 
 **Qué se audita:** todo el proyecto, desde la propuesta hasta la entrega final, con tres referencias:

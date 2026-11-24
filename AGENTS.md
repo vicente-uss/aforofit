@@ -276,12 +276,16 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante). Probado el 20 de noviembre:
   funciona como teclado con TNE, TUI y tarjetas bancarias, y entrega el UID en decimal invertido como dijo el vendedor
   (`docs/pruebas-tarjetas.md`).
-- Estimación del Avance 3 con el método de clase (Semanas 5, 6 y 7): 207 puntos de función no ajustados con
-  justificación por función (10,35 KLOC con el supuesto de 50 LOC/PF), COCOMO 81 orgánico de 27,9 PM, 8,9 meses y
-  3,2 personas, segundo método por productividad (clase: 20,7 y 5,75 PM; observada del equipo: 1,57 y 2,45 PM),
-  esfuerzo disponible de 1,32 PM (5 integrantes × 10 h por semana cada uno × 4 semanas), factores propios, costos
-  por rol con contingencia del 12 % ($2.530.265 teórico) y 16 riesgos (`docs/estimacion.md` y la planilla
-  "AforoFit — Estimación Avance 3").
+- Estimación del Avance 3, versión 0.3 (rehecha el 23 de noviembre con el método de clase, semanas 5, 6 y 7): tamaño
+  medido dos veces por separado, **207 PF no ajustados** con justificación por función y **5.350 LOC** por
+  descomposición en componentes (1.855 medidas en el repo + 3.495 estimadas por analogía; escenarios 4.651 a 7.098),
+  que coinciden en unas 26 LOC/PF. Fórmula inicial (esfuerzo = tamaño ÷ productividad): 2,97 PM por LOC con
+  productividad de clase, 20,7 PM por PF con productividad de clase (no comparable: viene de unas 180 LOC/PF),
+  1,90 y 1,57 PM con la productividad observada. COCOMO 81 orgánico: **14,0 PM, 6,8 meses y 2,1 personas**, unas 10
+  veces el esfuerzo disponible de 1,32 PM (5 integrantes × 10 h por semana × 4 semanas). Costos por rol con
+  contingencia del 12 % ($2.530.265 teórico) y 16 riesgos (`docs/estimacion.md` y la planilla
+  "AforoFit — Estimación Avance 3", con la hoja nueva LOC por componentes). La versión 0.2 (10,35 KLOC con 50 LOC/PF
+  y COCOMO de 27,9 PM) quedó reemplazada.
 - Guion de la PPT del Avance 3 con presentador por lámina (documento "AforoFit — Guion PPT Avance 3").
 - Contenido del afiche en formato billboard, con tabla de funciones mencionables y plan al 26 de noviembre
   (`docs/afiche-contenido.md`). Borrador visual en A4 vertical hecho el 23 de noviembre (canvas "AforoFit — Borrador del
@@ -349,10 +353,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Avance 3: confirmar los supuestos de la estimación (10 h por semana por integrante y 50 LOC/PF). El contraste con
-  el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
-  ambas mediciones incluyen la plantilla `with-supabase`. Regla de conteo declarada en `docs/estimacion.md` (3.1): con
-  solo el código del equipo son 1.855 LOC, unas 21 LOC/PF (960 LOC más son de la plantilla)
+- [ ] Avance 3: confirmar los supuestos de la estimación: 10 h por semana por integrante y los tamaños unitarios por
+  componente de la medición en LOC (`docs/estimacion.md` 2.3 y 10). Regla de conteo en `docs/estimacion.md` 2.1
 - [ ] Avance 3: ensayar (24 nov, 11:30). El CR-01 ya está aprobado, así que la lámina 23 queda como está.
 - [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
   congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
