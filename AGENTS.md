@@ -295,7 +295,7 @@ Actualizado: martes 24 de noviembre de 2026.
   autorizado, esquema funcional, metodología con PF, LOC y COCOMO, y resultados con conclusión, para cubrir los seis
   bloques de las bases (`docs/evidencia/afiche/afiche-borrador-v2-2026-11-23.png`). Versión 3 (24 nov): foto del lector
   incorporada (`docs/evidencia/lector/lector-usb-2026-11-24.jpg`) y cifra «115 pruebas aprobadas y 1 parcial»
-  (`docs/evidencia/afiche/afiche-borrador-v3-2026-11-24.png`). La proporción es la misma de A0; falta el nombre del profesor.
+  (`docs/evidencia/afiche/afiche-borrador-v3-2026-11-24.png`). La proporción es la misma de A0. Nombre del docente agregado el 24 de noviembre: «Docente: Rodrigo Correa Rojas», en el encabezado.
 - Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
@@ -360,7 +360,7 @@ Actualizado: martes 24 de noviembre de 2026.
 - [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
   congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
-  lector; falta el nombre completo del profesor y exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
+  lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
   había reemplazado por el afiche). Falta diseñarlos a partir del contenido del afiche.
 

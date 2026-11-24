@@ -144,7 +144,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 | Mar 24 ✅ | Foto del lector incorporada (`docs/evidencia/lector/lector-usb-2026-11-24.jpg`) y cifra «115 pruebas aprobadas y 1 parcial» | Vicente |
 | Mar 24 ✅ | Borrador mostrado en el Avance 3 (aprobado con 7,0). Observaciones del profesor: formato A0 y su nombre en el afiche | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
-| Jue 26 | Agregar el nombre del profesor, exportar el PDF en A0 y cerrar el archivo | Bastián y Vicente |
+| Jue 26 | Nombre del docente agregado el 24 nov («Docente: Rodrigo Correa Rojas», en el encabezado); exportar el PDF en A0 y cerrar el archivo | Bastián y Vicente |
 | Vie 27 a lun 30 | Imprimir en la facultad el afiche en A0 y los 20 trípticos a color, y confirmar la fecha de retiro | Bastián |
 | 1 a 3 dic | Retirar el afiche impreso e instalarlo en el lugar de la exposición antes de la defensa, según las condiciones de montaje que informe la coordinación | Bastián y Pau |
 
