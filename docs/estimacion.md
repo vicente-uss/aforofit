@@ -334,10 +334,10 @@ R01 (el lector falla con la TNE), R02 y R03 quedaron cerrados.
 | R06 | Reglas de negocio mal implementadas | 6 | Validarlas en `registrar_ingreso`; 42 pruebas SQL en verde | Isidora |
 | R10 | Poca disponibilidad del equipo por cierre de semestre | 6 | Responsable y respaldo por tarea; recortar la prioridad media | Vicente |
 
-## 10. Supuestos a confirmar
+## 10. Supuestos
 
-La lámina 9 de la PPT los resume en cuatro: alcance (confirmado), tamaño y esfuerzo disponible (por confirmar),
-y productividad y costo (medido o tomado de la clase).
+La lámina 3 del PPT final del Avance 3 los resume en cuatro: alcance, tamaño y horas disponibles, confirmados por el
+equipo el 24 de noviembre, y productividad y costo (medido o tomado de la clase).
 
 
 - Horas por semana por integrante (10) y semanas de desarrollo (4, del 10 de noviembre al 3 de diciembre). Las

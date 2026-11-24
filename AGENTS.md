@@ -6,7 +6,7 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: lunes 23 de noviembre de 2026, antes del Avance 3.
+Última actualización: martes 24 de noviembre de 2026, después del Avance 3.
 
 ## 1. Qué es AforoFit
 
@@ -247,18 +247,19 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 |---|---|---|
 | Mar 10 nov | Avance 1 ✅ | Aprobado con nota máxima (7,0), sin observaciones |
 | Mar 17 nov | Avance 2 ✅ | Aprobado con nota máxima (7,0); al profesor le gustó especialmente el prototipo. Presentación en `docs/entregas/avances/` |
-| **Mar 24 nov** | **Avance 3** | Estimación LOC y/o puntos de función con supuestos · esfuerzo, duración, recursos y riesgos · demo del prototipo · pruebas iniciales · propuesta de afiche y plan de cierre |
-| Jue 26 nov | Afiche definitivo | Aprobado; formato según lo que el profesor envíe por Blackboard; solo funcionalidades implementadas o marcadas como futuras |
+| Mar 24 nov | Avance 3 ✅ | Aprobado con nota máxima (7,0). Presentación en `docs/entregas/avances/` |
+| **Jue 26 nov** | **Afiche definitivo** | Archivo cerrado: formato A0, con el nombre del profesor; solo funcionalidades implementadas o marcadas como futuras. Además, 20 trípticos a color, impresos en la facultad |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
-| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche, defensa de todos |
+| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche y 20 trípticos, defensa de todos |
 
 ## 10. Estado actual
 
-Actualizado: lunes 23 de noviembre de 2026.
+Actualizado: martes 24 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
 - Avance 2 aprobado con nota máxima (7,0). Presentación (PDF, 23 láminas) en `docs/entregas/avances/`.
+- Avance 3 aprobado con nota máxima (7,0) el 24 de noviembre: los tres avances tienen 7,0.
 - Repositorio en GitHub, proyecto en Supabase y despliegue en Vercel creados.
 - Entrevista con el encargado del gimnasio (decisiones D01–D11).
 - Requisitos, casos de uso y criterios de aceptación (`docs/requisitos-casos-uso-criterios.md`).
@@ -292,7 +293,9 @@ Actualizado: lunes 23 de noviembre de 2026.
   (`docs/afiche-contenido.md`). Borrador visual en A4 vertical hecho el 23 de noviembre (canvas "AforoFit — Borrador del
   afiche"), con roles, credenciales y cifras verificados contra este archivo. Versión 2 (23 nov, noche): logo USS
   autorizado, esquema funcional, metodología con PF, LOC y COCOMO, y resultados con conclusión, para cubrir los seis
-  bloques de las bases (`docs/evidencia/afiche/afiche-borrador-v2-2026-11-23.png`); falta la foto del lector y el formato de Blackboard.
+  bloques de las bases (`docs/evidencia/afiche/afiche-borrador-v2-2026-11-23.png`). Versión 3 (24 nov): foto del lector
+  incorporada (`docs/evidencia/lector/lector-usb-2026-11-24.jpg`) y cifra «115 pruebas aprobadas y 1 parcial»
+  (`docs/evidencia/afiche/afiche-borrador-v3-2026-11-24.png`). La proporción es la misma de A0; falta el nombre del profesor.
 - Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
@@ -312,12 +315,14 @@ Actualizado: lunes 23 de noviembre de 2026.
   1.011 ms, llamado 454 ms), con la corrección en el pull request #7 (commit `d7918be`).
 - Pull requests #8 (base de datos) y #7 (pantallas) fusionados el 22 de noviembre: el flujo central completo está
   en producción en https://aforofit.vercel.app (kiosco, aforo en vivo y lista de espera contra la base real).
-- PPT del Avance 3 rehecha (25 láminas, en Canva) con notas del orador y referencias a las clases de las semanas 5,
-  6 y 7. La estimación ocupa las láminas 3 a 18: tamaño (3 a 8), supuestos (9), fórmula inicial por LOC y por PF
-  (10), COCOMO (11 y 12), contraste (13), factores propios (14), costos (15 y 16), riesgos (17) y planificación (18);
-  cada cifra lleva su fórmula. Las láminas 19 a 25 tienen la evidencia del 23 de noviembre (ER implementado, demo,
-  interfaces, pruebas 115 de 116, dificultades, afiche v2 y línea base del CR-01). Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
-  usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
+- PPT final del Avance 3 (24 de noviembre): 18 láminas de exposición y 6 de respaldo, con notas del orador y un
+  bloque seguido por integrante (Vicente 1 a 3 y 18, Isidora 4 a 6, Benjamín 7 a 10, Pau 11 a 14, Bastián 15 a 17).
+  Orden: alcance y supuestos, tamaño (modelo de datos, ejemplo «Registrar ingreso con credencial», 207 PF y 5.350 LOC),
+  esfuerzo (4,8 y 5,8 semanas con la productividad del equipo, cálculo y COCOMO como contraste), demo, interfaces,
+  pruebas (115 aprobadas y 1 parcial), recursos, riesgos, afiche y cierre con los cuatro estados del CR-01. El respaldo
+  tiene la matriz de pesos, el código pendiente por módulo, la productividad de la clase, COCOMO paso a paso, los costos
+  por rol y el diagrama ER ampliado. PDF en `docs/entregas/avances/AforoFit-Avance3-Grupo6.pdf`. Reemplaza a la versión
+  de 25 láminas en Canva.
 - Correcciones visuales de la auditoría de interfaces (pull request #9, fusionado el 23 de noviembre): `/aforo` muestra
   cupos disponibles, turno llamado y espera más grandes, barra más gruesa y estado con color; `/ingreso` muestra el
   aforo en reposo. Lectura en vivo de `aforo` compartida en `lib/aforo/useAforo.ts`. 57 pruebas en Vitest.
@@ -328,18 +333,13 @@ Actualizado: lunes 23 de noviembre de 2026.
   Ingeniería de Requerimientos (9 capítulos) y de Ingeniería de Software (semanas 1 a 7, incluida COCOMO)
   (`docs/ingenieria-de-*.md`). No mencionan AforoFit, así que sirven para otros proyectos.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
-  con cuenta de estudiante, y el afiche lo imprime la universidad. El gasto real sigue siendo el lector ($18.980).
+  con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Confirmar las cantidades reales de implementos con el profesor encargado
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
   desde el video de la prueba de Pau: cumple, 1,2 s o menos en 4 lecturas (`docs/medicion-ca29-2026-11-23.md`);
   repetir en la red de la universidad
-- [ ] Avance 3, revisión del equipo (23 nov, entrega hasta medianoche): kiosco con el lector real, tiempos de CA29 y
-  video de respaldo (Pau); interfaces contra el prototipo, capturas y video del aforo (Benjamín); hoja de pruebas y
-  Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
-  de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 parcial, televisor corregido en el pull request #9);
-  las capturas nuevas del flujo con turnos quedaron en `docs/evidencia/capturas-2026-11-23/` (23 nov, 21:05)
 - [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): la línea base de la
   entrega final ya está aprobada (CR-01); falta validar el prototipo con el encargado con acta y registrar las pruebas por CA
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
@@ -358,13 +358,12 @@ Actualizado: lunes 23 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Avance 3: confirmar los supuestos de la estimación: 10 h por semana por integrante y los tamaños unitarios por
-  componente de la medición en LOC (`docs/estimacion.md` 2.3 y 10). Regla de conteo en `docs/estimacion.md` 2.1
-- [ ] Avance 3: ensayar (24 nov, 11:30). El CR-01 ya está aprobado, así que la lámina 25 queda como está.
 - [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
   congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
-- [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por
-  Blackboard. Borrador listo; falta la foto del lector (Pau) y ajustar al formato (Bastián).
+- [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
+  lector; falta el nombre completo del profesor y exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
+- [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
+  había reemplazado por el afiche). Falta diseñarlos a partir del contenido del afiche.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 

@@ -1,6 +1,8 @@
 # Pendientes de inicio del Avance 3 · AforoFit
 
 > **Desde el 23 de noviembre**, la lista de trabajo vigente es el [plan de cierre](plan-cierre-avance-3-y-final.md). Este documento queda como registro del inicio del hito.
+>
+> **24 de noviembre:** el Avance 3 se aprobó con nota máxima (7,0), igual que los avances 1 y 2.
 
 El documento maestro incorpora esta sección en el [copia del checklist al inicio del hito](cierre-avances-1-y-2.md#checklist-íntegro-del-avance-3).
 
@@ -12,10 +14,10 @@ El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista part
 |---|---|---|
 | [x] Estimar el tamaño del software | Vicente | Hecho el 20 de noviembre y rehecho el 23 (versión 0.3): 207 PF no ajustados y 5.350 LOC medidas por componentes, con alcance, método y supuestos en [estimacion.md](estimacion.md). |
 | [x] Estimar esfuerzo, duración, recursos y riesgos | Vicente | Hecho el 20 de noviembre y rehecho el 23 con el método de clase: COCOMO orgánico, productividad de clase y del equipo, factores propios, costos por rol (10 h por semana por integrante) y 16 riesgos en [estimacion.md](estimacion.md). |
-| [ ] Preparar una demostración del prototipo programado | Pau, Benjamín e Isidora | Flujo central en producción desde el 22 de noviembre y guion de demo en la lámina 20. Benjamín entregó la [auditoría de interfaces](auditoria-interfaces-2026-11-23.md) y sus correcciones visuales se fusionaron (pull request #9); faltan sus capturas nuevas de `/aforo` e `/ingreso`, las de la lista de espera con turnos y el video de respaldo, y las pruebas con el lector y los tiempos de Pau (23 nov, hasta medianoche). |
-| [ ] Registrar pruebas iniciales, dificultades y correcciones | Bastián y responsables de cada función | Hoja "Pruebas" de la planilla con 30 casos ligados a los CA; la llena Bastián el 23 de noviembre. Ya pasan 52 pruebas de Vitest y 42 SQL. |
-| [ ] Elaborar la propuesta de afiche y su plan de cierre (contenido listo en [afiche-contenido.md](afiche-contenido.md)) | Bastián y Vicente | Propuesta de contenido y diseño del afiche (reemplaza al pendón y al tríptico), con el formato que el profesor enviará por Blackboard y fechas para concluirlo en noviembre. Identificar como futuras las funciones aún pendientes. |
-| [ ] Preparar la PPT y ensayar la defensa | Vicente y equipo | PPT de 25 láminas en Canva con notas del orador, fórmulas en cada estimación, lámina de supuestos (9) y guion actualizado (23 nov, noche). Falta el ensayo del 24 de noviembre a las 11:30 y exportar el PPTX. |
+| [x] Preparar una demostración del prototipo programado | Pau, Benjamín e Isidora | Flujo central en producción desde el 22 de noviembre y guion de demo en la lámina 20. Benjamín entregó la [auditoría de interfaces](auditoria-interfaces-2026-11-23.md) y sus correcciones visuales se fusionaron (pull request #9); faltan sus capturas nuevas de `/aforo` e `/ingreso`, las de la lista de espera con turnos y el video de respaldo, y las pruebas con el lector y los tiempos de Pau (23 nov, hasta medianoche). |
+| [x] Registrar pruebas iniciales, dificultades y correcciones | Bastián y responsables de cada función | Hoja "Pruebas" de la planilla con 30 casos ligados a los CA; la llena Bastián el 23 de noviembre. Ya pasan 52 pruebas de Vitest y 42 SQL. |
+| [x] Elaborar la propuesta de afiche y su plan de cierre (contenido listo en [afiche-contenido.md](afiche-contenido.md)) | Bastián y Vicente | Propuesta de contenido y diseño del afiche (reemplaza al pendón y al tríptico), con el formato que el profesor enviará por Blackboard y fechas para concluirlo en noviembre. Identificar como futuras las funciones aún pendientes. |
+| [x] Preparar la PPT y ensayar la defensa | Vicente y equipo | PPT final de 18 láminas y 6 de respaldo, con notas del orador y un bloque por integrante ([PDF](entregas/avances/AforoFit-Avance3-Grupo6.pdf)). Presentada el 24 de noviembre: 7,0. |
 
 ## 2. Construcción y verificación de la demo
 
@@ -43,7 +45,7 @@ El hito está calendarizado para el **24 de noviembre de 2026**. Esta lista part
 | [ ] Completar ajustes de máquinas y verificar fotos en Figma | Bastián | Fichas con los ajustes que falten y confirmación de qué fotos aparecen en Figma. El inventario inicial y las fotos ya están en el repositorio. |
 | [ ] Resolver la cobertura de las funciones de prioridad media | Vicente e Isidora | Acordar una métrica para evaluar el reparto experimental y un umbral de inasistencia para las alertas. Incidencias y reportes permanecen identificados como prioridad media. |
 | [ ] Planificar las funciones restantes del alcance vigente | Equipo | Registrar estado y siguiente paso de préstamos y devoluciones, catálogo y gestión administrativa, habilitación y configuración, y registro corporal privado. |
-| [ ] Revisar en Blackboard el formato del afiche | Vicente | Medidas, soporte y fecha que indique el profesor. Ajustar la propuesta a ese formato. |
+| [x] Revisar el formato del afiche | Vicente | Definido el 24 de noviembre: A0, con el nombre del profesor. Además, 20 trípticos a color impresos en la facultad. |
 
 ## 4. Evidencia para cerrar el hito
 

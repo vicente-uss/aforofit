@@ -1,7 +1,9 @@
 # Contenido del afiche · AforoFit
 
-Actualizado: lunes 23 de noviembre de 2026, 22:30. Reemplaza al pendón y al tríptico (aviso del profesor del
-19 de noviembre). El **formato** (tamaño, orientación, soporte e impresión) llega por Blackboard. Este
+Actualizado: martes 24 de noviembre de 2026. El afiche reemplazó al pendón (aviso del profesor del 19 de noviembre).
+El 24 de noviembre quedaron definidos el **formato A0** y que debe llevar el **nombre del profesor**; además se piden
+**20 trípticos a color**, que se imprimen en la facultad junto con el afiche. La proporción del borrador (A4 vertical)
+es la misma de A0: se exporta en PDF y se imprime escalado, nunca desde un PNG. Este
 documento deja listo el **contenido** para que Bastián lo diseñe apenas llegue.
 
 **Regla de las bases (sección 7):** el afiche no puede atribuir al prototipo funciones que no estén
@@ -138,11 +140,12 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 |---|---|---|
 | Vie 20 | Contenido listo (este documento) | Vicente |
 | Al llegar el formato por Blackboard | Armar la grilla con el tamaño real y ubicar los bloques | Bastián |
-| Lun 23 | Insertar las capturas de Benjamín, la foto del lector y los resultados de pruebas | Bastián |
-| Mar 24 | Mostrar el borrador en el Avance 3 (lámina 24) y anotar las observaciones del profesor | Bastián |
+| Lun 23 | Insertar las capturas de Benjamín y los resultados de pruebas | Bastián |
+| Mar 24 ✅ | Foto del lector incorporada (`docs/evidencia/lector/lector-usb-2026-11-24.jpg`) y cifra «115 pruebas aprobadas y 1 parcial» | Vicente |
+| Mar 24 ✅ | Borrador mostrado en el Avance 3 (aprobado con 7,0). Observaciones del profesor: formato A0 y su nombre en el afiche | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
-| Jue 26 | Enviar al profesor para su aprobación | Bastián y Vicente |
-| Vie 27 a lun 30 | Enviar a imprimir apenas se apruebe (lo imprime la universidad) y confirmar fecha de retiro | Bastián |
+| Jue 26 | Agregar el nombre del profesor, exportar el PDF en A0 y cerrar el archivo | Bastián y Vicente |
+| Vie 27 a lun 30 | Imprimir en la facultad el afiche en A0 y los 20 trípticos a color, y confirmar la fecha de retiro | Bastián |
 | 1 a 3 dic | Retirar el afiche impreso e instalarlo en el lugar de la exposición antes de la defensa, según las condiciones de montaje que informe la coordinación | Bastián y Pau |
 
 ## 6. Revisión antes de enviarlo

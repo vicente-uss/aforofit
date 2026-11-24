@@ -1,6 +1,6 @@
 # Plan de cierre: Avance 3 y entrega final
 
-Lunes 23 de noviembre de 2026, 17:15. Reúne **todos los pendientes abiertos** del repositorio, sacados de
+Lunes 23 de noviembre de 2026, 17:15 (actualizado el martes 24: el Avance 3 se aprobó con 7,0). Reúne **todos los pendientes abiertos** del repositorio, sacados de
 AGENTS.md 10, `pendientes-avance-3.md`, la [auditoría integral](auditoria-proyecto-frameworks-2026-11-23.md), el
 [CR-01](cr-01-linea-base-entrega-final.md), los [complementos](complementos-avances-1-y-2.md), la
 [auditoría de interfaces](auditoria-interfaces-2026-11-23.md) y `afiche-contenido.md`. Los ordena por hito y por
@@ -47,14 +47,14 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 |---|---|---|---|---|---|---|---|
 | A3-01 ✅ | P0 | Aprobar el CR-01 (aprobado por el equipo el lun 23, sin cambios) | Persona | Equipo | Lun 23 | 10 min | — |
 | A3-02 ✅ | P0 | Hoja de pruebas ejecutadas ([hecha](pruebas-ejecutadas.md)) del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
-| A3-03 | P0 | Completar las láminas 17 a 23 en Canva: ER implementado (17, `docs/diagramas/entidad-relacion-implementado.png`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | ✅ Hecho (lun 23) | 1 h | A3-01, A3-02 |
-| A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 20, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
-| A3-05 | P0 | Ensayo con todos y la respuesta a «¿cómo cierran la brecha?» | Persona | Equipo | Mar 11:30 | 45 min | A3-03 |
+| A3-03 ✅ | P0 | Completar las láminas 17 a 23 en Canva: ER implementado (17, `docs/diagramas/entidad-relacion-implementado.png`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | ✅ Hecho (lun 23) | 1 h | A3-01, A3-02 |
+| A3-04 ✅ | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 20, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
+| A3-05 ✅ | P0 | Ensayo con todos y la respuesta a «¿cómo cierran la brecha?» | Persona | Equipo | Mar 11:30 | 45 min | A3-03 |
 | A3-06 ✅ | P1 | Video de respaldo (hecho: 41 s, en el Drive del equipo) de 30 s: entrada, salida y `/aforo` actualizándose (con ingreso manual si no está el lector) | Persona | Vicente o Pau | Hoy | 15 min | — |
 | A3-07 ✅ | P1 | Capturas nuevas ([hechas](evidencia/capturas-2026-11-23/README.md)) de `/aforo` (0/20 y lleno con turno) e `/ingreso` desde **producción**, donde no aparece el indicador «N» | Persona | Vicente o Benjamín | Hoy | 10 min | — |
 | A3-08 ✅ | P1 | Medir CA29 ([hecho desde el video](medicion-ca29-2026-11-23.md)) con el lector: 5 lecturas, tiempo de cada una con los ms del kiosco | Persona | Pau | Hoy o mañana antes de clases | 10 min | Lector |
 | A3-09 ✅ | P1 | Lighthouse de `/aforo` e `/ingreso` desde Chrome (DevTools → Lighthouse) y anotar los 4 puntajes | Persona | Vicente o Bastián | Hoy | 10 min | — |
-| A3-10 | P1 | Borrador visual del afiche (aunque falte el formato de Blackboard) | Claude + Persona | Vicente con Bastián | ✅ Borrador hecho (lun 23, A4 vertical); falta la foto del lector | 45 min | A3-01 |
+| A3-10 | P1 | Borrador visual del afiche (aunque falte el formato de Blackboard) | Claude + Persona | Vicente con Bastián | ✅ Borrador hecho (lun 23, A4 vertical); foto del lector incorporada el mar 24 | 45 min | A3-01 |
 | A3-11 ✅ | P2 | Declarar la regla de conteo LOC (qué se excluye: plantilla, pruebas, SQL) en `estimacion.md` ([hecha](estimacion.md#21-regla-de-conteo-declarada-antes-de-contar)) | Claude | — | Hoy | 10 min | — |
 | A3-12 | P2 | Sesión con el encargado y acta (complementos, sección 9) | Externo | Vicente | Mar ~17:00 | 30 min | Después del avance |
 
@@ -70,7 +70,8 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-01 | Rutina, parte base de datos: tablas de rutinas, ejercicios y feedback con RLS; 6 plantillas (3 objetivos × 2 niveles) con máquinas del catálogo; generador; progresión R8 con redondeo a 2,5 kg; pruebas SQL y unitarias | Agente | RF11, RF12, RF18 · CA12, CA14, CA24 | Mié 25 | 2 h | CR-01 aprobado |
 | F-02 | Rutina, parte pantallas: objetivo y nivel en `/alumno`; rutina del día al registrar la entrada (Realtime, como `/aforo`); advertencia de máquina en mantención; feedback fácil/justo/me costó al salir | Agente | RF11, RF16, RF17, RF18 · CA11, CA13, CA14 | Mié 25 a jue 26 | 2 h | F-01 |
 | F-03 | Estado de máquina Disponible / En mantención desde `/profesor` | Agente | RF20 · CA26 | Jue 26 | 45 min | F-01 |
-| F-04 | Afiche definitivo con lo que el CR-01 deja como implementado o próxima versión, en el formato de Blackboard | Claude + Persona | Bases 7 | Jue 26 | 1,5 h | A3-10, formato del profesor |
+| F-04 | Afiche definitivo con lo que el CR-01 deja como implementado o próxima versión, en A0 y con el nombre del profesor (indicación del 24 de noviembre) | Claude + Persona | Bases 7 | Jue 26 | 1,5 h | A3-10, formato del profesor |
+| F-04b | 20 trípticos a color con el contenido del afiche, impresos en la facultad | Claude + Persona | Indicación del 24 nov | Por definir | 1,5 h | F-04 |
 | F-05 | Hoja de pruebas completa: todos los CA activos ejecutados, con resultado, versión y defectos, y riesgo residual | Agente + Persona | Rúbrica 4 «Validaciones y pruebas» | Sáb 28 a dom 29 | 2 h | F-01 a F-03 |
 | F-06 | README reproducible: orden de los SQL `001` en adelante, pruebas SQL y Vitest, usuarios de prueba (sin contraseñas), cómo cambiar la capacidad y plan de respaldo de la demo | Agente | Bases 8; FW-IS 7.2 | Dom 29 | 30 min | F-01 |
 | F-07 | Plan de demo final con respaldo: hotspot, video, ingreso manual, datos limpios (aforo 0/20) y el celular con la sesión del alumno abierta | Claude + Persona | Rúbrica 4 «Demostración» | Lun 30 | 1 h | F-02 |
