@@ -178,6 +178,8 @@ on conflict (plantilla_id, orden) do update set
 -- Misma regla que lib/rutina/progresion.ts. Con los valores iniciales: fácil = +2,5 kg,
 -- justo = igual, me costó = −5 %, redondeado al múltiplo de 2,5 kg más cercano y nunca negativo.
 -- Ej. CA14: 40 kg → 42,5 / 40 / 37,5. 37 kg con «me costó» → 35,15 → 35 kg.
+-- D25: «me costó» siempre baja al menos un paso. Con cargas bajas el −5 % redondeado vuelve a la
+-- misma carga (20 → 19 → 20); en ese caso se resta un paso: 20 → 17,5; 2,5 → 0; 0 → 0.
 -- Cardio (carga null) devuelve null: no cambia.
 create or replace function privado.nueva_carga(p_carga numeric, p_valor text, p_progresion jsonb)
 returns numeric
@@ -191,6 +193,7 @@ declare
   v_me_costo   numeric := (p_progresion ->> 'me_costo_porcentaje')::numeric;
   v_paso       numeric := (p_progresion ->> 'redondeo_kg')::numeric;
   v_bruta      numeric;
+  v_nueva      numeric;
 begin
   if p_carga is null then
     return null;
@@ -211,7 +214,14 @@ begin
     raise exception 'valor_invalido' using detail = 'El feedback debe ser facil, justo o me_costo.';
   end if;
 
-  return greatest(round(v_bruta / v_paso) * v_paso, 0);
+  v_nueva := round(v_bruta / v_paso) * v_paso;
+
+  -- D25: si «me costó» no bajó la carga después de redondear, baja un paso.
+  if p_valor = 'me_costo' and v_nueva >= p_carga then
+    v_nueva := p_carga - v_paso;
+  end if;
+
+  return greatest(v_nueva, 0);
 end;
 $$;
 
@@ -280,6 +290,35 @@ begin
   end if;
 
   return privado.generar_rutina_de(p_alumno);
+end;
+$$;
+
+-- B1 (RF11, CA24): el alumno con la sesión guarda su objetivo y nivel y recibe su rutina nueva.
+-- No recibe el id del alumno: siempre actúa sobre el propio (alumnos.perfil_id = auth.uid()),
+-- así nadie puede cambiar el objetivo de otro. La rutina anterior queda inactiva (generar_rutina_de).
+create or replace function public.elegir_objetivo_nivel(p_objetivo text, p_nivel text)
+returns uuid
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_alumno uuid;
+begin
+  select a.id into v_alumno from public.alumnos a where a.perfil_id = (select auth.uid());
+  if not found then
+    raise exception 'sin_permiso' using detail = 'La sesión no tiene un alumno asociado.';
+  end if;
+
+  if p_objetivo is null or p_objetivo not in ('fuerza', 'hipertrofia', 'salud')
+     or p_nivel is null or p_nivel not in ('principiante', 'intermedio') then
+    raise exception 'valor_invalido'
+      using detail = 'Objetivo: fuerza, hipertrofia o salud. Nivel: principiante o intermedio.';
+  end if;
+
+  update public.alumnos set objetivo = p_objetivo, nivel = p_nivel where id = v_alumno;
+
+  return privado.generar_rutina_de(v_alumno);
 end;
 $$;
 
@@ -502,6 +541,9 @@ revoke all on function privado.registrar_feedback_en(uuid, text, timestamptz) fr
 
 revoke execute on function public.generar_rutina(uuid) from public, anon;
 grant execute on function public.generar_rutina(uuid) to authenticated;
+
+revoke execute on function public.elegir_objetivo_nivel(text, text) from public, anon;
+grant execute on function public.elegir_objetivo_nivel(text, text) to authenticated;
 
 revoke execute on function public.registrar_feedback(uuid, text) from public, anon;
 grant execute on function public.registrar_feedback(uuid, text) to authenticated;

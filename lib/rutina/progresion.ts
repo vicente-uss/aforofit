@@ -38,6 +38,7 @@ function limpiar(n: number): number {
 // Nueva carga según el feedback. Con los valores iniciales: fácil = +2,5 kg, justo = igual,
 // me costó = −5 %; luego se redondea al múltiplo de 2,5 kg más cercano y nunca queda negativa.
 // Ejemplo CA14: 40 kg → 42,5 / 40 / 37,5. Cardio (carga null) no cambia.
+// D25: «me costó» siempre baja al menos un paso de redondeo (20 → 17,5; 2,5 → 0; 0 → 0).
 export function nuevaCarga(
   carga: number | null,
   valor: ValorFeedback,
@@ -51,7 +52,10 @@ export function nuevaCarga(
         ? carga + parametros.justo_kg
         : carga * (1 + parametros.me_costo_porcentaje / 100);
   const pasos = Math.round(limpiar(limpiar(bruta) / parametros.redondeo_kg));
-  return Math.max(limpiar(pasos * parametros.redondeo_kg), 0);
+  let nueva = limpiar(pasos * parametros.redondeo_kg);
+  // D25: si «me costó» no bajó la carga después de redondear, baja un paso.
+  if (valor === "me_costo" && nueva >= carga) nueva = limpiar(carga - parametros.redondeo_kg);
+  return Math.max(nueva, 0);
 }
 
 // Texto para la pantalla, con coma decimal (es-CL): 42.5 → «42,5 kg». Cardio: «sin carga».

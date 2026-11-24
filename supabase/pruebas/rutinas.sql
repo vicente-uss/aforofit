@@ -1,6 +1,6 @@
 -- rutinas.sql
--- AforoFit · Pruebas de F-01: plantillas, generar_rutina, registrar_feedback (regla 8), rutina_del_dia
--- (regla 7), RLS y Realtime. Corre dentro de begin; … rollback; y no deja cambios.
+-- AforoFit · Pruebas de F-01: plantillas, generar_rutina, elegir_objetivo_nivel (B1), registrar_feedback
+-- (regla 8 y D25), rutina_del_dia (regla 7), RLS y Realtime. Corre dentro de begin; … rollback; y no deja cambios.
 -- Requiere 001 a 011 y la cuenta alumno.demo ligada al alumno 1 (008). Ejecutar completo en
 -- Supabase → SQL Editor. Cada caso imprime OK; el primero que falle detiene todo con raise exception.
 
@@ -55,6 +55,7 @@ declare
   v_prog       jsonb;
   r            jsonb;
   v_msg        text;
+  v_msg2       text;
   v_n          integer;
   v_m          integer;
   v_escribio   boolean;
@@ -154,6 +155,12 @@ begin
   perform pg_temp.ok('CA14', '40 kg con me costó → 37,5 kg', privado.nueva_carga(40, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 37.5);
   perform pg_temp.ok('R8', '37 kg con me costó → 35,15 → 35 kg (redondeo a 2,5)', privado.nueva_carga(37, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 35);
   perform pg_temp.ok('R8', '39 kg con me costó → 37,05 → 37,5 kg (al más cercano, no hacia abajo)', privado.nueva_carga(39, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 37.5);
+  perform pg_temp.ok('D25', '20 kg con me costó → 19 → 20 → baja un paso: 17,5 kg', privado.nueva_carga(20, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 17.5);
+  perform pg_temp.ok('D25', '25 kg con me costó → 23,75 → 25 → baja un paso: 22,5 kg', privado.nueva_carga(25, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 22.5);
+  perform pg_temp.ok('D25', '10 kg con me costó → 9,5 → 10 → baja un paso: 7,5 kg', privado.nueva_carga(10, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 7.5);
+  perform pg_temp.ok('D25', '2,5 kg con me costó → 0 kg', privado.nueva_carga(2.5, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 0);
+  perform pg_temp.ok('D25', '0 kg con me costó → 0 kg (nunca negativa)', privado.nueva_carga(0, 'me_costo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 0);
+  perform pg_temp.ok('D25', 'Fácil y justo no cambian: 20 kg → 22,5 y 20 kg', privado.nueva_carga(20, 'facil', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 22.5 and privado.nueva_carga(20, 'justo', v_prog || '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}') = 20);
   perform pg_temp.ok('R8', 'Cardio (carga null) no cambia', privado.nueva_carga(null, 'facil', v_prog) is null);
 
   -- CA14 de punta a punta: feedback del dueño después de cada visita ---------------------
@@ -346,6 +353,39 @@ begin
   perform pg_temp.ok('RLS', 'El profesor lee las rutinas de los alumnos y su rutina del día', v_n >= 2 and v_m = 6);
   perform set_config('request.jwt.claims', '', true);
 
+  -- B1 (RF11, CA24): elegir_objetivo_nivel con la sesión de alumno.demo y el rol authenticated --
+  perform set_config('request.jwt.claims', jsonb_build_object('sub', v_uid_demo, 'role', 'authenticated')::text, true);
+  execute 'set local role authenticated';
+  v_rutina2 := public.elegir_objetivo_nivel('fuerza', 'principiante');
+  v_msg := pg_temp.error_de($q$select public.elegir_objetivo_nivel('cardio', 'principiante')$q$);
+  v_msg2 := pg_temp.error_de($q$select public.elegir_objetivo_nivel('salud', 'avanzado')$q$);
+  execute 'reset role';
+  perform set_config('request.jwt.claims', '', true);
+
+  perform pg_temp.ok('CA24', 'Objetivo y nivel quedan guardados en el alumno',
+    exists (select 1 from public.alumnos where id = v_demo and objetivo = 'fuerza' and nivel = 'principiante'));
+  select id into strict v_plantilla from public.plantillas where objetivo = 'fuerza' and nivel = 'principiante';
+  perform pg_temp.ok('B1', 'Genera la rutina activa de la plantilla fuerza · principiante',
+    (select count(*) from public.rutinas where alumno_id = v_demo and activa) = 1
+    and exists (select 1 from public.rutinas
+                where id = v_rutina2 and alumno_id = v_demo and activa and plantilla_id = v_plantilla)
+    and (select count(*) from public.rutina_ejercicios where rutina_id = v_rutina2)
+      = (select count(*) from public.plantilla_ejercicios where plantilla_id = v_plantilla));
+  perform pg_temp.ok('B1', 'La rutina anterior queda inactiva', exists (select 1 from public.rutinas where id = v_rutina and not activa));
+  perform pg_temp.ok('B1', 'Objetivo o nivel inválido: error valor_invalido', v_msg = 'valor_invalido' and v_msg2 = 'valor_invalido');
+  perform pg_temp.ok('B1', 'Un valor inválido no cambia lo guardado',
+    exists (select 1 from public.alumnos where id = v_demo and objetivo = 'fuerza' and nivel = 'principiante'));
+  perform pg_temp.ok('B1', 'Un alumno no cambia el objetivo de otro (solo actúa sobre el propio)',
+    exists (select 1 from public.alumnos where id = v_otro and objetivo = 'fuerza' and nivel = 'intermedio')
+    and exists (select 1 from public.rutinas where id = v_rutina_otro and activa));
+
+  perform set_config('request.jwt.claims', jsonb_build_object('sub', v_profesor, 'role', 'authenticated')::text, true);
+  execute 'set local role authenticated';
+  v_msg := pg_temp.error_de($q$select public.elegir_objetivo_nivel('salud', 'principiante')$q$);
+  execute 'reset role';
+  perform set_config('request.jwt.claims', '', true);
+  perform pg_temp.ok('B1', 'Sesión sin alumno asociado (profesor): error sin_permiso', v_msg = 'sin_permiso');
+
   -- Sin sesión (anon) no se lee nada ni se ejecuta nada.
   v_escribio := false;
   execute 'set local role anon';
@@ -369,8 +409,13 @@ begin
     v_escribio := true;
   exception when insufficient_privilege then null;
   end;
+  begin
+    perform public.elegir_objetivo_nivel('salud', 'principiante');
+    v_escribio := true;
+  exception when insufficient_privilege then null;
+  end;
   execute 'reset role';
-  perform pg_temp.ok('RLS', 'anon no lee plantillas ni rutinas ni ejecuta las funciones', not v_escribio);
+  perform pg_temp.ok('RLS', 'anon no lee plantillas ni rutinas ni ejecuta las funciones (incluida elegir_objetivo_nivel)', not v_escribio);
 end;
 $$;
 

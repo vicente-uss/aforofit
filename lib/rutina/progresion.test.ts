@@ -25,6 +25,18 @@ describe("nuevaCarga (regla 8, CA14)", () => {
   it("39 kg con me costó → 37,05 → 37,5 kg (al más cercano, no hacia abajo)", () => {
     expect(nuevaCarga(39, "me_costo", INICIAL)).toBe(37.5);
   });
+  it("D25: me costó siempre baja al menos un paso (20, 25, 10, 2,5 y 0)", () => {
+    expect(nuevaCarga(20, "me_costo", INICIAL)).toBe(17.5);
+    expect(nuevaCarga(25, "me_costo", INICIAL)).toBe(22.5);
+    expect(nuevaCarga(10, "me_costo", INICIAL)).toBe(7.5);
+    expect(nuevaCarga(2.5, "me_costo", INICIAL)).toBe(0);
+    expect(nuevaCarga(0, "me_costo", INICIAL)).toBe(0);
+  });
+  it("D25 no cambia fácil ni justo con cargas bajas", () => {
+    expect(nuevaCarga(20, "facil", INICIAL)).toBe(22.5);
+    expect(nuevaCarga(20, "justo", INICIAL)).toBe(20);
+    expect(nuevaCarga(0, "justo", INICIAL)).toBe(0);
+  });
   it("cardio (carga null) no cambia", () => {
     expect(nuevaCarga(null, "facil", INICIAL)).toBeNull();
     expect(nuevaCarga(null, "me_costo", INICIAL)).toBeNull();
