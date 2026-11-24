@@ -220,6 +220,30 @@ erDiagram
 
 ---
 
+### 2.1 Modelo implementado en Supabase (23 de noviembre)
+
+![Modelo de datos implementado](diagramas/entidad-relacion-implementado.png)
+
+Generado desde el esquema real de la base (`information_schema`), no dibujado a mano: 9 tablas del esquema `public`,
+todas con Row Level Security. Fuente editable en `diagramas/entidad-relacion-implementado.dot` (Graphviz:
+`dot -Tpng -Gdpi=150 entidad-relacion-implementado.dot -o entidad-relacion-implementado.png`).
+
+**Cómo leerlo (para la lámina 17):**
+
+- **Verde, flujo de ingreso:** `alumnos` es el centro. Cada alumno puede tener varias `tarjetas` (TNE y TUI, regla 1:
+  una tarjeta pertenece a un solo alumno), muchas `visitas` (solo una abierta a la vez, regla 5, con un índice único)
+  y sus `turnos` de la lista de espera (regla 4).
+- **Azul, acceso:** `perfiles` guarda el rol (alumno, profesor o administrador) de cada usuario de Supabase Auth. Un
+  alumno puede no tener cuenta (`perfil_id` opcional): el ingreso funciona igual con la tarjeta.
+- **Amarillo, parámetros y estado:** `configuracion` tiene una sola fila con la capacidad, el horario, el período y
+  los demás parámetros (nada fijo en el código). `aforo` es una fila que se recalcula en cada entrada, salida o turno;
+  es la que escucha la pantalla pública en tiempo real.
+- **Morado, catálogo:** `maquinas` (con su `estado`, base de la advertencia de mantención) e `implementos`.
+- **Orden de `registrar_ingreso`:** ¿la tarjeta existe? → ¿el certificado está vigente en el período? → ¿está
+  dentro del horario? → ¿tiene una visita abierta? (sale) → ¿hay cupo? (entra) o turno. Todo en una transacción.
+- **Diseñado frente a implementado:** el modelo de la sección 2 tiene además rutinas, préstamos y registro corporal;
+  se construyen según el [CR-01](cr-01-linea-base-entrega-final.md).
+
 ## 3. Secuencia del ingreso (CU01, CU02 y CU04)
 
 > **Diseño frente a lo implementado (23 de noviembre).** El diagrama muestra el diseño lógico. En la implementación, el kiosco hace una sola llamada a `registrar_ingreso(uid)`, que valida credencial, certificado, horario y cupo dentro de la base de datos y devuelve entrada, salida, turno o rechazo ([contrato](contrato-flujo-ingreso.md)). Las pantallas en tiempo real escuchan la tabla `aforo`, no `visitas`. La entrega de la rutina al celular sigue pendiente.
