@@ -53,7 +53,7 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 | A3-06 ✅ | P1 | Video de respaldo (hecho: 41 s, en el Drive del equipo) de 30 s: entrada, salida y `/aforo` actualizándose (con ingreso manual si no está el lector) | Persona | Vicente o Pau | Hoy | 15 min | — |
 | A3-07 ✅ | P1 | Capturas nuevas ([hechas](evidencia/capturas-2026-11-23/README.md)) de `/aforo` (0/20 y lleno con turno) e `/ingreso` desde **producción**, donde no aparece el indicador «N» | Persona | Vicente o Benjamín | Hoy | 10 min | — |
 | A3-08 ✅ | P1 | Medir CA29 ([hecho desde el video](medicion-ca29-2026-11-23.md)) con el lector: 5 lecturas, tiempo de cada una con los ms del kiosco | Persona | Pau | Hoy o mañana antes de clases | 10 min | Lector |
-| A3-09 | P1 | Lighthouse de `/aforo` e `/ingreso` desde Chrome (DevTools → Lighthouse) y anotar los 4 puntajes | Persona | Vicente o Bastián | Hoy | 10 min | — |
+| A3-09 ✅ | P1 | Lighthouse de `/aforo` e `/ingreso` desde Chrome (DevTools → Lighthouse) y anotar los 4 puntajes | Persona | Vicente o Bastián | Hoy | 10 min | — |
 | A3-10 | P1 | Borrador visual del afiche (aunque falte el formato de Blackboard) | Claude + Persona | Vicente con Bastián | Hoy o mañana | 45 min | A3-01 |
 | A3-11 | P2 | Declarar la regla de conteo LOC (qué se excluye: plantilla, pruebas, SQL) en `estimacion.md` | Claude | — | Hoy | 10 min | — |
 | A3-12 | P2 | Sesión con el encargado y acta (complementos, sección 9) | Externo | Vicente | Mar ~17:00 | 30 min | Después del avance |

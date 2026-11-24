@@ -182,7 +182,7 @@ Matriz de atributos, métricas y evidencias (FW-IR 10.6 y P09). Atributos elegid
 | RNF09 | Disponibilidad | URL pública y video de respaldo | Vercel y el video | Pau | 30 nov | CA35 | URL activa; video en curso |
 | RNF10 | Mantenibilidad: historial | Cambios por pull request revisado y SQL en el repositorio | GitHub | Vicente | Continuo | CA36 | Pull requests #7, #8 y #9; SQL 001 a 009 |
 | RNF11 | Usabilidad: idioma | Interfaz en español | Recorrido de las pantallas | Benjamín | 23 nov | CA37 | ✅ Cumple (auditoría de interfaces) |
-| — | Desempeño general | Puntaje de Lighthouse en `/aforo` e `/ingreso` | Lighthouse | Bastián | 23 nov | Complementario | En curso |
+| — | Desempeño general | Puntaje de Lighthouse en `/aforo` e `/ingreso` | Lighthouse | Bastián | 23 nov | Complementario | ✅ `/aforo` 88 · 94 · 100 · 100; `/ingreso` 88 · 100 · 100 · 100 |
 
 ## 8. Decisiones técnicas (ADR)
 

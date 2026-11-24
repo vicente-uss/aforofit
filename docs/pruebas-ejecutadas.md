@@ -6,7 +6,7 @@ congelamiento del lunes 30 de noviembre.
 
 ## Ronda 1 · lunes 23 de noviembre de 2026 (Avance 3)
 
-**Planilla:** la hoja «Pruebas» de la planilla «AforoFit — Estimación Avance 3» tiene los mismos resultados por caso (P01 a P30: 21 pasaron, 9 pendientes).
+**Planilla:** la hoja «Pruebas» de la planilla «AforoFit — Estimación Avance 3» tiene los mismos resultados por caso (P01 a P30: 23 pasaron, 7 pendientes).
 
 **Versión probada:** `main` en el commit `00c41f6`, desplegada en https://aforofit.vercel.app.
 **Datos:** solo alumnos ficticios. Las pruebas SQL corren dentro de una transacción que se revierte; se comprobó
@@ -20,8 +20,9 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | Integración en la base | `supabase/pruebas/registrar_ingreso.sql` | 42 | ✅ 42 OK |
 | Sistema con el lector real | Prueba grabada por Pau, medida en [medicion-ca29](medicion-ca29-2026-11-23.md) | 4 lecturas | ✅ 4 OK |
 | Sistema con turnos (ingreso manual, capacidad 1) | [Capturas](evidencia/capturas-2026-11-23/README.md), 21:05 a 21:08 | 4 lecturas | ✅ 4 OK (218 a 269 ms) |
+| No funcional | Lighthouse en `/aforo` e `/ingreso` ([capturas](evidencia/lighthouse-2026-11-23/)) | 2 páginas | ✅ 2 OK: rendimiento 88 y 88; accesibilidad 94 y 100; buenas prácticas y SEO 100 |
 | Revisión de interfaces | [Auditoría de interfaces](auditoria-interfaces-2026-11-23.md) de Benjamín | 4 pantallas | 🟡 CA32 parcial; corregido en el pull request #9 |
-| **Total** | | **111** | **110 OK y 1 parcial** |
+| **Total** | | **113** | **112 OK y 1 parcial** |
 
 ### Por criterio de aceptación
 
@@ -61,6 +62,9 @@ CA33, CA34 y CA38 a CA43) se prueban en la ronda 2, según el [CR-01](cr-01-line
 | D-06 | Un turno llamado que nadie reclama vence solo cuando se pasa otra tarjeta | Pruebas SQL, 22 nov | Baja | Aceptado para la demo (F-23) | Aceptado |
 | D-07 | `vincular_credencial` con un UID de formato inválido se muestra como «Sin conexión» | Revisión de código, 22 nov | Baja | Aceptado: el kiosco siempre envía el UID normalizado | Aceptado |
 | D-08 | La documentación mostraba los 2 primeros bytes de UID reales y el kiosco muestra los 2 últimos: juntos podían formar un UID completo | Revisión del video, 23 nov | Media (privacidad) | Enmascarar por completo los UID en la documentación | ✅ Corregido el 23 nov |
+
+**Lighthouse (23 nov, 21:20, producción):** `/aforo` 88 · 94 · 100 · 100 e `/ingreso` 88 · 100 · 100 · 100
+(rendimiento, accesibilidad, buenas prácticas y SEO). Meta de la hoja: 80 o más. Cumple.
 
 **Riesgo residual:** el flujo de ingreso está probado en sus reglas y con el lector real; quedan sin medir CA30 (tres
 tipos de equipo) y la repetición de CA29 en la red de la universidad.
