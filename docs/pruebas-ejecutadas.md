@@ -6,7 +6,7 @@ congelamiento del lunes 30 de noviembre.
 
 ## Ronda 1 · lunes 23 de noviembre de 2026 (Avance 3)
 
-**Planilla:** la hoja «Pruebas» de la planilla «AforoFit — Estimación Avance 3» tiene los mismos resultados por caso (P01 a P30: 23 pasaron, 7 pendientes).
+**Planilla:** la hoja «Pruebas» de la planilla «AforoFit — Estimación Avance 3» tiene los mismos resultados por caso (P01 a P30: 24 pasaron, 6 pendientes).
 
 **Versión probada:** `main` en el commit `00c41f6`, desplegada en https://aforofit.vercel.app.
 **Datos:** solo alumnos ficticios. Las pruebas SQL corren dentro de una transacción que se revierte; se comprobó
@@ -21,8 +21,9 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | Sistema con el lector real | Prueba grabada por Pau, medida en [medicion-ca29](medicion-ca29-2026-11-23.md) | 4 lecturas | ✅ 4 OK |
 | Sistema con turnos (ingreso manual, capacidad 1) | [Capturas](evidencia/capturas-2026-11-23/README.md), 21:05 a 21:08 | 4 lecturas | ✅ 4 OK (218 a 269 ms) |
 | No funcional | Lighthouse en `/aforo` e `/ingreso` ([capturas](evidencia/lighthouse-2026-11-23/)) | 2 páginas | ✅ 2 OK: rendimiento 88 y 88; accesibilidad 94 y 100; buenas prácticas y SEO 100 |
+| Seguridad en el navegador | Redirección por rol con `alumno.demo` | 3 pantallas | ✅ 3 OK |
 | Revisión de interfaces | [Auditoría de interfaces](auditoria-interfaces-2026-11-23.md) de Benjamín | 4 pantallas | 🟡 CA32 parcial; corregido en el pull request #9 |
-| **Total** | | **113** | **112 OK y 1 parcial** |
+| **Total** | | **116** | **115 OK y 1 parcial** |
 
 ### Por criterio de aceptación
 
@@ -38,7 +39,7 @@ después que la base quedó igual (capacidad 20, ningún alumno de prueba, aforo
 | CA08 | Segunda pasada registra la salida | Integración, unitaria y sistema | 4 casos SQL; salida real con el lector | ✅ | SQL; video de Pau (aforo 1 → 0) |
 | CA09 | Cierre automático a las 3 horas | Integración | 3 casos SQL | ✅ | SQL CA09 |
 | CA10 | `/aforo` se actualiza en 2 s o menos | Sistema | Fotogramas del video: menos de 0,1 s después del kiosco; `/profesor/espera` 1.011 y 454 ms (22 nov) | ✅ | [medicion-ca29](medicion-ca29-2026-11-23.md) |
-| CA23 | Cada rol accede solo a lo suyo (RLS) | Integración | 4 casos SQL: el alumno ve solo su visita y no escribe; anon solo lee el aforo | ✅ datos · ⏸ falta la redirección de pantallas en el navegador | SQL RNF y Contrato |
+| CA23 | Cada rol accede solo a lo suyo (RLS) | Integración | 4 casos SQL: el alumno ve solo su visita y no escribe; anon solo lee el aforo. Con `alumno.demo`, `/profesor`, `/admin` e `/ingreso` redirigen a `/alumno` (23 nov, 21:24) | ✅ | SQL RNF y Contrato |
 | CA29 | Ingreso en 3 s o menos | Sistema | 4 lecturas reales medidas desde el video; respuesta del sistema de 218 a 269 ms en 4 lecturas manuales | ✅ 1,2 s o menos | [medicion-ca29](medicion-ca29-2026-11-23.md) |
 | CA31 | Lector como teclado sin drivers | Sistema | Lector USB con TNE y TUI (20 nov) y prueba del 23 nov; normalización con 14 casos de Vitest | ✅ lector · ⏸ QR pospuesto (CR-01) | [pruebas-tarjetas](pruebas-tarjetas.md); `normalizarUid.test.ts` |
 | CA32 | Vista utilizable a 360 px | Revisión | Auditoría de interfaces | 🟡 Parcial; la parte de `/aforo` se corrigió en el pull request #9 | [auditoría](auditoria-interfaces-2026-11-23.md) |
