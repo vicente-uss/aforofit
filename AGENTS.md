@@ -338,7 +338,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Avance 3: confirmar los supuestos de la estimación (10 h por semana por integrante y 50 LOC/PF). El contraste con
   el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
-  ambas mediciones incluyen la plantilla `with-supabase`
+  ambas mediciones incluyen la plantilla `with-supabase`. Regla de conteo declarada en `docs/estimacion.md` (3.1): con
+  solo el código del equipo son 1.855 LOC, unas 21 LOC/PF (960 LOC más son de la plantilla)
 - [ ] Avance 3: ensayar (24 nov, 11:30) y aprobar el CR-01; si no se aprueba, revertir la lámina 23.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por
   Blackboard. Borrador listo; falta la foto del lector (Pau) y ajustar al formato (Bastián).

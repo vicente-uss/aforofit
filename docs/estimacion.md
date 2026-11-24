@@ -100,6 +100,39 @@ Descomposición por módulo (bottom-up):
   framework; los roles, los paneles, el kiosco, la normalización del UID, el catálogo, la base de datos del flujo
   y toda la lógica de AforoFit los programó el equipo. El valor de 50 queda entre ambas mediciones.
 
+### 3.1 Regla de conteo de LOC (declarada el 23 de noviembre)
+
+Para que cada medición se pueda repetir y comparar, una LOC se cuenta así:
+
+| Se cuenta | No se cuenta |
+|---|---|
+| Archivos `.ts`, `.tsx` y `.sql` versionados en `app/`, `components/`, `lib/`, `proxy.ts` y `supabase/sql/` | Líneas vacías y comentarios (`//`, `/* … */`, `--`) |
+| Código de la plantilla `with-supabase`, en una columna aparte | Pruebas (`*.test.ts`, `supabase/pruebas/`), configuración (`*.config.*`), CSS, `node_modules` y `.next` |
+
+Se considera plantilla: `app/auth/`, `components/ui/`, `lib/supabase/`, `lib/utils.ts` y los formularios
+`login-form`, `forgot-password-form`, `update-password-form` y `logout-button`, aunque el equipo los haya
+retocado (criterio conservador).
+
+**Medición con esta regla (23 de noviembre, después del pull request #9):**
+
+| Parte | LOC |
+|---|---:|
+| Código del equipo, TypeScript | 1.247 |
+| Código del equipo, SQL | 608 |
+| **Código del equipo** | **1.855** |
+| Plantilla `with-supabase` | 960 |
+| Total sin pruebas | 2.815 |
+| Pruebas (no se cuentan) | 253 |
+
+Con solo el código del equipo, los 87 PF terminados equivalen a unas **21 LOC por PF**, y a unas 32 si se suma la
+plantilla. Es decir, el equipo escribe menos líneas por función que el supuesto de 50, en parte porque las reglas
+viven en SQL, que es más compacto. El supuesto de 50 se mantiene para la estimación porque viene de las tablas de
+conversión y porque las funciones que faltan (rutina, préstamos, administración) tienen más pantallas que lógica.
+Si el factor real se queda en 21 a 32, el tamaño total bajaría de 10,35 a entre 4,3 y 6,6 KLOC (la tabla de
+sensibilidad de la sección 4 muestra el caso de 32 LOC/PF).
+
+La medición se hizo con un script de Python que aplica esta tabla sobre `git ls-files`, sin herramientas externas.
+
 ## 4. Esfuerzo, duración y dotación: COCOMO 81 básico (Semana 7)
 
 COCOMO (Constructive Cost Model) lo publicó Barry Boehm en 1981 y transforma tamaño en esfuerzo, duración y
