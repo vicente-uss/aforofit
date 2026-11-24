@@ -292,8 +292,8 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Pull requests #8 (base de datos) y #7 (pantallas) fusionados el 22 de noviembre: el flujo central completo está
   en producción en https://aforofit.vercel.app (kiosco, aforo en vivo y lista de espera contra la base real).
 - PPT del Avance 3 rehecha (23 láminas, en Canva) con notas del orador y referencias a las clases de las semanas 5,
-  6 y 7. La estimación ocupa las láminas 5 a 14; las láminas 17 a 22 esperan la evidencia de la revisión del
-  equipo del 23 de noviembre. Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
+  6 y 7. La estimación ocupa las láminas 5 a 14; las láminas 17 a 23 tienen la evidencia del 23 de noviembre
+  (ER implementado, capturas, pruebas 115 de 116, dificultades y línea base del CR-01). Los gráficos son barras dibujadas con los números como texto (coma decimal) y todo
   usa Arial, para que se vea igual en PowerPoint, Canva y PDF.
 - Correcciones visuales de la auditoría de interfaces (pull request #9, fusionado el 23 de noviembre): `/aforo` muestra
   cupos disponibles, turno llamado y espera más grandes, barra más gruesa y estado con color; `/ingreso` muestra el
@@ -338,8 +338,7 @@ Actualizado: lunes 23 de noviembre de 2026.
 - [ ] Avance 3: confirmar los supuestos de la estimación (10 h por semana por integrante y 50 LOC/PF). El contraste con
   el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
   ambas mediciones incluyen la plantilla `with-supabase`
-- [ ] Avance 3: completar las láminas 17 a 22 de la PPT con la evidencia del equipo (la auditoría de interfaces de
-  Benjamín ya llegó) y ensayar (24 nov, 11:30).
+- [ ] Avance 3: ensayar (24 nov, 11:30) y aprobar el CR-01; si no se aprueba, revertir la lámina 23.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por Blackboard.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.

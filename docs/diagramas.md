@@ -239,8 +239,9 @@ todas con Row Level Security. Fuente editable en `diagramas/entidad-relacion-imp
   los demás parámetros (nada fijo en el código). `aforo` es una fila que se recalcula en cada entrada, salida o turno;
   es la que escucha la pantalla pública en tiempo real.
 - **Morado, catálogo:** `maquinas` (con su `estado`, base de la advertencia de mantención) e `implementos`.
-- **Orden de `registrar_ingreso`:** ¿la tarjeta existe? → ¿el certificado está vigente en el período? → ¿está
-  dentro del horario? → ¿tiene una visita abierta? (sale) → ¿hay cupo? (entra) o turno. Todo en una transacción.
+- **Orden de `registrar_ingreso`:** ¿la tarjeta existe? → ¿tiene una visita abierta? (sale) → ¿el certificado está
+  vigente en el período? → ¿está dentro del horario? → ¿hay cupo? (entra) o turno. La salida va antes que el horario
+  para que un alumno que sigue adentro después del último ingreso pueda marcar su salida. Todo en una transacción.
 - **Diseñado frente a implementado:** el modelo de la sección 2 tiene además rutinas, préstamos y registro corporal;
   se construyen según el [CR-01](cr-01-linea-base-entrega-final.md).
 
