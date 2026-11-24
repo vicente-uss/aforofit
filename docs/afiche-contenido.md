@@ -110,7 +110,7 @@ aforo en vivo, con lista de espera cuando el gimnasio está lleno.
 
 ## 4. Qué funciones se pueden mencionar
 
-| Función | Cómo aparece en el afiche | Estado al 23 nov | Verificar el 26 nov |
+| Función | Cómo aparece en el afiche | Estado al 23 nov (CR-01 aprobado) | Verificar el 26 nov |
 |---|---|---|---|
 | Ingreso y salida con TNE o TUI | Implementado | En producción | ☐ |
 | Validación de certificado, horario y cupo | Implementado | En producción | ☐ |
@@ -118,10 +118,11 @@ aforo en vivo, con lista de espera cuando el gimnasio está lleno.
 | Aforo en vivo en pantalla pública | Implementado | En producción | ☐ |
 | Login por rol (alumno, profesor y admin) | Implementado | En producción | ☐ |
 | Catálogo de máquinas e implementos | Implementado solo si hay pantalla | Solo en la base de datos | ☐ |
-| Rutina en el celular al pasar la credencial | "Próximamente" si no está | Pendiente | ☐ |
-| Feedback al salir y progresión de cargas | "Próximamente" si no está | Pendiente | ☐ |
-| Préstamo de implementos con la TNE | "Próximamente" si no está | Pendiente | ☐ |
-| Registro corporal privado | "Próximamente" si no está | Pendiente | ☐ |
+| Rutina en el celular al pasar la credencial | "Próximamente" si no está | Se construye (línea base, B1 a B3) | ☐ |
+| Feedback al salir y progresión de cargas | "Próximamente" si no está | Se construye (línea base, B4) | ☐ |
+| Estado de máquinas y aviso de mantención en la rutina | "Próximamente" si no está | Se construye (línea base, B3 y B5) | ☐ |
+| Préstamo de implementos con la TNE | "Próximamente" si no está | Opcional (S1, básico); si no, próxima versión | ☐ |
+| Registro corporal privado | Solo como "Próximamente" | Próxima versión (CR-01) | — |
 | Reparto del orden de ejercicios (experimental) | Solo como "Próximamente" | Prioridad media | — |
 
 Si una función pasa a producción antes de imprimir, se mueve de "Próximamente" a la evidencia.

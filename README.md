@@ -88,7 +88,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 - [Pruebas ejecutadas](docs/pruebas-ejecutadas.md): resultados por criterio de aceptación y defectos.
 - [Plan de cierre del Avance 3 y la entrega final](docs/plan-cierre-avance-3-y-final.md): pendientes por hito y prioridad.
 - [Complementos de los avances 1 y 2](docs/complementos-avances-1-y-2.md): objetivos medibles, interesados, enfoque, plan, verificación, plan de calidad, ADR y Playback.
-- [CR-01, línea base de la entrega final](docs/cr-01-linea-base-entrega-final.md) (propuesta).
+- [CR-01, línea base de la entrega final](docs/cr-01-linea-base-entrega-final.md) (aprobado el 23 de noviembre).
 - [Auditoría integral con los frameworks](docs/auditoria-proyecto-frameworks-2026-11-23.md): cronología por hito, brechas y plan de acción.
 - [Auditoría de interfaces del 23 de noviembre](docs/auditoria-interfaces-2026-11-23.md): prototipo frente a producción, CA32, CA37 y decisiones.
 - [Bases y rúbrica del Proyecto Integrador](docs/bases-proyecto-integrador.md): alcance y criterios por hito.

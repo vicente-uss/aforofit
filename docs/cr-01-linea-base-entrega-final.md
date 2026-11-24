@@ -6,11 +6,11 @@ FW-IR 12.3 y FW-IS 8.3. Responde a los hallazgos H-1, H-2 y H-5 de la
 
 | Campo | Valor |
 |---|---|
-| Estado | **Propuesto**: el equipo debe aprobarlo |
+| Estado | **Aprobado** por el equipo el lunes 23 de noviembre de 2026, sin cambios (capacidad de 5 integrantes × 10 h por semana). Se informa al profesor en el Avance 3 y al encargado el martes 24 |
 | Solicitante | Vicente Galleguillos, jefe de proyecto, lunes 23 de noviembre de 2026 |
 | Aprueba | El equipo de los 5 integrantes, que actúa como comité de cambios (FW-IR 12.3). Se informa al profesor en el Avance 3 y al encargado el martes cerca de las 17:00 |
 | Versión que reemplaza | Alcance de prioridad alta de AGENTS.md 3 (Avance 2, 17 nov) |
-| Nueva versión | Línea base de la entrega final, v1 (al aprobarse) |
+| Nueva versión | Línea base de la entrega final, v1 (vigente desde el 23 de noviembre) |
 
 ## 1. Descripción y motivo
 
@@ -46,7 +46,7 @@ Con el ritmo real del equipo, la brecha no es de 21 veces (esa cifra es la de CO
 | C. Un poco de todo | Pantallas iniciales de cada módulo | Muestra amplitud | Nada queda completo ni probado; contradice FW-IS 5.2 (unidades verificables) | Descartada |
 | D. No cambiar el alcance | Mantener RF01 a RF27 | Sin cambios documentales | Imposible en el tiempo; el afiche y la defensa prometerían funciones inexistentes | Descartada |
 
-## 4. Línea base propuesta
+## 4. Línea base aprobada
 
 ### 4.1 Construir esta semana (comprometido)
 
@@ -154,7 +154,7 @@ para apoyar la rutina y las pruebas.
 
 | Campo | Valor |
 |---|---|
-| Decisión | Pendiente (Aprobado, Rechazado o Pospuesto) |
-| Fecha de la decisión | |
+| Decisión | **Aprobado**, sin cambios |
+| Fecha de la decisión | Lunes 23 de noviembre de 2026, por los 5 integrantes |
 | Evidencia de implementación | Pull requests de B1 a B5 y resultados de los CA activos |
-| Estado de cierre | Abierto |
+| Estado de cierre | Abierto: en implementación hasta el congelamiento del lunes 30 |

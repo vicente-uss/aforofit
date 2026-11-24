@@ -101,6 +101,15 @@ fuera del prototipo (D10, limitación de alcance documentada).
 
 ★ = no encontrado en soluciones existentes.
 
+**Línea base de la entrega final (D18, [CR-01](docs/cr-01-linea-base-entrega-final.md), aprobado el 23 de noviembre):**
+de la prioridad alta se entrega en esta versión lo ya implementado (ingreso y salida, validaciones, aforo, lista de
+espera y roles) más lo que se construye esta semana: objetivo y nivel, rutina por plantilla en el celular con aviso de
+mantención, feedback con progresión y estado de máquinas (RF11, RF12, RF16 a RF18 y RF20). Si alcanza: préstamo básico
+y pantalla de habilitación. Quedan **diseñados para una próxima versión**: rutinas creadas por el alumno o asignadas
+por el profesor (RF13 a RF15), préstamos completos (RF22 a RF24), registro corporal (RF27) y las pantallas de
+administración del catálogo y la configuración. En el afiche y la defensa van como próxima versión, nunca como
+implementados.
+
 ### Prioridad media (solo si el núcleo está listo y probado)
 
 - ★ **Reparto del orden de ejercicios** — experimental, primero una prueba de factibilidad (D08).
@@ -280,6 +289,10 @@ Actualizado: lunes 23 de noviembre de 2026.
 - Base de datos del flujo central aplicada en Supabase (`supabase/sql/005` a `009`): `alumnos`, `tarjetas`,
   `configuracion`, `visitas`, `turnos`, `aforo`, `registrar_ingreso` y `vincular_credencial`, con las reglas 1 a 6,
   RLS, Realtime en `aforo` y 25 alumnos ficticios. `admin.demo` quedó con rol `admin`.
+- CR-01 aprobado por el equipo el 23 de noviembre, sin cambios: línea base de la entrega final con 26 PF por
+  construir (B1 a B5), 13 PF opcionales y 81 PF para una próxima versión (D18; `docs/cr-01-linea-base-entrega-final.md`).
+  Actualizados la columna de línea base en los requisitos, los CA activos, la tabla del afiche y la reestimación
+  (`docs/estimacion.md` 6.1).
 - Pruebas SQL de las reglas: 42 casos en OK (`supabase/pruebas/registrar_ingreso.sql`).
 - Hoja de pruebas ejecutadas, ronda 1 (23 nov, commit `00c41f6`): 57 Vitest, 42 SQL y 4 lecturas reales en OK, CA32
   parcial, 18 criterios del flujo de ingreso con evidencia y 8 defectos registrados (`docs/pruebas-ejecutadas.md`)
@@ -318,8 +331,8 @@ Actualizado: lunes 23 de noviembre de 2026.
   Lighthouse (Bastián); lectura del pull request #8 y diagrama para la lámina 17 (Isidora). Benjamín ya entregó la auditoría
   de interfaces (`docs/auditoria-interfaces-2026-11-23.md`: CA37 cumple, CA32 parcial, televisor corregido en el pull request #9);
   las capturas nuevas del flujo con turnos quedaron en `docs/evidencia/capturas-2026-11-23/` (23 nov, 21:05)
-- [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): aprobar la línea base de la
-  entrega final (`docs/cr-01-linea-base-entrega-final.md`, propuesta) antes del afiche, validar el prototipo con el encargado con acta y registrar las pruebas por CA
+- [ ] Auditoría integral con los frameworks (`docs/auditoria-proyecto-frameworks-2026-11-23.md`): la línea base de la
+  entrega final ya está aprobada (CR-01); falta validar el prototipo con el encargado con acta y registrar las pruebas por CA
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta la revisión de otro integrante, el acta del Playback (24 nov, 17:00) y
@@ -340,15 +353,17 @@ Actualizado: lunes 23 de noviembre de 2026.
   el repo va de unas 70 LOC/PF (19 de noviembre, 1.671 LOC y 24 PF) a unas 32 (23 de noviembre, 2.776 LOC y 87 PF);
   ambas mediciones incluyen la plantilla `with-supabase`. Regla de conteo declarada en `docs/estimacion.md` (3.1): con
   solo el código del equipo son 1.855 LOC, unas 21 LOC/PF (960 LOC más son de la plantilla)
-- [ ] Avance 3: ensayar (24 nov, 11:30) y aprobar el CR-01; si no se aprueba, revertir la lámina 23.
+- [ ] Avance 3: ensayar (24 nov, 11:30). El CR-01 ya está aprobado, así que la lámina 23 queda como está.
+- [ ] Entrega final: construir B1 a B5 del CR-01 (rutina, feedback, progresión y estado de máquinas) antes del
+  congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
 - [ ] Afiche: el pendón y el tríptico se reemplazan por un solo afiche (aviso del profesor del 19 de noviembre); el formato llega por
   Blackboard. Borrador listo; falta la foto del lector (Pau) y ajustar al formato (Bastián).
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
-### Decisiones vigentes D01–D17
+### Decisiones vigentes D01–D18
 
-D01–D11 provienen de la entrevista, D12–D16 del diseño y D17 del levantamiento de credenciales.
+D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamiento de credenciales y D18 del CR-01.
 
 | Código | Decisión |
 |---|---|
@@ -369,6 +384,7 @@ D01–D11 provienen de la entrevista, D12–D16 del diseño y D17 del levantamie
 | D15 | Origen de la rutina configurable: generada por el sistema, creada o asignada por el profesor, o creada por el alumno; el alumno elige su rutina activa y el administrador habilita cada modalidad |
 | D16 | Préstamo con el lector: el profesor pasa la TNE, marca los implementos y la TNE queda como garantía; en la devolución marca lo que vuelve |
 | D17 | Credencial principal: la TNE (MIFARE Classic, 13,56 MHz, UID fijo) para ingreso y préstamos; la TUI (credencial USS) también funciona con el lector USB (probado por Pau el 20 de noviembre); la TNE queda como principal porque todos los alumnos la tienen; se descarta el carnet de identidad (UID aleatorio y datos personales); lector de 13,56 MHz |
+| D18 | Línea base de la entrega final (CR-01, aprobado por el equipo el 23 de noviembre): se entrega el flujo central con rutina por plantilla, feedback, progresión y estado de máquinas; préstamo básico y habilitación solo si alcanza; rutinas del profesor y del alumno, préstamos completos y registro corporal quedan diseñados para una próxima versión |
 
 Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
 [documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.

@@ -34,39 +34,39 @@ El registro canónico de [D01–D17](../AGENTS.md#decisiones-vigentes-d01d17) re
 
 Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Origen traza cada uno al problema (P), la decisión (D) o la regla de negocio (R) que lo justifica.
 
-| ID | El sistema debe… | Prioridad | Origen |
-| --- | --- | --- | --- |
-| RF01 | Permitir que un alumno inicie sesión y ver solo las funciones de su rol | Alta | D13 |
-| RF02 | Vincular una credencial a un único alumno | Alta | R1 |
-| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 |
-| RF04 | Validar que el alumno tenga certificado vigente para el período académico en curso | Alta | P6, D03, R2 |
-| RF05 | Validar que el ingreso ocurra dentro del horario y antes del último ingreso | Alta | R3 |
-| RF06 | Registrar la entrada con fecha y hora | Alta | P1 |
-| RF07 | Registrar la salida cuando el alumno vuelve a pasar su credencial | Alta | P2, D02, R5 |
-| RF08 | Cerrar automáticamente las visitas sin salida después de 3 horas | Alta | R6 |
-| RF09 | Calcular el aforo y mostrarlo en vivo en una pantalla pública | Alta | P3, D01 |
-| RF10 | Asignar un número de turno cuando el gimnasio está lleno y llamar los turnos en orden | Alta | P4, D14, R4 |
-| RF11 | Permitir que el alumno defina su objetivo y su nivel de entrenamiento | Alta | D12 |
-| RF12 | Generar una rutina con plantillas por objetivo y nivel, usando solo máquinas registradas | Alta | D12 |
-| RF13 | Permitir que el alumno cree y edite su propia rutina | Alta | D09, D15 |
-| RF14 | Permitir que el profesor cree, asigne y edite la rutina de un alumno | Alta | D09, D15 |
-| RF15 | Permitir que el alumno elija su rutina activa entre las disponibles | Alta | D15 |
-| RF16 | Mostrar la rutina activa en el celular del alumno al registrar su entrada, en tiempo real | Alta | D13 |
-| RF17 | Advertir en la rutina cuando un ejercicio usa una máquina en mantención | Alta | D06, R7 |
-| RF18 | Registrar el feedback al salir y ajustar las cargas de la próxima sesión según los parámetros | Alta | D07, R8 |
-| RF19 | Registrar máquinas con foto, patrón de movimiento y ajustes | Alta | P7 |
-| RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 |
-| RF21 | Registrar implementos con su cantidad disponible | Alta | P5 |
-| RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 |
-| RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 |
-| RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 |
-| RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D03 |
-| RF26 | Permitir que el administrador configure capacidad, horario, período académico, progresión, cierre automático y modalidades de rutina | Alta | D01, D03, D07, D15 |
-| RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado |
-| RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 |
-| RF29 | Registrar incidencias de mal uso | Media | Alcance aprobado |
-| RF30 | Generar reportes de asistencia por carrera, horario y uso de máquinas y préstamos | Media | P1 |
-| RF31 | Alertar al administrador cuando un alumno deja de venir | Media | Alcance aprobado |
+| ID | El sistema debe… | Prioridad | Origen | Línea base de la entrega final ([CR-01](cr-01-linea-base-entrega-final.md)) |
+| --- | --- | --- | --- | --- |
+| RF01 | Permitir que un alumno inicie sesión y ver solo las funciones de su rol | Alta | D13 | ✅ Implementado |
+| RF02 | Vincular una credencial a un único alumno | Alta | R1 | ✅ Implementado |
+| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | 🟡 Lector implementado; respaldo por ingreso manual, QR en próxima versión |
+| RF04 | Validar que el alumno tenga certificado vigente para el período académico en curso | Alta | P6, D03, R2 | ✅ Implementado |
+| RF05 | Validar que el ingreso ocurra dentro del horario y antes del último ingreso | Alta | R3 | ✅ Implementado |
+| RF06 | Registrar la entrada con fecha y hora | Alta | P1 | ✅ Implementado |
+| RF07 | Registrar la salida cuando el alumno vuelve a pasar su credencial | Alta | P2, D02, R5 | ✅ Implementado |
+| RF08 | Cerrar automáticamente las visitas sin salida después de 3 horas | Alta | R6 | ✅ Implementado |
+| RF09 | Calcular el aforo y mostrarlo en vivo en una pantalla pública | Alta | P3, D01 | ✅ Implementado |
+| RF10 | Asignar un número de turno cuando el gimnasio está lleno y llamar los turnos en orden | Alta | P4, D14, R4 | ✅ Implementado |
+| RF11 | Permitir que el alumno defina su objetivo y su nivel de entrenamiento | Alta | D12 | 🔨 Se construye (B1) |
+| RF12 | Generar una rutina con plantillas por objetivo y nivel, usando solo máquinas registradas | Alta | D12 | 🔨 Se construye (B2) |
+| RF13 | Permitir que el alumno cree y edite su propia rutina | Alta | D09, D15 | ⏭ Próxima versión |
+| RF14 | Permitir que el profesor cree, asigne y edite la rutina de un alumno | Alta | D09, D15 | ⏭ Próxima versión |
+| RF15 | Permitir que el alumno elija su rutina activa entre las disponibles | Alta | D15 | ⏭ Próxima versión |
+| RF16 | Mostrar la rutina activa en el celular del alumno al registrar su entrada, en tiempo real | Alta | D13 | 🔨 Se construye (B3) |
+| RF17 | Advertir en la rutina cuando un ejercicio usa una máquina en mantención | Alta | D06, R7 | 🔨 Se construye (B3) |
+| RF18 | Registrar el feedback al salir y ajustar las cargas de la próxima sesión según los parámetros | Alta | D07, R8 | 🔨 Se construye (B4) |
+| RF19 | Registrar máquinas con foto, patrón de movimiento y ajustes | Alta | P7 | 🟡 Datos por SQL; pantalla en próxima versión |
+| RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 | 🔨 Se construye (B5) |
+| RF21 | Registrar implementos con su cantidad disponible | Alta | P5 | 🟡 Datos por SQL; pantalla en próxima versión |
+| RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 | Opcional (S1, préstamo básico); si no, próxima versión |
+| RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | Opcional (S1, sin devoluciones parciales); si no, próxima versión |
+| RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ⏭ Próxima versión |
+| RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D03 | 🟡 Regla validada al ingresar; pantalla opcional (S2) |
+| RF26 | Permitir que el administrador configure capacidad, horario, período académico, progresión, cierre automático y modalidades de rutina | Alta | D01, D03, D07, D15 | 🟡 Parámetros por SQL; pantalla en próxima versión |
+| RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ⏭ Próxima versión |
+| RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 | Sin cambio (prioridad media) |
+| RF29 | Registrar incidencias de mal uso | Media | Alcance aprobado | Sin cambio (prioridad media) |
+| RF30 | Generar reportes de asistencia por carrera, horario y uso de máquinas y préstamos | Media | P1 | Sin cambio (prioridad media) |
+| RF31 | Alertar al administrador cuando un alumno deja de venir | Media | Alcance aprobado | Sin cambio (prioridad media) |
 
 ## 3. Requisitos no funcionales
 
@@ -196,6 +196,10 @@ Los flujos principales y los casos de apoyo se especifican a continuación. Los 
 | CU16 | Administrador | Consulta reportes por carrera, horario, uso de máquinas o préstamos | Función de prioridad media |
 
 ## 6. Criterios de aceptación
+
+> **Línea base de la entrega final (CR-01, aprobado el 23 de noviembre):** se activan CA11, CA12, CA13, CA14, CA24 y
+> CA26. Quedan como «no aplica en esta versión» CA15, CA16 y CA38 (rutinas del profesor y del alumno), CA19 a CA21
+> (préstamos; CA19 y CA20 se activan si se hace S1) y CA22 y CA39 (registro corporal).
 
 CA01–CA22 corresponden al Avance 2 presentado. Los criterios complementarios de abajo completan la trazabilidad documental. Su ejecución y evidencias se registran por separado.
 

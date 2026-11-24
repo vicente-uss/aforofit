@@ -195,6 +195,26 @@ productividad observada explica por qué el equipo sí alcanza a construir el n�
   COCOMO**: se usa para dimensionar el trabajo y decidir el orden. Primero va ingreso y aforo, el módulo más
   grande y el del flujo central.
 
+### 6.1 Reestimación del 23 de noviembre y línea base (CR-01, aprobado)
+
+Reestimación bottom-up (FW-IS 13.5) con el ritmo observado del equipo, no con COCOMO: 87 PF en unas 100 h, es
+decir, **unas 1,15 h por PF**. Para la última semana hay 5 × 10 h = 50 h, menos unas 15 h de afiche, pruebas,
+ensayo y documentación: **unas 35 h**, que alcanzan para **unos 30 PF**. Faltan unos 120 PF, así que la brecha real
+es de unas **4 veces** (no de 21, que es la cifra de COCOMO).
+
+El equipo aprobó el [CR-01](cr-01-linea-base-entrega-final.md) el 23 de noviembre:
+
+| Parte | PF | Horas estimadas |
+|---|---:|---:|
+| Ya implementado (ingreso, aforo, lista de espera, roles y catálogo por SQL) | 87 | — |
+| Se construye esta semana (B1 a B5: objetivo y nivel, plantillas y generador, rutina en el celular con aviso de mantención, feedback y progresión, estado de máquina) | 26 | 30 |
+| Opcional si la base está lista el viernes 27 (S1 préstamo básico, S2 habilitación) | 13 | 15 |
+| Próxima versión (rutinas del profesor y del alumno, préstamos completos, registro corporal, pantallas de administración) | 81 | — |
+| **Total de la prioridad alta** | **207** | |
+
+La estimación de la sección 2 no cambia: los 207 PF siguen siendo el tamaño del alcance diseñado. Lo que cambia es
+cuánto de ese alcance se entrega en esta versión.
+
 ## 7. Recursos y costos (Semana 5)
 
 | Categoría | Recursos | Costo |

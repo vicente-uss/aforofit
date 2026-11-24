@@ -45,7 +45,7 @@ Rúbrica 3: estimación, esfuerzo, prototipo, pruebas, afiche y defensa (18 punt
 
 | ID | P | Tarea | Tipo | Quién | Cuándo | Tiempo | Depende de |
 |---|---|---|---|---|---|---|---|
-| A3-01 | P0 | Aprobar el CR-01 en el ensayo (sin cambios de capacidad) | Persona | Equipo | Ensayo de las 11:30 | 10 min | — |
+| A3-01 ✅ | P0 | Aprobar el CR-01 (aprobado por el equipo el lun 23, sin cambios) | Persona | Equipo | Lun 23 | 10 min | — |
 | A3-02 ✅ | P0 | Hoja de pruebas ejecutadas ([hecha](pruebas-ejecutadas.md)) del flujo de ingreso: cada CA activo con su prueba (Vitest, SQL o manual), resultado y fecha. Correr las pruebas SQL y Vitest de nuevo para tener resultados de hoy | Claude | — | Hoy | 30 min | — |
 | A3-03 | P0 | Completar las láminas 17 a 23 en Canva: ER implementado (17, `docs/diagramas/entidad-relacion-implementado.png`), demo (18), interfaces con la frase de la auditoría (19), pruebas con las cifras de A3-02 (20), dificultades con la auditoría de interfaces y el pull request #9 como corrección (21), afiche (22) y línea base del CR-01 (23) | Claude | — | ✅ Hecho (lun 23) | 1 h | A3-01, A3-02 |
 | A3-04 | P0 | Preparar la demo: el lector y las tarjetas vinculadas en la sala, capacidad según el guion de la lámina 18, aforo en 0 antes de empezar, ingreso manual como plan B | Persona | Pau con el lector; Vicente con la base | Mañana antes de clases | 20 min | Lector disponible |
@@ -140,7 +140,7 @@ después se muestra en la demo, pero el afiche lo deja como «próxima versión�
   video), Benjamín (capturas nuevas, prueba de turnos y frase de la lámina 19), Isidora (diagrama o ideas para la
   lámina 17) y Bastián (hoja de pruebas, Lighthouse y avance del afiche)
 - [ ] Aprobar la vista previa de las láminas 17 a 23 en Canva antes de guardarlas (las arma Claude con esas entregas)
-- [ ] Revisar el [CR-01](cr-01-linea-base-entrega-final.md) para llegar al ensayo con una opinión (10 min)
+- [x] Revisar el [CR-01](cr-01-linea-base-entrega-final.md): aprobado por el equipo el lunes 23
 - [ ] Dejar la base lista para la demo en el SQL Editor de Supabase y comprobar que
   https://aforofit.vercel.app/aforo muestre **0 / 20**:
 
@@ -159,7 +159,7 @@ después se muestra en la demo, pero el afiche lo deja como «próxima versión�
 ### Mañana martes 24
 
 - [ ] Antes de las 11:30: confirmar con Pau que lleve el lector y sus tarjetas vinculadas
-- [ ] 11:30, ensayo: el equipo aprueba, ajusta o rechaza el CR-01; ensayar la respuesta a «¿cómo cierran la brecha?»
+- [ ] 11:30, ensayo (el CR-01 ya está aprobado): ensayar la respuesta a «¿cómo cierran la brecha?»
   (está en el guion)
 - [ ] Antes de presentar: bajar la capacidad a 2 para mostrar el turno (lámina 18) y volverla a 20 al terminar:
 
