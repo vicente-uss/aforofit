@@ -94,10 +94,10 @@ así que para la PPT hay que repetirlas. Tienen el indicador «N» de Next.js en
 
 ## 8. Pendiente
 
-- [ ] Repetir las capturas de `/aforo` e `/ingreso` con las correcciones del pull request #9
-- [ ] Captura de `/profesor/espera` (no venía en el informe)
-- [ ] Prueba con turnos (capacidad 1): turno en espera y turno llamado en `/aforo` y `/profesor/espera`
+- [x] Repetir las capturas de `/aforo` e `/ingreso` con las correcciones del pull request #9 ([capturas del 23 nov](evidencia/capturas-2026-11-23/README.md))
+- [x] Captura de `/profesor/espera` (no venía en el informe) ([capturas del 23 nov](evidencia/capturas-2026-11-23/README.md))
+- [x] Prueba con turnos (capacidad 1): turno en espera y turno llamado en `/aforo` y `/profesor/espera` ([capturas del 23 nov](evidencia/capturas-2026-11-23/README.md))
 - [ ] Video de 30 segundos: entrada y salida con `/aforo` actualizándose
-- [ ] Frase final para la lámina 19. Propuesta: «Se mantuvo la estructura del prototipo (kiosco, pantalla pública y
+- [x] Frase final para la lámina 19, confirmada por Benjamín el 23 de noviembre: «Se mantuvo la estructura del prototipo (kiosco, pantalla pública y
   lista de espera en tiempo real) y el color inmediato según el resultado; al programar, simplificamos la interfaz
   hacia alto contraste y lectura rápida, y dejamos para después los gráficos y el panel del día del profesor.»
