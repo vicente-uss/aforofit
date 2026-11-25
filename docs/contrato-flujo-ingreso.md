@@ -33,7 +33,7 @@ Devuelve **siempre un objeto**, nunca `null`, una fila ni un array:
 |---|---|---|
 | `credencial_no_registrada` | Credencial no registrada | CA02 |
 | `certificado_no_vigente` | Certificado no vigente | CA04 |
-| `fuera_de_periodo` | Fuera del período académico | |
+| ~~`fuera_de_periodo`~~ | Se quitó con D20 (`014`): ya no se envía | |
 | `fuera_de_horario` | Fuera del horario de ingreso | CA05 |
 | `gimnasio_cerrado` | El gimnasio está cerrado hoy | |
 | `sin_permiso` | Esta pantalla requiere la sesión de un profesor | |

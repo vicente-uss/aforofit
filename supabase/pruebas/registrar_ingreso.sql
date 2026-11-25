@@ -64,16 +64,20 @@ begin
   perform pg_temp.ok('CA02', 'Credencial no registrada: no crea visita',
     (r->>'ocupacion')::int = 0);
 
-  -- Regla 2 · Certificado vencido (CA04) y período.
+  -- Regla 2 · Certificado vencido (CA04). Desde D20 basta el certificado vigente: el antiguo período
+  -- académico (3 de marzo a 23 de diciembre de 2026 en configuracion) ya no rechaza a nadie.
   r := privado.registrar_ingreso_en('FB:00:00:0F', pg_temp.h(c_lunes || '10:00'));
   perform pg_temp.ok('CA04', 'Certificado vencido: rechazo', r->>'motivo' = 'certificado_no_vigente');
 
-  r := privado.registrar_ingreso_en('FB:00:00:01', pg_temp.h('2026-12-28 10:00'));
-  perform pg_temp.ok('R2', 'Fuera del período académico: rechazo',
-    r->>'motivo' = 'certificado_no_vigente' or r->>'motivo' = 'fuera_de_periodo');
   update public.alumnos set certificado_hasta = date '2027-03-31' where id = v_ana;
   r := privado.registrar_ingreso_en('FB:00:00:01', pg_temp.h('2026-12-28 10:00'));
-  perform pg_temp.ok('R2', 'Certificado vigente, pero fuera del período', r->>'motivo' = 'fuera_de_periodo');
+  perform pg_temp.ok('R2', 'D20: con certificado vigente entra después del fin del antiguo período',
+    r->>'resultado' = 'entrada');
+  perform privado.registrar_ingreso_en('FB:00:00:01', pg_temp.h('2026-12-28 10:01')); -- salida
+  r := privado.registrar_ingreso_en('FB:00:00:01', pg_temp.h('2026-03-02 10:00'));
+  perform pg_temp.ok('R2', 'D20: con certificado vigente entra antes del inicio del antiguo período',
+    r->>'resultado' = 'entrada');
+  perform privado.registrar_ingreso_en('FB:00:00:01', pg_temp.h('2026-03-02 10:01')); -- salida
   update public.alumnos set certificado_hasta = date '2026-12-23' where id = v_ana;
 
   -- Regla 3 · Horario (CA05) y domingo.
@@ -224,8 +228,14 @@ begin
     v_escribio := true;
   exception when insufficient_privilege then null;
   end;
-  update public.configuracion set capacidad = 99;
-  get diagnostics v_filas = row_count;
+  -- Desde 014 no hay permiso de update en configuracion (antes RLS dejaba 0 filas): cualquiera de las
+  -- dos barreras cuenta como «no escribe».
+  v_filas := 0;
+  begin
+    update public.configuracion set capacidad = 99;
+    get diagnostics v_filas = row_count;
+  exception when insufficient_privilege then null;
+  end;
   execute 'reset role';
   perform pg_temp.ok('RNF', 'alumno.demo no escribe en ninguna tabla', not v_escribio and v_filas = 0);
 

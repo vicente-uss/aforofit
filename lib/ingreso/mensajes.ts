@@ -34,7 +34,7 @@ export type MensajeKiosco = {
 const MOTIVOS: Record<string, string> = {
   credencial_no_registrada: "Credencial no registrada", // CA02
   certificado_no_vigente: "Certificado no vigente", // CA04
-  fuera_de_periodo: "Fuera del período académico",
+  // «fuera_de_periodo» se quitó con D20 (014): registrar_ingreso ya no lo envía.
   fuera_de_horario: "Fuera del horario de ingreso", // CA05
   gimnasio_cerrado: "El gimnasio está cerrado hoy",
   sin_permiso: "Esta pantalla requiere la sesión de un profesor",

@@ -83,6 +83,12 @@ describe("textoMotivo", () => {
     expect(aviso).not.toHaveBeenCalled();
   });
 
+  it("D20: fuera_de_periodo ya no es un motivo del contrato", () => {
+    const aviso = vi.spyOn(console, "warn").mockImplementation(() => {});
+    expect(textoMotivo("fuera_de_periodo")).toBe("No se pudo registrar el ingreso");
+    expect(aviso).toHaveBeenCalledTimes(1);
+  });
+
   it("incluye los motivos de vincular_credencial (CA03)", () => {
     expect(textoMotivo("credencial_de_otro_alumno")).toBe("La credencial ya pertenece a otro alumno");
     expect(textoMotivo("alumno_no_encontrado")).toBe("Alumno no encontrado");

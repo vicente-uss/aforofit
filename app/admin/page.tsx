@@ -22,11 +22,12 @@ async function Contenido() {
         },
         {
           titulo: "Habilitación de alumnos",
-          descripcion: "Certificado vigente según el período académico.",
+          descripcion: "Certificado vigente: un año desde su emisión (D20).",
         },
         {
           titulo: "Configuración",
-          descripcion: "Capacidad, horario, período y parámetros.",
+          descripcion: "Capacidad, horario y cierre automático.",
+          href: "/admin/configuracion",
         },
         {
           titulo: "Reportes",
