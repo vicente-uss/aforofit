@@ -6,11 +6,20 @@ begin
   raise notice 'OK: %', caso;
 end;
 $$;
-create function pg_temp.sesion(usuario uuid) returns void language sql as $$
-  select set_config('request.jwt.claims',jsonb_build_object('sub',usuario,'role','authenticated')::text,true)
+create function pg_temp.sesion(usuario uuid) returns void language plpgsql as $$
+begin
+  if current_user <> 'authenticated' then raise exception 'Se requiere el rol authenticated'; end if;
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',usuario,'role','authenticated')::text,true);
+end;
 $$;
 create function pg_temp.error_de(sentencia text) returns text language plpgsql as $$
-begin execute sentencia; return null; exception when others then return sqlerrm; end;
+begin
+  execute sentencia;
+  return null;
+exception
+  when insufficient_privilege then return sqlstate;
+  when others then return sqlerrm;
+end;
 $$;
 do $$
 declare
@@ -28,8 +37,8 @@ begin
   select jsonb_object_agg(d, jsonb_build_object('apertura','00:00','ultimo_ingreso','23:59','cierre','23:59'))
     into abierto from unnest(array['lunes','martes','miercoles','jueves','viernes','sabado','domingo']) d;
   update public.configuracion set capacidad=1, horario=abierto;
-  perform pg_temp.sesion(cuenta);
   set local role authenticated;
+  perform pg_temp.sesion(cuenta);
   perform pg_temp.ok('Sin tarjeta no genera código',pg_temp.error_de('select public.generar_codigo_ingreso()')='sin_tarjeta');
   reset role;
   uid := upper(array_to_string(regexp_match(replace(gen_random_uuid()::text,'-',''), '^(..)(..)(..)(..)(..)(..)(..)'), ':'));
@@ -41,30 +50,46 @@ begin
     and (r->>'vence_en')::timestamptz between clock_timestamp()+interval '119 seconds' and clock_timestamp()+interval '120 seconds');
   perform pg_temp.ok('Alumno no puede consumir',
     pg_temp.error_de(format('select public.registrar_ingreso_codigo(%L)',codigo))='sin_permiso');
+  perform set_config('request.jwt.claims','{"role":"anon"}',true);
+  set local role anon;
+  perform pg_temp.ok('Anon no genera códigos',pg_temp.error_de('select public.generar_codigo_ingreso()') =
+    '42501');
+  perform pg_temp.ok('Anon no canjea códigos',pg_temp.error_de(format('select public.registrar_ingreso_codigo(%L)',codigo)) =
+    '42501');
+  set local role authenticated;
+  perform pg_temp.sesion(cuenta);
   nuevo := public.generar_codigo_ingreso()->>'codigo';
   perform pg_temp.sesion(prof);
+  perform pg_temp.ok('Profesor no genera códigos',pg_temp.error_de('select public.generar_codigo_ingreso()')='solo_alumno');
   perform pg_temp.ok('Código reemplazado',pg_temp.error_de(format('select public.registrar_ingreso_codigo(%L)',codigo))='codigo_invalido');
   r := public.registrar_ingreso_codigo(nuevo);
-  perform pg_temp.ok('CA31: entrada real',r->>'resultado'='entrada' and (r->>'ocupacion')::int=1);
+  perform pg_temp.ok('Ingreso con código simulado',r->>'resultado'='entrada' and (r->>'ocupacion')::int=1);
   perform pg_temp.ok('Un solo uso',pg_temp.error_de(format('select public.registrar_ingreso_codigo(%L)',nuevo))='codigo_invalido');
   perform pg_temp.sesion(cuenta); codigo := public.generar_codigo_ingreso()->>'codigo'; perform pg_temp.sesion(prof);
   r := public.registrar_ingreso_codigo(codigo);
   perform pg_temp.ok('R5: sale con un nuevo código',r->>'resultado'='salida' and (r->>'ocupacion')::int=0);
   reset role;
   update public.alumnos set certificado_hasta=hoy-1 where id=alumno;
+  set local role authenticated;
   perform pg_temp.sesion(cuenta); codigo := public.generar_codigo_ingreso()->>'codigo'; perform pg_temp.sesion(prof);
   perform pg_temp.ok('R2: certificado vencido',public.registrar_ingreso_codigo(codigo)->>'motivo'='certificado_no_vigente');
+  reset role;
   update public.alumnos set certificado_hasta=hoy+30 where id=alumno;
   update public.configuracion set horario='{}';
+  set local role authenticated;
   perform pg_temp.sesion(cuenta); codigo := public.generar_codigo_ingreso()->>'codigo'; perform pg_temp.sesion(prof);
   perform pg_temp.ok('R3: gimnasio cerrado',public.registrar_ingreso_codigo(codigo)->>'motivo'='gimnasio_cerrado');
+  reset role;
   update public.configuracion set horario=abierto;
   insert into public.alumnos(nombre) values('Otro alumno de prueba') returning id into otro;
   insert into public.visitas(alumno_id) values(otro);
+  set local role authenticated;
   perform pg_temp.sesion(cuenta); codigo := public.generar_codigo_ingreso()->>'codigo'; perform pg_temp.sesion(prof);
   perform pg_temp.ok('R4: gimnasio lleno asigna turno',public.registrar_ingreso_codigo(codigo)->>'resultado'='turno');
   perform pg_temp.sesion(cuenta); codigo := public.generar_codigo_ingreso()->>'codigo'; perform pg_temp.sesion(prof);
+  reset role;
   update privado.codigos_ingreso set vence_en=clock_timestamp()-interval '1 second' where alumno_id=alumno;
+  set local role authenticated;
   perform pg_temp.ok('Vencido no se consume',pg_temp.error_de(format('select public.registrar_ingreso_codigo(%L)',codigo))='codigo_invalido');
 end;
 $$;

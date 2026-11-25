@@ -28,9 +28,10 @@ join public.implementos i on i.id = d.implemento_id
 where p.devuelto_en is null or not p.tne_devuelta
 group by p.id, a.nombre;
 
--- Un argumento sigue devolviendo todo lo pendiente. La garantía se entrega por separado.
-drop function if exists public.registrar_devolucion(uuid);
-create or replace function public.registrar_devolucion(p_prestamo uuid, p_items jsonb default null)
+-- El cliente nuevo siempre envía p_items (NULL para devolver todo).
+-- PostgreSQL exige recrear la firma si una versión previa tenía DEFAULT.
+drop function if exists public.registrar_devolucion(uuid,jsonb);
+create or replace function public.registrar_devolucion(p_prestamo uuid, p_items jsonb)
 returns void language plpgsql security definer set search_path = '' as $$
 declare
   v_fecha timestamptz;
@@ -79,8 +80,17 @@ begin
   update public.prestamos set tne_devuelta = true where id = p_prestamo;
 end;
 $$;
-revoke all on function public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) from public,anon,authenticated;
-grant execute on function public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) to authenticated;
+-- El cliente 015 confirma implementos y entrega física de la TNE en una sola acción.
+-- Sin argumento por defecto, PostgREST distingue ambos contratos por sus parámetros.
+create or replace function public.registrar_devolucion(p_prestamo uuid)
+returns void language plpgsql security invoker set search_path = '' as $$
+begin
+  perform public.registrar_devolucion(p_prestamo, null);
+  perform public.entregar_tne(p_prestamo);
+end;
+$$;
+revoke all on function public.registrar_devolucion(uuid), public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) from public,anon,authenticated;
+grant execute on function public.registrar_devolucion(uuid), public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) to authenticated;
 
 -- F-27: conserva las llamadas de dos argumentos mediante el valor por defecto.
 drop function if exists public.vincular_credencial(text,uuid);
@@ -154,8 +164,10 @@ begin
     v_vence := clock_timestamp()+interval '2 minutes';
     begin
       insert into privado.codigos_ingreso values (v_alumno,v_codigo,v_vence)
-      on conflict (alumno_id) do update set codigo=excluded.codigo, vence_en=excluded.vence_en;
-      return jsonb_build_object('codigo',v_codigo,'vence_en',v_vence);
+      on conflict (alumno_id) do update set codigo=excluded.codigo, vence_en=excluded.vence_en
+      where codigos_ingreso.codigo <> excluded.codigo;
+      -- Si salió el mismo código que se reemplaza, sortear otro.
+      if found then return jsonb_build_object('codigo',v_codigo,'vence_en',v_vence); end if;
     exception when unique_violation then
       null; -- Colisión con el código de otro alumno: sortear de nuevo.
     end;

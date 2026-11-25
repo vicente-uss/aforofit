@@ -100,7 +100,7 @@ export function Prestamos() {
         </fieldset>
       </Tarjeta>
       <Tarjeta>
-        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} abiertos` : undefined}
+        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} pendientes` : undefined}
           accion={<Button variant="secondary" size="sm" disabled={guardando || estado === "cargando"} onClick={() => void cargar()}>
             <RefreshCw aria-hidden />{m.cargar}</Button>} />
         <div className="px-5 pb-5 pt-3">
@@ -111,7 +111,7 @@ export function Prestamos() {
               <li className="space-y-2 rounded-xl border border-line p-4" key={p.id}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <strong className="font-semibold text-navy-900">{p.alumno}</strong>
-                  {p.devuelto_en ? <Insignia tono="amber" punto>TNE en el gimnasio</Insignia> : <Insignia tono="blue" punto>TNE en el gimnasio</Insignia>}
+                  {p.devuelto_en ? <Insignia tono="amber" punto>TNE sin retirar</Insignia> : <Insignia tono="blue" punto>Implementos pendientes</Insignia>}
                 </div>
                 <p className="text-sm text-slate-700">{p.implementos}</p>
                 <time className="tnum block text-xs text-tinta-suave" dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
@@ -139,7 +139,7 @@ function Devolucion({ pendientes, ocupado, confirmar }: {
         onChange={e => cambiar({ ...cantidades, [i.id]: e.target.value })} />
     </label>)}
     <div className="flex flex-wrap gap-2">
-      <Button size="sm" disabled={!items} onClick={() => items && confirmar(items)}>Registrar devolución</Button>
+      <Button size="sm" disabled={!items} onClick={() => items && confirmar(items)}>Devolver cantidades indicadas</Button>
       <Button size="sm" variant="secondary" onClick={() => confirmar(null)}>Devolver todo</Button>
     </div>
   </fieldset>;
