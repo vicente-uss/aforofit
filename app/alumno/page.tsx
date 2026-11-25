@@ -2,6 +2,7 @@ import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
 import { requerirRol } from "@/lib/auth/perfil";
 import { Suspense } from "react";
+import { RutinaAlumno } from "./rutina-alumno";
 
 async function Contenido() {
   // La validación del rol se hace en el servidor.
@@ -10,11 +11,9 @@ async function Contenido() {
   return (
     <PanelRol
       perfil={perfil}
+      tituloSecciones="Próxima versión"
       secciones={[
-        {
-          titulo: "Mi rutina",
-          descripcion: "Tu rutina del día con pesos, ajustes y avisos de máquinas.",
-        },
+        // Pospuestas por el CR-01 (sección 4.4): se muestran como «Próximamente».
         {
           titulo: "Mis rutinas",
           descripcion: "Elige tu rutina activa o crea una propia.",
@@ -28,7 +27,10 @@ async function Contenido() {
           descripcion: "Tus visitas al gimnasio y tu feedback.",
         },
       ]}
-    />
+    >
+      {/* B1, B3 y B4 del CR-01: objetivo y nivel, rutina del día en tiempo real y feedback. */}
+      <RutinaAlumno />
+    </PanelRol>
   );
 }
 
