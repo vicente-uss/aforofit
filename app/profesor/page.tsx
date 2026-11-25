@@ -34,6 +34,7 @@ async function Contenido() {
         {
           titulo: "Préstamos",
           descripcion: "Entrega y devolución de implementos con la TNE.",
+          href: "/profesor/prestamos",
         },
         {
           titulo: "Asignar rutinas",

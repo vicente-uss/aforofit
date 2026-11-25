@@ -23,6 +23,7 @@ async function Contenido() {
         {
           titulo: "Habilitación de alumnos",
           descripcion: "Certificado vigente: un año desde su emisión (D20).",
+          href: "/admin/habilitacion",
         },
         {
           titulo: "Configuración",

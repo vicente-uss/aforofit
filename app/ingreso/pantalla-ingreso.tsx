@@ -9,6 +9,7 @@ import { textoCupos } from "@/lib/aforo/estado";
 import { useAforo } from "@/lib/aforo/useAforo";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { pausaLector } from "@/lib/ingreso/pausaLector";
+import { capturarLectura } from "@/lib/ingreso/capturarLectura";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
   enmascararUid,
@@ -277,14 +278,6 @@ export function PantallaIngreso() {
     }
   };
 
-  const alPresionarTeclaLector = (evento: React.KeyboardEvent<HTMLInputElement>) => {
-    if (evento.key !== "Enter") return;
-    evento.preventDefault();
-    const texto = evento.currentTarget.value;
-    evento.currentTarget.value = "";
-    if (texto.trim() !== "") procesar(texto);
-  };
-
   const abrirManual = () => {
     manualAbiertoRef.current = true;
     setManualAbierto(true);
@@ -310,7 +303,7 @@ export function PantallaIngreso() {
         aria-label="Lector de credenciales"
         autoComplete="off"
         inputMode="none"
-        onKeyDown={alPresionarTeclaLector}
+        onKeyDown={(evento) => capturarLectura(evento, procesar)}
         onBlur={() => setTimeout(enfocarLector, 0)}
         className="absolute h-px w-px opacity-0"
       />
