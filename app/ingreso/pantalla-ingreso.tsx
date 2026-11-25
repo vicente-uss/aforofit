@@ -56,7 +56,7 @@ type Lectura = {
   turno: number | null;
 };
 
-type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null };
+type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null; tarjetas: { tipo: string; uid: string }[] };
 
 const MAX_LECTURAS = 10; // historial solo en memoria
 const MAX_ALUMNOS_BUSCADOS = 8;
@@ -99,6 +99,9 @@ export function PantallaIngreso() {
   const [busqueda, setBusqueda] = useState("");
   const [alumnos, setAlumnos] = useState<AlumnoBuscado[]>([]);
   const [avisoVincular, setAvisoVincular] = useState<string | null>(null);
+  const [elegido, setElegido] = useState<AlumnoBuscado | null>(null);
+  const [tipoTarjeta, setTipoTarjeta] = useState("tne");
+  const [vinculando, setVinculando] = useState(false);
   const [busquedaAbierta, setBusquedaAbierta] = useState(false);
 
   const supabaseRef = useRef(createClient());
@@ -233,11 +236,12 @@ export function PantallaIngreso() {
     const texto = busqueda.trim();
     if (texto.length < 2) return;
     // Dos consultas en vez de .or(): el texto del usuario no se interpola en el filtro.
+    setElegido(null);
     const patron = patronContiene(texto);
     const consultar = (columna: "nombre" | "rut") =>
       supabaseRef.current
         .from("alumnos")
-        .select("id, nombre, rut, carrera")
+        .select("id, nombre, rut, carrera, tarjetas(tipo,uid)")
         .ilike(columna, patron)
         .order("nombre")
         .limit(MAX_ALUMNOS_BUSCADOS);
@@ -254,11 +258,14 @@ export function PantallaIngreso() {
   };
 
   const vincular = async (alumno: AlumnoBuscado) => {
-    if (!uidPorVincular) return;
+    if (!uidPorVincular || vinculando) return;
+    setVinculando(true);
     const { data, error: errorVincular } = await supabaseRef.current.rpc("vincular_credencial", {
       p_uid: uidPorVincular,
       p_alumno_id: alumno.id,
+      p_tipo: tipoTarjeta,
     });
+    setVinculando(false);
     if (errorVincular) {
       console.error("Error en vincular_credencial:", errorVincular);
       setAvisoVincular(textoErrorRpc(errorVincular).titulo);
@@ -295,6 +302,8 @@ export function PantallaIngreso() {
 
   const abrirVincular = () => {
     manualAbiertoRef.current = true; // el buscador necesita el teclado
+    setElegido(null);
+    setTipoTarjeta("tne");
     setBusqueda("");
     setAlumnos([]);
     setAvisoVincular(null);
@@ -563,7 +572,21 @@ export function PantallaIngreso() {
                     </Button>
                   </form>
                   {avisoVincular && <p className="text-sm font-medium text-red-600">{avisoVincular}</p>}
-                  {alumnos.length > 0 && (
+                  {elegido && <fieldset disabled={vinculando} className="space-y-3 rounded-xl border border-line p-3">
+                    <legend className="font-semibold">{elegido.nombre}</legend>
+                    <p className="text-sm">Credenciales vinculadas</p>
+                    {elegido.tarjetas.length ? <ul>{elegido.tarjetas.map(t =>
+                      <li key={t.uid} className="font-mono text-sm">{t.tipo === "tne" ? "TNE" : "TUI"} · {enmascararUid(t.uid)}</li>)}</ul>
+                      : <p className="text-sm text-tinta-suave">Sin credenciales vinculadas.</p>}
+                    <label className="block text-sm">Tipo de la nueva credencial
+                      <select className="block w-full rounded-lg border border-line p-2" value={tipoTarjeta}
+                        onChange={e => setTipoTarjeta(e.target.value)}>
+                        <option value="tne">TNE</option><option value="credencial_uss">TUI (credencial USS)</option>
+                      </select>
+                    </label>
+                    <Button onClick={() => void vincular(elegido)}>Confirmar vinculación</Button>
+                  </fieldset>}
+                  {!elegido && alumnos.length > 0 && (
                     <ul className="divide-y divide-line rounded-xl border border-line">
                       {alumnos.map((alumno) => (
                         <li key={alumno.id} className="flex items-center justify-between gap-3 p-3">
@@ -576,9 +599,9 @@ export function PantallaIngreso() {
                               </span>
                             </span>
                           </span>
-                          <Button size="sm" onClick={() => vincular(alumno)}>
+                          <Button size="sm" onClick={() => setElegido(alumno)}>
                             <CircleCheck aria-hidden />
-                            Vincular
+                            Elegir
                           </Button>
                         </li>
                       ))}

@@ -180,6 +180,13 @@ begin
   perform pg_temp.ok('R1', 'Alumno inexistente: rechazo', r = '{"ok": false, "motivo": "alumno_no_encontrado"}'::jsonb);
   r := public.vincular_credencial('FB:AA:AA:AA', v_otro);
   perform pg_temp.ok('R1', 'Vincula una credencial libre', r = '{"ok": true, "motivo": null}'::jsonb);
+  perform pg_temp.ok('D17', 'Firma anterior guarda TNE', (select tipo='tne' from public.tarjetas where uid='FB:AA:AA:AA'));
+  r := public.vincular_credencial('FB:AA:AA:BB', v_otro, 'credencial_uss');
+  perform pg_temp.ok('D17', 'El mismo alumno puede vincular una TUI',
+    r->>'ok'='true' and (select tipo='credencial_uss' and alumno_id=v_otro from public.tarjetas where uid='FB:AA:AA:BB'));
+  r := public.vincular_credencial('FB:AA:AA:BB', v_ana, 'tne');
+  perform pg_temp.ok('R1', 'Otra vinculación no cambia dueño ni tipo de la TUI',
+    r->>'motivo'='credencial_de_otro_alumno' and (select tipo='credencial_uss' and alumno_id=v_otro from public.tarjetas where uid='FB:AA:AA:BB'));
   r := public.registrar_ingreso('FB:FF:FF:FF');
   perform pg_temp.ok('R1', 'El profesor puede llamar registrar_ingreso', r->>'motivo' = 'credencial_no_registrada');
 

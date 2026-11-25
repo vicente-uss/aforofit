@@ -81,4 +81,46 @@ end;
 $$;
 revoke all on function public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) from public,anon,authenticated;
 grant execute on function public.registrar_devolucion(uuid,jsonb), public.entregar_tne(uuid) to authenticated;
+
+-- F-27: conserva las llamadas de dos argumentos mediante el valor por defecto.
+drop function if exists public.vincular_credencial(text,uuid);
+create or replace function public.vincular_credencial(p_uid text, p_alumno_id uuid, p_tipo text default 'tne')
+returns jsonb
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_dueno uuid;
+begin
+  if not exists (
+    select 1 from public.perfiles p
+    where p.id = (select auth.uid()) and p.rol in ('profesor', 'admin')
+  ) then
+    return jsonb_build_object('ok', false, 'motivo', 'sin_permiso');
+  end if;
+
+  if p_tipo is null or p_tipo not in ('tne','credencial_uss') then
+    return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
+  end if;
+  if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then
+    return jsonb_build_object('ok', false, 'motivo', 'alumno_no_encontrado');
+  end if;
+
+  -- on conflict cubre dos vinculaciones simultáneas de la misma tarjeta.
+  insert into public.tarjetas (uid, alumno_id, tipo)
+  values (p_uid, p_alumno_id, p_tipo)
+  on conflict (uid) do nothing;
+
+  select t.alumno_id into v_dueno from public.tarjetas t where t.uid = p_uid;
+
+  if v_dueno is distinct from p_alumno_id then
+    return jsonb_build_object('ok', false, 'motivo', 'credencial_de_otro_alumno');
+  end if;
+
+  return jsonb_build_object('ok', true, 'motivo', null);
+end;
+$$;
+revoke all on function public.vincular_credencial(text,uuid,text) from public,anon,authenticated;
+grant execute on function public.vincular_credencial(text,uuid,text) to authenticated;
 commit;
