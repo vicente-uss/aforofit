@@ -14,7 +14,7 @@ El registro canónico de [D01–D17](../AGENTS.md#decisiones-vigentes-d01d17) re
 |---|---|---|
 | D01 | RF09, RF10, RF26, RNF08 | CU02, CU14, CU15 |
 | D02 | RF07, RF08 | CU03 |
-| D03 | RF04, RF25, RF26 | CU01, CU12, CU14 |
+| D03 | ~~RF04, RF25, RF26~~ Reemplazada por D20 | ~~CU01, CU12, CU14~~ |
 | D04 | RF22, RF23, RF24 | CU08, CU09 |
 | D05 | RF20 | CU10 |
 | D06 | RF17 | CU04, CU10 |
@@ -29,6 +29,8 @@ El registro canónico de [D01–D17](../AGENTS.md#decisiones-vigentes-d01d17) re
 | D15 | RF13, RF14, RF15, RF26 | CU05, CU06, CU14 |
 | D16 | RF03, RF22, RF23, RF24 | CU08, CU09 |
 | D17 | RF02, RF03, RNF04 | CU01, CU08, CU11 |
+| D20 | RF04, RF25 | CU01, CU12 |
+| D24 | RF26, RNF08 | CU14 |
 
 ## 2. Requisitos funcionales
 
@@ -39,7 +41,7 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF01 | Permitir que un alumno inicie sesión y ver solo las funciones de su rol | Alta | D13 | ✅ Implementado |
 | RF02 | Vincular una credencial a un único alumno | Alta | R1 | ✅ Implementado |
 | RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | 🟡 Lector implementado; respaldo por ingreso manual, QR en próxima versión |
-| RF04 | Validar que el alumno tenga certificado vigente para el período académico en curso | Alta | P6, D03, R2 | ✅ Implementado |
+| RF04 | Validar que el alumno tenga certificado vigente: dura un año desde su emisión (`certificado_hasta` = emisión + 12 meses) y ya no depende del período académico (D20) | Alta | P6, D20, R2 | ✅ Implementado (sin período desde `014`) |
 | RF05 | Validar que el ingreso ocurra dentro del horario y antes del último ingreso | Alta | R3 | ✅ Implementado |
 | RF06 | Registrar la entrada con fecha y hora | Alta | P1 | ✅ Implementado |
 | RF07 | Registrar la salida cuando el alumno vuelve a pasar su credencial | Alta | P2, D02, R5 | ✅ Implementado |
@@ -60,7 +62,7 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 | Opcional (S1, préstamo básico); si no, próxima versión |
 | RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | Opcional (S1, sin devoluciones parciales); si no, próxima versión |
 | RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ⏭ Próxima versión |
-| RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D03 | 🟡 Regla validada al ingresar; pantalla opcional (S2) |
+| RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D20 | 🟡 Regla validada al ingresar; pantalla opcional (S2) |
 | RF26 | Permitir que el administrador configure capacidad, horario, período académico, progresión, cierre automático y modalidades de rutina | Alta | D01, D03, D07, D15 | 🟡 Parámetros por SQL; pantalla en próxima versión |
 | RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ⏭ Próxima versión |
 | RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 | Sin cambio (prioridad media) |
@@ -81,7 +83,7 @@ Cada uno tiene una medida para poder comprobarlo en las pruebas.
 | RNF05 | Usabilidad | Las vistas del alumno se usan con una mano en el celular | Pantallas desde 360 px de ancho; acciones principales en 2 toques o menos | Alta |
 | RNF06 | Seguridad | Cada rol accede solo a lo suyo | Row Level Security activo en todas las tablas; un alumno no puede leer datos de otro | Alta |
 | RNF07 | Privacidad | No se guardan datos reales ni información médica | Solo datos ficticios; del certificado se guarda solo la vigencia; las medidas corporales solo las ve su dueño | Alta |
-| RNF08 | Configurabilidad | Los parámetros se cambian sin modificar código | Capacidad, horario, período, progresión, cierre automático y modalidades editables desde el panel | Alta |
+| RNF08 | Configurabilidad | Los parámetros se cambian sin modificar código | Capacidad, horario y cierre automático editables desde `/admin/configuracion` (D24); progresión y modalidades, por SQL en esta versión (limitación declarada). El período académico ya no se usa (D20) | Alta |
 | RNF09 | Disponibilidad | El sistema está en línea para la demo | URL pública en Vercel; video de respaldo si falla la red | Alta |
 | RNF10 | Mantenibilidad | El código y la base de datos tienen historial | Cambios por pull request revisado; cada SQL guardado en `supabase/sql/` | Media |
 | RNF11 | Idioma | Toda la interfaz está en español | Revisión de todas las pantallas | Alta |
@@ -189,7 +191,7 @@ Los flujos principales y los casos de apoyo se especifican a continuación. Los 
 | CU07 | Alumno con sesión | Registra medidas y consulta su historial e IMC | Un usuario ajeno carece de acceso al registro |
 | CU10 | Profesor encargado | Cambia el estado de la máquina y las rutinas la muestran con el estado vigente | Si está en mantención, las rutinas muestran advertencia |
 | CU11 | Profesor o administrador ante una credencial sin vínculo | Identifica al alumno y vincula la credencial | Una credencial ya vinculada no se asigna a un segundo alumno |
-| CU12 | Administrador | Registra la habilitación y la vigencia del período académico | Con vigencia vencida, CU01 rechaza el ingreso |
+| CU12 | Administrador | Registra la habilitación y la vigencia del certificado: un año desde su emisión (D20) | Con vigencia vencida, CU01 rechaza el ingreso |
 | CU13 | Administrador | Registra máquinas e implementos y consulta el catálogo | La disponibilidad se usa para validar préstamos |
 | CU14 | Administrador | Guarda parámetros y el sistema aplica la configuración vigente | Una modalidad deshabilitada queda fuera de las opciones del alumno |
 | CU15 | Alumno o profesor, y consulta en pantalla pública | Consulta el aforo, que se actualiza con entradas y salidas | Con el gimnasio lleno se muestra la situación y el turno llamado cuando corresponda |
@@ -208,7 +210,7 @@ CA01–CA22 corresponden al Avance 2 presentado. Los criterios complementarios d
 | CA01 | RF03, RF06 | Un alumno habilitado, dentro del horario y con cupo disponible | Pasa su credencial | Se registra su entrada con fecha y hora y el aforo sube en uno |
 | CA02 | RF02 | Una credencial que no está vinculada a ningún alumno | Se pasa por el lector | El sistema muestra “Credencial no registrada”, ofrece vincularla y no registra la entrada |
 | CA03 | RF02 | Una credencial ya vinculada a otro alumno | Se intenta vincular a un segundo alumno | El sistema rechaza la vinculación |
-| CA04 | RF04 | Un alumno sin certificado vigente para el período en curso | Pasa su credencial | Se rechaza el ingreso con el motivo “Certificado no vigente” |
+| CA04 | RF04 | Un alumno con el certificado vencido (`certificado_hasta` anterior a hoy; vigencia de un año desde la emisión, D20) | Pasa su credencial | Se rechaza el ingreso con el motivo “Certificado no vigente”. Con el certificado vigente entra, aunque la fecha esté fuera del antiguo período académico (D20; `supabase/pruebas/registrar_ingreso.sql`, casos R2) |
 | CA05 | RF05 | Un lunes a las 21:05 | Un alumno habilitado pasa su credencial | Se rechaza el ingreso con el motivo “Fuera del horario de ingreso” |
 | CA06 | RF10 | 20 personas dentro del gimnasio | Un alumno habilitado pasa su credencial | Recibe un número de turno y no se registra su entrada |
 | CA07 | RF10 | El turno 3 es el siguiente y se libera un cupo | La pantalla llama al turno 3 y ese alumno pasa su credencial | Se registra su entrada; si pasa el alumno del turno 4, se le indica que espere |
@@ -239,13 +241,13 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 | CA25 | RF19 | Un administrador y una foto de prueba | Registra una máquina con foto, patrón y ajustes | La ficha conserva y muestra esos datos |
 | CA26 | RF20 | Una máquina disponible que figura en una rutina | El profesor la marca En mantención y luego Disponible | El estado persiste y la advertencia aparece y desaparece según el estado |
 | CA27 | RF21 | Un administrador y un implemento con una cantidad definida | Registra el implemento y consulta el catálogo | La cantidad disponible figura en el catálogo y se usa para validar el stock del préstamo |
-| CA28 | RF25 | Un alumno sin habilitación y un período académico configurado | El administrador registra la habilitación y la vigencia | La habilitación se guarda y se aplica solo cuando el período y la vigencia corresponden |
+| CA28 | RF25 | Un alumno sin habilitación | El administrador registra la habilitación y la fecha de emisión del certificado | La habilitación se guarda y se aplica mientras dure la vigencia de un año desde la emisión (D20) |
 | CA29 | RNF01 | Una credencial vinculada, alumno habilitado y cupo | Se cronometra desde que se acerca la credencial hasta el registro | El ingreso se registra en 3 segundos o menos |
 | CA30 | RNF03 | Computador del gimnasio, Android y iPhone | Se abren las vistas correspondientes en cada navegador | Los flujos web se pueden usar en cada equipo sin instalar la app |
 | CA31 | RF03, RNF04 | Un lector USB seleccionado y un QR válido | Se prueba el escaneo por lector y el respaldo QR | El lector se reconoce como teclado sin instalar drivers y ambas vías identifican al alumno |
 | CA32 | RNF05 | La vista del alumno a 360 px | Se completan las acciones principales definidas para esa vista | La vista es utilizable y las acciones principales requieren hasta dos toques |
 | CA33 | RNF07 | Datos ficticios y una habilitación registrada | Se revisan los formularios, registros y acceso a las medidas | Se usan datos ficticios, del certificado se guarda la vigencia y cada alumno consulta solo sus medidas |
-| CA34 | RF26, RNF08 | El panel administrador y parámetros iniciales | Se modifican capacidad, horario, período, progresión, cierre automático y modalidades | Los cambios se guardan y se aplican desde la configuración |
+| CA34 | RF26, RNF08 | El panel administrador y parámetros iniciales | Se modifican capacidad, horario y cierre automático en `/admin/configuracion` | Los cambios se guardan y se aplican desde la configuración (`supabase/pruebas/configuracion.sql`). **Parcial** (D24): progresión y modalidades quedan por SQL |
 | CA35 | RNF09 | La URL de demo y el plan de contingencia | Se abre el despliegue y se revisa el video de respaldo | La URL es accesible para la demo y el video está disponible si falla la red |
 | CA36 | RNF10 | Un cambio de aplicación y otro de datos | Se revisa su historial | El cambio tiene un pull request revisado y el SQL correspondiente está en el repositorio |
 | CA37 | RNF11 | Un recorrido por las vistas de los roles y la pantalla pública | Se revisan los textos visibles | La interfaz se muestra en español |
