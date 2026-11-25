@@ -140,7 +140,7 @@ Todos los valores numéricos y fechas son **parámetros configurables**, no fijo
 1. **Credencial única**: una credencial pertenece a un solo alumno; si no está registrada, se ofrece vincularla.
 2. **Habilitación**: solo ingresa un alumno con certificado vigente. El certificado dura **un año desde su fecha
    de emisión** (D20, confirmado por el encargado el 24 de noviembre): `certificado_hasta` = emisión + 12 meses.
-   Ya no depende del período académico.
+   Ya no depende del período académico: `registrar_ingreso` dejó de revisarlo en `014` (PR #15).
 3. **Horario**: solo se permite ingresar dentro del horario y antes del último ingreso
    (lunes a viernes hasta 21:00, sábado hasta 13:00; domingo cerrado).
 4. **Capacidad**: si hay 20 personas adentro (configurable), el alumno pasa a la lista de espera con número de turno
@@ -355,6 +355,12 @@ Actualizado: martes 24 de noviembre de 2026.
   `registrar_ingreso.sql` 42, todas OK también en el proyecto real de Supabase (25 nov); Vitest 130; navegador 36 de 36 a 360 y 1280 px
   (`docs/evidencia/profesor/`). Con esto, **B1 a B5 del CR-01 están implementados**. PR #14: `rutinas.sql` ya no depende
   de los datos reales (limpia dentro de la transacción).
+- F-29 y F-26 (PR #16, Codex) y F-32 y F-09 (PR #15, Claude Code), fusionados el 25 de noviembre:
+  `013_turno_nombre.sql` (columna `aforo.turno_llamado_nombre`, que anon lee sin acceso a `alumnos`; `/aforo` y
+  `/profesor/espera` muestran «Turno 1 · Benjamín P.», D22), aviso «Lector en pausa» en `/ingreso` con guía de modo
+  kiosco en el README, `014_vigencia_y_configuracion.sql` (sin rechazo por período, D20; `actualizar_configuracion`
+  solo para admin y sin escritura directa en `configuracion`) y `/admin/configuracion` con capacidad, horario por día
+  y cierre automático (D24, CA34 parcial). Pruebas locales: SQL 10, 27, 42, 62 y 25 OK; Vitest 138 y 144 en cada rama.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -368,27 +374,24 @@ Actualizado: martes 24 de noviembre de 2026.
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
-- [ ] Pedidos del Playback (24 nov): nombre e inicial del apellido junto al turno llamado en `/aforo` (F-29, D22),
-  regla 2 con vigencia de un año
-  (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
-  chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
-  `supabase/sql/010`, PR #10 fusionado). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
+- [ ] Pedido del Playback que queda: aviso «Olvidaste tu TNE» en el perfil del alumno, P2 (F-30). Los demás están hechos
 - [ ] Cargas iniciales de las plantillas: son de ejemplo; declararlas como supuesto o validarlas con el encargado
-- [ ] RNF08 (D24): pantalla mínima en `/admin` para capacidad, horario y cierre automático (F-09), después de F-01 a F-03
+- [ ] Limitación declarada (D24): la progresión (`configuracion.progresion`) y las modalidades de rutina se cambian por
+  SQL, no desde `/admin/configuracion`. CA34 queda parcial
+- [ ] Decidir si `certificado_hasta` de los alumnos ficticios se recalcula como emisión + 12 meses (hoy sigue en el
+  23 de diciembre, vigente para la expo)
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
 - [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
   `/aforo` puede mostrar "Turno N" unos minutos de más
-- [ ] Hallazgo de Pau con el lector (23 nov): si la pestaña o la ventana del kiosco no está activa, el lector escribe en
-  otra parte y la lectura se pierde. Es propio de un lector tipo teclado: el navegador no puede capturar teclas sin el
-  foco. La página ya recupera el foco dentro de sí misma cada 2 s. Medidas: kiosco a pantalla completa (modo kiosco de
-  Chrome) y aviso visible «Lector en pausa: haz clic aquí» cuando la página pierde el foco (F-26 del plan de cierre)
+- [ ] Hallazgo de Pau con el lector (23 nov), ya mitigado con F-26 (PR #16): aviso «Lector en pausa: haz clic aquí» y
+  guía de modo kiosco de Chrome en el README. Falta que Pau lo pruebe con el lector físico
 - [ ] Hallazgo de Pau (23 nov): un alumno puede tener varias tarjetas vinculadas. Es correcto según R1 (una tarjeta
   pertenece a un solo alumno, no al revés) y D17 (TNE y TUI); `tarjetas.tipo` ya distingue `tne` y `credencial_uss`.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13). S1 y S2 solo si queda tiempo después de F-29, F-26,
-  F-32 y F-09 (se decide el viernes 27). CA11 medido el 25 de
+- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16). S1
+  (préstamo básico) y S2 (habilitación) se deciden el viernes 27. CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
