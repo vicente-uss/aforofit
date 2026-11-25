@@ -28,6 +28,13 @@ export const EFECTO_FEEDBACK: Record<ValorFeedback, string> = {
   me_costo: "Baja la carga",
 };
 
+// Pista corta bajo cada botón de feedback (prototipo de Figma Make).
+export const PISTA_FEEDBACK: Record<ValorFeedback, string> = {
+  facil: "Podría con más carga",
+  justo: "La carga fue adecuada",
+  me_costo: "Me costó completar las series",
+};
+
 export const TEXTOS = {
   sinAlumnoTitulo: "Tu cuenta no está ligada a un alumno",
   sinAlumnoDetalle: "Pide al profesor del gimnasio que la vincule. Mientras tanto no podemos mostrar tu rutina.",
@@ -41,12 +48,12 @@ export const TEXTOS = {
   adentroDetalle: "Esta es tu rutina de hoy. Al salir, pasa tu credencial y cuéntanos cómo te fue.",
   fueraTitulo: "Tu rutina del día",
   fueraDetalle: "Cuando pases tu credencial en la entrada, aparecerá aquí sola.",
-  feedbackTitulo: "¿Cómo te fue hoy?",
+  feedbackTitulo: "¿Cómo estuvo tu entrenamiento de hoy?",
   feedbackDetalle: "Con tu respuesta ajustamos las cargas de tu próxima sesión.",
   proximaTitulo: "Tu próxima sesión",
   proximaDetalle: "Así quedaron tus cargas para la próxima vez.",
-  mantencionTitulo: "Máquina en mantención",
-  mantencionDetalle: "Hoy no está disponible. Sáltate este ejercicio o pregunta al profesor por una alternativa.",
+  mantencionTitulo: "Máquina en mantención · no disponible hoy.",
+  mantencionDetalle: "Consulta al profesor encargado antes de realizar este ejercicio.",
   sinConexion: "Sin conexión, reintentando…",
 } as const;
 

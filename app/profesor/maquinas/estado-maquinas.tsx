@@ -1,11 +1,13 @@
 "use client";
 
+import { Dumbbell, Wrench } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Aviso } from "@/components/marca/aviso";
+import { EstadoVacio } from "@/components/marca/estado-vacio";
+import { Insignia } from "@/components/marca/insignia";
+import { EncabezadoPagina, EncabezadoTarjeta, Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  COLOR_ESTADO,
   ETIQUETA_ESTADO,
   estadoOpuesto,
   normalizarMaquinas,
@@ -17,7 +19,7 @@ import {
 import { TEXTOS, textoErrorProfesor, type ErrorProfesor } from "@/lib/profesor/mensajes";
 import { urlFotoMaquina } from "@/lib/rutina/pantalla";
 import { createClient } from "@/lib/supabase/client";
-import { EncabezadoProfesor } from "../encabezado-profesor";
+import { cn } from "@/lib/utils";
 
 // Respaldo: otro profesor puede cambiar un estado desde otro computador.
 const INTERVALO_RESPALDO_MS = 15000;
@@ -76,75 +78,76 @@ export function EstadoMaquinas() {
   }
 
   return (
-    <div className="min-h-svh w-full">
-      <EncabezadoProfesor seccion="Mantención" />
+    <div className="mx-auto max-w-4xl space-y-6">
+      <EncabezadoPagina eyebrow="Profesor encargado" titulo={TEXTOS.maquinasTitulo} subtitulo={TEXTOS.maquinasDetalle} />
 
-      <main className="mx-auto max-w-3xl space-y-4 p-4 md:p-6">
-        <div>
-          <h1 className="text-2xl font-semibold">{TEXTOS.maquinasTitulo}</h1>
-          <p className="text-sm text-muted-foreground">{TEXTOS.maquinasDetalle}</p>
-        </div>
+      {error && (
+        <Aviso tono="red" role="alert" titulo={error.titulo} className="animate-pop-in">
+          {error.detalle}
+        </Aviso>
+      )}
+      {aviso && (
+        <Aviso tono="green" role="status" className="animate-pop-in">
+          <span className="font-semibold">{aviso}</span>
+        </Aviso>
+      )}
 
-        {error && (
-          <div role="alert" className="rounded-lg bg-red-600 p-4 text-white">
-            <p className="font-bold">{error.titulo}</p>
-            <p className="text-sm">{error.detalle}</p>
-          </div>
-        )}
-        {aviso && (
-          <p role="status" className="rounded-lg bg-green-600 p-4 font-semibold text-white">
-            {aviso}
-          </p>
-        )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Máquinas</CardTitle>
-            <CardDescription>{maquinas ? resumenMantencion(maquinas) : "Cargando…"}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {errorLectura && <p className="mb-3 text-sm text-destructive">{TEXTOS.lecturaFallida}</p>}
-            <ul className="divide-y">
-              {(maquinas ?? []).map((m) => {
-                const foto = urlFotoMaquina(URL_SUPABASE, m.foto_url);
-                const confirmando = porConfirmar === m.id;
-                return (
-                  <li key={m.id} className="space-y-3 py-4">
-                    <div className="flex items-center gap-3">
-                      {foto && (
+      <Tarjeta>
+        <EncabezadoTarjeta
+          titulo="Máquinas"
+          subtitulo={maquinas ? resumenMantencion(maquinas) : "Cargando…"}
+          accion={
+            maquinas && (
+              <Insignia tono={maquinas.some((m) => m.estado === "en_mantencion") ? "amber" : "green"} punto>
+                {resumenMantencion(maquinas)}
+              </Insignia>
+            )
+          }
+        />
+        <div className="px-5 pb-3 pt-2">
+          {errorLectura && <p className="mb-3 text-sm font-medium text-red-600">{TEXTOS.lecturaFallida}</p>}
+          {maquinas && maquinas.length === 0 && (
+            <EstadoVacio icono={Wrench} titulo="No hay máquinas registradas">
+              El catálogo se carga por SQL en esta versión.
+            </EstadoVacio>
+          )}
+          <ul className="divide-y divide-line">
+            {(maquinas ?? []).map((m) => {
+              const foto = urlFotoMaquina(URL_SUPABASE, m.foto_url);
+              const confirmando = porConfirmar === m.id;
+              const enMantencion = m.estado === "en_mantencion";
+              return (
+                <li key={m.id} className="space-y-3 py-4">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-slate-100">
+                      {foto ? (
                         // Foto del bucket público «maquinas»; <img> simple, como en /alumno.
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={foto}
                           alt={m.nombre}
                           loading="lazy"
-                          className="h-16 w-16 shrink-0 rounded-md border object-cover"
+                          className={cn("h-full w-full object-cover", enMantencion && "opacity-60 grayscale")}
                         />
+                      ) : (
+                        <span className="flex h-full w-full items-center justify-center text-slate-400">
+                          <Dumbbell className="h-6 w-6" aria-hidden />
+                        </span>
                       )}
-                      <div className="min-w-0 flex-1">
-                        <p className="font-semibold leading-tight">{m.nombre}</p>
-                        {m.cantidad > 1 && <p className="text-sm text-muted-foreground">{m.cantidad} equipos</p>}
-                      </div>
-                      <Badge className={`shrink-0 hover:opacity-100 ${COLOR_ESTADO[m.estado]}`}>
-                        {ETIQUETA_ESTADO[m.estado]}
-                      </Badge>
                     </div>
-
-                    {confirmando ? (
-                      <div className="space-y-2 rounded-md border-2 border-yellow-500 p-3">
-                        <p className="text-sm">{textoConfirmarCambio(m)}</p>
-                        <div className="flex flex-wrap gap-2">
-                          <Button disabled={guardando !== null} onClick={() => cambiar(m)}>
-                            {guardando === m.id ? "Guardando…" : TEXTOS.confirmar}
-                          </Button>
-                          <Button variant="ghost" disabled={guardando !== null} onClick={() => setPorConfirmar(null)}>
-                            {TEXTOS.cancelar}
-                          </Button>
-                        </div>
+                    <div className="min-w-0 flex-1 basis-40">
+                      <p className="font-semibold leading-tight text-navy-900">{m.nombre}</p>
+                      <div className="mt-1 flex flex-wrap items-center gap-2">
+                        <Insignia tono={enMantencion ? "amber" : "green"} punto>
+                          {ETIQUETA_ESTADO[m.estado]}
+                        </Insignia>
+                        {m.cantidad > 1 && <span className="text-xs text-tinta-suave">{m.cantidad} equipos</span>}
                       </div>
-                    ) : (
+                    </div>
+                    {!confirmando && (
                       <Button
-                        variant="outline"
+                        variant="secondary"
+                        size="sm"
                         className="w-full sm:w-auto"
                         disabled={guardando !== null}
                         onClick={() => {
@@ -156,13 +159,33 @@ export function EstadoMaquinas() {
                         {textoBotonCambio(m.estado)}
                       </Button>
                     )}
-                  </li>
-                );
-              })}
-            </ul>
-          </CardContent>
-        </Card>
-      </main>
+                  </div>
+
+                  {confirmando && (
+                    <div className="space-y-3 rounded-xl border border-amber-200 bg-amber-50 p-3 animate-pop-in">
+                      <p className="text-sm text-amber-900">{textoConfirmarCambio(m)}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {/* Pasar a mantención es una advertencia; volver a disponible, una confirmación positiva. */}
+                        <Button
+                          variant={estadoOpuesto(m.estado) === "en_mantencion" ? "warning" : "success"}
+                          size="sm"
+                          disabled={guardando !== null}
+                          onClick={() => cambiar(m)}
+                        >
+                          {guardando === m.id ? "Guardando…" : TEXTOS.confirmar}
+                        </Button>
+                        <Button variant="ghost" size="sm" disabled={guardando !== null} onClick={() => setPorConfirmar(null)}>
+                          {TEXTOS.cancelar}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Tarjeta>
     </div>
   );
 }

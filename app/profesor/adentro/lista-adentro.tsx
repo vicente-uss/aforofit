@@ -1,9 +1,13 @@
 "use client";
 
+import { DoorOpen } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Aviso } from "@/components/marca/aviso";
+import { Avatar } from "@/components/marca/avatar";
+import { EstadoVacio } from "@/components/marca/estado-vacio";
+import { Insignia } from "@/components/marca/insignia";
+import { EncabezadoPagina, EncabezadoTarjeta, Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { esErrorConocido } from "@/lib/rutina/mensajes";
 import { TEXTOS, textoErrorProfesor, type ErrorProfesor } from "@/lib/profesor/mensajes";
 import {
@@ -16,7 +20,6 @@ import {
   type VisitaAbierta,
 } from "@/lib/profesor/visitas";
 import { createClient } from "@/lib/supabase/client";
-import { EncabezadoProfesor } from "../encabezado-profesor";
 
 type Aforo = { ocupacion: number; capacidad: number };
 
@@ -97,81 +100,62 @@ export function ListaAdentro() {
   const ahora = new Date();
 
   return (
-    <div className="min-h-svh w-full">
-      <EncabezadoProfesor seccion="Adentro" />
+    <div className="mx-auto max-w-4xl space-y-6">
+      <EncabezadoPagina eyebrow="Profesor encargado" titulo={TEXTOS.adentroTitulo} subtitulo={TEXTOS.adentroDetalle} />
 
-      <main className="mx-auto max-w-3xl space-y-4 p-4 md:p-6">
-        <div>
-          <h1 className="text-2xl font-semibold">{TEXTOS.adentroTitulo}</h1>
-          <p className="text-sm text-muted-foreground">{TEXTOS.adentroDetalle}</p>
-        </div>
+      <Tarjeta className="flex items-center justify-between p-5">
+        <span className="text-sm font-medium text-tinta-suave">Aforo actual</span>
+        <span className="tnum text-3xl font-bold text-navy-900">
+          {aforo ? `${aforo.ocupacion} / ${aforo.capacidad}` : "—"}
+        </span>
+      </Tarjeta>
 
-        <Card>
-          <CardContent className="flex items-center justify-between p-6">
-            <span className="text-muted-foreground">Aforo actual</span>
-            <span className="text-3xl font-bold tabular-nums">
-              {aforo ? `${aforo.ocupacion} / ${aforo.capacidad}` : "—"}
-            </span>
-          </CardContent>
-        </Card>
+      {error && (
+        <Aviso tono="red" role="alert" titulo={error.titulo} className="animate-pop-in">
+          {error.detalle}
+        </Aviso>
+      )}
+      {aviso && (
+        <Aviso tono="green" role="status" className="animate-pop-in">
+          <span className="font-semibold">{aviso}</span>
+        </Aviso>
+      )}
 
-        {error && (
-          <div role="alert" className="rounded-lg bg-red-600 p-4 text-white">
-            <p className="font-bold">{error.titulo}</p>
-            <p className="text-sm">{error.detalle}</p>
-          </div>
-        )}
-        {aviso && (
-          <p role="status" className="rounded-lg bg-green-600 p-4 font-semibold text-white">
-            {aviso}
-          </p>
-        )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Visitas abiertas</CardTitle>
-            <CardDescription>
-              Se cierran solas a las {horasCierre} h si nadie marca la salida (regla 6).
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {errorLectura && <p className="mb-3 text-sm text-destructive">{TEXTOS.lecturaFallida}</p>}
-            {visitas && visitas.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{TEXTOS.adentroVacio}</p>
-            ) : (
-              <ul className="divide-y">
-                {(visitas ?? []).map((v) => {
-                  const confirmando = porConfirmar === v.id;
-                  const vencida = superaCierreAutomatico(v.entrada, ahora, horasCierre);
-                  return (
-                    <li key={v.id} className="space-y-3 py-4">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <div className="min-w-0">
-                          <p className="font-semibold">{v.nombre}</p>
-                          <p className="text-sm text-muted-foreground tabular-nums">
-                            Entró a las {horaEntrada(v.entrada)} · {tiempoAdentro(v.entrada, ahora)}
-                          </p>
-                        </div>
-                        {vencida && (
-                          <Badge className="bg-yellow-400 text-black hover:bg-yellow-400">Más de {horasCierre} h</Badge>
-                        )}
+      <Tarjeta>
+        <EncabezadoTarjeta
+          titulo="Visitas abiertas"
+          subtitulo={`Se cierran solas a las ${horasCierre} h si nadie marca la salida (regla 6).`}
+        />
+        <div className="px-5 pb-3 pt-2">
+          {errorLectura && <p className="mb-3 text-sm font-medium text-red-600">{TEXTOS.lecturaFallida}</p>}
+          {visitas && visitas.length === 0 ? (
+            <EstadoVacio icono={DoorOpen} titulo={TEXTOS.adentroVacio}>
+              Las entradas registradas en el kiosco aparecen aquí.
+            </EstadoVacio>
+          ) : (
+            <ul className="divide-y divide-line">
+              {(visitas ?? []).map((v) => {
+                const confirmando = porConfirmar === v.id;
+                const vencida = superaCierreAutomatico(v.entrada, ahora, horasCierre);
+                return (
+                  <li key={v.id} className="space-y-3 py-4">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <Avatar nombre={v.nombre} />
+                      <div className="min-w-0 flex-1 basis-40">
+                        <p className="truncate font-semibold text-navy-900">{v.nombre}</p>
+                        <p className="tnum text-sm text-tinta-suave">
+                          Entró a las {horaEntrada(v.entrada)} · {tiempoAdentro(v.entrada, ahora)}
+                        </p>
                       </div>
-
-                      {confirmando ? (
-                        <div className="space-y-2 rounded-md border-2 border-yellow-500 p-3">
-                          <p className="font-medium">{textoConfirmarCierre(v.nombre)}</p>
-                          <div className="flex flex-wrap gap-2">
-                            <Button disabled={cerrando !== null} onClick={() => cerrar(v)}>
-                              {cerrando === v.id ? "Cerrando…" : TEXTOS.confirmar}
-                            </Button>
-                            <Button variant="ghost" disabled={cerrando !== null} onClick={() => setPorConfirmar(null)}>
-                              {TEXTOS.cancelar}
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
+                      {vencida && (
+                        <Insignia tono="amber" punto>
+                          Más de {horasCierre} h
+                        </Insignia>
+                      )}
+                      {!confirmando && (
                         <Button
-                          variant="outline"
+                          variant="secondary"
+                          size="sm"
                           className="w-full sm:w-auto"
                           disabled={cerrando !== null}
                           onClick={() => {
@@ -183,14 +167,28 @@ export function ListaAdentro() {
                           {TEXTOS.cerrarVisita}
                         </Button>
                       )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-      </main>
+                    </div>
+
+                    {confirmando && (
+                      <div className="space-y-3 rounded-xl border border-red-200 bg-red-50 p-3 animate-pop-in">
+                        <p className="font-medium text-red-900">{textoConfirmarCierre(v.nombre)}</p>
+                        <div className="flex flex-wrap gap-2">
+                          <Button variant="danger" size="sm" disabled={cerrando !== null} onClick={() => cerrar(v)}>
+                            {cerrando === v.id ? "Cerrando…" : TEXTOS.confirmar}
+                          </Button>
+                          <Button variant="ghost" size="sm" disabled={cerrando !== null} onClick={() => setPorConfirmar(null)}>
+                            {TEXTOS.cancelar}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      </Tarjeta>
     </div>
   );
 }

@@ -1,8 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { Package, RefreshCw, UserRound } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BuscadorAlumno } from "@/components/buscador-alumno";
+import { Aviso } from "@/components/marca/aviso";
+import { Avatar } from "@/components/marca/avatar";
+import { EstadoVacio } from "@/components/marca/estado-vacio";
+import { Insignia } from "@/components/marca/insignia";
+import { EncabezadoPagina, EncabezadoTarjeta, Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { armarItems, type Alumno, type Stock } from "@/lib/prestamos/formulario";
@@ -54,39 +59,64 @@ export function Prestamos() {
     setGuardando(false);
   }
 
-  return <main className="mx-auto max-w-xl space-y-5 p-4">
-    <Link href="/profesor" className="underline">{m.profesor}</Link>
-    <h1 className="text-2xl font-bold">{m.prestamos}</h1>
-    <fieldset disabled={guardando} className="min-w-0 space-y-4">
-      <BuscadorAlumno lector elegir={a => { setAlumno(a); setCantidades({}); setAviso(""); }} />
-      {alumno && <p className="font-semibold">{m.seleccion} · {alumno.nombre}</p>}
-      {estado === "listo" && <>
-        {pendiente && <p role="status">{mensajeError(pendiente.devuelto_en ? "tne_pendiente" : "prestamo_abierto")}</p>}
-        <fieldset disabled={!alumno || !!pendiente} className="min-w-0 space-y-3 rounded-lg border p-3">
-          <legend className="font-semibold">{m.implementos}</legend>
-          {stock.map(i => <label key={i.id} className="flex items-center justify-between gap-3">
-            <span>{i.nombre}<small className="block">{m.disponible}: {i.disponible}</small></span>
-            <Input aria-label={`${m.cantidad} · ${i.nombre}`} className="w-20" type="number" min="0"
-              max={i.disponible} step="1" disabled={!i.disponible} placeholder="0" value={cantidades[i.id] ?? ""}
-              onChange={e => setCantidades({ ...cantidades, [i.id]: e.target.value })} />
-          </label>)}
-          <p>{m.garantia}</p>
-          <Button disabled={!items} onClick={() => void registrar()}>{m.prestar}</Button>
+  // Solo presentación: el aviso de éxito va en verde y los errores en rojo.
+  const avisoExito = aviso === m.prestado || aviso === m.devuelto;
+
+  return <div className="mx-auto max-w-5xl space-y-6">
+    <EncabezadoPagina eyebrow="Profesor encargado" titulo={m.prestamos} subtitulo={m.garantia} />
+    {aviso && <Aviso tono={avisoExito ? "green" : "red"} role="status" className="animate-pop-in">
+      <span className="font-semibold">{aviso}</span>
+    </Aviso>}
+    <div className="grid gap-6 lg:grid-cols-2">
+      <Tarjeta>
+        <EncabezadoTarjeta titulo="Nuevo préstamo" subtitulo={m.lector} />
+        <fieldset disabled={guardando} className="min-w-0 space-y-4 px-5 pb-5 pt-4">
+          <BuscadorAlumno lector elegir={a => { setAlumno(a); setCantidades({}); setAviso(""); }} />
+          {alumno && <div className="flex items-center gap-3 rounded-xl border border-line bg-slate-50 px-4 py-3">
+            <Avatar nombre={alumno.nombre} />
+            <div className="min-w-0"><p className="text-xs text-tinta-suave">{m.seleccion}</p>
+              <p className="truncate font-semibold text-navy-900">{alumno.nombre}</p></div>
+          </div>}
+          {estado === "listo" && <>
+            {pendiente && <Aviso tono="amber" role="status">{mensajeError(pendiente.devuelto_en ? "tne_pendiente" : "prestamo_abierto")}</Aviso>}
+            <fieldset disabled={!alumno || !!pendiente} className="min-w-0 space-y-3 rounded-xl border border-line p-4 disabled:opacity-60">
+              <legend className="px-1 text-[13px] font-semibold text-navy-900">{m.implementos}</legend>
+              {stock.map(i => <label key={i.id} className="flex items-center justify-between gap-3">
+                <span className="min-w-0"><span className="block text-sm font-medium text-navy-900">{i.nombre}</span>
+                  <small className="tnum block text-xs text-tinta-suave">{m.disponible}: {i.disponible}</small></span>
+                <Input aria-label={`${m.cantidad} · ${i.nombre}`} className="tnum w-20 text-center" type="number" min="0"
+                  max={i.disponible} step="1" disabled={!i.disponible} placeholder="0" value={cantidades[i.id] ?? ""}
+                  onChange={e => setCantidades({ ...cantidades, [i.id]: e.target.value })} />
+              </label>)}
+              <Button className="w-full" disabled={!items} onClick={() => void registrar()}>{m.prestar}</Button>
+            </fieldset>
+          </>}
+          {!alumno && <EstadoVacio icono={UserRound} titulo="Busca al alumno" className="py-6">
+            Pasa su TNE por el lector o búscalo por nombre.
+          </EstadoVacio>}
         </fieldset>
-      </>}
-    </fieldset>
-    <p role="status">{aviso}</p>
-    <section className="space-y-3">
-      <h2 className="text-xl font-semibold">{m.abiertos}</h2>
-      <Button variant="outline" disabled={guardando || estado === "cargando"} onClick={() => void cargar()}>{m.cargar}</Button>
-      {estado !== "listo" ? <p role="status">{estado === "error" ? m.fallo : m.cargando}</p>
-        : pendientes.length === 0 ? <p>{m.ninguno}</p> : <ul className="space-y-3">{pendientes.map(p =>
-          <li className="space-y-2 rounded-lg border p-3" key={p.id}>
-            <strong>{p.alumno}</strong><p>{p.implementos}</p>
-            <time dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
-            <div>{p.devuelto_en ? mensajeError("tne_pendiente")
-              : <Button disabled={guardando} onClick={() => void registrar(p.id)}>{m.devolver}</Button>}</div>
-          </li>)}</ul>}
-    </section>
-  </main>;
+      </Tarjeta>
+      <Tarjeta>
+        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} abiertos` : undefined}
+          accion={<Button variant="secondary" size="sm" disabled={guardando || estado === "cargando"} onClick={() => void cargar()}>
+            <RefreshCw aria-hidden />{m.cargar}</Button>} />
+        <div className="px-5 pb-5 pt-3">
+          {estado !== "listo" ? <p role="status" className={estado === "error" ? "text-sm font-medium text-red-600" : "text-sm text-tinta-suave"}>
+            {estado === "error" ? m.fallo : m.cargando}</p>
+            : pendientes.length === 0 ? <EstadoVacio icono={Package} titulo={m.ninguno} />
+            : <ul className="space-y-3">{pendientes.map(p =>
+              <li className="space-y-2 rounded-xl border border-line p-4" key={p.id}>
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <strong className="font-semibold text-navy-900">{p.alumno}</strong>
+                  {p.devuelto_en ? <Insignia tono="amber" punto>TNE sin retirar</Insignia> : <Insignia tono="blue" punto>Prestado</Insignia>}
+                </div>
+                <p className="text-sm text-slate-700">{p.implementos}</p>
+                <time className="tnum block text-xs text-tinta-suave" dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
+                <div>{p.devuelto_en ? <p className="text-sm text-amber-800">{mensajeError("tne_pendiente")}</p>
+                  : <Button variant="success" size="sm" disabled={guardando} onClick={() => void registrar(p.id)}>{m.devolver}</Button>}</div>
+              </li>)}</ul>}
+        </div>
+      </Tarjeta>
+    </div>
+  </div>;
 }
