@@ -69,3 +69,19 @@ CA33, CA34 y CA38 a CA43) se prueban en la ronda 2, según el [CR-01](cr-01-line
 
 **Riesgo residual:** el flujo de ingreso está probado en sus reglas y con el lector real; quedan sin medir CA30 (tres
 tipos de equipo) y la repetición de CA29 en la red de la universidad.
+
+## Ronda 2 · 24 y 25 de noviembre de 2026 (entrega final, en curso)
+
+Criterios de la rutina del CR-01 (B1 a B4). Pruebas SQL ejecutadas en el proyecto real de Supabase el 24 de noviembre
+(`rutinas.sql` 62 de 62 OK y `registrar_ingreso.sql` 42 de 42 OK); Vitest 107 OK con el PR #12.
+
+| CA | Qué se espera | Nivel | Cómo se probó | Resultado | Evidencia |
+|---|---|---|---|---|---|
+| CA11 | La rutina aparece en el celular en 2 s o menos al entrar | Sistema | Punta a punta en la vista previa del PR #12 contra Supabase real: `alumno.demo` en el celular, ingreso manual de `04:A3:7F:2B` en `/ingreso` (25 nov) | ✅ cerca de 1 s (cronometrado a mano) | Prueba del equipo; PR #12 |
+| CA12 | Objetivo y nivel generan la plantilla correcta, solo con máquinas registradas | Integración | 6 casos SQL (D12, RF12, CA12) | ✅ | `rutinas.sql` |
+| CA13 | Máquina en mantención marcada en la rutina | Integración y sistema | 4 casos SQL; aviso visto en `/alumno` a 360 px | ✅ | `rutinas.sql`; `docs/evidencia/rutina/` |
+| CA14 | Fácil, justo y me costó ajustan la carga (40 → 42,5 / 40 / 37,5), con D25 | Integración, unitaria y sistema | 20 casos SQL, 14 de Vitest; «Me costó» en la prueba de punta a punta | ✅ | `rutinas.sql`; `progresion.test.ts` |
+| CA24 | Objetivo y nivel quedan guardados | Integración y sistema | 2 casos SQL; elección en `/alumno` | ✅ | `rutinas.sql`; captura 1 de `docs/evidencia/rutina/` |
+
+Pendientes de la ronda 2: CA26 y CA13 desde el panel del profesor (PR #13), CA34 (configuración, D24), CA30 (tres
+tipos de equipo) y CA29 en la red de la universidad.

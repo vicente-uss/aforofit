@@ -347,7 +347,8 @@ Actualizado: martes 24 de noviembre de 2026.
 - F-02, pantallas de la rutina en `/alumno` (PR #12, fusionado el 25 de noviembre): objetivo y nivel (B1), rutina del
   día con fotos y aviso de mantención (B3), entrada y salida en tiempo real con respaldo de 15 s (D13) y feedback con
   «Tu próxima sesión» (B4). 107 pruebas en Vitest, verificación a 360 px con 26 de 26 OK (`docs/evidencia/rutina/`) y
-  prueba de punta a punta contra Supabase real con `alumno.demo` e ingreso manual, correcta según el equipo (25 nov).
+  prueba de punta a punta contra Supabase real con `alumno.demo` e ingreso manual, correcta según el equipo (25 nov);
+  la rutina apareció en el celular en cerca de 1 s (CA11).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -381,8 +382,8 @@ Actualizado: martes 24 de noviembre de 2026.
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Entrega final: B1 a B4 implementados (PR #11 y #12). Falta B5, el cambio de estado de máquina desde `/profesor`
-  (F-03), antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27. Registrar el tiempo
-  medido de CA11 (rutina en el celular en 2 s o menos) y dejar la base limpia antes de la expo (F-07)
+  (F-03), antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27. CA11 medido el 25 de
+  noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
