@@ -83,5 +83,9 @@ Criterios de la rutina del CR-01 (B1 a B4). Pruebas SQL ejecutadas en el proyect
 | CA14 | Fácil, justo y me costó ajustan la carga (40 → 42,5 / 40 / 37,5), con D25 | Integración, unitaria y sistema | 20 casos SQL, 14 de Vitest; «Me costó» en la prueba de punta a punta | ✅ | `rutinas.sql`; `progresion.test.ts` |
 | CA24 | Objetivo y nivel quedan guardados | Integración y sistema | 2 casos SQL; elección en `/alumno` | ✅ | `rutinas.sql`; captura 1 de `docs/evidencia/rutina/` |
 
-Pendientes de la ronda 2: CA26 y CA13 desde el panel del profesor (PR #13), CA34 (configuración, D24), CA30 (tres
+Con el PR #13 (25 nov), en Supabase real: `profesor.sql` 25 de 25 OK, `rutinas.sql` 62 de 62 OK y
+`registrar_ingreso.sql` 42 de 42 OK. Cubren CA26 (estado de máquina desde el profesor, reflejado en la rutina) y D21
+(cierre manual de visita, sin feedback).
+
+Pendientes de la ronda 2: CA34 (configuración, D24), CA30 (tres
 tipos de equipo) y CA29 en la red de la universidad.

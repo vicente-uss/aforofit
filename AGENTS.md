@@ -352,7 +352,7 @@ Actualizado: martes 24 de noviembre de 2026.
 - F-03 (B5) y F-28 (D21), PR #13 fusionado el 25 de noviembre: `supabase/sql/012_mantencion_y_cierre_manual.sql`
   con `cambiar_estado_maquina` y `cerrar_visita` (columna `visitas.cerrada_por`; un cierre manual no pide feedback),
   y las pantallas `/profesor/maquinas` y `/profesor/adentro`. Pruebas: `profesor.sql` 25, `rutinas.sql` 62 y
-  `registrar_ingreso.sql` 42 en el PostgreSQL local; Vitest 130; navegador 36 de 36 a 360 y 1280 px
+  `registrar_ingreso.sql` 42, todas OK también en el proyecto real de Supabase (25 nov); Vitest 130; navegador 36 de 36 a 360 y 1280 px
   (`docs/evidencia/profesor/`). Con esto, **B1 a B5 del CR-01 están implementados**. PR #14: `rutinas.sql` ya no depende
   de los datos reales (limpia dentro de la transacción).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
