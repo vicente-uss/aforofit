@@ -254,7 +254,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 | Mar 24 nov | Avance 3 ✅ | Aprobado con nota máxima (7,0). Presentación en `docs/entregas/avances/` |
 | **Jue 26 nov** | **Afiche definitivo** | Archivo cerrado: formato A0, con el nombre del profesor; solo funcionalidades implementadas o marcadas como futuras. Además, 20 trípticos a color, impresos en la facultad |
 | Lun 30 nov | Congelamiento | Desde aquí solo correcciones |
-| 1–3 dic | Entrega final y expo (70 % de la nota) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche y 20 trípticos, defensa de todos |
+| **Jue 3 dic** | Entrega final y expo (70 % de la nota; fecha confirmada el 25 de noviembre) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche y 20 trípticos, defensa de todos |
 
 ## 10. Estado actual
 
