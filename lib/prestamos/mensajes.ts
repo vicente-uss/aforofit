@@ -1,0 +1,28 @@
+export const m = {
+  profesor: "Volver al panel del profesor", admin: "Volver al panel de administración",
+  prestamos: "Préstamos de implementos", habilitacion: "Habilitación de alumnos",
+  nombre: "Buscar por nombre", buscar: "Buscar", lector: "Pasar la TNE por el lector",
+  sinResultados: "No se encontraron alumnos.", sinTarjeta: "La credencial no está vinculada.",
+  fallo: "No se pudo completar la operación. Intenta nuevamente.",
+  implementos: "Implementos y cantidades", disponible: "Disponibles", cantidad: "Cantidad",
+  garantia: "Recibe la TNE como garantía antes de confirmar.", prestar: "Confirmar préstamo",
+  abiertos: "Préstamos pendientes", devolver: "Registrar devolución",
+  confirmar: "¿Recibiste todos los implementos y entregaste la TNE al alumno?",
+  prestado: "Préstamo registrado.", devuelto: "Devolución completa registrada.",
+  ninguno: "No hay préstamos pendientes.", cargar: "Actualizar lista y stock",
+  emision: "Fecha de emisión", guardar: "Registrar habilitación", guardado: "Vigencia actualizada.",
+  vigente: "Vigente hasta", vencido: "Vencido el", sinFecha: "Sin certificado registrado.",
+  seleccion: "Alumno seleccionado", cargando: "Cargando…",
+};
+const errores: Record<string, string> = {
+  sin_permiso: "Tu rol no permite realizar esta operación.",
+  alumno_no_encontrado: "El alumno ya no está disponible.",
+  prestamo_abierto: "El alumno tiene implementos pendientes de devolución.",
+  tne_pendiente: "El alumno tiene una TNE de garantía sin retirar.",
+  stock_insuficiente: "El stock disponible es insuficiente. Revisa las cantidades.",
+  items_invalidos: "Selecciona uno o más implementos con cantidades enteras disponibles.",
+  implemento_no_encontrado: "El implemento ya no está disponible.",
+  prestamo_cerrado: "El préstamo ya fue devuelto.", prestamo_no_encontrado: "El préstamo no existe.",
+  emision_invalida: "Ingresa una fecha de emisión igual o anterior a hoy.",
+};
+export function mensajeError(codigo: string) { return errores[codigo] ?? m.fallo; }
