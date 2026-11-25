@@ -87,5 +87,10 @@ Con el PR #13 (25 nov), en Supabase real: `profesor.sql` 25 de 25 OK, `rutinas.s
 `registrar_ingreso.sql` 42 de 42 OK. Cubren CA26 (estado de máquina desde el profesor, reflejado en la rutina) y D21
 (cierre manual de visita, sin feedback).
 
+Con los PR #15 y #16 (25 nov), en Supabase real: `turno_nombre.sql` 10, `configuracion.sql` 27,
+`registrar_ingreso.sql` 42 (con los dos casos nuevos de D20), `rutinas.sql` 62 y `profesor.sql` 25, todas OK: **166 casos
+SQL**. Vitest en `main`: **152 de 152 OK**. Cubren D20 (sin rechazo por período), D22 (nombre recortado en `/aforo`,
+anon sin acceso a `alumnos`), D24 y CA34 parcial (configuración solo por admin).
+
 Pendientes de la ronda 2: CA34 (configuración, D24), CA30 (tres
 tipos de equipo) y CA29 en la red de la universidad.

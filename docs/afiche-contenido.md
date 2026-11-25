@@ -117,18 +117,18 @@ Cinco cajas unidas por flechas, que muestran a la vez el flujo y las piezas del 
 
 ## 4. Qué funciones se pueden mencionar
 
-| Función | Cómo aparece en el afiche | Estado al 23 nov (CR-01 aprobado) | Verificar el 26 nov |
+| Función | Cómo aparece en el afiche | Estado al 25 nov | Verificar el 26 nov |
 |---|---|---|---|
 | Ingreso y salida con TNE o TUI | Implementado | En producción | ☐ |
 | Validación de certificado, horario y cupo | Implementado | En producción | ☐ |
 | Lista de espera con turno | Implementado | En producción | ☐ |
 | Aforo en vivo en pantalla pública | Implementado | En producción | ☐ |
 | Login por rol (alumno, profesor y admin) | Implementado | En producción | ☐ |
-| Catálogo de máquinas e implementos | Implementado solo si hay pantalla | Solo en la base de datos | ☐ |
-| Rutina en el celular al pasar la credencial | "Próximamente" si no está | Se construye (línea base, B1 a B3) | ☐ |
-| Feedback al salir y progresión de cargas | "Próximamente" si no está | Se construye (línea base, B4) | ☐ |
-| Estado de máquinas y aviso de mantención en la rutina | "Próximamente" si no está | Se construye (línea base, B3 y B5) | ☐ |
-| Préstamo de implementos con la TNE | "Próximamente" si no está | Opcional (S1, básico); si no, próxima versión | ☐ |
+| Catálogo de máquinas e implementos | Implementado solo si hay pantalla | Máquinas visibles en `/profesor/maquinas` y en la rutina; implementos solo en la base | ☐ |
+| Rutina en el celular al pasar la credencial | Implementado | En producción (PR #11 y #12; llega en cerca de 1 s) | ☐ |
+| Feedback al salir y progresión de cargas | Implementado | En producción (PR #11 y #12, con D25) | ☐ |
+| Estado de máquinas y aviso de mantención en la rutina | Implementado | En producción (PR #13) | ☐ |
+| Préstamo de implementos con la TNE | "Próximamente" (así está en el afiche) | Opcional (S1); se decide el viernes 27. Si se construye, el afiche ya está cerrado: se menciona en la defensa | ☐ |
 | Registro corporal privado | Solo como "Próximamente" | Próxima versión (CR-01) | — |
 | Reparto del orden de ejercicios (experimental) | Solo como "Próximamente" | Prioridad media | — |
 
@@ -144,6 +144,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 | Mar 24 ✅ | Foto del lector incorporada (`docs/evidencia/lector/lector-usb-2026-11-24.jpg`) y cifra «115 pruebas aprobadas y 1 parcial» | Vicente |
 | Mar 24 ✅ | Borrador mostrado en el Avance 3 (aprobado con 7,0). Observaciones del profesor: formato A0 y su nombre en el afiche | Bastián |
 | Mié 25 | Ajustes y revisión del grupo: textos, cifras y la tabla de la sección 4 | Todos |
+| Mié 25 ✅ | Versión 4 del canvas: rutina, feedback y estado de máquinas como implementados; cifra «318 pruebas automáticas aprobadas» (166 SQL y 152 Vitest); conclusión con la rutina en cerca de 1 s y «Próximamente: préstamos, registro corporal y rutinas del profesor» | Claude |
 | Jue 26 | Nombre del docente agregado el 24 nov («Docente: Rodrigo Correa Rojas», en el encabezado); exportar el PDF en A0 y cerrar el archivo | Bastián y Vicente |
 | Vie 27 a lun 30 | Imprimir en la facultad el afiche en A0 y los 20 trípticos a color, y confirmar la fecha de retiro | Bastián |
 | 1 a 3 dic | Retirar el afiche impreso e instalarlo en el lugar de la exposición antes de la defensa, según las condiciones de montaje que informe la coordinación | Bastián y Pau |

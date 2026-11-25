@@ -258,7 +258,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-Actualizado: martes 24 de noviembre de 2026.
+Actualizado: miércoles 25 de noviembre de 2026.
 
 **Hecho**
 - Avance 1 aprobado con nota máxima (7,0).
@@ -360,7 +360,11 @@ Actualizado: martes 24 de noviembre de 2026.
   `/profesor/espera` muestran «Turno 1 · Benjamín P.», D22), aviso «Lector en pausa» en `/ingreso` con guía de modo
   kiosco en el README, `014_vigencia_y_configuracion.sql` (sin rechazo por período, D20; `actualizar_configuracion`
   solo para admin y sin escritura directa en `configuracion`) y `/admin/configuracion` con capacidad, horario por día
-  y cierre automático (D24, CA34 parcial). Pruebas locales: SQL 10, 27, 42, 62 y 25 OK; Vitest 138 y 144 en cada rama.
+  y cierre automático (D24, CA34 parcial). Pruebas SQL en el proyecto real de Supabase (25 nov): `turno_nombre.sql`
+  10, `configuracion.sql` 27, `registrar_ingreso.sql` 42, `rutinas.sql` 62 y `profesor.sql` 25, todas OK (166 casos).
+  Vitest en `main` con todo fusionado: 152 de 152 OK.
+- Afiche, versión 4 del canvas (25 nov): rutina, feedback y estado de máquinas como implementados, «318 pruebas
+  automáticas aprobadas» y conclusión actualizada (`docs/afiche-contenido.md`). Falta revisarlo y exportar el PDF en A0.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -394,7 +398,8 @@ Actualizado: martes 24 de noviembre de 2026.
   (préstamo básico) y S2 (habilitación) se deciden el viernes 27. CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
-  lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
+  lector, el nombre del docente (Rodrigo Correa Rojas) y la versión 4 con la rutina implementada; falta revisarlo en
+  equipo y exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
   había reemplazado por el afiche). Falta diseñarlos a partir del contenido del afiche.
 
