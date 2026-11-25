@@ -2,6 +2,7 @@
 
 import {
   ExternalLink,
+  History,
   LayoutDashboard,
   ListOrdered,
   Menu,
@@ -37,6 +38,7 @@ const MENU: Record<"profesor" | "admin", { titulo: string; items: Item[] }> = {
       { href: "/profesor/adentro", etiqueta: "Quiénes están adentro", icono: Users },
       { href: "/profesor/prestamos", etiqueta: "Préstamos", icono: Package },
       { href: "/profesor/maquinas", etiqueta: "Mantención", icono: Wrench },
+      { href: "/profesor/historial", etiqueta: "Historial", icono: History },
     ],
   },
   admin: {
