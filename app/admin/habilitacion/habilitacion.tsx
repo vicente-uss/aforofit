@@ -1,8 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { BuscadorAlumno } from "@/components/buscador-alumno";
+import { Aviso } from "@/components/marca/aviso";
+import { Avatar } from "@/components/marca/avatar";
+import { EstadoVacio } from "@/components/marca/estado-vacio";
+import { Insignia } from "@/components/marca/insignia";
+import { EncabezadoPagina, EncabezadoTarjeta, Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { fechaChilena, hoyEnChile, vigencia, type Alumno } from "@/lib/prestamos/formulario";
@@ -25,20 +30,35 @@ export function Habilitacion() {
     setGuardando(false);
   }
 
-  return <main className="mx-auto max-w-lg space-y-5 p-4">
-    <Link href="/admin" className="underline">{m.admin}</Link>
-    <h1 className="text-2xl font-bold">{m.habilitacion}</h1>
-    <fieldset disabled={guardando} className="min-w-0 space-y-5">
-      <BuscadorAlumno elegir={a => { elegir(a); setEmision(""); setAviso(""); }} />
-      {alumno && <form className="space-y-4 rounded-lg border p-4" onSubmit={e => { e.preventDefault(); void guardar(); }}>
-        <h2 className="text-lg font-semibold">{alumno.nombre}</h2>
-        <p>{m[vigencia(alumno.certificado_hasta, hoy)]} {alumno.certificado_hasta && fechaChilena(alumno.certificado_hasta)}</p>
-        <label className="block">{m.emision}
-          <Input type="date" required max={hoy} value={emision} onChange={e => setEmision(e.target.value)} />
-        </label>
-        <Button disabled={!emision || emision > hoy}>{m.guardar}</Button>
-      </form>}
-    </fieldset>
-    <p role="status">{aviso}</p>
-  </main>;
+  // Solo presentación: tono de la insignia según la vigencia que ya calcula vigencia().
+  const estadoVigencia = alumno ? vigencia(alumno.certificado_hasta, hoy) : null;
+
+  return <div className="mx-auto max-w-3xl space-y-6">
+    <EncabezadoPagina eyebrow="Administración" titulo={m.habilitacion}
+      subtitulo="El certificado dura un año desde su fecha de emisión (D20). Solo se registra la vigencia, nunca datos médicos." />
+    {aviso && <Aviso tono={aviso === m.guardado ? "green" : "red"} role="status" className="animate-pop-in">
+      <span className="font-semibold">{aviso}</span>
+    </Aviso>}
+    <Tarjeta>
+      <EncabezadoTarjeta titulo="Buscar alumno" subtitulo="Por nombre." />
+      <fieldset disabled={guardando} className="min-w-0 space-y-5 px-5 pb-5 pt-4">
+        <BuscadorAlumno elegir={a => { elegir(a); setEmision(""); setAviso(""); }} />
+        {alumno ? <form className="space-y-4 rounded-xl border border-line p-4 animate-pop-in" onSubmit={e => { e.preventDefault(); void guardar(); }}>
+          <div className="flex flex-wrap items-center gap-3">
+            <Avatar nombre={alumno.nombre} />
+            <h2 className="min-w-0 flex-1 truncate text-[15px] font-semibold text-navy-900">{alumno.nombre}</h2>
+            {estadoVigencia && <Insignia tono={estadoVigencia === "vigente" ? "green" : estadoVigencia === "vencido" ? "red" : "neutral"} punto>
+              {m[estadoVigencia]} {alumno.certificado_hasta && fechaChilena(alumno.certificado_hasta)}
+            </Insignia>}
+          </div>
+          <label className="block space-y-1.5"><span className="text-[13px] font-semibold text-navy-900">{m.emision}</span>
+            <Input type="date" required max={hoy} value={emision} onChange={e => setEmision(e.target.value)} className="tnum" />
+          </label>
+          <Button disabled={!emision || emision > hoy}>{m.guardar}</Button>
+        </form> : <EstadoVacio icono={ShieldCheck} titulo="Elige un alumno" className="py-6">
+          Busca por nombre para ver y registrar la vigencia de su certificado.
+        </EstadoVacio>}
+      </fieldset>
+    </Tarjeta>
+  </div>;
 }

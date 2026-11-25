@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Aviso } from "@/components/marca/aviso";
+import { EncabezadoPagina } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,9 +24,7 @@ import {
 } from "@/lib/admin/configuracion";
 import { createClient } from "@/lib/supabase/client";
 
-type Aviso = { tono: "exito" | "error"; titulo: string; detalle: string };
-
-const ESTILO_AVISO = { exito: "bg-green-600 text-white", error: "bg-red-600 text-white" } as const;
+type AvisoFormulario = { tono: "exito" | "error"; titulo: string; detalle: string };
 
 /**
  * F-09 (D24, RNF08): el admin edita capacidad, horario por día y horas del cierre automático.
@@ -40,7 +38,7 @@ export function FormularioConfiguracion() {
   const [errorLectura, setErrorLectura] = useState(false);
   const [errores, setErrores] = useState<Errores>({});
   const [guardando, setGuardando] = useState(false);
-  const [aviso, setAviso] = useState<Aviso | null>(null);
+  const [aviso, setAviso] = useState<AvisoFormulario | null>(null);
 
   const leer = useCallback(async () => {
     const { data, error } = await supabaseRef.current
@@ -101,33 +99,27 @@ export function FormularioConfiguracion() {
   }
 
   return (
-    <div className="min-h-svh w-full">
-      <header className="border-b bg-background">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 p-4">
-          <Link href="/admin" className="text-xl font-bold tracking-tight">
-            AforoFit
-          </Link>
-          <Badge variant="secondary">Configuración</Badge>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-3xl space-y-4 p-4 md:p-6">
-        <div>
-          <h1 className="text-2xl font-semibold">Configuración del gimnasio</h1>
-          <p className="text-sm text-muted-foreground">
-            Los cambios se aplican al tiro en el ingreso y en la pantalla de aforo.
-          </p>
-        </div>
+    <div className="mx-auto w-full max-w-3xl">
+      <div className="space-y-5">
+        <EncabezadoPagina
+          eyebrow="Administración"
+          titulo="Configuración del gimnasio"
+          subtitulo="Los cambios se aplican al tiro en el ingreso y en la pantalla de aforo."
+        />
 
         {aviso && (
-          <div role={aviso.tono === "error" ? "alert" : "status"} className={`rounded-lg p-4 ${ESTILO_AVISO[aviso.tono]}`}>
-            <p className="font-bold">{aviso.titulo}</p>
-            <p className="text-sm">{aviso.detalle}</p>
-          </div>
+          <Aviso
+            tono={aviso.tono === "error" ? "red" : "green"}
+            role={aviso.tono === "error" ? "alert" : "status"}
+            titulo={aviso.titulo}
+            className="animate-pop-in"
+          >
+            {aviso.detalle}
+          </Aviso>
         )}
 
         {!form ? (
-          <p className="text-muted-foreground">
+          <p className="text-sm text-tinta-suave">
             {errorLectura ? "No se pudo leer la configuración. Recarga la página." : "Cargando…"}
           </p>
         ) : (
@@ -149,7 +141,7 @@ export function FormularioConfiguracion() {
                     aria-invalid={Boolean(errores.capacidad)}
                     onChange={(e) => setForm({ ...form, capacidad: e.target.value })}
                   />
-                  <p className={`text-xs ${errores.capacidad ? "text-destructive" : "text-muted-foreground"}`}>
+                  <p className={`text-xs ${errores.capacidad ? "text-destructive" : "text-tinta-suave"}`}>
                     {errores.capacidad ?? `Entre ${CAPACIDAD_MIN} y ${CAPACIDAD_MAX}. Bajarla no saca a nadie.`}
                   </p>
                 </div>
@@ -166,7 +158,7 @@ export function FormularioConfiguracion() {
                     onChange={(e) => setForm({ ...form, cierre_automatico_horas: e.target.value })}
                   />
                   <p
-                    className={`text-xs ${errores.cierre_automatico_horas ? "text-destructive" : "text-muted-foreground"}`}
+                    className={`text-xs ${errores.cierre_automatico_horas ? "text-destructive" : "text-tinta-suave"}`}
                   >
                     {errores.cierre_automatico_horas ??
                       `Entre ${CIERRE_MIN_HORAS} y ${CIERRE_MAX_HORAS}. Una visita sin salida se cierra sola (regla 6).`}
@@ -238,14 +230,14 @@ export function FormularioConfiguracion() {
             </Button>
 
             {/* D24: lo que no se edita en esta versión queda declarado como limitación. */}
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-tinta-suave">
               No se editan aquí: el período académico (ya no se usa, D20: el certificado dura un año desde su
               emisión), la progresión de cargas y las modalidades de rutina. En esta versión se cambian por SQL
               (limitación declarada, D24).
             </p>
           </form>
         )}
-      </main>
+      </div>
     </div>
   );
 }

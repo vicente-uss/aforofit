@@ -4,7 +4,8 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export function LogoutButton() {
+// `oscuro`: versión para la barra lateral navy del profesor y el admin (solo cambia el estilo).
+export function LogoutButton({ oscuro = false }: { oscuro?: boolean }) {
   const router = useRouter();
 
   const logout = async () => {
@@ -15,7 +16,12 @@ export function LogoutButton() {
   };
 
   return (
-    <Button variant="outline" size="sm" onClick={logout}>
+    <Button
+      variant={oscuro ? "ghost" : "secondary"}
+      size="sm"
+      onClick={logout}
+      className={oscuro ? "text-slate-300 hover:bg-white/10 hover:text-white" : undefined}
+    >
       Cerrar sesión
     </Button>
   );

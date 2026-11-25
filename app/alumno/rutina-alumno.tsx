@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { CircleCheck, Sparkles, UserX } from "lucide-react";
+import { Aviso } from "@/components/marca/aviso";
+import { EstadoVacio } from "@/components/marca/estado-vacio";
+import { Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   esErrorConocido,
   textoErrorRutina,
@@ -49,7 +52,7 @@ export function RutinaAlumno() {
 
   if (!datos) {
     return (
-      <p className="py-10 text-center text-muted-foreground">
+      <p className="py-10 text-center text-sm text-tinta-suave">
         {sinConexion ? TEXTOS.sinConexion : "Cargando tu rutina…"}
       </p>
     );
@@ -115,37 +118,37 @@ export function RutinaAlumno() {
   }
 
   const botonCambiar = alumno?.objetivo && alumno.nivel && pantalla !== "elegir_objetivo" && (
-    <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3">
+    <Tarjeta className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
       <span className="text-sm">
-        <span className="text-muted-foreground">Objetivo: </span>
-        <span className="font-medium">{textoObjetivoNivel(alumno.objetivo, alumno.nivel)}</span>
+        <span className="text-tinta-suave">Objetivo: </span>
+        <span className="font-semibold text-navy-900">{textoObjetivoNivel(alumno.objetivo, alumno.nivel)}</span>
       </span>
-      <Button variant="outline" size="sm" onClick={() => setCambiandoObjetivo(true)}>
+      <Button variant="secondary" size="sm" onClick={() => setCambiandoObjetivo(true)}>
         Cambiar objetivo
       </Button>
-    </div>
+    </Tarjeta>
   );
 
   return (
-    <section aria-label="Mi rutina" className="mx-auto max-w-md space-y-4">
+    <section aria-label="Mi rutina" className="space-y-4">
       {sinConexion && (
-        <p className="rounded-md bg-muted p-2 text-center text-sm text-muted-foreground">{TEXTOS.sinConexion}</p>
+        <Aviso tono="slate" role="status">
+          {TEXTOS.sinConexion}
+        </Aviso>
       )}
 
       {error && (
-        <div role="alert" className="rounded-lg bg-red-600 p-4 text-white">
-          <p className="font-bold">{error.titulo}</p>
-          <p className="text-sm">{error.detalle}</p>
-        </div>
+        <Aviso tono="red" role="alert" titulo={error.titulo} className="animate-pop-in">
+          {error.detalle}
+        </Aviso>
       )}
 
       {pantalla === "sin_alumno" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>{TEXTOS.sinAlumnoTitulo}</CardTitle>
-            <CardDescription>{TEXTOS.sinAlumnoDetalle}</CardDescription>
-          </CardHeader>
-        </Card>
+        <Tarjeta>
+          <EstadoVacio icono={UserX} titulo={TEXTOS.sinAlumnoTitulo}>
+            {TEXTOS.sinAlumnoDetalle}
+          </EstadoVacio>
+        </Tarjeta>
       )}
 
       {pantalla === "elegir_objetivo" && alumno && (
@@ -160,25 +163,23 @@ export function RutinaAlumno() {
       )}
 
       {pantalla === "sin_rutina" && (
-        <Card>
-          <CardHeader>
-            <CardTitle>{TEXTOS.sinRutinaTitulo}</CardTitle>
-            <CardDescription>{TEXTOS.sinRutinaDetalle}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button size="lg" className="h-12 w-full text-base" disabled={ocupado} onClick={generarRutina}>
+        <Tarjeta className="pb-5">
+          <EstadoVacio icono={Sparkles} titulo={TEXTOS.sinRutinaTitulo} className="pb-5">
+            {TEXTOS.sinRutinaDetalle}
+          </EstadoVacio>
+          <div className="px-5">
+            <Button size="lg" className="w-full" disabled={ocupado} onClick={generarRutina}>
               {ocupado ? "Generando…" : "Generar mi rutina"}
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </Tarjeta>
       )}
 
       {pantalla === "adentro" && (
         // D13: aparece solo, sin recargar, cuando el kiosco registra la entrada.
-        <div role="status" className="rounded-lg bg-green-600 p-4 text-white">
-          <p className="text-2xl font-bold">{TEXTOS.adentroTitulo}</p>
-          <p className="text-sm">{TEXTOS.adentroDetalle}</p>
-        </div>
+        <Aviso tono="green" role="status" icono={CircleCheck} titulo={TEXTOS.adentroTitulo} className="animate-pop-in">
+          {TEXTOS.adentroDetalle}
+        </Aviso>
       )}
 
       {pantalla === "esperando_feedback" && (
@@ -195,14 +196,16 @@ export function RutinaAlumno() {
 
       {pantalla === "fuera" && (
         <div>
-          <h2 className="text-xl font-semibold">{TEXTOS.fueraTitulo}</h2>
-          <p className="text-sm text-muted-foreground">{TEXTOS.fueraDetalle}</p>
+          <h2 className="text-[22px] font-semibold leading-tight text-navy-900">{TEXTOS.fueraTitulo}</h2>
+          <p className="mt-1 text-sm text-slate-600">{TEXTOS.fueraDetalle}</p>
         </div>
       )}
 
       {(pantalla === "adentro" || pantalla === "fuera" || pantalla === "esperando_feedback") && (
         <>
-          {pantalla === "esperando_feedback" && <h2 className="pt-2 text-lg font-semibold">Tu rutina de hoy</h2>}
+          {pantalla === "esperando_feedback" && (
+            <h2 className="pt-2 text-[15px] font-semibold text-navy-900">Tu rutina de hoy</h2>
+          )}
           <ListaEjercicios ejercicios={ejercicios} />
         </>
       )}

@@ -46,18 +46,18 @@ export function BuscadorAlumno({ lector, elegir }: { lector?: boolean; elegir: (
   }
 
   return <div className="space-y-3">
-    {lector && <label className="block">{m.lector}
-      <Input autoFocus autoComplete="off" onKeyDown={e => capturarLectura(e, buscar)} />
+    {lector && <label className="block space-y-1.5"><span className="text-[13px] font-semibold text-navy-900">{m.lector}</span>
+      <Input autoFocus autoComplete="off" className="h-12 font-mono" onKeyDown={e => capturarLectura(e, buscar)} />
     </label>}
     <form className="flex items-end gap-2" onSubmit={e => { e.preventDefault(); void buscar(); }}>
-      <label className="min-w-0 flex-1">{m.nombre}
+      <label className="min-w-0 flex-1 space-y-1.5"><span className="block text-[13px] font-semibold text-navy-900">{m.nombre}</span>
         <Input value={nombre} onChange={e => { limpiar(); setNombre(e.target.value); }} />
       </label>
       <Button disabled={!nombre.trim()}>{m.buscar}</Button>
     </form>
-    <p role="status">{aviso}</p>
-    <ul className="space-y-1">{lista.map(a => <li key={a.id}>
-      <Button variant="outline" onClick={() => { elegir(a); setLista([]); }}>{a.nombre}</Button>
+    <p role="status" className="text-sm text-tinta-suave empty:hidden">{aviso}</p>
+    <ul className="space-y-1.5">{lista.map(a => <li key={a.id}>
+      <Button variant="secondary" className="w-full justify-start" onClick={() => { elegir(a); setLista([]); }}>{a.nombre}</Button>
     </li>)}</ul>
   </div>;
 }
