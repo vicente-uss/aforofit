@@ -29,6 +29,8 @@ import { estadoAforo, textoCupos } from "@/lib/aforo/estado";
 import { useAforo } from "@/lib/aforo/useAforo";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { pausaLector } from "@/lib/ingreso/pausaLector";
+import { CamaraQr } from "./camara-qr";
+import { esCodigoIngreso } from "@/lib/ingreso/codigoQr";
 import { capturarLectura } from "@/lib/ingreso/capturarLectura";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
@@ -158,8 +160,9 @@ export function PantallaIngreso() {
   }, [enfocarLector]);
 
   // Procesa un código (del lector o manual). Devuelve true si el formato es válido.
-  const procesar = useCallback((texto: string) => {
-    const resultado = normalizarUid(texto);
+  const procesar = useCallback((texto: string, manual = false) => {
+    const codigo = manual && esCodigoIngreso(texto) ? texto.trim().toUpperCase() : null;
+    const resultado = codigo ? { ok: true as const, uid: codigo } : normalizarUid(texto);
     if (!resultado.ok) {
       setError(resultado.error);
       programarLimpieza();
@@ -168,7 +171,7 @@ export function PantallaIngreso() {
 
     const ahora = Date.now();
     const anterior = ultimaAceptadaRef.current;
-    if (anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
+    if (!codigo && anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
       // Lectura repetida de la misma tarjeta: se ignora sin mostrar nada.
       return true;
     }
@@ -208,11 +211,17 @@ export function PantallaIngreso() {
     };
 
     // Promise.resolve porque el constructor de Supabase es "thenable" y no tiene .catch().
-    void Promise.resolve(supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid }))
+    const consulta = codigo
+      ? supabaseRef.current.rpc("registrar_ingreso_codigo", { p_codigo: codigo })
+      : supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid });
+    void Promise.resolve(consulta)
       .then(({ data, error: errorRpc }) => {
         if (errorRpc) {
           console.error("Error en registrar_ingreso:", errorRpc);
-          terminar(mensajeErrorRpc(errorRpc));
+          if (codigo && ["codigo_invalido", "sin_tarjeta"].includes(errorRpc.message)) {
+            terminar({ tono: "error", tipo: "Rechazo", titulo: errorRpc.message === "sin_tarjeta" ? "Alumno sin credencial vinculada" : "Código vencido, usado o incorrecto",
+              detalle: "Solicita un nuevo código en el celular del alumno.", ofrecerVincular: false });
+          } else terminar(mensajeErrorRpc(errorRpc));
           return;
         }
         const respuesta = interpretarRespuesta(data);
@@ -334,16 +343,20 @@ export function PantallaIngreso() {
     setManualAbierto(true);
   };
 
-  const cerrarManual = () => {
+  const cerrarManual = useCallback(() => {
     manualAbiertoRef.current = false;
     setManualAbierto(false);
     setTextoManual("");
     setTimeout(enfocarLector, 0);
-  };
+  }, [enfocarLector]);
+
+  const leerQr = useCallback((codigo: string) => {
+    if (procesar(codigo, true)) cerrarManual();
+  }, [procesar, cerrarManual]);
 
   const enviarManual = (evento: React.FormEvent) => {
     evento.preventDefault();
-    if (procesar(textoManual)) cerrarManual();
+    if (procesar(textoManual, true)) cerrarManual();
   };
 
   const nivel = aforo ? estadoAforo(aforo.ocupacion, aforo.capacidad, aforo.umbral_casi_lleno).etiqueta : null;
@@ -411,10 +424,11 @@ export function PantallaIngreso() {
                       autoFocus
                       value={textoManual}
                       onChange={(e) => setTextoManual(e.target.value)}
-                      placeholder="UID en hexadecimal, ej. 04:A3:7F:2B"
-                      aria-label="UID en hexadecimal"
+                      placeholder="UID o código de 6 caracteres"
+                      aria-label="UID o código de ingreso"
                       className="h-12 font-mono text-base uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
                     />
+                    <CamaraQr leer={leerQr} />
                     <div className="flex flex-wrap gap-2">
                       <Button type="submit">Registrar</Button>
                       <Button type="button" variant="ghost" onClick={cerrarManual}>
@@ -428,7 +442,7 @@ export function PantallaIngreso() {
                       <Keyboard aria-hidden />
                       Ingreso manual
                     </Button>
-                    <span className="text-[13px] text-tinta-suave">QR: próximamente</span>
+                    <span className="text-[13px] text-tinta-suave">Credencial o código QR</span>
                   </div>
                 )}
               </div>

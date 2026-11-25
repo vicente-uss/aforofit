@@ -123,4 +123,62 @@ end;
 $$;
 revoke all on function public.vincular_credencial(text,uuid,text) from public,anon,authenticated;
 grant execute on function public.vincular_credencial(text,uuid,text) to authenticated;
+
+-- F-21. Solo se conserva el último código de cada alumno. El cliente accede por RPC.
+create table if not exists privado.codigos_ingreso (
+  alumno_id uuid primary key references public.alumnos(id) on delete cascade,
+  codigo text not null unique,
+  vence_en timestamptz not null
+);
+alter table privado.codigos_ingreso enable row level security;
+revoke all on privado.codigos_ingreso from public,anon,authenticated;
+
+create or replace function public.generar_codigo_ingreso()
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare
+  v_alumno uuid;
+  v_codigo text;
+  v_vence timestamptz;
+  azar bytea;
+begin
+  select a.id into v_alumno from public.alumnos a join public.perfiles p on p.id=a.perfil_id
+  where p.id=auth.uid() and p.rol='alumno';
+  if not found then raise exception 'solo_alumno'; end if;
+  if not exists(select from public.tarjetas where alumno_id=v_alumno) then raise exception 'sin_tarjeta'; end if;
+  loop
+    azar := uuid_send(gen_random_uuid());
+    -- Primer carácter fuera de hexadecimal para distinguir el código de un UID.
+    select substr('GHJKMNPQRSTVWXYZ',1+get_byte(azar,0)%16,1) ||
+      string_agg(substr('ABCDEFGHJKLMNPQRSTUVWXYZ23456789',1+get_byte(azar,i)%32,1),'' order by i)
+    into v_codigo from generate_series(1,5) i;
+    v_vence := clock_timestamp()+interval '2 minutes';
+    begin
+      insert into privado.codigos_ingreso values (v_alumno,v_codigo,v_vence)
+      on conflict (alumno_id) do update set codigo=excluded.codigo, vence_en=excluded.vence_en;
+      return jsonb_build_object('codigo',v_codigo,'vence_en',v_vence);
+    exception when unique_violation then
+      null; -- Colisión con el código de otro alumno: sortear de nuevo.
+    end;
+  end loop;
+end;
+$$;
+
+create or replace function public.registrar_ingreso_codigo(p_codigo text)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare
+  v_alumno uuid;
+  v_uid text;
+begin
+  if not privado.es_profesor_o_admin() then raise exception 'sin_permiso'; end if;
+  delete from privado.codigos_ingreso
+  where codigo=upper(btrim(p_codigo)) and vence_en>clock_timestamp() returning alumno_id into v_alumno;
+  if not found then raise exception 'codigo_invalido'; end if;
+  select uid into v_uid from public.tarjetas where alumno_id=v_alumno
+    order by (tipo='tne') desc, uid limit 1 for share;
+  if not found then raise exception 'sin_tarjeta'; end if;
+  return privado.registrar_ingreso_en(v_uid,clock_timestamp());
+end;
+$$;
+revoke all on function public.generar_codigo_ingreso(),public.registrar_ingreso_codigo(text) from public,anon,authenticated;
+grant execute on function public.generar_codigo_ingreso(),public.registrar_ingreso_codigo(text) to authenticated;
 commit;

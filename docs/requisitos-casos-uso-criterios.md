@@ -40,7 +40,7 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | --- | --- | --- | --- | --- |
 | RF01 | Permitir que un alumno inicie sesión y ver solo las funciones de su rol | Alta | D13 | ✅ Implementado |
 | RF02 | Vincular una credencial a un único alumno | Alta | R1 | ✅ Implementado |
-| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | 🟡 Lector implementado; respaldo por ingreso manual, QR en próxima versión |
+| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | ✅ Lector y QR de respaldo implementados (017) |
 | RF04 | Validar que el alumno tenga certificado vigente: dura un año desde su emisión (`certificado_hasta` = emisión + 12 meses) y ya no depende del período académico (D20) | Alta | P6, D20, R2 | ✅ Implementado (sin período desde `014`) |
 | RF05 | Validar que el ingreso ocurra dentro del horario y antes del último ingreso | Alta | R3 | ✅ Implementado |
 | RF06 | Registrar la entrada con fecha y hora | Alta | P1 | ✅ Implementado |
@@ -243,7 +243,7 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 | CA28 | RF25 | Un alumno sin habilitación | El administrador registra la habilitación y la fecha de emisión del certificado | La habilitación se guarda y se aplica mientras dure la vigencia de un año desde la emisión (D20) |
 | CA29 | RNF01 | Una credencial vinculada, alumno habilitado y cupo | Se cronometra desde que se acerca la credencial hasta el registro | El ingreso se registra en 3 segundos o menos |
 | CA30 | RNF03 | Computador del gimnasio, Android y iPhone | Se abren las vistas correspondientes en cada navegador | Los flujos web se pueden usar en cada equipo sin instalar la app |
-| CA31 | RF03, RNF04 | Un lector USB seleccionado y un QR válido | Se prueba el escaneo por lector y el respaldo QR | El lector se reconoce como teclado sin instalar drivers y ambas vías identifican al alumno |
+| CA31 | RF03, RNF04 | Un lector USB seleccionado y un QR válido | Se prueba el escaneo por lector y el respaldo QR | El lector se reconoce como teclado. El profesor escanea el QR o ingresa sus seis caracteres. El código dura dos minutos, sirve una vez y aplica las mismas reglas que la credencial |
 | CA32 | RNF05 | La vista del alumno a 360 px | Se completan las acciones principales definidas para esa vista | La vista es utilizable y las acciones principales requieren hasta dos toques |
 | CA33 | RNF07 | Datos ficticios y una habilitación registrada | Se revisan los formularios, registros y acceso a las medidas | Se usan datos ficticios, del certificado se guarda la vigencia y cada alumno consulta solo sus medidas |
 | CA34 | RF26, RNF08 | El panel administrador y parámetros iniciales | Se modifican capacidad, horario y cierre automático en `/admin/configuracion` | Los cambios se guardan y se aplican desde la configuración (`supabase/pruebas/configuracion.sql`). **Parcial** (D24): progresión y modalidades quedan por SQL |
