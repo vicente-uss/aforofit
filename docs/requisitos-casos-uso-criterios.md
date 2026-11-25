@@ -60,8 +60,8 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 | 🔨 Se construye (B5) |
 | RF21 | Registrar implementos con su cantidad disponible | Alta | P5 | 🟡 Datos por SQL; pantalla en próxima versión |
 | RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 | ✅ Implementado en S1 |
-| RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | 🟡 Implementado parcialmente en S1: devolución completa y bloqueo por pendientes. Parciales en F-20 |
-| RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ⏭ Próxima versión |
+| RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | ✅ Implementado (F-20): devolución por implemento y bloqueo por pendientes |
+| RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ✅ Implementado (F-20) |
 | RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D20 | ✅ Implementado en S2 desde /admin/habilitacion |
 | RF26 | Permitir que el administrador configure capacidad, horario, período académico, progresión, cierre automático y modalidades de rutina | Alta | D01, D03, D07, D15 | 🟡 Parámetros por SQL; pantalla en próxima versión |
 | RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ⏭ Próxima versión |
@@ -200,7 +200,7 @@ Los flujos principales y los casos de apoyo se especifican a continuación. Los 
 ## 6. Criterios de aceptación
 
 > **Línea base de la entrega final (CR-01, aprobado el 23 de noviembre):** se activan CA11, CA12, CA13, CA14, CA24 y
-> CA26. S1 activa CA19 y CA20, y S2 cubre CA28. Quedan como «no aplica en esta versión» CA15, CA16 y CA38 (rutinas del profesor y del alumno), CA21 (entrega separada de la TNE) y CA22 y CA39 (registro corporal).
+> CA26. Préstamos cubre CA19, CA20 y CA21, y S2 cubre CA28. Quedan como «no aplica en esta versión» CA15, CA16 y CA38 (rutinas del profesor y del alumno), CA22 y CA39 (registro corporal).
 
 CA01–CA22 corresponden al Avance 2 presentado. Los criterios complementarios de abajo completan la trazabilidad documental. Su ejecución y evidencias se registran por separado.
 
@@ -225,7 +225,7 @@ CA01–CA22 corresponden al Avance 2 presentado. Los criterios complementarios d
 | CA17 | RF26 | El administrador deshabilitó las rutinas creadas por el alumno | Un alumno intenta crear una rutina | La opción no está disponible |
 | CA18 | RF26 | El administrador cambia la capacidad de 20 a 15 | Entra el alumno número 16 | Recibe un número de turno |
 | CA19 | RF22 | Un alumno sin préstamos pendientes | El profesor pasa su TNE y marca 2 balones de básquetbol | Se crea un préstamo con 2 balones, la TNE queda como garantía y el aforo no cambia |
-| CA20 | RF23 | Un préstamo con 2 balones | El alumno solicita otro préstamo y luego devuelve ambos balones y retira su TNE | S1 bloquea la solicitud mientras queda un pendiente y permite un nuevo préstamo tras la devolución completa. La devolución parcial queda para la próxima versión (F-20) |
+| CA20 | RF23 | Un préstamo con 2 balones | El alumno devuelve un balón | Queda uno pendiente, se repone una unidad de stock y se bloquea otro préstamo. Tras devolver el resto, el bloqueo continúa hasta entregar la TNE |
 | CA21 | RF24 | Un préstamo con todos los implementos devueltos | El profesor entrega la TNE y la marca como devuelta | El préstamo se cierra y ya no aparece entre los abiertos |
 | CA22 | RF27 | El alumno A registró sus medidas | El alumno B o un profesor intentan consultarlas | El sistema no se las muestra |
 

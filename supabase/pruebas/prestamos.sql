@@ -1,4 +1,4 @@
--- S1 y S2. Ejecutar después de 015. Cada caso usa datos propios y se revierte.
+-- S1 y S2. Ejecutar después de 017. Cada caso usa datos propios y se revierte.
 begin;
 
 create function pg_temp.ok(caso text, correcto boolean) returns void language plpgsql as $$
@@ -70,8 +70,26 @@ begin
     pg_temp.error_de(format('select public.registrar_habilitacion(%L,current_date)',v_alumno))='sin_permiso');
 
   perform pg_temp.sesion(prof);
+  perform pg_temp.ok('No se entrega la garantía antes de devolver todo',
+    pg_temp.error_de(format('select public.entregar_tne(%L)',prestamo))='prestamo_abierto');
+  perform public.registrar_devolucion(prestamo,jsonb_build_array(jsonb_build_object('implemento_id',basquet,'cantidad',1)));
+  perform pg_temp.ok('CA20: al devolver un balón queda uno pendiente y uno disponible',
+    (select cantidad-devuelto=1 from public.prestamo_items where prestamo_id=prestamo and implemento_id=basquet)
+    and (select disponible=1 from public.stock_prestamos where id=basquet));
+  perform pg_temp.ok('CA20: devolución parcial bloquea otro préstamo',
+    pg_temp.error_de(format('select public.registrar_prestamo(%L,%L)',v_alumno,pedido))='prestamo_abierto');
+  perform pg_temp.ok('No se pueden devolver dos si queda uno',
+    pg_temp.error_de(format('select public.registrar_devolucion(%L,%L)',prestamo,pedido))='devolucion_excesiva');
   perform public.registrar_devolucion(prestamo);
-  perform pg_temp.ok('Devolución completa repone stock y devuelve la TNE',
+  perform pg_temp.ok('D19: todo devuelto y garantía pendiente bloquea otro préstamo',
+    pg_temp.error_de(format('select public.registrar_prestamo(%L,%L)',v_alumno,pedido))='tne_pendiente'
+    and (select disponible=2 from public.stock_prestamos where id=basquet));
+  perform pg_temp.sesion(estudiante);
+  perform pg_temp.ok('Alumno no entrega TNE',
+    pg_temp.error_de(format('select public.entregar_tne(%L)',prestamo))='sin_permiso');
+  perform pg_temp.sesion(adm);
+  perform public.entregar_tne(prestamo);
+  perform pg_temp.ok('CA21: stock repuesto y TNE entregada',
     (select disponible=2 from public.stock_prestamos where id=basquet)
     and (select tne_devuelta and devuelto_en is not null from public.prestamos where id=prestamo)
     and not exists(select 1 from public.prestamos_pendientes where id=prestamo));
@@ -82,12 +100,7 @@ begin
   siguiente := public.registrar_prestamo(v_alumno,pedido);
   perform pg_temp.ok('CA20: puede volver a pedir', siguiente <> prestamo);
 
-  -- Reproduce D19 sin agregar devoluciones parciales al flujo S1.
-  reset role;
-  update public.prestamos set devuelto_en=now() where id=siguiente;
-  set local role authenticated;
-  perform pg_temp.ok('D19: solo la TNE pendiente bloquea', pg_temp.error_de(format(
-    'select public.registrar_prestamo(%L,%L)',v_alumno,pedido))='tne_pendiente');
+  perform pg_temp.sesion(prof);
   perform pg_temp.ok('Profesor no habilita',
     pg_temp.error_de(format('select public.registrar_habilitacion(%L,current_date)',v_alumno))='sin_permiso');
   perform pg_temp.sesion(adm);
