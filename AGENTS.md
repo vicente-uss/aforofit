@@ -349,6 +349,12 @@ Actualizado: martes 24 de noviembre de 2026.
   «Tu próxima sesión» (B4). 107 pruebas en Vitest, verificación a 360 px con 26 de 26 OK (`docs/evidencia/rutina/`) y
   prueba de punta a punta contra Supabase real con `alumno.demo` e ingreso manual, correcta según el equipo (25 nov);
   la rutina apareció en el celular en cerca de 1 s (CA11).
+- F-03 (B5) y F-28 (D21), PR #13 fusionado el 25 de noviembre: `supabase/sql/012_mantencion_y_cierre_manual.sql`
+  con `cambiar_estado_maquina` y `cerrar_visita` (columna `visitas.cerrada_por`; un cierre manual no pide feedback),
+  y las pantallas `/profesor/maquinas` y `/profesor/adentro`. Pruebas: `profesor.sql` 25, `rutinas.sql` 62 y
+  `registrar_ingreso.sql` 42 en el PostgreSQL local; Vitest 130; navegador 36 de 36 a 360 y 1280 px
+  (`docs/evidencia/profesor/`). Con esto, **B1 a B5 del CR-01 están implementados**. PR #14: `rutinas.sql` ya no depende
+  de los datos reales (limpia dentro de la transacción).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -363,7 +369,7 @@ Actualizado: martes 24 de noviembre de 2026.
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
 - [ ] Pedidos del Playback (24 nov): nombre e inicial del apellido junto al turno llamado en `/aforo` (F-29, D22),
-  botón «Cerrar visita» en `/profesor` para quien no marcó la salida (F-28, D21) y regla 2 con vigencia de un año
+  regla 2 con vigencia de un año
   (F-32, D20: además, `registrar_ingreso` todavía rechaza fuera de `periodo_inicio`/`periodo_fin`; hay que quitar ese
   chequeo). Cantidades reales de implementos aplicadas en Supabase el 24 de noviembre (5 implementos, 9 unidades;
   `supabase/sql/010`, PR #10 fusionado). El aviso «Olvidaste tu TNE» en el perfil del alumno queda como P2 (F-30)
@@ -381,8 +387,8 @@ Actualizado: martes 24 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: B1 a B4 implementados (PR #11 y #12). Falta B5, el cambio de estado de máquina desde `/profesor`
-  (F-03), antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27. CA11 medido el 25 de
+- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13). S1 y S2 solo si queda tiempo después de F-29, F-26,
+  F-32 y F-09 (se decide el viernes 27). CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
