@@ -1,8 +1,8 @@
 # AforoFit — Diagramas de análisis y diseño
 
-El documento maestro incorpora esta sección en el [diagramas y estados](cierre-avances-1-y-2.md#diagramas-completos).
+El documento maestro conserva los [diagramas y estados del Avance 2](cierre-avances-1-y-2.md#diagramas-completos).
 
-Grupo 6 · Taller de Ingeniería de Software · Avance 2 · Actualizado el 16 de noviembre de 2026
+Grupo 6 · Taller de Ingeniería de Software · Entrega final · Actualizado el 25 de noviembre de 2026
 
 Este documento reúne los diagramas formales del sistema. Se basa en [`AGENTS.md`](../AGENTS.md), en los
 [requisitos, casos de uso y criterios](requisitos-casos-uso-criterios.md) y en la
@@ -10,15 +10,15 @@ Este documento reúne los diagramas formales del sistema. Se basa en [`AGENTS.md
 
 ## Trazabilidad del diseño
 
-Los diagramas describen el **diseño del Avance 2**. Los ID se desarrollan en el [registro de decisiones](../AGENTS.md#decisiones-vigentes-d01d17) y la [matriz de requisitos y criterios](requisitos-casos-uso-criterios.md#8-matriz-de-cobertura).
+Los casos de uso conservan el diseño del Avance 2. El modelo físico, la secuencia y los estados describen la implementación hasta 015. Los ID se desarrollan en el [registro de decisiones](../AGENTS.md) y la [matriz de requisitos y criterios](requisitos-casos-uso-criterios.md#8-matriz-de-cobertura).
 
 | Vista | Qué cubre | Trazabilidad principal |
 |---|---|---|
 | [Casos de uso](#1-casos-de-uso) | Actores, funciones y alcance de CU01–CU16 | [Especificaciones de los casos](requisitos-casos-uso-criterios.md#5-especificación-de-los-casos-de-uso-principales) |
-| [Modelo entidad-relación](#2-modelo-entidad-relación) | Datos de acceso, visitas, turnos, rutinas, catálogo, préstamos, mediciones y configuración | RF02, RF04, RF06–RF08, RF10–RF15, RF18–RF27 |
+| [Modelo entidad-relación](#2-modelo-entidad-relación) | Acceso, visitas, turnos, rutinas, catálogo, préstamos y configuración | RF02, RF04, RF06–RF08, RF10–RF15, RF18–RF27 |
 | [Secuencia del ingreso](#3-secuencia-del-ingreso-cu01-cu02-y-cu04) | Lectura, validación, entrada o turno, aforo y rutina | CU01, CU02, CU04, CU11 y CU15 · CA01–CA07, CA10–CA13, CA29 y CA31 |
-| [Estados de la visita](#4-estados-de-la-visita) | Salida, cierre automático y liberación del cupo | CU03 y CU15 · CA08–CA11, CA14 y CA15 |
-| [Estados del préstamo](#5-estados-del-préstamo) | Préstamo, devolución parcial y devolución de garantía | CU08 y CU09 · CA19–CA21 y CA27 |
+| [Estados de la visita](#4-estados-de-la-visita) | Salida, cierres manual y automático y liberación del cupo | CU03 y CU15 · CA08–CA11, CA14 y CA15 |
+| [Estados del préstamo](#5-estados-del-préstamo) | Préstamo básico, stock y devolución completa con la garantía | CU08 y CU09 · CA19 y CA20 (S1) |
 | [Flujo central](diagramas/flujo-central.svg), [arquitectura](diagramas/arquitectura.svg) e [interfaces en la PPT](entregas/avances/AforoFit-Avance2-Grupo6.pdf) | Recorrido del alumno, componentes, despliegue y vistas de los roles | [Flujo central](../AGENTS.md#5-flujo-central-lo-que-se-demuestra-en-vivo), [stack](../AGENTS.md#6-stack-y-arquitectura) y RNF01–RNF11 |
 
 ## Estado
@@ -26,9 +26,9 @@ Los diagramas describen el **diseño del Avance 2**. Los ID se desarrollan en el
 | Diagrama | Herramienta | Archivo | Estado |
 |---|---|---|---|
 | Casos de uso | draw.io | [`diagramas/casos-de-uso.drawio`](diagramas/casos-de-uso.drawio) | Listo |
-| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Flujo de ingreso implementado (`005` a `009`); rutinas, feedback, mediciones y préstamos siguen como diseño |
-| Secuencia del ingreso | Mermaid (este archivo; draw.io lo importa con Organizar → Insertar → Mermaid) | — | Listo |
-| Estados de la visita y del préstamo | draw.io y Mermaid (este archivo) | [`diagramas/estados.drawio`](diagramas/estados.drawio) | Listo |
+| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Mermaid refleja las 16 tablas públicas hasta 015; draw.io conserva el diseño original |
+| Secuencia del ingreso | Mermaid (este archivo; draw.io lo importa con Organizar → Insertar → Mermaid) | — | Incluye Realtime, feedback y cierre manual |
+| Estados de la visita y del préstamo | draw.io y Mermaid (este archivo) | [`diagramas/estados.drawio`](diagramas/estados.drawio) | Mermaid refleja 012 y 015; draw.io conserva el diseño original |
 | Flujo central y arquitectura | Imágenes de la presentación | [`diagramas/`](diagramas/) | Listo |
 
 Para editar el diagrama de casos de uso, abre el archivo `.drawio` en [app.diagrams.net](https://app.diagrams.net)
@@ -65,277 +65,286 @@ Tres actores y 16 casos de uso. El alumno concentra el flujo central (CU01 a CU0
 - CU02 extiende CU01 cuando el gimnasio está lleno.
 - CU11 extiende CU01 cuando la credencial no está registrada.
 
-**Casos compartidos:** CU06, CU11 y CU15 usan la misma pantalla, con permisos distintos según el rol.
+CU11 se realiza en el kiosco con sesión de profesor o administrador. CU15 se consulta en la pantalla pública. CU06 pertenece al diseño de una próxima versión.
 
 ---
 
 ## 2. Modelo entidad-relación
 
-El modelo de diseño propone quince tablas y políticas RLS. El alumno se relaciona con tarjetas, visitas, turnos, rutinas y mediciones. Los scripts `001` a `009` ya crearon perfiles, catálogo y el flujo de ingreso (`alumnos`, `tarjetas`, `configuracion`, `visitas`, `turnos` y `aforo`). Rutinas, feedback, mediciones y préstamos siguen siendo diseño.
+El [modelo conceptual del Avance 2](diagramas/entidad-relacion.drawio) incluye el registro corporal y la devolución parcial. Para consultar la estructura que usa la aplicación, utiliza el modelo físico de abajo. La [captura del 23 de noviembre](diagramas/entidad-relacion-implementado.png) documenta el esquema anterior de nueve tablas.
 
+### 2.1 Modelo implementado en Supabase (25 de noviembre de 2026)
+
+Las migraciones 001–015 crean **16 tablas en `public`**, todas con RLS. Las tres vistas del diagrama comparten las entidades que conectan los módulos. PK indica clave primaria, FK clave foránea y UK una columna única. Las dos columnas PK de `prestamo_items` forman una sola clave compuesta.
+
+**Acceso, visitas y aforo.** El perfil usa como PK el mismo identificador que `auth.users.id` (FK a Supabase Auth). Un alumno puede tener varias tarjetas y como máximo una visita abierta. La vinculación a un perfil es opcional y única.
 ```mermaid
 erDiagram
-    PERFILES |o--o| ALUMNOS : "es"
-    ALUMNOS ||--o{ TARJETAS : "tiene"
-    ALUMNOS ||--o{ VISITAS : "registra"
-    ALUMNOS ||--o{ TURNOS : "recibe"
-    ALUMNOS ||--o{ RUTINAS : "tiene"
-    ALUMNOS ||--o{ MEDICIONES : "registra"
-    PERFILES ||--o{ RUTINAS : "es autor de"
-    RUTINAS ||--|{ EJERCICIOS : "contiene"
-    MAQUINAS ||--o{ EJERCICIOS : "se usa en"
-    VISITAS ||--o| FEEDBACK : "termina con"
-    RUTINAS ||--o{ FEEDBACK : "recibe"
-    TARJETAS ||--o{ PRESTAMOS : "queda en garantía"
-    PRESTAMOS ||--|{ PRESTAMO_ITEMS : "incluye"
-    IMPLEMENTOS ||--o{ PRESTAMO_ITEMS : "se presta en"
-
-    PERFILES {
-        uuid id PK "igual a auth.users.id"
+    perfiles |o--o| alumnos : identifica
+    alumnos ||--o{ tarjetas : posee
+    alumnos ||--o{ visitas : registra
+    perfiles |o--o{ visitas : "cierra a mano"
+    alumnos ||--o{ turnos : recibe
+    perfiles {
+        uuid id PK, FK
         text nombre
-        text rol "alumno, profesor o admin"
+        text rol
+        timestamptz creado_en
     }
-    ALUMNOS {
+    alumnos {
         uuid id PK
-        uuid perfil_id FK "opcional y único"
+        uuid perfil_id FK, UK
         text nombre
-        text rut UK "ficticio"
+        text rut UK
         text carrera
         date certificado_hasta
-        text objetivo "fuerza, hipertrofia o salud"
-        text nivel "principiante o intermedio"
+        text objetivo
+        text nivel
         timestamptz creado_en
+        date certificado_emision
     }
-    TARJETAS {
-        text uid PK "UID del chip, único"
+    tarjetas {
+        text uid PK
         uuid alumno_id FK
-        text tipo "credencial_uss o tne"
+        text tipo
         timestamptz creado_en
     }
-    VISITAS {
+    visitas {
         uuid id PK
         uuid alumno_id FK
         timestamptz entrada
         timestamptz salida
-        bool cierre_automatico
+        boolean cierre_automatico
+        uuid cerrada_por FK
     }
-    TURNOS {
+    turnos {
         uuid id PK
         uuid alumno_id FK
-        int numero "correlativo del día"
-        text estado "esperando, llamado, usado o expirado"
+        integer numero
+        text estado
         timestamptz creado_en
         timestamptz llamado_en
     }
-    RUTINAS {
-        uuid id PK
-        uuid alumno_id FK
-        uuid autor_id FK
-        text origen "sistema, profesor o alumno"
-        bool activa
+    configuracion {
+        integer id PK
+        integer capacidad
+        jsonb horario
+        date periodo_inicio
+        date periodo_fin
+        integer cierre_automatico_horas
+        integer turno_expira_minutos
+        numeric umbral_casi_lleno
+        jsonb progresion
+        jsonb modalidades_rutina
     }
-    EJERCICIOS {
-        uuid id PK
-        uuid rutina_id FK
-        bigint maquina_id FK
-        int orden
-        int series
-        int repeticiones
-        numeric carga_kg
+    aforo {
+        integer id PK
+        integer ocupacion
+        integer capacidad
+        integer turno_llamado
+        integer en_espera
+        numeric umbral_casi_lleno
+        timestamptz actualizado_en
+        text turno_llamado_nombre
     }
-    MAQUINAS {
+```
+
+`configuracion` y `aforo` tienen una fila cada una (id 1). Sus valores se sincronizan por funciones. Los campos de período se conservan por historial; la habilitación depende de `certificado_hasta`. El número de turno es único por día de Santiago. La pantalla pública lee aforo y recibe solo el nombre abreviado junto al llamado.
+
+**Rutinas y máquinas.** Cada combinación de objetivo y nivel identifica una plantilla. El orden de un ejercicio es único dentro de su plantilla o rutina. Solo puede haber una rutina activa por alumno y una respuesta de feedback por visita.
+```mermaid
+erDiagram
+    plantillas ||--o{ plantilla_ejercicios : define
+    maquinas ||--o{ plantilla_ejercicios : equipa
+    plantillas |o--o{ rutinas : origina
+    alumnos ||--o{ rutinas : recibe
+    perfiles |o--o{ rutinas : "figura como autor"
+    rutinas ||--o{ rutina_ejercicios : contiene
+    maquinas ||--o{ rutina_ejercicios : equipa
+    visitas ||--o| feedback : admite
+    rutinas ||--o{ feedback : recibe
+    maquinas {
         bigint id PK
         text nombre
         text ejercicio
         text grupo_muscular
         text patron_movimiento
         text ajustes
-        int cantidad
-        text estado "disponible o en_mantencion"
-        text foto_url "ruta en el bucket maquinas"
-    }
-    FEEDBACK {
-        uuid id PK
-        uuid visita_id FK
-        uuid rutina_id FK
-        text valor "facil, justo o me_costo"
-    }
-    MEDICIONES {
-        uuid id PK
-        uuid alumno_id FK
-        date fecha
-        numeric peso_kg
-        numeric estatura_cm
-        numeric cintura_cm
-    }
-    PRESTAMOS {
-        uuid id PK
-        text tarjeta_uid FK "TNE en garantía"
-        text estado "abierto, parcial o cerrado"
-        bool tne_devuelta
+        integer cantidad
+        text estado
+        text foto_url
         timestamptz creado_en
     }
-    PRESTAMO_ITEMS {
-        uuid prestamo_id PK, FK
-        bigint implemento_id PK, FK
-        int cantidad
-        int devueltos
-    }
-    IMPLEMENTOS {
+    plantillas {
         bigint id PK
-        text nombre UK
-        text categoria
-        int cantidad_total
+        text objetivo
+        text nivel
+        text nombre
     }
-    CONFIGURACION {
-        int id PK "una sola fila"
-        int capacidad
-        jsonb horario
-        date periodo_inicio
-        date periodo_fin
-        int cierre_automatico_horas
-        int turno_expira_minutos
-        numeric umbral_casi_lleno
-        jsonb progresion
-        jsonb modalidades_rutina
+    plantilla_ejercicios {
+        bigint id PK
+        bigint plantilla_id FK
+        integer orden
+        text ejercicio
+        bigint maquina_id FK
+        integer series
+        integer repeticiones
+        integer minutos
+        numeric carga_inicial_kg
+        text nota_ajuste
     }
-    AFORO {
-        int id PK "una sola fila, pública"
-        int ocupacion
-        int capacidad
-        int turno_llamado
-        int en_espera
-        numeric umbral_casi_lleno
+    rutinas {
+        uuid id PK
+        uuid alumno_id FK
+        bigint plantilla_id FK
+        text origen
+        uuid autor_id FK
+        boolean activa
+        timestamptz creada_en
+    }
+    rutina_ejercicios {
+        uuid id PK
+        uuid rutina_id FK
+        integer orden
+        text ejercicio
+        bigint maquina_id FK
+        integer series
+        integer repeticiones
+        integer minutos
+        numeric carga_kg
+        text nota_ajuste
         timestamptz actualizado_en
+    }
+    feedback {
+        uuid id PK
+        uuid visita_id FK, UK
+        uuid rutina_id FK
+        text valor
+        timestamptz creado_en
     }
 ```
 
-**Restricciones de la base de datos:**
-- `tarjetas.uid` es único: una credencial pertenece a un solo alumno (regla 1).
-- Índice único parcial en `visitas (alumno_id) where salida is null`: una visita abierta por alumno (regla 5).
-- `turnos`: número único por día de Santiago y un solo turno activo por alumno y día (regla 4).
-- `configuracion` y `aforo` tienen una sola fila (`id = 1`). `aforo` se publica en Realtime y no contiene datos de alumnos.
-- `prestamo_items.devueltos <= cantidad`.
-- RLS en `mediciones`: solo las lee su dueño (RNF07).
+**Préstamos.** La cabecera identifica al alumno y al perfil que entrega los implementos. La TNE se recibe físicamente como garantía. La búsqueda por tarjeta es opcional y el préstamo es independiente de la visita.
+```mermaid
+erDiagram
+    alumnos ||--o{ prestamos : solicita
+    perfiles ||--o{ prestamos : entrega
+    prestamos ||--|{ prestamo_items : incluye
+    implementos ||--o{ prestamo_items : identifica
+    prestamos {
+        uuid id PK
+        uuid alumno_id FK
+        uuid profesor_id FK
+        timestamptz entregado_en
+        timestamptz devuelto_en
+        boolean tne_devuelta
+    }
+    prestamo_items {
+        uuid prestamo_id PK, FK
+        bigint implemento_id PK, FK
+        integer cantidad
+    }
+    implementos {
+        bigint id PK
+        text nombre UK
+        text categoria
+        integer cantidad_total
+        timestamptz creado_en
+    }
+```
 
----
-
-### 2.1 Modelo implementado en Supabase (23 de noviembre)
-
-![Modelo de datos implementado](diagramas/entidad-relacion-implementado.png)
-
-Generado desde el esquema real de la base (`information_schema`), no dibujado a mano: 9 tablas del esquema `public`,
-todas con Row Level Security. Fuente editable en `diagramas/entidad-relacion-implementado.dot` (Graphviz:
-`dot -Tpng -Gdpi=150 entidad-relacion-implementado.dot -o entidad-relacion-implementado.png`).
-
-**Cómo leerlo (para la lámina 17):**
-
-- **Verde, flujo de ingreso:** `alumnos` es el centro. Cada alumno puede tener varias `tarjetas` (TNE y TUI, regla 1:
-  una tarjeta pertenece a un solo alumno), muchas `visitas` (solo una abierta a la vez, regla 5, con un índice único)
-  y sus `turnos` de la lista de espera (regla 4).
-- **Azul, acceso:** `perfiles` guarda el rol (alumno, profesor o administrador) de cada usuario de Supabase Auth. Un
-  alumno puede no tener cuenta (`perfil_id` opcional): el ingreso funciona igual con la tarjeta.
-- **Amarillo, parámetros y estado:** `configuracion` tiene una sola fila con la capacidad, el horario, el período y
-  los demás parámetros (nada fijo en el código). `aforo` es una fila que se recalcula en cada entrada, salida o turno;
-  es la que escucha la pantalla pública en tiempo real.
-- **Morado, catálogo:** `maquinas` (con su `estado`, base de la advertencia de mantención) e `implementos`.
-- **Orden de `registrar_ingreso`:** ¿la tarjeta existe? → ¿tiene una visita abierta? (sale) → ¿el certificado está
-  vigente en el período? → ¿está dentro del horario? → ¿hay cupo? (entra) o turno. La salida va antes que el horario
-  para que un alumno que sigue adentro después del último ingreso pueda marcar su salida. Todo en una transacción.
-- **Diseñado frente a implementado:** el modelo de la sección 2 tiene además rutinas, préstamos y registro corporal;
-  se construyen según el [CR-01](cr-01-linea-base-entrega-final.md).
+`stock_prestamos` y `prestamos_pendientes` son vistas. El stock disponible se calcula restando las cantidades de préstamos abiertos. Un índice único parcial impide tener dos solicitudes pendientes para el mismo alumno.
 
 ## 3. Secuencia del ingreso (CU01, CU02 y CU04)
 
-> **Diseño frente a lo implementado (23 de noviembre).** El diagrama muestra el diseño lógico. En la implementación, el kiosco hace una sola llamada a `registrar_ingreso(uid)`, que valida credencial, certificado, horario y cupo dentro de la base de datos y devuelve entrada, salida, turno o rechazo ([contrato](contrato-flujo-ingreso.md)). Las pantallas en tiempo real escuchan la tabla `aforo`, no `visitas`. La entrega de la rutina al celular sigue pendiente.
+El lector entrega el UID y Enter. El kiosco normaliza el código y hace una llamada a `registrar_ingreso`. La base bloquea la fila de aforo para ordenar las lecturas simultáneas, procesa cierres automáticos y turnos vencidos, e identifica la tarjeta. La salida de una visita abierta se procesa antes de validar certificado y horario. [Contrato del flujo de ingreso](contrato-flujo-ingreso.md)
 
 ```mermaid
 sequenceDiagram
-    actor A as Alumno
-    participant L as Lector NFC
-    participant P as Pantalla /ingreso
-    participant DB as Supabase (PostgreSQL)
-    participant RT as Supabase Realtime
+    participant K as Kiosco
+    participant DB as Supabase
+    participant RT as Realtime
     participant C as Celular del alumno
-
-    Note over C: El alumno ya inició sesión en su celular (D13)
-    A->>L: Acerca su credencial
-    L->>P: Escribe el UID y presiona Enter
-    P->>DB: Busca la tarjeta por UID
-    alt Credencial no registrada
-        DB-->>P: Sin resultado
-        P-->>A: "Credencial no registrada" (CU11)
-    else Credencial registrada
-        DB-->>P: Alumno
-        P->>DB: Valida certificado, horario y cupo
-        alt Sin certificado vigente o fuera de horario
-            DB-->>P: Rechazo con motivo
-            P-->>A: Muestra el motivo
-        else Gimnasio lleno
-            DB-->>P: Sin cupo
-            P->>DB: Crea un turno (estado esperando)
-            P-->>A: Muestra su número de turno (CU02)
-        else Hay cupo
-            P->>DB: Crea la visita (entrada = ahora)
-            DB-->>RT: Cambio en visitas
-            RT-->>P: Aforo +1
-            RT-->>C: Visita abierta
-            C->>DB: Pide la rutina activa
-            DB-->>C: Rutina con cargas y avisos de mantención
-            P-->>A: "Bienvenido, [nombre]"
+    participant P as Panel del profesor
+    Note over C: Sesión iniciada y suscripción a sus propias visitas
+    K->>DB: registrar_ingreso(uid)
+    alt Tarjeta desconocida
+        DB-->>K: Rechazo y opción de vincular
+    else Entrada con certificado vencido o fuera de horario
+        DB-->>K: Rechazo con motivo
+    else Sin cupo disponible para este alumno
+        DB-->>K: Turno nuevo o turno existente
+    else Entrada con cupo libre o turno llamado
+        DB->>DB: Inserta visita y sincroniza aforo
+        DB-->>K: Entrada registrada
+        DB-->>RT: INSERT en visitas
+        RT-->>C: Visita abierta
+        C->>DB: rutina_del_dia()
+        DB-->>C: Ejercicios, cargas y estado de máquinas
+        alt Salida con la credencial
+            K->>DB: registrar_ingreso(uid)
+            DB->>DB: Cierra visita y sincroniza aforo
+            DB-->>K: Salida registrada
+            DB-->>RT: UPDATE en visitas
+            RT-->>C: Salida normal
+            opt Hay rutina activa y feedback pendiente de hoy
+                C->>C: Pregunta fácil, justo o me costó
+                opt El alumno responde
+                    C->>DB: registrar_feedback(rutina, valor)
+                    DB-->>C: Feedback registrado
+                    C->>DB: rutina_del_dia()
+                    DB-->>C: Cargas para la próxima sesión
+                end
+            end
+        else Cierre manual
+            P->>DB: cerrar_visita(visita)
+            DB->>DB: Guarda salida y cerrada_por, sincroniza aforo
+            DB-->>RT: UPDATE en visitas
+            RT-->>C: Visita cerrada sin pregunta de feedback
         end
     end
 ```
 
-La validación de certificado, horario y cupo debería quedar en una sola función de la base de datos, para que
-dos lecturas al mismo tiempo no ocupen el último cupo.
-
----
+El celular relee su rutina tras el cambio de visita. Si al alumno le falta objetivo o nivel, `/alumno` le ofrece elegirlos para generar la rutina. La pantalla pública escucha los cambios de `aforo`: cuando se libera un cupo, muestra el turno llamado y el nombre abreviado. El alumno llamado debe volver a pasar su credencial para entrar.
 
 ## 4. Estados de la visita
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Abierta: pasa la credencial con cupo
-    Abierta --> Cerrada: pasa la credencial al salir
-    Abierta --> CerradaAutomaticamente: pasan 3 horas sin salida
-    Cerrada --> [*]
-    CerradaAutomaticamente --> [*]
+    [*] --> Abierta: entrada aceptada
+    Abierta --> SalidaNormal: segunda lectura de la credencial
+    Abierta --> CierreManual: el profesor confirma el cierre
+    Abierta --> CierreAutomatico: una lectura procesa el plazo cumplido
+    SalidaNormal --> [*]
+    CierreManual --> [*]
+    CierreAutomatico --> [*]
 ```
 
-| Estado | Cómo se guarda | Efecto |
+| Estado | Registro en visitas | Efecto |
 |---|---|---|
-| Abierta | `salida` vacía | Cuenta en el aforo |
-| Cerrada | `salida` con la hora real | Libera el cupo y pide feedback si usó su rutina |
-| Cerrada automáticamente | `salida` con la hora del cierre y `cierre_automatico = true` | Libera el cupo y no pide feedback |
-
----
+| Abierta | `salida` nula | Cuenta en la ocupación. |
+| Salida normal | `salida` registrada, `cerrada_por` nulo y `cierre_automatico = false` | Libera el cupo; ese día el celular ofrece feedback si corresponde. |
+| Cierre manual | `salida` registrada, `cerrada_por` identifica al responsable | Libera el cupo sin pedir feedback. |
+| Cierre automático | `salida = entrada + plazo`, `cierre_automatico = true` | Libera el cupo sin pedir feedback. El plazo inicial es de tres horas y se comprueba al procesar una lectura. |
 
 ## 5. Estados del préstamo
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Abierto: el profesor pasa la TNE y marca los implementos
-    Abierto --> Parcial: devuelve una parte
-    Parcial --> Parcial: devuelve otra parte
-    Abierto --> Devuelto: devuelve todo
-    Parcial --> Devuelto: devuelve el resto
-    Devuelto --> Cerrado: el profesor entrega la TNE
-    Cerrado --> [*]
+    [*] --> Abierto: registra implementos y recibe la TNE
+    Abierto --> Devuelto: recibe todos los implementos y entrega la TNE
+    Devuelto --> [*]
 ```
 
-| Estado | Condición | Puede abrir otro préstamo |
+| Estado en S1 | Registro en préstamos | Efecto |
 |---|---|---|
-| Abierto | Ningún implemento devuelto | No |
-| Parcial | Algunos implementos devueltos | No |
-| Devuelto | Todo devuelto y la TNE sigue con el profesor | No |
-| Cerrado | Todo devuelto y `tne_devuelta = true` | Sí |
+| Abierto | `devuelto_en` nulo y `tne_devuelta = false` | Descuenta stock y bloquea otra solicitud del alumno. |
+| Devuelto | `devuelto_en` registrado y `tne_devuelta = true` | Repone todo el stock y permite solicitar otro préstamo. |
 
-Los préstamos no cambian el aforo (D04). El diagrama conserva el bloqueo de otro préstamo mientras la TNE siga en garantía. Pendiente confirmar esa condición con el equipo y alinearla con R9 y su criterio.
-
----
+`registrar_devolucion` registra la devolución completa y el retiro de la TNE en la misma operación. Si existe una fila con implementos ya devueltos y TNE sin retirar, D19 también bloquea el próximo préstamo. Ninguna de estas operaciones modifica el aforo (D04).
 
 ## Pendientes
 
-- Contrastar el modelo entidad-relación con los [scripts de perfiles y catálogo](../supabase/sql/) ya disponibles y actualizarlo a medida que se creen las tablas del flujo central.
-- Definir qué pasa con un turno llamado que no se presenta (por ejemplo, si vence a los 5 minutos).
+- Isidora revisa el modelo y los flujos contra 015 antes de dar por cerrado F-13.
+- La devolución parcial queda para F-20. El registro corporal y la creación de rutinas por profesor o alumno siguen en el diseño de la próxima versión.
+- Para el ensayo, comprobar con el lector físico y el celular el ciclo entrada, salida y feedback. Los turnos llamados sin reclamar expiran cuando una nueva lectura procesa el plazo configurado.
