@@ -3,6 +3,7 @@ import {
   diaSantiago,
   duracionMinutos,
   esDiaValido,
+  estadoPrestamo,
   fechaLarga,
   feedbackPorVisita,
   hora,
@@ -14,6 +15,7 @@ import {
   tipoCierre,
   type VisitaHistorial,
 } from "./historial";
+import { actualizarConsulta, type ConsultaDia } from "./consulta-dia";
 import { ETIQUETA_CIERRE, plural } from "./mensajes";
 
 const AHORA = new Date("2026-12-07T15:00:00Z"); // lunes 7 de diciembre, 12:00 en Santiago
@@ -29,8 +31,8 @@ describe("tipoCierre", () => {
     expect(tipoCierre(v({ salida: "2026-12-07T14:00:00Z", cerrada_por: "p1" }))).toBe("profesor");
     expect(tipoCierre(v({ salida: "2026-12-07T16:00:00Z", cierre_automatico: true }))).toBe("automatico");
   });
-  it("etiquetas en palabras", () => {
-    expect(ETIQUETA_CIERRE.automatico).toBe("Cierre automático (3 h)");
+  it("el cierre automático histórico no presupone un plazo", () => {
+    expect(ETIQUETA_CIERRE.automatico).toBe("Cierre automático");
   });
 });
 
@@ -68,6 +70,18 @@ describe("rangoDia", () => {
   });
   it("invierno: medianoche de Santiago es las 04:00 UTC", () => {
     expect(rangoDia("2026-07-06")).toEqual({ desde: "2026-07-06T04:00:00.000Z", hasta: "2026-07-07T04:00:00.000Z" });
+  });
+  it.each([
+    ["2026-04-04", "2026-04-04T03:00:00.000Z", "2026-04-05T04:00:00.000Z", 25],
+    ["2026-04-05", "2026-04-05T04:00:00.000Z", "2026-04-06T04:00:00.000Z", 24],
+    ["2026-09-06", "2026-09-06T04:00:00.000Z", "2026-09-07T03:00:00.000Z", 23],
+  ] as const)("límites del día local %s", (dia, desde, hasta, horas) => {
+    expect(rangoDia(dia)).toEqual({ desde, hasta });
+    expect(Date.parse(hasta) - Date.parse(desde)).toBe(horas * 3600000);
+    expect(diaSantiago(new Date(Date.parse(desde) - 1))).not.toBe(dia);
+    expect(diaSantiago(new Date(desde))).toBe(dia);
+    expect(diaSantiago(new Date(Date.parse(hasta) - 1))).toBe(dia);
+    expect(diaSantiago(new Date(hasta))).not.toBe(dia);
   });
   it("cruza fin de mes y de año", () => {
     expect(rangoDia("2026-12-31").hasta).toBe("2027-01-01T03:00:00.000Z");
@@ -123,6 +137,7 @@ describe("normalizar lo que llega de Supabase", () => {
         id: "p2",
         entregado_en: "2026-12-07T15:00:00Z",
         devuelto_en: null,
+        tne_devuelta: false,
         alumnos: { nombre: "Benjamín" },
         prestamo_items: [{ cantidad: 1, implementos: { nombre: "Paleta" } }],
       },
@@ -130,6 +145,7 @@ describe("normalizar lo que llega de Supabase", () => {
         id: "p1",
         entregado_en: "2026-12-07T13:00:00Z",
         devuelto_en: "2026-12-07T14:00:00Z",
+        tne_devuelta: true,
         alumnos: [{ nombre: "Antonia" }],
         prestamo_items: [
           { cantidad: 2, implementos: { nombre: "Balón de vóleibol" } },
@@ -147,5 +163,35 @@ describe("plural", () => {
   it("singular y plural", () => {
     expect(plural(1, "visita", "visitas")).toBe("1 visita");
     expect(plural(3, "visita", "visitas")).toBe("3 visitas");
+  });
+});
+
+describe("estado del préstamo (D19 y CA21)", () => {
+  it("solo está cerrado cuando volvieron los implementos y la garantía", () => {
+    const base = { id: "p", entregado_en: "2026-04-05T15:00:00Z", devuelto_en: null, tne_devuelta: false };
+    const devuelto = { ...base, devuelto_en: "2026-04-05T17:00:00Z" };
+    const filas = normalizarPrestamos([base, devuelto, { ...devuelto, tne_devuelta: true }, { ...devuelto, tne_devuelta: null }]);
+    expect(filas.map(estadoPrestamo)).toEqual(["implementos", "tne", "cerrado"]);
+    expect(filas.map((p) => p.tne_devuelta)).toEqual([false, false, true]);
+  });
+});
+
+describe("cambio de fecha del historial", () => {
+  const anterior: ConsultaDia = { dia: "2026-04-04", peticion: 1, tipo: "listo",
+    datos: { visitas: [v({})], prestamos: [], ahora: AHORA } };
+  const carga: ConsultaDia = { dia: "2026-04-05", peticion: 2, tipo: "cargando" };
+  const error: ConsultaDia = { ...carga, tipo: "error" };
+
+  it("retira los datos anteriores desde la selección y también si falla la nueva lectura", () => {
+    const enCurso = actualizarConsulta(anterior, carga);
+    expect(enCurso).toEqual(carga);
+    expect(actualizarConsulta(enCurso, error)).toEqual(error);
+  });
+
+  it("descarta éxitos y errores atrasados, incluso si el profesor vuelve a la fecha inicial", () => {
+    const regreso = actualizarConsulta(carga, { ...anterior, peticion: 3, tipo: "cargando" });
+    expect(actualizarConsulta(regreso, anterior)).toBe(regreso);
+    expect(actualizarConsulta(regreso, error)).toBe(regreso);
+    expect(actualizarConsulta(error, anterior)).toBe(error);
   });
 });

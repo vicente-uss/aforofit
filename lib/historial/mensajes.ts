@@ -6,7 +6,7 @@ export const ETIQUETA_CIERRE: Record<TipoCierre, string> = {
   abierta: "En el gimnasio",
   normal: "Salida normal",
   profesor: "Cerrada por el profesor",
-  automatico: "Cierre automático (3 h)",
+  automatico: "Cierre automático",
 };
 
 // Tono de la insignia de cada tipo de cierre (components/marca/insignia).
@@ -43,3 +43,11 @@ export const TEXTOS = {
 export function plural(n: number, singular: string, plural: string): string {
   return `${n} ${n === 1 ? singular : plural}`;
 }
+
+export const ETIQUETA_PRESTAMO = {
+  implementos: "Implementos pendientes",
+  tne: "TNE pendiente",
+  cerrado: "Cerrado",
+} as const;
+
+export const TONO_PRESTAMO = { implementos: "blue", tne: "amber", cerrado: "green" } as const;

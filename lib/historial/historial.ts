@@ -20,7 +20,13 @@ export type PrestamoHistorial = {
   implementos: string; // «Balón de fútbol × 1, Paleta × 2»
   entregado_en: string;
   devuelto_en: string | null;
+  tne_devuelta: boolean;
 };
+
+export function estadoPrestamo(p: Pick<PrestamoHistorial, "devuelto_en" | "tne_devuelta">) {
+  if (p.devuelto_en === null) return "implementos";
+  return p.tne_devuelta ? "cerrado" : "tne";
+}
 
 function esObjeto(valor: unknown): valor is Record<string, unknown> {
   return typeof valor === "object" && valor !== null && !Array.isArray(valor);
@@ -74,36 +80,24 @@ export function fechaLarga(iso: string): string {
 }
 
 // Día del calendario de Santiago (AAAA-MM-DD).
+const formatoDia = new Intl.DateTimeFormat("en-CA", { timeZone: ZONA });
+
 export function diaSantiago(fecha: Date): string {
-  return fecha.toLocaleDateString("en-CA", { timeZone: ZONA });
+  return formatoDia.format(fecha);
 }
 
-// Minutos que Santiago está desplazado de UTC en ese instante (−180 en verano, −240 en invierno).
-function desfaseMinutos(instante: number): number {
-  const partes = Object.fromEntries(
-    new Intl.DateTimeFormat("en-US", {
-      timeZone: ZONA,
-      hourCycle: "h23",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-      .formatToParts(new Date(instante))
-      .map((p) => [p.type, p.value]),
-  );
-  const local = Date.UTC(+partes.year, +partes.month - 1, +partes.day, +partes.hour, +partes.minute);
-  return Math.round((local - instante) / 60000);
-}
-
-// Medianoche de Santiago de un día AAAA-MM-DD, como instante UTC (dos pasadas por el cambio de hora).
-function medianocheSantiago(dia: string): number {
-  const [a, m, d] = dia.split("-").map(Number);
-  const ingenuo = Date.UTC(a, m - 1, d);
-  let instante = ingenuo - desfaseMinutos(ingenuo) * 60000;
-  instante = ingenuo - desfaseMinutos(instante) * 60000;
-  return instante;
+// Primer instante que pertenece a la fecha local, aunque el reloj se salte la medianoche.
+function inicioDiaSantiago(dia: string): number {
+  const referencia = Date.parse(dia + "T00:00:00Z");
+  const margen = 12 * 60 * 60 * 1000;
+  let antes = referencia - margen;
+  let despues = referencia + margen;
+  while (despues - antes > 1) {
+    const medio = Math.floor((antes + despues) / 2);
+    if (diaSantiago(new Date(medio)) < dia) antes = medio;
+    else despues = medio;
+  }
+  return despues;
 }
 
 export function esDiaValido(dia: string): boolean {
@@ -118,8 +112,8 @@ export function rangoDia(dia: string): { desde: string; hasta: string } {
   const [a, m, d] = dia.split("-").map(Number);
   const siguiente = new Date(Date.UTC(a, m - 1, d + 1)).toISOString().slice(0, 10);
   return {
-    desde: new Date(medianocheSantiago(dia)).toISOString(),
-    hasta: new Date(medianocheSantiago(siguiente)).toISOString(),
+    desde: new Date(inicioDiaSantiago(dia)).toISOString(),
+    hasta: new Date(inicioDiaSantiago(siguiente)).toISOString(),
   };
 }
 
@@ -132,7 +126,7 @@ export type ResumenDia = {
 };
 
 // Resumen del día para el profesor. El promedio usa solo las visitas con salida real (normal o
-// cerrada por el profesor): el cierre automático pone una salida ficticia a las 3 h (regla 6).
+// cerrada por el profesor): el cierre automático registra una salida al cumplirse el plazo configurado (regla 6).
 export function resumenDia(visitas: VisitaHistorial[], ahora: Date): ResumenDia {
   const tipos = visitas.map(tipoCierre);
   const conSalidaReal = visitas.filter((_, i) => tipos[i] === "normal" || tipos[i] === "profesor");
@@ -191,6 +185,7 @@ export function normalizarPrestamos(data: unknown): PrestamoHistorial[] {
     if (!esObjeto(f) || typeof f.id !== "string" || typeof f.entregado_en !== "string") continue;
     if (f.devuelto_en !== null && typeof f.devuelto_en !== "string") continue;
     const alumno = primero(f.alumnos);
+    if (typeof f.tne_devuelta !== "boolean") continue;
     const items = Array.isArray(f.prestamo_items) ? f.prestamo_items : [];
     const implementos = items
       .map((it) => {
@@ -206,6 +201,7 @@ export function normalizarPrestamos(data: unknown): PrestamoHistorial[] {
       implementos: implementos.join(", "),
       entregado_en: f.entregado_en,
       devuelto_en: f.devuelto_en as string | null,
+      tne_devuelta: f.tne_devuelta,
     });
   }
   return prestamos.sort((a, b) => Date.parse(a.entregado_en) - Date.parse(b.entregado_en));

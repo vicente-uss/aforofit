@@ -110,10 +110,17 @@ begin
   join public.alumnos a on a.id = p.alumno_id
   join public.prestamo_items d on d.prestamo_id = p.id
   join public.implementos i on i.id = d.implemento_id
-  where p.id = v_prestamo and p.devuelto_en is not null;
+  where p.id = v_prestamo and p.devuelto_en is not null and p.tne_devuelta;
   execute 'reset role';
   perform pg_temp.ok('El profesor lee un préstamo cerrado con su alumno e implementos',
     v_texto = 'Historial Uno Prueba' and v_items = 'Implemento historial ' || v_prof || ' × 2');
+
+  update public.prestamos set tne_devuelta = false where id = v_prestamo;
+  execute 'set local role authenticated';
+  select count(*) into n from public.prestamos
+  where id = v_prestamo and devuelto_en is not null and not tne_devuelta;
+  execute 'reset role';
+  perform pg_temp.ok('El profesor identifica la TNE pendiente aunque ya volvieron los implementos', n = 1);
 
   -- anon no ve nada ---------------------------------------------------------------------------
   perform pg_temp.sesion(null);
