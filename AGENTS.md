@@ -365,6 +365,12 @@ Actualizado: miércoles 25 de noviembre de 2026.
   Vitest en `main` con todo fusionado: 152 de 152 OK.
 - Afiche, versión 4 del canvas (25 nov): rutina, feedback y estado de máquinas como implementados, «318 pruebas
   automáticas aprobadas» y conclusión actualizada (`docs/afiche-contenido.md`). Falta revisarlo y exportar el PDF en A0.
+- S1 y S2 (PR #17, Codex, fusionado el 25 de noviembre): `015_prestamos_y_habilitacion.sql` con préstamo básico
+  (`registrar_prestamo` con varios implementos y stock disponible, `registrar_devolucion` completa con la TNE, bloqueo
+  con préstamo pendiente, D04 y D19) y habilitación (`alumnos.certificado_emision`, `registrar_habilitacion` solo admin,
+  vencimiento = emisión + 12 meses, D20). Pantallas `/profesor/prestamos` (búsqueda por nombre o con el lector) y
+  `/admin/habilitacion`. Pruebas locales: SQL 188 de 188 (22 nuevas en `prestamos.sql`), Vitest 161 de 161. Las
+  devoluciones parciales siguen en F-20.
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -394,8 +400,8 @@ Actualizado: miércoles 25 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16). S1
-  (préstamo básico) y S2 (habilitación) se deciden el viernes 27. CA11 medido el 25 de
+- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16) y S1 y S2
+  (PR #17). Falta solo evidencia, documentación y el ensayo de la demo. CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector, el nombre del docente (Rodrigo Correa Rojas) y la versión 4 con la rutina implementada; falta revisarlo en

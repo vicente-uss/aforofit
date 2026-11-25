@@ -86,8 +86,8 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-29 ✅ | Nombre e inicial del apellido junto al turno llamado en `/aforo` y `/profesor/espera` (D22, pedido del encargado), con prueba | Agente | RF10 · D14 | Mié 25 | 30 min |
 | F-31 ✅ | Cantidades reales de implementos (`supabase/sql/010_implementos_reales.sql`, aplicado el 24 nov: 5 implementos, 9 unidades; PR #10) | Persona | RF21 | Mar 24 | Hecho |
 | F-32 ✅ | Regla 2 con vigencia de un año desde la emisión (D20): quitar de `registrar_ingreso` el rechazo `fuera_de_periodo` y actualizar requisitos, CA y pruebas SQL | Agente + Claude | R2 · RF25 · CA28 | Mié 25 | 20 min |
-| F-10 | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
-| F-11 | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
+| F-10 ✅ | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
+| F-11 ✅ | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
 | F-12 | Matriz de cobertura con las columnas «implementado» y «resultado de prueba» | Claude | Rúbrica 4 «Coherencia» | Dom 29 | 30 min |
 | F-13 | Diagramas al día: ER con las tablas nuevas y secuencia con la rutina | Claude | — | Dom 29 | 30 min |
 | F-14 | Medir los RNF que faltan: RNF02 en la rutina, RNF03 en computador, Android y iPhone, RNF05 a 360 px | Persona | CA11, CA30, CA32 | Sáb 28 | 45 min |

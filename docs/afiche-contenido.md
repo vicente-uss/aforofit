@@ -128,7 +128,7 @@ Cinco cajas unidas por flechas, que muestran a la vez el flujo y las piezas del 
 | Rutina en el celular al pasar la credencial | Implementado | En producción (PR #11 y #12; llega en cerca de 1 s) | ☐ |
 | Feedback al salir y progresión de cargas | Implementado | En producción (PR #11 y #12, con D25) | ☐ |
 | Estado de máquinas y aviso de mantención en la rutina | Implementado | En producción (PR #13) | ☐ |
-| Préstamo de implementos con la TNE | "Próximamente" (así está en el afiche) | Opcional (S1); se decide el viernes 27. Si se construye, el afiche ya está cerrado: se menciona en la defensa | ☐ |
+| Préstamo de implementos con la TNE | Implementado (básico: devolución completa) | En producción (PR #17). Hay que sacarlo de «Próximamente» en el afiche | ☐ |
 | Registro corporal privado | Solo como "Próximamente" | Próxima versión (CR-01) | — |
 | Reparto del orden de ejercicios (experimental) | Solo como "Próximamente" | Prioridad media | — |
 
