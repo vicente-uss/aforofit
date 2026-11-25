@@ -62,6 +62,10 @@ const ERRORES: Record<string, ErrorRutina> = {
     titulo: "Tu visita se cerró sola",
     detalle: "No marcaste la salida y la visita se cerró automáticamente, así que no pedimos feedback.",
   },
+  visita_cierre_manual: {
+    titulo: "El profesor cerró tu visita",
+    detalle: "Tu salida la marcó el profesor, así que esta vez no pedimos feedback.",
+  },
   sin_visita: {
     titulo: "No encontramos tu visita",
     detalle: "Pasa tu credencial al entrar y al salir del gimnasio para poder responder.",
