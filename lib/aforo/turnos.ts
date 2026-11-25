@@ -14,7 +14,12 @@ function esObjeto(valor: unknown): valor is Record<string, unknown> {
 // Según la relación detectada, Supabase entrega `alumnos` como objeto o como array.
 function normalizarAlumno(valor: unknown): Turno["alumnos"] {
   const alumno = Array.isArray(valor) ? valor[0] : valor;
-  return esObjeto(alumno) && typeof alumno.nombre === "string" ? { nombre: alumno.nombre } : null;
+  if (!esObjeto(alumno) || typeof alumno.nombre !== "string") return null;
+  // Mismo criterio que privado.nombre_para_turno (013).
+  const partes = alumno.nombre.trim().split(/\s+/u);
+  if (partes.length < 2) return null;
+  const apellido = partes[Math.max(1, partes.length - 2)];
+  return { nombre: `${partes[0]} ${apellido[0].toUpperCase()}.` };
 }
 
 // Descarta las filas que no tengan los campos esperados.

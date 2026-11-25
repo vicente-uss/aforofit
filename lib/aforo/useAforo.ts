@@ -8,6 +8,7 @@ export type FilaAforo = {
   ocupacion: number;
   capacidad: number;
   turno_llamado: number | null;
+  turno_llamado_nombre: string | null;
   en_espera: number;
   umbral_casi_lleno: number | null;
   actualizado_en: string;
@@ -16,7 +17,7 @@ export type FilaAforo = {
 // Respaldo por si Realtime se desconecta (riesgo R04): se vuelve a leer la tabla cada 15 s.
 const INTERVALO_RESPALDO_MS = 15000;
 
-const COLUMNAS = "ocupacion, capacidad, turno_llamado, en_espera, umbral_casi_lleno, actualizado_en";
+const COLUMNAS = "ocupacion, capacidad, turno_llamado, turno_llamado_nombre, en_espera, umbral_casi_lleno, actualizado_en";
 
 /**
  * Lee la fila de aforo (id = 1) y la mantiene al día: una lectura inicial, los cambios en vivo por

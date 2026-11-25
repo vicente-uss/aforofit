@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { textoCupos } from "@/lib/aforo/estado";
 import { useAforo } from "@/lib/aforo/useAforo";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
+import { pausaLector } from "@/lib/ingreso/pausaLector";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
   enmascararUid,
@@ -58,6 +59,7 @@ function formatoHora(fecha: Date) {
 export function PantallaIngreso() {
   // Aforo en vivo solo para mostrarlo: no participa en la validación ni bloquea el ingreso.
   const { aforo, sinConexion: sinAforo } = useAforo("aforo-kiosco");
+  const [enPausa, avisarFoco] = useReducer(pausaLector, false);
   const [ultima, setUltima] = useState<Lectura | null>(null);
   const [lecturas, setLecturas] = useState<Lectura[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -97,14 +99,19 @@ export function PantallaIngreso() {
 
   // El campo del lector debe tener siempre el foco, salvo mientras se usa el ingreso manual.
   const enfocarLector = useCallback(() => {
-    if (manualAbiertoRef.current) return;
+    if (manualAbiertoRef.current || document.hidden || !document.hasFocus()) return;
     if (document.activeElement !== lectorRef.current) {
       lectorRef.current?.focus();
     }
   }, []);
 
   useEffect(() => {
+    const alPerderFoco = () => avisarFoco("sin_foco");
+    const alCambiarVisibilidad = () => avisarFoco(document.hidden ? "oculta" : "visible");
+    if (!document.hasFocus() || document.hidden) alPerderFoco();
     enfocarLector();
+    window.addEventListener("blur", alPerderFoco);
+    document.addEventListener("visibilitychange", alCambiarVisibilidad);
     const intervalo = setInterval(enfocarLector, INTERVALO_FOCO_MS);
     // Un clic en cualquier parte de la pantalla devuelve el foco al lector.
     const alHacerClic = () => setTimeout(enfocarLector, 0);
@@ -112,6 +119,8 @@ export function PantallaIngreso() {
     window.addEventListener("focus", enfocarLector);
     return () => {
       clearInterval(intervalo);
+      window.removeEventListener("blur", alPerderFoco);
+      document.removeEventListener("visibilitychange", alCambiarVisibilidad);
       window.removeEventListener("click", alHacerClic);
       window.removeEventListener("focus", enfocarLector);
     };
@@ -258,6 +267,16 @@ export function PantallaIngreso() {
     setTimeout(enfocarLector, 0);
   };
 
+  const reactivarLector = () => {
+    manualAbiertoRef.current = false;
+    setManualAbierto(false);
+    setBusquedaAbierta(false);
+    enfocarLector();
+    if (document.hasFocus() && document.activeElement === lectorRef.current) {
+      avisarFoco("lector_reactivado");
+    }
+  };
+
   const alPresionarTeclaLector = (evento: React.KeyboardEvent<HTMLInputElement>) => {
     if (evento.key !== "Enter") return;
     evento.preventDefault();
@@ -312,6 +331,15 @@ export function PantallaIngreso() {
       </header>
 
       <main className="mx-auto max-w-5xl space-y-6 p-4 md:p-6">
+        {enPausa && (
+          <button
+            type="button"
+            onClick={reactivarLector}
+            className="w-full rounded-xl bg-yellow-400 p-6 text-3xl font-bold text-black md:text-5xl"
+          >
+            Lector en pausa: haz clic aquí
+          </button>
+        )}
         <Card className="overflow-hidden">
           <CardContent
             className={`flex min-h-[18rem] flex-col items-center justify-center gap-4 p-8 text-center ${

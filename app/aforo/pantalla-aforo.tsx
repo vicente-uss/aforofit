@@ -69,6 +69,9 @@ export function PantallaAforo() {
                 <p className="text-7xl font-bold tabular-nums md:text-9xl md:leading-none">
                   {aforo.turno_llamado}
                 </p>
+                {aforo.turno_llamado_nombre && (
+                  <p className="text-5xl font-bold md:text-7xl">{aforo.turno_llamado_nombre}</p>
+                )}
                 <p className="text-2xl md:text-3xl">pasa tu credencial</p>
               </div>
             )}

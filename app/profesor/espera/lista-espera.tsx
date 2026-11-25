@@ -104,8 +104,9 @@ export function ListaEspera() {
                       turno.estado === "llamado" ? "font-semibold" : ""
                     }`}
                   >
-                    <span className="w-16 text-2xl tabular-nums">#{turno.numero}</span>
-                    <span className="flex-1">{turno.alumnos?.nombre ?? "Alumno"}</span>
+                    <span className="flex-1 text-2xl tabular-nums">
+                      Turno {turno.numero}{turno.alumnos && ` · ${turno.alumnos.nombre}`}
+                    </span>
                     {turno.estado === "llamado" ? (
                       <Badge className="bg-yellow-400 text-black hover:bg-yellow-400">Llamado</Badge>
                     ) : (
