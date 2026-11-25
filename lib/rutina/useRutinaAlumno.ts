@@ -55,7 +55,9 @@ export function useRutinaAlumno() {
       supabase.rpc("rutina_del_dia"),
       supabase
         .from("visitas")
-        .select("id, entrada, salida, cierre_automatico")
+        // «*» en vez de la lista de columnas: así la pantalla sigue funcionando aunque 012 (cerrada_por)
+        // se aplique en Supabase después del despliegue. RLS limita las filas a las del propio alumno.
+        .select("*")
         .eq("alumno_id", alumno.id)
         .order("entrada", { ascending: false })
         .limit(1)

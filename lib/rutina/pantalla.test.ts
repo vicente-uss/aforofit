@@ -19,7 +19,14 @@ const AHORA = new Date("2026-12-07T15:00:00Z");
 const ALUMNO = { id: "a1", nombre: "Antonia Fictia Rivas", objetivo: "hipertrofia", nivel: "principiante" } as const;
 
 function visita(parcial: Partial<Visita> = {}): Visita {
-  return { id: "v1", entrada: "2026-12-07T12:00:00Z", salida: null, cierre_automatico: false, ...parcial };
+  return {
+    id: "v1",
+    entrada: "2026-12-07T12:00:00Z",
+    salida: null,
+    cierre_automatico: false,
+    cerrada_por: null,
+    ...parcial,
+  };
 }
 
 function estado(parcial: Partial<EstadoAlumno> = {}): EstadoAlumno {
@@ -77,6 +84,11 @@ describe("pantallaAlumno", () => {
       pantallaAlumno(
         estado({ ultimaVisita: visita({ salida: "2026-12-07T15:00:00Z", cierre_automatico: true }) }),
       ),
+    ).toBe("fuera");
+  });
+  it("cierre manual del profesor: no pide feedback (D21)", () => {
+    expect(
+      pantallaAlumno(estado({ ultimaVisita: visita({ salida: "2026-12-07T15:00:00Z", cerrada_por: "p1" }) })),
     ).toBe("fuera");
   });
   it("salida de otro día: no pide feedback", () => {
@@ -143,7 +155,14 @@ describe("normalizarVisita y normalizarAlumno", () => {
       entrada: "x",
       salida: null,
       cierre_automatico: false,
+      cerrada_por: null,
     });
+  });
+  it("visita cerrada a mano trae cerrada_por", () => {
+    expect(
+      normalizarVisita({ id: "v", entrada: "x", salida: "y", cierre_automatico: false, cerrada_por: "p1" })?.cerrada_por,
+    ).toBe("p1");
+    expect(normalizarVisita({ id: "v", entrada: "x", salida: "y", cierre_automatico: false, cerrada_por: 5 })).toBeNull();
   });
   it("visita inválida: null", () => {
     expect(normalizarVisita({ id: "v", entrada: "x", salida: 3, cierre_automatico: false })).toBeNull();

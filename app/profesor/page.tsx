@@ -27,6 +27,11 @@ async function Contenido() {
           href: "/profesor/espera",
         },
         {
+          titulo: "Quiénes están adentro",
+          descripcion: "Visitas abiertas y cierre a mano para quien no marcó la salida.",
+          href: "/profesor/adentro",
+        },
+        {
           titulo: "Préstamos",
           descripcion: "Entrega y devolución de implementos con la TNE.",
         },
@@ -37,6 +42,7 @@ async function Contenido() {
         {
           titulo: "Mantención",
           descripcion: "Marca máquinas como disponibles o en mantención.",
+          href: "/profesor/maquinas",
         },
       ]}
     />

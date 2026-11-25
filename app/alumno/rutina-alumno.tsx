@@ -24,7 +24,13 @@ import { PreguntaFeedback, ProximaSesion } from "./feedback";
 import { ListaEjercicios } from "./lista-ejercicios";
 
 // Errores después de los cuales conviene releer: la pantalla cambia sola a lo que corresponde.
-const ERRORES_QUE_RELEEN = ["feedback_ya_registrado", "visita_cierre_automatico", "sin_visita", "rutina_inactiva"];
+const ERRORES_QUE_RELEEN = [
+  "feedback_ya_registrado",
+  "visita_cierre_automatico",
+  "visita_cierre_manual",
+  "sin_visita",
+  "rutina_inactiva",
+];
 
 /**
  * Pantalla de rutina del alumno (CR-01: B1, B3 y B4). Qué se muestra lo decide pantallaAlumno

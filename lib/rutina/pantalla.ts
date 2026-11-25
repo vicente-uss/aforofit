@@ -31,6 +31,7 @@ export type Visita = {
   entrada: string;
   salida: string | null;
   cierre_automatico: boolean;
+  cerrada_por: string | null; // profesor que la cerró a mano (D21, 012); null en salidas normales
 };
 
 export type AlumnoPropio = {
@@ -69,12 +70,18 @@ export function diaSantiago(fecha: Date): string {
   return fecha.toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
 }
 
+// Cierre automático (regla 6) o manual del profesor (D21): no se pide feedback.
+export function cerradaSinFeedback(visita: Visita): boolean {
+  return visita.cierre_automatico || visita.cerrada_por !== null;
+}
+
 export function estaAdentro(visita: Visita | null): boolean {
   return visita !== null && visita.salida === null;
 }
 
 // El feedback se pide solo después de la salida, el mismo día y si la visita no se cerró sola
-// (regla 6: el cierre automático no pide feedback). Una visita antigua no vuelve a preguntar.
+// (regla 6) ni la cerró un profesor a mano (D21): ninguno de esos cierres pide feedback.
+// Una visita antigua no vuelve a preguntar.
 export function salioHoy(visita: Visita | null, ahora: Date): boolean {
   if (visita === null || visita.salida === null) return false;
   return diaSantiago(new Date(visita.salida)) === diaSantiago(ahora);
@@ -86,7 +93,7 @@ export function pantallaAlumno(estado: EstadoAlumno): Pantalla {
   if (alumno.objetivo === null || alumno.nivel === null || estado.cambiandoObjetivo) return "elegir_objetivo";
   if (!estado.hayRutina) return "sin_rutina";
   if (estaAdentro(ultimaVisita)) return "adentro";
-  if (salioHoy(ultimaVisita, estado.ahora) && !ultimaVisita!.cierre_automatico) {
+  if (salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita!)) {
     if (estado.feedbackUltimaVisita) return "feedback_enviado";
     if (!estado.feedbackOmitido) return "esperando_feedback";
   }
@@ -161,10 +168,13 @@ export function normalizarEjercicios(data: unknown): EjercicioDelDia[] {
 export function normalizarVisita(data: unknown): Visita | null {
   if (!esObjeto(data)) return null;
   const { id, entrada, salida, cierre_automatico } = data;
+  // cerrada_por existe desde 012; si falta (base sin 012) se trata como null.
+  const cerradaPor = data.cerrada_por ?? null;
+  if (cerradaPor !== null && typeof cerradaPor !== "string") return null;
   if (typeof id !== "string" || typeof entrada !== "string") return null;
   if (salida !== null && typeof salida !== "string") return null;
   if (typeof cierre_automatico !== "boolean") return null;
-  return { id, entrada, salida, cierre_automatico };
+  return { id, entrada, salida, cierre_automatico, cerrada_por: cerradaPor };
 }
 
 export function normalizarAlumno(data: unknown): AlumnoPropio | null {

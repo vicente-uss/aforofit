@@ -44,3 +44,11 @@ describe("textoObjetivoNivel", () => {
     expect(textoObjetivoNivel(null, "intermedio")).toBe("Sin objetivo");
   });
 });
+
+describe("textoErrorRutina con cierre manual (D21)", () => {
+  it("visita cerrada por el profesor", () => {
+    expect(textoErrorRutina({ message: "visita_cierre_manual", code: "P0001" }).titulo).toBe(
+      "El profesor cerró tu visita",
+    );
+  });
+});
