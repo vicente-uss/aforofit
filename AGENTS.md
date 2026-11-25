@@ -363,8 +363,8 @@ Actualizado: miércoles 25 de noviembre de 2026.
   y cierre automático (D24, CA34 parcial). Pruebas SQL en el proyecto real de Supabase (25 nov): `turno_nombre.sql`
   10, `configuracion.sql` 27, `registrar_ingreso.sql` 42, `rutinas.sql` 62 y `profesor.sql` 25, todas OK (166 casos).
   Vitest en `main` con todo fusionado: 152 de 152 OK.
-- Afiche, versión 4 del canvas (25 nov): rutina, feedback y estado de máquinas como implementados, «318 pruebas
-  automáticas aprobadas» y conclusión actualizada (`docs/afiche-contenido.md`). Falta revisarlo y exportar el PDF en A0.
+- Afiche, versión 4 del canvas (25 nov): rutina, feedback, estado de máquinas y préstamo básico como
+  implementados, «349 pruebas automáticas aprobadas» y conclusión actualizada (`docs/afiche-contenido.md`). Falta revisarlo y exportar el PDF en A0.
 - S1 y S2 (PR #17, Codex, fusionado el 25 de noviembre): `015_prestamos_y_habilitacion.sql` con préstamo básico
   (`registrar_prestamo` con varios implementos y stock disponible, `registrar_devolucion` completa con la TNE, bloqueo
   con préstamo pendiente, D04 y D19) y habilitación (`alumnos.certificado_emision`, `registrar_habilitacion` solo admin,
