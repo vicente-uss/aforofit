@@ -70,6 +70,26 @@ npm run dev
 
 Y abre http://localhost:3000.
 
+## Kiosco de ingreso en Chrome
+
+Cierra Chrome y abre una ventana dedicada al lector con uno de estos comandos.
+Para probar localmente, cambia la dirección por `http://localhost:3000/ingreso`.
+
+**Windows (PowerShell)**
+
+```powershell
+& "$env:ProgramFiles\Google\Chrome\Application\chrome.exe" --kiosk "https://aforofit.vercel.app/ingreso"
+```
+
+**macOS (Terminal)**
+
+```bash
+open -na "Google Chrome" --args --kiosk "https://aforofit.vercel.app/ingreso"
+```
+
+Inicia sesión como profesor o administrador y deja el kiosco en primer plano.
+Si cambias de aplicación o pestaña, vuelve al kiosco y pulsa **Lector en pausa: haz clic aquí** antes de pasar la credencial.
+
 ## Cómo trabajamos
 
 1. Antes de empezar: `git checkout main` y `git pull`.
