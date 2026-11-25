@@ -1,33 +1,14 @@
 # AforoFit
 
-**Gestión inteligente para el gimnasio de la USS: tu credencial activa tu rutina y el sistema coordina a todos los alumnos.**
+AforoFit registra con la credencial las entradas y salidas de los alumnos del gimnasio USS Bellavista.\
+Cuando se llena el gimnasio, asigna turnos y muestra el aforo en vivo.\
+El alumno recibe su rutina en el celular y el profesor gestiona los préstamos de implementos.
 
-Proyecto Integrador · Taller de Ingeniería de Software · Grupo 6 · Universidad San Sebastián, sede Bellavista · 2026
+Proyecto Integrador del Grupo 6 · Taller de Ingeniería de Software · [Abrir AforoFit en producción](https://aforofit.vercel.app)
 
----
+## Estado al 25 de noviembre de 2026
 
-## Qué propone
-
-Hoy en el gimnasio de la USS el ingreso se anota con RUT en papel y se traspasa a Excel, las salidas no se
-registran y el límite de 20 personas se controla a ojo. AforoFit usa el momento de la entrada para ordenar todo:
-
-1. El alumno pasa su **credencial** por un lector en la entrada: se valida su habilitación y el horario, y queda registrado.
-2. Si el gimnasio está lleno, pasa a una **lista de espera** con número de turno.
-3. Su **rutina del día** aparece en su celular, con pesos, ajustes de máquina y avisos si alguna está en mantención.
-4. Al salir, pasa la credencial otra vez: se libera el cupo y, si usó la rutina, responde **fácil / justo / me costó**.
-5. Una pantalla muestra el **aforo en vivo**.
-6. Los profesores registran los **préstamos de implementos** para la cancha, con la TNE como garantía.
-
-Es un prototipo académico que funciona con **datos de prueba**.
-
-## Estado al 23 de noviembre (Avance 3)
-
-| Estado | Evidencia |
-|---|---|
-| En producción en https://aforofit.vercel.app | Login por rol; kiosco `/ingreso` con el lector USB (entrada, salida, rechazo con motivo, lista de espera y vinculación de credenciales); aforo en vivo en `/aforo`; lista de espera del profesor en `/profesor/espera`. Reglas 1 a 6 validadas en la base de datos (`registrar_ingreso`). |
-| Pruebas | 52 pruebas de Vitest y 42 pruebas SQL de las reglas, en verde. Lector físico probado con TNE y TUI el 20 de noviembre. |
-| Demostrado en Figma Make | Flujos completos de los tres actores, incluidas rutinas y préstamos, con datos de prueba. |
-| Pendiente en la app | Respaldo QR, rutina en el celular, feedback y progresión, préstamos de implementos, gestión administrativa y registro corporal. |
+En `main` están implementados el ingreso por credencial, la lista de espera con llamado automático, el cierre manual de visitas, las rutinas por objetivo y nivel, los avisos de mantención y el feedback con progresión. El profesor puede prestar varios implementos y registrar su devolución completa con la TNE. El administrador configura el gimnasio y registra certificados con vigencia de doce meses. La verificación de esta versión comprende **161 casos Vitest y 188 SQL**.
 
 ## Prototipo navegable
 
@@ -44,9 +25,9 @@ con datos de prueba (alumno, profesor encargado, administrador y pantalla de afo
 | Despliegue | Vercel |
 | Ingreso | Lector USB de 13,56 MHz en modo teclado, probado con TNE y TUI el 20 de noviembre. Ingreso manual como respaldo; QR pendiente. |
 
-## Cómo ejecutarlo
+## Instalación local
 
-Requisitos: Node.js LTS y Git.
+Necesitas Git, Node.js con npm (versión probada de Node: **24.22.3**), Chrome y una cuenta de Supabase con un proyecto propio de prueba. Para probar sin lector USB, usa **Ingreso manual**.
 
 ```bash
 git clone https://github.com/vicente-uss/aforofit.git
@@ -54,21 +35,109 @@ cd aforofit
 npm install
 ```
 
-Crea un archivo `.env.local` en la raíz con las dos claves del proyecto Supabase
-(Vicente las comparte por privado; nunca se suben al repositorio):
+Crea `.env.local` en la raíz, junto a `package.json`. Copia la URL del proyecto y su clave **publishable** desde el panel de conexión de tu proyecto Supabase. Usa solo estos nombres y completa los valores en tu computador:
 
-```
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_xxxx
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-Luego:
+Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositorio. Prepara la base siguiendo los pasos de abajo. Después, ejecuta `npm run dev` desde la raíz y abre [localhost:3000](http://localhost:3000). Si cambias las variables, reinicia el servidor.
+
+## Preparar Supabase desde cero
+
+1. En **Authentication → Users → Add user**, crea las tres cuentas de la tabla «Usuarios de prueba» con sus correos completos. Define contraseñas privadas y activa **Auto Confirm User**. Hazlo antes de 001 para que se creen los tres perfiles y antes de 008 para que Antonia quede vinculada a su cuenta.
+2. En **SQL Editor**, ejecuta cada archivo completo, uno por uno, en el orden de la tabla. **Al terminar 001**, ejecuta por separado los dos `UPDATE` comentados al final de ese archivo, quitando el prefijo `--`. Asignan los roles de profesor y administrador. Comprueba con `select nombre, rol from public.perfiles order by nombre;` que cada cuenta tiene el rol indicado.
+3. Después de 003, entra a **Storage → maquinas** y sube los 11 JPG de [supabase/storage/maquinas](supabase/storage/maquinas/) directamente a la raíz del bucket, conservando sus nombres. El SQL crea el bucket público y sus políticas. El 004 guarda las rutas de las fotos.
+4. Al terminar 011, comprueba que la publicación **supabase_realtime** incluye `public.aforo` y `public.visitas`. Los SQL 007 y 011 las incorporan. Puedes verificarlo en SQL Editor con `select tablename from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public';`.
+
+| Archivo en orden de ejecución | Qué instala o modifica | Datos que carga |
+|---|---|---|
+| [001_perfiles_roles.sql](supabase/sql/001_perfiles_roles.sql) | Crea perfiles con RLS, el trigger de Auth y los perfiles de usuarios existentes. | Perfiles de las cuentas de prueba. |
+| [002_maquinas.sql](supabase/sql/002_maquinas.sql) | Crea el catálogo de máquinas y sus permisos por rol. | Solo estructura. |
+| [003_implementos_y_fotos.sql](supabase/sql/003_implementos_y_fotos.sql) | Crea implementos, el bucket público de fotos y sus políticas de acceso. | Bucket sin fotos. |
+| [004_datos_catalogo.sql](supabase/sql/004_datos_catalogo.sql) | Carga 11 tipos de máquinas (12 equipos), rutas de fotos e implementos iniciales. | Inventario real del gimnasio y cantidades provisorias de implementos. |
+| [005_tablas_flujo_ingreso.sql](supabase/sql/005_tablas_flujo_ingreso.sql) | Crea alumnos, tarjetas, visitas, turnos, configuración y la fila pública de aforo. | Parámetros iniciales y ocupación cero. |
+| [006_funciones_flujo_ingreso.sql](supabase/sql/006_funciones_flujo_ingreso.sql) | Implementa registro de ingreso y salida, turnos, sincronización del aforo y vinculación de credenciales. | Sin datos de alumnos. |
+| [007_permisos_flujo_ingreso.sql](supabase/sql/007_permisos_flujo_ingreso.sql) | Aplica permisos y RLS del flujo y publica aforo en Realtime. | Sin datos. |
+| [008_datos_prueba_flujo_ingreso.sql](supabase/sql/008_datos_prueba_flujo_ingreso.sql) | Carga 25 alumnos y 24 tarjetas y vincula alumno.demo con Antonia. | **Ficticios**: nombres, RUT, UID y vigencias. |
+| [009_corregir_rol_admin_demo.sql](supabase/sql/009_corregir_rol_admin_demo.sql) | Corrige el rol de admin.demo si ya existía con otro rol. | Ajuste de cuenta ficticia. |
+| [010_implementos_reales.sql](supabase/sql/010_implementos_reales.sql) | Actualiza los implementos y retira la colchoneta del préstamo. | Inventario confirmado: 5 tipos y 9 unidades. |
+| [011_rutinas.sql](supabase/sql/011_rutinas.sql) | Crea plantillas, rutinas, ejercicios y feedback, sus funciones y la publicación de visitas en Realtime. | Seis plantillas con ejercicios y cargas de ejemplo. |
+| [012_mantencion_y_cierre_manual.sql](supabase/sql/012_mantencion_y_cierre_manual.sql) | Permite cambiar el estado de máquinas y cerrar visitas a mano; excluye ese cierre del feedback. | Sin datos de prueba. |
+| [013_turno_nombre.sql](supabase/sql/013_turno_nombre.sql) | Publica con el turno el primer nombre y la inicial del apellido en la fila de aforo. | Completa el nombre de un llamado existente. |
+| [014_vigencia_y_configuracion.sql](supabase/sql/014_vigencia_y_configuracion.sql) | Elimina la validación por período académico y permite al admin ajustar capacidad, horario y cierre automático. | Completa la hora de cierre en el horario existente. |
+| [015_prestamos_y_habilitacion.sql](supabase/sql/015_prestamos_y_habilitacion.sql) | Crea préstamos, detalle, vistas de stock y pendientes, devolución completa y habilitación por emisión. | Deduce la emisión desde el vencimiento existente y conserva la vigencia. |
+
+## Usuarios de prueba
+
+Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste tu propio proyecto, usa las que definiste en Auth.
+
+| Correo | Rol | Acceso principal |
+|---|---|---|
+| `alumno.demo@aforofit.cl` | Alumno (Antonia) | Su rutina y feedback en `/alumno` |
+| `profesor.demo@aforofit.cl` | Profesor | Kiosco, panel del profesor, espera, visitas, máquinas y préstamos |
+| `admin.demo@aforofit.cl` | Administrador | Kiosco, panel de administración, configuración y habilitación |
+
+## Pantallas y rutas
+
+| Ruta | Acceso | Qué permite hacer |
+|---|---|---|
+| `/` | Todos | Envía al login o al panel del rol con sesión. |
+| `/auth/login` | Sin sesión | Iniciar sesión con correo y contraseña. |
+| `/auth/forgot-password`, `/auth/update-password` | Recuperación de cuenta | Solicitar el correo y definir una nueva contraseña con la sesión de recuperación. |
+| `/auth/confirm`, `/auth/error` | Flujo de Auth | El primero procesa el enlace de confirmación; el segundo muestra errores de acceso. |
+| `/ingreso` | Profesor y admin | Leer la credencial, ingresar un UID a mano o vincular una tarjeta. |
+| `/aforo` | Pública, sin sesión | Ver ocupación, cupos, espera y turno llamado con nombre abreviado. |
+| `/alumno` | Alumno | Elegir objetivo y nivel, ver ejercicios, cargas y mantención, y responder el feedback. |
+| `/profesor` | Profesor | Abrir los módulos del encargado. |
+| `/profesor/espera` | Profesor | Consultar la lista de espera y los turnos llamados. |
+| `/profesor/adentro` | Profesor | Revisar quién sigue adentro y cerrar una visita a mano. |
+| `/profesor/maquinas` | Profesor | Marcar una máquina disponible o en mantención. |
+| `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos y confirmar su devolución con la TNE. |
+| `/admin` | Administrador | Abrir los módulos de administración. |
+| `/admin/configuracion` | Administrador | Cambiar capacidad, horario por día y horas para cierre automático. |
+| `/admin/habilitacion` | Administrador | Buscar al alumno, revisar su vigencia y registrar la fecha de emisión. |
+
+## Pruebas
+
+Desde la raíz del repositorio, con las dependencias instaladas y las dos variables de entorno configuradas:
 
 ```bash
-npm run dev
+npm test
+npm run lint
+npm run build
 ```
 
-Y abre http://localhost:3000.
+Se esperan 161 casos Vitest aprobados, lint sin errores y compilación exitosa. En el **SQL Editor del proyecto de prueba**, con 001–015 aplicados, las tres cuentas configuradas y sin visitas ni turnos de una demo anterior, ejecuta cada archivo completo por separado. Cada uno abre una transacción con `begin` y termina con `rollback`: los cambios en las filas se revierten. Revisa los mensajes `OK` o la tabla de resultados del script. Una excepción indica qué caso falló.
+
+| Archivo | Qué comprueba | Casos OK |
+|---|---|---:|
+| [registrar_ingreso.sql](supabase/pruebas/registrar_ingreso.sql) | Credenciales, habilitación, horario, cupos, turnos, salida, cierre automático y permisos | 42 |
+| [rutinas.sql](supabase/pruebas/rutinas.sql) | Objetivo y nivel, generación por plantilla, mantención, feedback, cargas y acceso por rol | 62 |
+| [profesor.sql](supabase/pruebas/profesor.sql) | Estado de máquinas, cierre manual, aforo y exclusión de feedback | 25 |
+| [turno_nombre.sql](supabase/pruebas/turno_nombre.sql) | Abreviación, uso y expiración del turno y lectura pública | 10 |
+| [configuracion.sql](supabase/pruebas/configuracion.sql) | Permisos del admin, rangos, horario, cierre y actualización del aforo | 27 |
+| [prestamos.sql](supabase/pruebas/prestamos.sql) | Stock, bloqueo por préstamo o TNE, devolución completa, permisos y vigencia del certificado | 22 |
+
+## Preparar y ensayar la demo
+
+1. Usa tu proyecto de prueba. Como profesor, abre `/profesor/adentro`, cierra las visitas de ensayos anteriores y comprueba que `/aforo` marque **0 personas**. Revisa también `/profesor/espera`. Para obtener **turno 1**, usa un día sin turnos previos o una base de prueba recién preparada: la numeración es diaria.
+2. Como administrador, anota la configuración original en `/admin/configuracion`, fija la capacidad en **1** y verifica que el horario permita ingresos a la hora del ensayo (hora de Santiago). En `/admin/habilitacion` revisa las vigencias. Los certificados vigentes de 008 vencen el 23-12-2026: para ensayar después, actualiza la emisión de los alumnos de prueba que deban entrar.
+3. Usa sesiones separadas para cada rol. Deja `/aforo` abierto sin sesión y `/alumno` abierto como Antonia en el celular. Elige un objetivo y un nivel para generar su rutina. En el computador entra como profesor a `/ingreso`.
+4. En **Ingreso manual**, escribe el UID de Antonia: entra y aparece su rutina. Ingresa el de Benjamín: queda en espera. Repite el de Antonia: sale, el celular ofrece feedback y la pantalla llama a **Benjamín P.**. Pasa el de Benjamín para que ocupe el cupo. El kiosco descarta una repetición inmediata de la misma tarjeta: espera al menos tres segundos antes de repetirla.
+5. Al terminar, registra las salidas pendientes y restablece la capacidad original (20 en una instalación nueva) y el horario si lo cambiaste. Como respaldo del lector usa ingreso manual; para un corte de red ten a mano un hotspot y el video de respaldo del equipo.
+
+| Alumno ficticio | UID para ingreso manual | Caso |
+|---|---|---|
+| Antonia Fictia Rivas | `04:A3:7F:2B` | Entrada, rutina de alumno.demo y salida |
+| Benjamín Prueba Soto | `1C:5E:90:D4` | Espera y llamado al liberarse un cupo |
+| Catalina Demo Fuentes | `B2:07:6A:3F` | Segundo alumno en espera |
+| Yerko Demo Vencido | `FA:10:00:18` | Rechazo por certificado vencido |
+
+## Limitaciones de esta versión
+
+Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal y las devoluciones parciales quedan para una próxima versión (F-20 para las devoluciones). La progresión y las modalidades de rutina se configuran solo por SQL (D24). El respaldo QR sigue pendiente.
 
 ## Kiosco de ingreso en Chrome
 
@@ -116,7 +185,7 @@ Usamos IA para casi todo. Para que cualquier IA tenga el contexto completo, píd
 
 - [`AGENTS.md`](AGENTS.md): contexto completo: problema, alcance, reglas de negocio, arquitectura, convenciones, calendario y estado actual.
 - [`docs/entrevista-encargado-2026-11-12.md`](docs/entrevista-encargado-2026-11-12.md): entrevista con el encargado del gimnasio y decisiones D01–D11.
-- [`docs/requisitos-casos-uso-criterios.md`](docs/requisitos-casos-uso-criterios.md): requisitos, casos de uso y criterios de aceptación (CA01–CA22).
+- [`docs/requisitos-casos-uso-criterios.md`](docs/requisitos-casos-uso-criterios.md): requisitos, casos de uso y criterios de aceptación y su trazabilidad.
 - [`docs/pruebas-tarjetas.md`](docs/pruebas-tarjetas.md): prueba de tarjetas y lector elegido.
 - [`docs/diagramas.md`](docs/diagramas.md): casos de uso, entidad-relación, secuencia del ingreso y estados (archivos `.drawio` en `docs/diagramas/`).
 - [`supabase/sql/`](supabase/sql/): scripts de la base de datos, en orden de ejecución (`001`, `002`…).
