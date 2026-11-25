@@ -371,6 +371,15 @@ Actualizado: miércoles 25 de noviembre de 2026.
   vencimiento = emisión + 12 meses, D20). Pantallas `/profesor/prestamos` (búsqueda por nombre o con el lector) y
   `/admin/habilitacion`. Pruebas locales: SQL 188 de 188 (22 nuevas en `prestamos.sql`), Vitest 161 de 161. Las
   devoluciones parciales siguen en F-20.
+- F-06 y F-13 (PR #18, fusionado el 25 de noviembre): README reproducible (instalación desde cero, cuentas de prueba sin
+  contraseñas, SQL 001 a 015 en orden, fotos, Realtime, rutas por rol, pruebas y preparación de la demo) y
+  `docs/diagramas.md` con el modelo de las 16 tablas, la secuencia con Realtime y feedback, el cierre manual y la
+  devolución completa; los 6 diagramas Mermaid se renderizan sin errores.
+- Fidelidad visual con el prototipo de Figma Make (PR #19, Claude Code, fusionado el 25 de noviembre): fuente Inter,
+  paleta navy y azul, logo del prototipo, componentes en `components/marca/`, barra lateral para profesor y admin,
+  `/aforo` para TV, kiosco en dos columnas y tarjetas de ejercicio y feedback como el prototipo. Solo presentación: no
+  cambia lógica, SQL ni llamadas a Supabase. Contraste ajustado a 4,5:1 (verde más oscuro y texto navy sobre ámbar).
+  Vitest 168 OK; navegador 42 de 42 OK a 360 y 1280 px (`docs/evidencia/fidelidad/`).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -403,7 +412,8 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16) y S1 y S2
   (PR #17). Falta solo evidencia, documentación y el ensayo de la demo. CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
-- [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
+- [ ] Afiche en formato A0, con el nombre del profesor (Bastián, archivo cerrado el jueves 26). Cambiar las capturas del
+  kiosco y de `/aforo` por las nuevas de `docs/evidencia/fidelidad/` (PR #19). Ya tiene la foto del
   lector, el nombre del docente (Rodrigo Correa Rojas) y la versión 4 con la rutina implementada; falta revisarlo en
   equipo y exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los

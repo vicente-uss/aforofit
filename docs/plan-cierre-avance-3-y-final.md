@@ -73,7 +73,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-04 | Afiche definitivo con lo que el CR-01 deja como implementado o próxima versión, en A0 y con el nombre del profesor (indicación del 24 de noviembre) | Claude + Persona | Bases 7 | Jue 26 | 1,5 h | A3-10, formato del profesor |
 | F-04b | 20 trípticos a color con el contenido del afiche, impresos en la facultad | Claude + Persona | Indicación del 24 nov | Por definir | 1,5 h | F-04 |
 | F-05 | Hoja de pruebas completa: todos los CA activos ejecutados, con resultado, versión y defectos, y riesgo residual | Agente + Persona | Rúbrica 4 «Validaciones y pruebas» | Sáb 28 a dom 29 | 2 h | F-01 a F-03 |
-| F-06 | README reproducible: orden de los SQL `001` en adelante, pruebas SQL y Vitest, usuarios de prueba (sin contraseñas), cómo cambiar la capacidad y plan de respaldo de la demo | Agente | Bases 8; FW-IS 7.2 | Dom 29 | 30 min | F-01 |
+| F-06 ✅ | README reproducible: orden de los SQL `001` en adelante, pruebas SQL y Vitest, usuarios de prueba (sin contraseñas), cómo cambiar la capacidad y plan de respaldo de la demo | Agente | Bases 8; FW-IS 7.2 | Dom 29 | 30 min | F-01 |
 | F-07 | Plan de demo final con respaldo: hotspot, video, ingreso manual, datos limpios (aforo 0/20) y el celular con la sesión del alumno abierta | Claude + Persona | Rúbrica 4 «Demostración» | Lun 30 | 1 h | F-02 |
 | F-08 | Congelamiento: actualizar AGENTS.md 3 y 10, la matriz de cobertura, los diagramas y cerrar el CR-01 con su evidencia | Claude | Rúbrica 4 «Coherencia» | Lun 30 | 1 h | Todo lo anterior |
 
@@ -89,7 +89,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-10 ✅ | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
 | F-11 ✅ | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
 | F-12 | Matriz de cobertura con las columnas «implementado» y «resultado de prueba» | Claude | Rúbrica 4 «Coherencia» | Dom 29 | 30 min |
-| F-13 | Diagramas al día: ER con las tablas nuevas y secuencia con la rutina | Claude | — | Dom 29 | 30 min |
+| F-13 ✅ | Diagramas al día: ER con las tablas nuevas y secuencia con la rutina | Claude | — | Dom 29 | 30 min |
 | F-14 | Medir los RNF que faltan: RNF02 en la rutina, RNF03 en computador, Android y iPhone, RNF05 a 360 px | Persona | CA11, CA30, CA32 | Sáb 28 | 45 min |
 | F-15 | Guion de defensa por integrante: qué explica cada uno y 3 preguntas probables de su área | Claude + Persona | Rúbrica 4 «Participación» | Dom 29 | 1 h |
 | F-16 | Activar en Supabase la protección contra claves filtradas | Persona | RNF06 | Cualquier día | 2 min |
