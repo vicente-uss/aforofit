@@ -74,6 +74,10 @@ begin
   set progresion = '{"facil_kg": 2.5, "justo_kg": 0, "me_costo_porcentaje": -5, "redondeo_kg": 2.5}'::jsonb;
   update public.maquinas set estado = 'disponible';
   update public.alumnos set objetivo = null, nivel = null where id in (v_demo, v_otro);
+  -- Las pruebas parten sin rutinas ni visitas abiertas de estos dos alumnos, aunque la base real ya tenga datos de
+  -- pruebas de punta a punta (por ejemplo, alumno.demo usado en /alumno). Todo se deshace con el rollback final.
+  delete from public.rutinas where alumno_id in (v_demo, v_otro);   -- borra también ejercicios y feedback (cascade)
+  update public.visitas set salida = entrada where salida is null and alumno_id in (v_demo, v_otro);
 
   -- Plantillas (D12) ------------------------------------------------------------------
   perform pg_temp.ok('D12', 'Hay 6 plantillas: 3 objetivos × 2 niveles',
