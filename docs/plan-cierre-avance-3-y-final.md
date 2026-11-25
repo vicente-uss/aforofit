@@ -68,7 +68,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | ID | Tarea | Tipo | Requisitos y criterios | Cuándo | Tiempo humano | Depende de |
 |---|---|---|---|---|---|---|
 | F-01 ✅ | Rutina, parte base de datos (PR #11, aplicado en Supabase el 24 nov: 62 y 42 pruebas SQL OK): tablas de rutinas, ejercicios y feedback con RLS; 6 plantillas (3 objetivos × 2 niveles) con máquinas del catálogo; generador; progresión R8 con redondeo a 2,5 kg; pruebas SQL y unitarias | Agente | RF11, RF12, RF18 · CA12, CA14, CA24 | Mié 25 | 2 h | CR-01 aprobado |
-| F-02 | Rutina, parte pantallas: objetivo y nivel en `/alumno`; rutina del día al registrar la entrada (Realtime, como `/aforo`); advertencia de máquina en mantención; feedback fácil/justo/me costó al salir | Agente | RF11, RF16, RF17, RF18 · CA11, CA13, CA14 | Mié 25 a jue 26 | 2 h | F-01 |
+| F-02 ✅ | Rutina, parte pantallas: objetivo y nivel en `/alumno`; rutina del día al registrar la entrada (Realtime, como `/aforo`); advertencia de máquina en mantención; feedback fácil/justo/me costó al salir | Agente | RF11, RF16, RF17, RF18 · CA11, CA13, CA14 | Mié 25 a jue 26 | 2 h | F-01 |
 | F-03 | Estado de máquina Disponible / En mantención desde `/profesor` | Agente | RF20 · CA26 | Jue 26 | 45 min | F-01 |
 | F-04 | Afiche definitivo con lo que el CR-01 deja como implementado o próxima versión, en A0 y con el nombre del profesor (indicación del 24 de noviembre) | Claude + Persona | Bases 7 | Jue 26 | 1,5 h | A3-10, formato del profesor |
 | F-04b | 20 trípticos a color con el contenido del afiche, impresos en la facultad | Claude + Persona | Indicación del 24 nov | Por definir | 1,5 h | F-04 |

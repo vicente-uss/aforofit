@@ -344,6 +344,10 @@ Actualizado: martes 24 de noviembre de 2026.
   RLS en las tablas nuevas y `visitas` en Realtime para que el celular se entere de la entrada (D13). Pruebas en el
   proyecto real de Supabase: 62 de 62 OK (`supabase/pruebas/rutinas.sql`) y 42 de 42 OK (`registrar_ingreso`); 6
   plantillas con 5 o 6 ejercicios cada una; 71 en Vitest (`lib/rutina/progresion.ts`).
+- F-02, pantallas de la rutina en `/alumno` (PR #12, fusionado el 25 de noviembre): objetivo y nivel (B1), rutina del
+  día con fotos y aviso de mantención (B3), entrada y salida en tiempo real con respaldo de 15 s (D13) y feedback con
+  «Tu próxima sesión» (B4). 107 pruebas en Vitest, verificación a 360 px con 26 de 26 OK (`docs/evidencia/rutina/`) y
+  prueba de punta a punta contra Supabase real con `alumno.demo` e ingreso manual, correcta según el equipo (25 nov).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
 
@@ -376,8 +380,9 @@ Actualizado: martes 24 de noviembre de 2026.
   Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: B1, B2 y B4 ya están en la base (PR #11); faltan las pantallas de B1, B3 y B4 (F-02) y B5 (F-03)
-  antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27.
+- [ ] Entrega final: B1 a B4 implementados (PR #11 y #12). Falta B5, el cambio de estado de máquina desde `/profesor`
+  (F-03), antes del congelamiento del lunes 30; S1 y S2 solo si la base está lista el viernes 27. Registrar el tiempo
+  medido de CA11 (rutina en el celular en 2 s o menos) y dejar la base limpia antes de la expo (F-07)
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián y Vicente, archivo cerrado el jueves 26). Ya tiene la foto del
   lector y el nombre del docente (Rodrigo Correa Rojas); falta exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
 - [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
