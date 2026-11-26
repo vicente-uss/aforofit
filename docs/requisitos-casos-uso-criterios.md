@@ -39,8 +39,8 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | ID | El sistema debe… | Prioridad | Origen | Línea base de la entrega final ([CR-01](cr-01-linea-base-entrega-final.md)) |
 | --- | --- | --- | --- | --- |
 | RF01 | Permitir que un alumno inicie sesión y ver solo las funciones de su rol | Alta | D13 | ✅ Implementado |
-| RF02 | Vincular una credencial a un único alumno | Alta | R1 | ✅ Implementado |
-| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | ✅ Lector y QR de respaldo implementados (017) |
+| RF02 | Vincular una credencial a un único alumno | Alta | R1 | ✅ Implementado; tipo TNE/TUI desde 017 (F-27) |
+| RF03 | Identificar al alumno al pasar su credencial por el lector o mostrar su QR | Alta | P1, D17 | ✅ Lector y QR de respaldo implementados (017); CA31 físico pendiente |
 | RF04 | Validar que el alumno tenga certificado vigente: dura un año desde su emisión (`certificado_hasta` = emisión + 12 meses) y ya no depende del período académico (D20) | Alta | P6, D20, R2 | ✅ Implementado (sin período desde `014`) |
 | RF05 | Validar que el ingreso ocurra dentro del horario y antes del último ingreso | Alta | R3 | ✅ Implementado |
 | RF06 | Registrar la entrada con fecha y hora | Alta | P1 | ✅ Implementado |
@@ -48,16 +48,16 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF08 | Cerrar automáticamente las visitas sin salida después de 3 horas | Alta | R6 | ✅ Implementado |
 | RF09 | Calcular el aforo y mostrarlo en vivo en una pantalla pública | Alta | P3, D01 | ✅ Implementado |
 | RF10 | Asignar un número de turno cuando el gimnasio está lleno y llamar los turnos en orden | Alta | P4, D14, R4 | ✅ Implementado |
-| RF11 | Permitir que el alumno defina su objetivo y su nivel de entrenamiento | Alta | D12 | 🔨 Se construye (B1) |
-| RF12 | Generar una rutina con plantillas por objetivo y nivel, usando solo máquinas registradas | Alta | D12 | 🔨 Se construye (B2) |
+| RF11 | Permitir que el alumno defina su objetivo y su nivel de entrenamiento | Alta | D12 | ✅ Implementado (B1) |
+| RF12 | Generar una rutina con plantillas por objetivo y nivel, usando solo máquinas registradas | Alta | D12 | ✅ Implementado (B2) |
 | RF13 | Permitir que el alumno cree y edite su propia rutina | Alta | D09, D15 | ⏭ Próxima versión |
 | RF14 | Permitir que el profesor cree, asigne y edite la rutina de un alumno | Alta | D09, D15 | ⏭ Próxima versión |
 | RF15 | Permitir que el alumno elija su rutina activa entre las disponibles | Alta | D15 | ⏭ Próxima versión |
-| RF16 | Mostrar la rutina activa en el celular del alumno al registrar su entrada, en tiempo real | Alta | D13 | 🔨 Se construye (B3) |
-| RF17 | Advertir en la rutina cuando un ejercicio usa una máquina en mantención | Alta | D06, R7 | 🔨 Se construye (B3) |
-| RF18 | Registrar el feedback al salir y ajustar las cargas de la próxima sesión según los parámetros | Alta | D07, R8 | 🔨 Se construye (B4) |
+| RF16 | Mostrar la rutina activa en el celular del alumno al registrar su entrada, en tiempo real | Alta | D13 | ✅ Implementado (B3) |
+| RF17 | Advertir en la rutina cuando un ejercicio usa una máquina en mantención | Alta | D06, R7 | ✅ Implementado (B3) |
+| RF18 | Registrar el feedback al salir y ajustar las cargas de la próxima sesión según los parámetros | Alta | D07, R8 | ✅ Implementado (B4) |
 | RF19 | Registrar máquinas con foto, patrón de movimiento y ajustes | Alta | P7 | 🟡 Datos por SQL; pantalla en próxima versión |
-| RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 | 🔨 Se construye (B5) |
+| RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 | ✅ Implementado (B5) |
 | RF21 | Registrar implementos con su cantidad disponible | Alta | P5 | 🟡 Datos por SQL; pantalla en próxima versión |
 | RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 | ✅ Implementado en S1 |
 | RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | ✅ Implementado (F-20): devolución por implemento y bloqueo por pendientes |
@@ -180,7 +180,8 @@ Los flujos principales y los casos de apoyo se especifican a continuación. Los 
 **Flujos alternativos**
 
 - **2a. El alumno tiene implementos pendientes:** el sistema no permite un nuevo préstamo y muestra lo pendiente.
-- **5a. Devolución parcial:** el préstamo sigue abierto con lo que falta.
+- **5a. Devolución parcial:** el préstamo sigue abierto con lo que falta y se libera el stock devuelto.
+- **6a. TNE pendiente:** si volvieron todos los implementos, el préstamo sigue bloqueando una nueva solicitud hasta registrar la entrega de la garantía (D19).
 - **3a. No hay stock suficiente:** el sistema no permite prestar más de lo disponible.
 
 ### Casos de apoyo
@@ -260,7 +261,7 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 
 ## 7. Supuestos y pendientes
 
-Queda pendiente incorporar un criterio directo para la unicidad de visita abierta (R5) y confirmar el efecto de una TNE no devuelta sobre un nuevo préstamo (R9). Estos puntos están consolidados en el [documento maestro](cierre-avances-1-y-2.md#reglas-de-negocio-r1r9).
+Queda pendiente incorporar un criterio directo para la unicidad de visita abierta (R5). D19 confirma que una TNE no devuelta bloquea un nuevo préstamo; 017 lo conserva. Estos puntos están consolidados en el [documento maestro](cierre-avances-1-y-2.md#reglas-de-negocio-r1r9).
 
 Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables y se declaran en la presentación.
 
@@ -290,3 +291,7 @@ Los códigos remiten al [registro de decisiones](#1-decisiones-y-trazabilidad), 
 | Calidad transversal | RNF03 → CA30; RNF05 → CA32; RNF09 → CA35; RNF10 → CA36; RNF11 → CA37 | Transversal | Arquitectura y diseño de interfaces |
 
 **Cobertura documental:** 31 RF y 11 RNF con al menos un criterio vinculado. Los criterios de prioridad media conservan sus condiciones de validación.
+
+### Estado de implementación adicional (25 nov)
+
+CR-01 conserva la decisión original del 23 de noviembre. PR #20 incorpora F-33 (historial de alumno y profesor); PR #21 incorpora F-20, F-27 y F-21 como complementos. CA20/CA21 y el flujo QR tienen pruebas SQL locales; CA31 manual informado como validado, cámara y lector físico pendientes. F-33 distingue implementos pendientes, TNE pendiente y cerrado. Ver [ronda 3 de pruebas](pruebas-ejecutadas.md#ronda-3--25-de-noviembre-de-2026-pr-20-y-21). La matriz final por CA (F-12) requiere evidencia de las pruebas físicas y remotas restantes.

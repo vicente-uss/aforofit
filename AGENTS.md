@@ -277,7 +277,7 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - Catálogo en Supabase: `maquinas` con el inventario real (11 tipos, 12 equipos), `implementos` y bucket público
   `maquinas` para las fotos (`supabase/sql/002` a `004`; fotos originales en `supabase/storage/maquinas/`).
 - Pantalla `/ingreso` de kiosco: captura el código recibido y normaliza el UID con `lib/ingreso/normalizarUid.ts`
-  (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; QR pendiente.
+  (pruebas en Vitest con `npm test`). Ingreso manual de respaldo; el QR se incorporó después en PR #21.
 - Lector USB de 13,56 MHz comprado por Pau ($18.980 con envío, unos $3.800 por integrante). Probado el 20 de noviembre:
   funciona como teclado con TNE, TUI y tarjetas bancarias, y entrega el UID en decimal invertido como dijo el vendedor
   (`docs/pruebas-tarjetas.md`).
@@ -370,7 +370,7 @@ Actualizado: miércoles 25 de noviembre de 2026.
   con préstamo pendiente, D04 y D19) y habilitación (`alumnos.certificado_emision`, `registrar_habilitacion` solo admin,
   vencimiento = emisión + 12 meses, D20). Pantallas `/profesor/prestamos` (búsqueda por nombre o con el lector) y
   `/admin/habilitacion`. Pruebas locales: SQL 188 de 188 (22 nuevas en `prestamos.sql`), Vitest 161 de 161. Las
-  devoluciones parciales siguen en F-20.
+  devoluciones parciales se incorporaron después en F-20 (PR #21).
 - F-06 y F-13 (PR #18, fusionado el 25 de noviembre): README reproducible (instalación desde cero, cuentas de prueba sin
   contraseñas, SQL 001 a 015 en orden, fotos, Realtime, rutas por rol, pruebas y preparación de la demo) y
   `docs/diagramas.md` con el modelo de las 16 tablas, la secuencia con Realtime y feedback, el cierre manual y la
@@ -382,6 +382,10 @@ Actualizado: miércoles 25 de noviembre de 2026.
   Vitest 168 OK; navegador 42 de 42 OK a 360 y 1280 px (`docs/evidencia/fidelidad/`).
 - Recursos sin costo para el proyecto: dos integrantes ya tenían Claude Pro (US$20 al mes), Gemini Pro y Figma Make
   con cuenta de estudiante, y el afiche y los trípticos se imprimen en la facultad. El gasto real sigue siendo el lector ($18.980).
+
+- F-33 (PR #20, fusionado el 25 de noviembre, `1939b8e`): historial de visitas y feedback del alumno y consultas por fecha del profesor con préstamos y tres estados; fechas de Santiago de 23/24/25 h, sin datos obsoletos al cambiar fecha ni plazo fijo de cierre. Sin migración 016. Vitest 192/192 y SQL local 197/197.
+- F-20, F-27 y F-21 (PR #21, fusionado el 25 de noviembre, `fb43ce2`; commit integrado auditado `61a4012`): 017 agrega devoluciones por cantidad, entrega separada de TNE, selección TNE/TUI y QR de seis caracteres de un solo uso, con vencimiento de dos minutos. Se conserva la firma SQL de un argumento para el cliente 015. Resultados consolidados de Codex: **198 Vitest + 231 SQL locales = 429 comprobaciones aprobadas**, lint/build y vista previa Vercel OK. El coordinador informó completada la validación y el canje manual; falta adjuntar los resultados por suite del Supabase remoto y la evidencia física de cámara y lector (CA31). En el navegador de prueba no apareció el botón de cámara por compatibilidad de BarcodeDetector. No se declara escaneo por cámara aprobado.
+- Se actualiza la cifra de referencia para el afiche a 429 comprobaciones automatizadas locales; falta trasladarla al archivo gráfico y exportar A0.
 
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
@@ -404,14 +408,13 @@ Actualizado: miércoles 25 de noviembre de 2026.
   `/aforo` puede mostrar "Turno N" unos minutos de más
 - [ ] Hallazgo de Pau con el lector (23 nov), ya mitigado con F-26 (PR #16): aviso «Lector en pausa: haz clic aquí» y
   guía de modo kiosco de Chrome en el README. Falta que Pau lo pruebe con el lector físico
-- [ ] Hallazgo de Pau (23 nov): un alumno puede tener varias tarjetas vinculadas. Es correcto según R1 (una tarjeta
-  pertenece a un solo alumno, no al revés) y D17 (TNE y TUI); `tarjetas.tipo` ya distingue `tne` y `credencial_uss`.
-  Detalle: el kiosco guarda toda vinculación como `tne`. Se documenta; corregir el tipo es P2 (F-27)
+- [x] Hallazgo de Pau (23 nov): F-27 corregido en PR #21; se distingue TNE y TUI al vincular. Una tarjeta pertenece a un único alumno, que puede tener varias (R1, D17). Repetir prueba física con ambas.
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
 - [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16) y S1 y S2
   (PR #17). Falta solo evidencia, documentación y el ensayo de la demo. CA11 medido el 25 de
   noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
+- [ ] CA31: probar escaneo QR con cámara en un navegador compatible, y lector físico con TNE/TUI. El canje manual funciona según el coordinador. Registrar evidencia; no ampliar alcance sin acuerdo.
 - [ ] Afiche en formato A0, con el nombre del profesor (Bastián, archivo cerrado el jueves 26). Cambiar las capturas del
   kiosco y de `/aforo` por las nuevas de `docs/evidencia/fidelidad/` (PR #19). Ya tiene la foto del
   lector, el nombre del docente (Rodrigo Correa Rojas) y la versión 4 con la rutina implementada; falta revisarlo en

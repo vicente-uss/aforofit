@@ -92,7 +92,7 @@ Cinco cajas unidas por flechas, que muestran a la vez el flujo y las piezas del 
 - Captura de la pantalla pública `/aforo` con el turno llamado.
 - Foto del lector USB de 13,56 MHz: funciona como teclado, sin drivers, con TNE y TUI.
 - **Resultados** (se completan con la hoja de pruebas):
-  - "X de Y pruebas aprobadas";
+  - "429 comprobaciones automatizadas locales aprobadas" (198 Vitest + 231 SQL; commit integrado 61a4012);
   - "Ingreso en N segundos" (CA29);
   - "El aforo cambia en menos de 2 segundos" (CA10).
 
@@ -128,7 +128,9 @@ Cinco cajas unidas por flechas, que muestran a la vez el flujo y las piezas del 
 | Rutina en el celular al pasar la credencial | Implementado | En producción (PR #11 y #12; llega en cerca de 1 s) | ☐ |
 | Feedback al salir y progresión de cargas | Implementado | En producción (PR #11 y #12, con D25) | ☐ |
 | Estado de máquinas y aviso de mantención en la rutina | Implementado | En producción (PR #13) | ☐ |
-| Préstamo de implementos con la TNE | Implementado (básico: devolución completa) | En producción (PR #17). Hay que sacarlo de «Próximamente» en el afiche | ☐ |
+| Préstamo de implementos con la TNE | Implementado: devoluciones parciales y garantía separada | PR #21 fusionado; validación local aprobada | ☐ |
+| Historial de visitas y préstamos | Implementado | PR #20 fusionado | ☐ |
+| QR de respaldo | Implementado: código manual de un uso | PR #21 fusionado; cámara pendiente de prueba física | ☐ |
 | Registro corporal privado | Solo como "Próximamente" | Próxima versión (CR-01) | — |
 | Reparto del orden de ejercicios (experimental) | Solo como "Próximamente" | Prioridad media | — |
 
@@ -161,3 +163,7 @@ Si una función pasa a producción antes de imprimir, se mueve de "Próximamente
 - [ ] Están los seis bloques de las bases: título, integrantes y logo · problema y objetivo · metodología,
   tecnologías y esquema · funcionalidades y evidencias · resultados, beneficios, limitaciones y conclusión ·
   diseño legible y consistente con el prototipo.
+
+## Actualización tras PR #20 y #21 (25 nov)
+
+Para la siguiente versión del archivo gráfico: sustituir 349 por **429 comprobaciones automatizadas locales aprobadas** (198 Vitest y 231 SQL). Mencionar devoluciones parciales, historial y QR de respaldo por código; no afirmar escaneo con cámara probado. Retirar devoluciones parciales de «Próximamente». Usar las capturas nuevas de `docs/evidencia/fidelidad/` y, si caben, de `docs/evidencia/historial/` y `docs/evidencia/prestamos-qr/`. El canvas/PDF A0 aún debe actualizarse y exportarse.

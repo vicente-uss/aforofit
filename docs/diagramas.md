@@ -10,7 +10,7 @@ Este documento reúne los diagramas formales del sistema. Se basa en [`AGENTS.md
 
 ## Trazabilidad del diseño
 
-Los casos de uso conservan el diseño del Avance 2. El modelo físico, la secuencia y los estados describen la implementación hasta 015. Los ID se desarrollan en el [registro de decisiones](../AGENTS.md) y la [matriz de requisitos y criterios](requisitos-casos-uso-criterios.md#8-matriz-de-cobertura).
+Los casos de uso conservan el diseño del Avance 2. El modelo físico, la secuencia y los estados describen la implementación hasta 017 (sin 016). Los ID se desarrollan en el [registro de decisiones](../AGENTS.md) y la [matriz de requisitos y criterios](requisitos-casos-uso-criterios.md#8-matriz-de-cobertura).
 
 | Vista | Qué cubre | Trazabilidad principal |
 |---|---|---|
@@ -26,9 +26,9 @@ Los casos de uso conservan el diseño del Avance 2. El modelo físico, la secuen
 | Diagrama | Herramienta | Archivo | Estado |
 |---|---|---|---|
 | Casos de uso | draw.io | [`diagramas/casos-de-uso.drawio`](diagramas/casos-de-uso.drawio) | Listo |
-| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Mermaid refleja las 16 tablas públicas hasta 015; draw.io conserva el diseño original |
+| Entidad-relación | draw.io y Mermaid (este archivo) | [`diagramas/entidad-relacion.drawio`](diagramas/entidad-relacion.drawio) | Mermaid refleja las 16 tablas públicas hasta 017 y describe la tabla privada QR; draw.io conserva el diseño original |
 | Secuencia del ingreso | Mermaid (este archivo; draw.io lo importa con Organizar → Insertar → Mermaid) | — | Incluye Realtime, feedback y cierre manual |
-| Estados de la visita y del préstamo | draw.io y Mermaid (este archivo) | [`diagramas/estados.drawio`](diagramas/estados.drawio) | Mermaid refleja 012 y 015; draw.io conserva el diseño original |
+| Estados de la visita y del préstamo | draw.io y Mermaid (este archivo) | [`diagramas/estados.drawio`](diagramas/estados.drawio) | Mermaid refleja 012 y 017; draw.io conserva el diseño original |
 | Flujo central y arquitectura | Imágenes de la presentación | [`diagramas/`](diagramas/) | Listo |
 
 Para editar el diagrama de casos de uso, abre el archivo `.drawio` en [app.diagrams.net](https://app.diagrams.net)
@@ -75,7 +75,7 @@ El [modelo conceptual del Avance 2](diagramas/entidad-relacion.drawio) incluye e
 
 ### 2.1 Modelo implementado en Supabase (25 de noviembre de 2026)
 
-Las migraciones 001–015 crean **16 tablas en `public`**, todas con RLS. Las tres vistas del diagrama comparten las entidades que conectan los módulos. PK indica clave primaria, FK clave foránea y UK una columna única. Las dos columnas PK de `prestamo_items` forman una sola clave compuesta.
+Las migraciones 001–015 y 017 mantienen **16 tablas en `public`**, todas con RLS. 017 añade la tabla privada `privado.codigos_ingreso` con RLS para códigos de acceso de un solo uso. Las tres vistas del diagrama comparten las entidades que conectan los módulos. PK indica clave primaria, FK clave foránea y UK una columna única. Las dos columnas PK de `prestamo_items` forman una sola clave compuesta.
 
 **Acceso, visitas y aforo.** El perfil usa como PK el mismo identificador que `auth.users.id` (FK a Supabase Auth). Un alumno puede tener varias tarjetas y como máximo una visita abierta. La vinculación a un perfil es opcional y única.
 ```mermaid
@@ -243,6 +243,7 @@ erDiagram
         uuid prestamo_id PK, FK
         bigint implemento_id PK, FK
         integer cantidad
+        integer devuelto
     }
     implementos {
         bigint id PK
@@ -253,7 +254,7 @@ erDiagram
     }
 ```
 
-`stock_prestamos` y `prestamos_pendientes` son vistas. El stock disponible se calcula restando las cantidades de préstamos abiertos. Un índice único parcial impide tener dos solicitudes pendientes para el mismo alumno.
+`stock_prestamos` y `prestamos_pendientes` son vistas. El stock disponible se calcula restando las cantidades pendientes (`cantidad - devuelto`). Un índice único parcial impide tener dos solicitudes pendientes para el mismo alumno.
 
 ## 3. Secuencia del ingreso (CU01, CU02 y CU04)
 
@@ -332,19 +333,26 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
     [*] --> Abierto: registra implementos y recibe la TNE
-    Abierto --> Devuelto: recibe todos los implementos y entrega la TNE
-    Devuelto --> [*]
+    Abierto --> Abierto: devuelve parte y libera stock
+    Abierto --> TnePendiente: devuelve todos los implementos
+    TnePendiente --> Cerrado: entrega la TNE
+    Cerrado --> [*]
 ```
 
-| Estado en S1 | Registro en préstamos | Efecto |
+| Estado en 017 | Registro en préstamos | Efecto |
 |---|---|---|
 | Abierto | `devuelto_en` nulo y `tne_devuelta = false` | Descuenta stock y bloquea otra solicitud del alumno. |
-| Devuelto | `devuelto_en` registrado y `tne_devuelta = true` | Repone todo el stock y permite solicitar otro préstamo. |
+| TNE pendiente | `devuelto_en` registrado y `tne_devuelta = false` | Todo el stock repuesto; sigue bloqueado otro préstamo. |
+| Cerrado | `devuelto_en` registrado y `tne_devuelta = true` | Permite solicitar otro préstamo. |
 
-`registrar_devolucion` registra la devolución completa y el retiro de la TNE en la misma operación. Si existe una fila con implementos ya devueltos y TNE sin retirar, D19 también bloquea el próximo préstamo. Ninguna de estas operaciones modifica el aforo (D04).
+`registrar_devolucion(uuid,jsonb)` devuelve cantidades o todo lo pendiente con NULL; `entregar_tne(uuid)` cierra la garantía. La firma `registrar_devolucion(uuid)` mantiene el contrato 015: devuelve todo y entrega la TNE en una transacción. D19 bloquea otro préstamo hasta que ambos procesos estén completos. Ninguna de estas operaciones modifica el aforo (D04).
 
 ## Pendientes
 
-- Isidora revisa el modelo y los flujos contra 015 antes de dar por cerrado F-13.
-- La devolución parcial queda para F-20. El registro corporal y la creación de rutinas por profesor o alumno siguen en el diseño de la próxima versión.
+- Isidora revisa el modelo y los flujos contra 017 antes de dar por cerrado F-13.
+- F-20, F-27 y F-21 fusionados en PR #21; F-33 en PR #20. El registro corporal y la creación de rutinas por profesor o alumno siguen en el diseño de la próxima versión.
 - Para el ensayo, comprobar con el lector físico y el celular el ciclo entrada, salida y feedback. Los turnos llamados sin reclamar expiran cuando una nueva lectura procesa el plazo configurado.
+
+### Complemento: respaldo QR e historial (017 y F-33)
+
+El alumno genera un código de seis caracteres con vencimiento de dos minutos. La tabla privada `codigos_ingreso` guarda alumno, código único y vencimiento; el profesor canjea el código mediante `registrar_ingreso_codigo`, que consume el código y usa las mismas reglas de entrada/salida que la credencial. La cámara es opcional según navegador; se puede escribir el código. F-33 usa las tablas existentes y las políticas por rol, sin migración adicional. Los diagramas draw.io conservan el diseño histórico; los cambios de implementación se reflejan en Mermaid y este complemento.

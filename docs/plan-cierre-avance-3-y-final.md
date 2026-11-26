@@ -102,13 +102,14 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | ID | Tarea | Tipo | Requisitos |
 |---|---|---|---|
 | F-19 | Registro corporal privado con IMC | Agente | RF27 · CA22, CA39 |
-| F-20 | Devoluciones parciales y garantías pendientes (préstamo completo) | Agente | RF23, RF24 · CA21 |
-| F-21 | QR de respaldo | Agente | RF03 · CA31 |
+| F-20 ✅ | Devoluciones parciales y garantías pendientes (préstamo completo) | Agente | RF23, RF24 · CA21 |
+| F-21 🟡 | QR de respaldo fusionado; canje manual informado, cámara y lector físico pendientes (CA31) | Agente | RF03 · CA31 |
 | F-22 | Rutinas creadas por el alumno o asignadas por el profesor | Agente | RF13 a RF15 · CA15, CA16, CA38 |
 | F-23 | Turno llamado que vence solo, sin esperar otra lectura (detalle menor aceptado) | Agente | RF10 |
 | F-24 | Pantallas del catálogo: máquinas con foto e implementos | Agente | RF19, RF21 · CA25, CA27 |
-| F-27 | Al vincular, elegir si la tarjeta es TNE o TUI (hoy se guarda todo como `tne`); mostrar las tarjetas que ya tiene el alumno | Agente | RF02 · D17 |
+| F-27 ✅ | Selección TNE/TUI al vincular y listado de tarjetas; repetir validación física | Agente | RF02 · D17 |
 | F-25 ✅ | Cantidades de implementos y período académico confirmados en el Playback (F-31 y D20) | Externo | Hecho |
+| F-33 ✅ | Historial de visitas, feedback y préstamos; PR #20 fusionado | Agente | F-33 |
 | F-30 | Aviso «Olvidaste tu TNE» en el perfil del alumno, enviado por el profesor (pedido del encargado) | Agente | RF24 · P5 |
 
 **Regla para P2:** solo se suma al afiche lo que esté fusionado y probado **antes del jueves 26**. Lo que entre
@@ -178,3 +179,17 @@ después se muestra en la demo, pero el afiche lo deja como «próxima versión�
   [sección 9 de los complementos](complementos-avances-1-y-2.md#9-validación-con-el-encargado-playback); contarle
   a Claude el resultado para completar el acta
 - [ ] En la noche: pedir el prompt de F-01 (rutina, base de datos) y empezar la entrega final
+
+## Actualización de cierre · 25 de noviembre
+
+PR #20 y #21 fusionados. Código complementario cerrado; 429 comprobaciones locales aprobadas. CA31 físico y registro detallado de validación SQL remota quedan pendientes. No iniciar nuevas P2 antes de cerrar la evidencia y la demo.
+
+| Fecha | Prioridad |
+|---|---|
+| Jue 26 | F-04: afiche A0 con 429 comprobaciones locales, capturas nuevas y docente. |
+| Vie 27 | F-04b: imprimir afiche y 20 trípticos a color. |
+| Sáb 28 | F-05 y F-14: hoja por CA, CA29 red USS, lector y cámara (Pau), computador/Android/iPhone y 360 px. |
+| Dom 29 | F-12, F-15, F-17: trazabilidad, guion de defensa y revisión cruzada. F-16: protección de claves filtradas si está disponible. |
+| Lun 30 | F-07 y F-08: base demo 0/20, respaldo, congelamiento y cierre CR-01 con evidencia; etiquetar versión. |
+| 1–2 dic | Ensayar demo y defensa, respaldos offline. |
+| 3 dic | Exposición final. |

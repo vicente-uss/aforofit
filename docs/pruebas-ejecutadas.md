@@ -94,3 +94,35 @@ anon sin acceso a `alumnos`), D24 y CA34 parcial (configuración solo por admin)
 
 Pendientes de la ronda 2: CA34 (configuración, D24), CA30 (tres
 tipos de equipo) y CA29 en la red de la universidad.
+
+## Ronda 3 · 25 de noviembre de 2026 (PR #20 y #21)
+
+| Versión auditada | Vitest | SQL local | Observaciones |
+|---|---:|---:|---|
+| PR #20, `8b11aea` | 192/192 | 197/197 | F-33; 9 casos de historial |
+| PR #21, `17b50d5` | 174/174 | 222/222 | F-20, F-27 y F-21; 017 reaplicable |
+| Integración, `61a4012` | 198/198 | 231/231 | **429 comprobaciones locales**; 17 archivos Vitest, 9 suites SQL, lint/build OK |
+
+Los totales provienen de los informes de Codex, no se suman entre rondas. Auditoría estática del coordinador IA y Vercel OK. PR #20 y #21 fusionados en `main` (`1939b8e` y `fb43ce2`). La migración 017 se mantuvo idéntica al commit auditado.
+
+| Suite SQL integrada | OK local |
+|---|---:|
+| registrar_ingreso | 45 |
+| rutinas | 62 |
+| profesor | 25 |
+| turno_nombre | 10 |
+| configuracion | 27 |
+| prestamos | 37 |
+| ingreso_codigo | 14 |
+| historial | 9 |
+| migracion_017 (solo local desechable) | 2 |
+| Total | **231** |
+
+| Cobertura nueva | Evidencia / estado |
+|---|---|
+| F-33 | Historial de alumno y profesor, días de 23/24/25 h, cambios de fecha y tres estados de préstamo; Chromium 360 × 800 sin desborde según Codex; simulación de error y respuesta tardía. |
+| CA20 / CA21, F-20 | SQL local: stock liberado por unidad, bloqueo hasta retiro de TNE, devoluciones inválidas atómicas, compatibilidad con 015 y conservación de históricos. |
+| RF02, F-27 | Selección de tipo TNE/TUI implementada y auditada; repetir lectura física. |
+| CA31, F-21 | Generación y canje manual informados por el coordinador; botón de cámara no disponible en su navegador. Prueba física de cámara y lector pendiente. |
+
+El coordinador informó completada la validación antes de pedir el cierre documental; no se recibieron resultados detallados de las ocho suites en Supabase remoto (229 casos esperados) ni evidencia independiente de aplicación de 017. No registrar esos totales como aprobados en remoto. Pendientes F-05, CA29 en la red USS, CA30 y CA32, CA31 físico y CA34 parcial.

@@ -158,3 +158,7 @@ para apoyar la rutina y las pruebas.
 | Fecha de la decisión | Lunes 23 de noviembre de 2026, por los 5 integrantes |
 | Evidencia de implementación | Pull requests de B1 a B5 y resultados de los CA activos |
 | Estado de cierre | Abierto: en implementación hasta el congelamiento del lunes 30 |
+
+### Seguimiento posterior a la aprobación (25 nov)
+
+Sin modificar la línea base aprobada el 23 de noviembre: B1–B5, S1 y S2 están implementados. Los PR #20 (F-33) y #21 (F-20, F-27 y F-21) se fusionaron como alcance complementario antes del congelamiento. La versión integrada `61a4012` registra 198 Vitest y 231 SQL locales aprobados (429 comprobaciones). El QR dispone de canje manual; escaneo físico y registro de evidencia remota pendientes. El CR-01 permanece abierto hasta el 30 de noviembre (F-08).

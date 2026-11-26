@@ -8,7 +8,7 @@ Proyecto Integrador del Grupo 6 · Taller de Ingeniería de Software · [Abrir A
 
 ## Estado al 25 de noviembre de 2026
 
-En `main` están implementados el ingreso por credencial, la lista de espera con llamado automático, el cierre manual de visitas, las rutinas por objetivo y nivel, los avisos de mantención y el feedback con progresión. El profesor puede prestar varios implementos y registrar su devolución completa con la TNE. El administrador configura el gimnasio y registra certificados con vigencia de doce meses. La verificación de esta versión comprende **161 casos Vitest y 188 SQL**.
+En `main` están implementados el ingreso por credencial, la lista de espera con llamado automático, el cierre manual de visitas, las rutinas por objetivo y nivel, los avisos de mantención y el feedback con progresión. El profesor puede prestar varios implementos, registrar devoluciones parciales y entregar la TNE por separado. El alumno dispone de QR de respaldo e historial de visitas y feedback; el profesor consulta el historial diario de visitas y préstamos. El administrador configura el gimnasio y registra certificados con vigencia de doce meses. PR #20 y #21 fusionados: **198 Vitest y 231 SQL locales (429 comprobaciones)** según Codex; lint y build OK. Canje manual de QR informado por el coordinador; escaneo con cámara y evidencia física CA31 pendientes.
 
 ## Prototipo navegable
 
@@ -23,7 +23,7 @@ con datos de prueba (alumno, profesor encargado, administrador y pantalla de afo
 | Frontend | Next.js (App Router) + TypeScript + Tailwind |
 | Backend y base de datos | Supabase (PostgreSQL, Auth, Realtime) |
 | Despliegue | Vercel |
-| Ingreso | Lector USB de 13,56 MHz en modo teclado, probado con TNE y TUI el 20 de noviembre. Ingreso manual como respaldo; QR pendiente. |
+| Ingreso | Lector USB de 13,56 MHz en modo teclado, probado con TNE y TUI el 20 de noviembre. Ingreso manual y QR de respaldo; la cámara depende de compatibilidad del navegador. |
 
 ## Instalación local
 
@@ -69,6 +69,10 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [014_vigencia_y_configuracion.sql](supabase/sql/014_vigencia_y_configuracion.sql) | Elimina la validación por período académico y permite al admin ajustar capacidad, horario y cierre automático. | Completa la hora de cierre en el horario existente. |
 | [015_prestamos_y_habilitacion.sql](supabase/sql/015_prestamos_y_habilitacion.sql) | Crea préstamos, detalle, vistas de stock y pendientes, devolución completa y habilitación por emisión. | Deduce la emisión desde el vencimiento existente y conserva la vigencia. |
 
+| [017_devoluciones_qr_tarjetas.sql](supabase/sql/017_devoluciones_qr_tarjetas.sql) | Devoluciones por cantidad, entrega separada de TNE, tipo TNE/TUI y QR de respaldo; conserva la firma anterior de devolución. | Inicializa cantidades devueltas según el estado histórico. |
+
+No existe migración 016; ejecutar 017 después de 015.
+
 ## Usuarios de prueba
 
 Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste tu propio proyecto, usa las que definiste en Auth.
@@ -87,14 +91,16 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/auth/login` | Sin sesión | Iniciar sesión con correo y contraseña. |
 | `/auth/forgot-password`, `/auth/update-password` | Recuperación de cuenta | Solicitar el correo y definir una nueva contraseña con la sesión de recuperación. |
 | `/auth/confirm`, `/auth/error` | Flujo de Auth | El primero procesa el enlace de confirmación; el segundo muestra errores de acceso. |
-| `/ingreso` | Profesor y admin | Leer la credencial, ingresar un UID a mano o vincular una tarjeta. |
+| `/ingreso` | Profesor y admin | Leer credencial, ingresar UID o código QR de seis caracteres y vincular TNE/TUI. |
 | `/aforo` | Pública, sin sesión | Ver ocupación, cupos, espera y turno llamado con nombre abreviado. |
-| `/alumno` | Alumno | Elegir objetivo y nivel, ver ejercicios, cargas y mantención, y responder el feedback. |
+| `/alumno` | Alumno | Elegir objetivo y nivel, ver ejercicios, cargas y mantención, y responder el feedback; generar QR. |
+| `/alumno/historial` | Alumno | Consultar sus visitas y feedback. |
 | `/profesor` | Profesor | Abrir los módulos del encargado. |
 | `/profesor/espera` | Profesor | Consultar la lista de espera y los turnos llamados. |
 | `/profesor/adentro` | Profesor | Revisar quién sigue adentro y cerrar una visita a mano. |
 | `/profesor/maquinas` | Profesor | Marcar una máquina disponible o en mantención. |
-| `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos y confirmar su devolución con la TNE. |
+| `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos, devolver cantidades y entregar la TNE por separado. |
+| `/profesor/historial` | Profesor | Consultar visitas y préstamos por fecha en Santiago. |
 | `/admin` | Administrador | Abrir los módulos de administración. |
 | `/admin/configuracion` | Administrador | Cambiar capacidad, horario por día y horas para cierre automático. |
 | `/admin/habilitacion` | Administrador | Buscar al alumno, revisar su vigencia y registrar la fecha de emisión. |
@@ -109,16 +115,20 @@ npm run lint
 npm run build
 ```
 
-Se esperan 161 casos Vitest aprobados, lint sin errores y compilación exitosa. En el **SQL Editor del proyecto de prueba**, con 001–015 aplicados, las tres cuentas configuradas y sin visitas ni turnos de una demo anterior, ejecuta cada archivo completo por separado. Cada uno abre una transacción con `begin` y termina con `rollback`: los cambios en las filas se revierten. Revisa los mensajes `OK` o la tabla de resultados del script. Una excepción indica qué caso falló.
+Se esperan 198 casos Vitest aprobados, lint sin errores y compilación exitosa. En el **SQL Editor del proyecto de prueba**, con 001–015 y 017 aplicados, las tres cuentas configuradas y sin visitas ni turnos de una demo anterior, ejecuta cada archivo completo por separado. Cada uno abre una transacción con `begin` y termina con `rollback`: los cambios en las filas se revierten. Revisa los mensajes `OK` o la tabla de resultados del script. Una excepción indica qué caso falló.
 
 | Archivo | Qué comprueba | Casos OK |
 |---|---|---:|
-| [registrar_ingreso.sql](supabase/pruebas/registrar_ingreso.sql) | Credenciales, habilitación, horario, cupos, turnos, salida, cierre automático y permisos | 42 |
+| [registrar_ingreso.sql](supabase/pruebas/registrar_ingreso.sql) | Credenciales, habilitación, horario, cupos, turnos, salida, cierre automático y permisos | 45 |
 | [rutinas.sql](supabase/pruebas/rutinas.sql) | Objetivo y nivel, generación por plantilla, mantención, feedback, cargas y acceso por rol | 62 |
 | [profesor.sql](supabase/pruebas/profesor.sql) | Estado de máquinas, cierre manual, aforo y exclusión de feedback | 25 |
 | [turno_nombre.sql](supabase/pruebas/turno_nombre.sql) | Abreviación, uso y expiración del turno y lectura pública | 10 |
 | [configuracion.sql](supabase/pruebas/configuracion.sql) | Permisos del admin, rangos, horario, cierre y actualización del aforo | 27 |
-| [prestamos.sql](supabase/pruebas/prestamos.sql) | Stock, bloqueo por préstamo o TNE, devolución completa, permisos y vigencia del certificado | 22 |
+| [prestamos.sql](supabase/pruebas/prestamos.sql) | Stock, devoluciones parciales y completas, dos firmas SQL, TNE, permisos y vigencia | 37 |
+| [ingreso_codigo.sql](supabase/pruebas/ingreso_codigo.sql) | QR de un uso, vencimiento, reemplazo, permisos y reglas de acceso | 14 |
+| [historial.sql](supabase/pruebas/historial.sql) | Lectura por rol, visitas y estados de préstamos | 9 |
+
+Las ocho suites anteriores suman 229 casos locales. Las dos comprobaciones restantes son de [migracion_017.sql](supabase/pruebas/migracion_017.sql), que se ejecuta con `psql -f` únicamente en una base local desechable con 001–015, antes de 017. No ejecutar esa suite en SQL Editor remoto: incluye commits y reaplica la migración.
 
 ## Preparar y ensayar la demo
 
@@ -137,7 +147,7 @@ Se esperan 161 casos Vitest aprobados, lint sin errores y compilación exitosa. 
 
 ## Limitaciones de esta versión
 
-Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal y las devoluciones parciales quedan para una próxima versión (F-20 para las devoluciones). La progresión y las modalidades de rutina se configuran solo por SQL (D24). El respaldo QR sigue pendiente.
+Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal queda para una próxima versión. La progresión y las modalidades de rutina se configuran solo por SQL (D24). El QR de respaldo se canjea con seis caracteres en Ingreso manual; en navegadores compatibles también se ofrece cámara (BarcodeDetector). Para probarlo, abre una sesión de alumno con credencial vinculada, genera el QR y canjea el código desde otra sesión de profesor en `/ingreso`. Vence en dos minutos y sirve una vez. CA31 físico sigue pendiente.
 
 ## Kiosco de ingreso en Chrome
 
