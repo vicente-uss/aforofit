@@ -1,4 +1,4 @@
-import { ClipboardList, ListOrdered, Monitor, Package, ScanLine, Users, Wrench } from "lucide-react";
+import { ClipboardList, History, ListOrdered, Monitor, Package, ScanLine, Users, Wrench } from "lucide-react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
 import { requerirRol } from "@/lib/auth/perfil";
@@ -58,6 +58,13 @@ async function Contenido() {
           href: "/profesor/maquinas",
           icono: Wrench,
           color: "amber",
+        },
+        {
+          titulo: "Historial",
+          descripcion: "Visitas y préstamos de un día, con el tipo de cierre. Solo lectura.",
+          href: "/profesor/historial",
+          icono: History,
+          color: "blue",
         },
       ]}
     />
