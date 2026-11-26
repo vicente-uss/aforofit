@@ -68,7 +68,6 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [013_turno_nombre.sql](supabase/sql/013_turno_nombre.sql) | Publica con el turno el primer nombre y la inicial del apellido en la fila de aforo. | Completa el nombre de un llamado existente. |
 | [014_vigencia_y_configuracion.sql](supabase/sql/014_vigencia_y_configuracion.sql) | Elimina la validación por período académico y permite al admin ajustar capacidad, horario y cierre automático. | Completa la hora de cierre en el horario existente. |
 | [015_prestamos_y_habilitacion.sql](supabase/sql/015_prestamos_y_habilitacion.sql) | Crea préstamos, detalle, vistas de stock y pendientes, devolución completa y habilitación por emisión. | Deduce la emisión desde el vencimiento existente y conserva la vigencia. |
-
 | [017_devoluciones_qr_tarjetas.sql](supabase/sql/017_devoluciones_qr_tarjetas.sql) | Devoluciones por cantidad, entrega separada de TNE, tipo TNE/TUI y QR de respaldo; conserva la firma anterior de devolución. | Inicializa cantidades devueltas según el estado histórico. |
 
 No existe migración 016; ejecutar 017 después de 015.
