@@ -38,12 +38,13 @@ Devuelve **siempre un objeto**, nunca `null`, una fila ni un array:
 | `gimnasio_cerrado` | El gimnasio está cerrado hoy | |
 | `sin_permiso` | Esta pantalla requiere la sesión de un profesor | |
 
-## 2. `vincular_credencial(p_uid text, p_alumno_id uuid) returns jsonb`
+## 2. `vincular_credencial(p_uid text, p_alumno_id uuid, p_tipo text default 'tne') returns jsonb`
 
 Devuelve `{ "ok": boolean, "motivo": text | null }`. Con `ok = true`, `motivo` es `null`.
 
 | `motivo` | Texto en pantalla | Criterio |
 |---|---|---|
+| `uid_invalido` | Formato de credencial inválido (019: UID canónico de 4, 7 o 10 bytes) | |
 | `credencial_de_otro_alumno` | La credencial ya pertenece a otro alumno | CA03 |
 | `alumno_no_encontrado` | Alumno no encontrado | |
 | `sin_permiso` | Esta pantalla requiere la sesión de un profesor | |
@@ -57,8 +58,8 @@ Si el rol no corresponde, responden con el motivo `sin_permiso`.
 revoke execute on function public.registrar_ingreso(text) from public, anon;
 grant execute on function public.registrar_ingreso(text) to authenticated;
 
-revoke execute on function public.vincular_credencial(text, uuid) from public, anon;
-grant execute on function public.vincular_credencial(text, uuid) to authenticated;
+revoke execute on function public.vincular_credencial(text, uuid, text) from public, anon;
+grant execute on function public.vincular_credencial(text, uuid, text) to authenticated;
 ```
 
 ## 4. Tabla `aforo`

@@ -47,8 +47,20 @@ for i in $(seq 1 100); do
   [[ "$i" != 100 ]] || { echo 'Cron no procesó el vencimiento'; exit 1; }
   sleep 1
 done
+# Dejar otro alumno esperando y forzar que el llamado actual ya haya vencido.
 db <<'SQL'
-do $$ begin
+select privado.registrar_ingreso_en('FC:19:CC:03',clock_timestamp());
+update public.turnos set llamado_en=clock_timestamp()-interval '2 minutes' where estado='llamado';
+SQL
+for i in $(seq 1 100); do
+  if [[ "$(db -Atc "select exists(select 1 from public.turnos t join public.alumnos a on a.id=t.alumno_id where a.rut='EST019-C-3' and t.estado='llamado') and exists(select 1 from public.turnos t join public.alumnos a on a.id=t.alumno_id where a.rut in ('EST019-C-1','EST019-C-2') and t.estado='expirado')")" == t ]]; then
+    echo 'OK: Cron real venció reserva y llamó al siguiente'; break
+  fi
+  [[ "$i" != 100 ]] || { echo 'Cron no procesó el turno vencido'; exit 1; }
+  sleep 1
+done
+db <<'SQL'
+do $ begin
   if (select count(*) from cron.job where jobname='aforofit-reconciliar-aforo')<>1
     or not exists(select from cron.job_run_details d join cron.job j using(jobid)
       where j.jobname='aforofit-reconciliar-aforo' and d.status='succeeded') then

@@ -483,7 +483,10 @@ revoke all on function privado.sincronizar_aforo(timestamptz),
   privado.actualizar_configuracion_en(integer,jsonb,integer,timestamptz),
   privado.al_cambiar_configuracion() from public, anon, authenticated;
 
-create extension if not exists pg_cron;
+create extension if not exists pg_cron with schema pg_catalog;
+-- Permisos de instalación recomendados por Supabase; solo el rol propietario.
+grant usage on schema cron to postgres;
+grant all privileges on all tables in schema cron to postgres;
 select cron.schedule('aforofit-reconciliar-aforo', '* * * * *',
   'select privado.procesar_aforo_programado()');
 select cron.alter_job(jobid, active := true) from cron.job
