@@ -29,7 +29,7 @@ Se inspeccionaron las tres páginas renderizadas desde los PDF finales y la prim
 | B5 | Foto 389 ppp; pantalla pública 203; rutina 177; bienvenida del kiosco 202. |
 | T3 | Foto 422 ppp; pantalla pública 1161; ejercicio 371; progresión 359. |
 
-Se contrastó la [sección 7 de las bases](../../bases-proyecto-integrador.md) con el afiche: título, identidad institucional y equipo; problema, objetivo, método y tecnologías; arquitectura de cinco pasos; funciones, evidencia, resultados, beneficio, conclusión y limitaciones. El tríptico explicita horarios, capacidad y certificados, y conserva el ejemplo de progresión. En ambas piezas se distingue el QR público del canje manual del QR de ingreso y se declara pendiente la prueba física con cámara.
+Se contrastó la [sección 7 de las bases](../../bases-proyecto-integrador.md) con el afiche: título, identidad institucional y equipo; problema, objetivo, método y tecnologías; arquitectura de cinco pasos; funciones, evidencia, resultados, beneficio, conclusión y limitaciones. El tríptico explicita horarios, capacidad y certificados, y conserva el ejemplo de progresión. El QR público abre la vista de aforo. El panel de acceso del tríptico explica cómo obtener el código de ingreso de un solo uso. En la prueba técnica se comprobó el canje manual. La validación física mediante cámara sigue pendiente.
 
 El consolidado de [pruebas ejecutadas](../../pruebas-ejecutadas.md) es de 429 locales (198 Vitest y 231 SQL). La [prueba con lector](../../medicion-ca29-2026-11-23.md) documenta ≤ 1,2 s como cota superior desde la luz a la entrada visible; menos de 0,1 s desde el resultado del kiosco al cambio de aforo en la misma máquina. Los textos conservan red doméstica y video analizado a intervalos de 0,1 s.
 

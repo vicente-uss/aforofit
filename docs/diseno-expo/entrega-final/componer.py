@@ -45,6 +45,28 @@ def afiche(foto):
     rotulo = ET.SubElement(g, S+"text", x="34", y="769", fill="#101C2C",
                            attrib={"font-family":"Barlow", "font-size":"8"})
     rotulo.text = "Foto del lector y la TNE"
+    # Recuperar espacio de la franja de resultados y compartir las líneas base
+    # de ambas columnas. Las coordenadas están en milímetros del A0 original.
+    lineas = {865:852, 880:868, 882:869, 899:886, 902:889, 912:900,
+              915:902, 936:919, 943:920, 990:964, 1009:986, 1022:1001,
+              1035:1016, 1048:1031, 1078:1082, 1072:1076, 1088:1095,
+              1111:1130, 1130:1147, 1142:1159, 1154:1171, 1175:1180}
+    for e in root.findall(S+"text"):
+        y = float(e.get("y"))
+        if y in lineas:
+            e.set("y", str(lineas[y]))
+    resultados = root.find(S+"rect[@y='825']")
+    resultados.attrib.update(y="818", height="120")
+    pie = root.find(S+"rect[@y='1094']")
+    pie.attrib.update(y="1113", height="76")
+    titulo = texto(root, "Conclusión")
+    fondo = ET.Element(S+"rect", x="0", y="1050", width="841", height="63", fill="#e6edfa")
+    root.insert(list(root).index(titulo), fondo)
+    creditos = [e for e in root.findall(S+"text") if e.get("y") in {"1147","1159","1171"}]
+    for e, (x, y) in zip(creditos, [(34,1148),(310,1148),(585,1148),(34,1162),(310,1162)]):
+        e.attrib.update(x=str(x), y=str(y))
+    limite = root.find(S+"text[@y='1180']")
+    limite.text = "Prototipo académico para alumnos, con datos ficticios y sin integración con sistemas institucionales USS"
     return guardar(root,"AforoFit-Afiche-A0")
 
 def triptico(foto):
@@ -62,8 +84,16 @@ def triptico(foto):
     pie.text="Fotografía del equipo · TNE y lector USB."
     pie.set("y","124")
     texto(dentro,"QR de respaldo").set("y","132")
-    for i,s in enumerate(["El alumno también puede ingresar con","un código de un solo uso. Se probó el","canje manual. La validación física por","cámara sigue pendiente."]):
-        texto(dentro,s).set("y",str(138+i*4.6))
+    respaldo = [
+        ("El alumno también puede ingresar con", "Si no tienes tu credencial, puedes"),
+        ("un código de un solo uso. Se probó el", "generar un código de ingreso de un"),
+        ("canje manual. La validación física por", "solo uso desde tu cuenta"),
+    ]
+    for i, (antes, despues) in enumerate(respaldo):
+        linea = texto(dentro, antes)
+        linea.text = despues
+        linea.set("y", str(139 + i*5))
+    dentro.remove(texto(dentro, "cámara sigue pendiente."))
     for antes,despues in [
         ("El profesor revisa el historial y el estado","El profesor revisa máquinas e historial y"),
         ("de las máquinas, registra préstamos de","registra préstamos y devoluciones parciales."),
