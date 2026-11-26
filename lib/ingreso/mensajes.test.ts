@@ -91,6 +91,7 @@ describe("textoMotivo", () => {
 
   it("incluye los motivos de vincular_credencial (CA03)", () => {
     expect(textoMotivo("credencial_de_otro_alumno")).toBe("La credencial ya pertenece a otro alumno");
+    expect(textoMotivo("uid_invalido")).toBe("Formato de credencial inválido");
     expect(textoMotivo("alumno_no_encontrado")).toBe("Alumno no encontrado");
   });
 });
