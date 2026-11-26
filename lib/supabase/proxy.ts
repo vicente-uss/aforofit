@@ -27,7 +27,7 @@ export async function updateSession(request: NextRequest) {
 
   // Sin variables de entorno no se puede validar la sesión.
   if (!hasEnvVars) {
-    return supabaseResponse;
+    return new NextResponse("Servicio temporalmente no disponible", { status: 503 });
   }
 
   // Con Fluid compute este cliente no se guarda en una variable global:
