@@ -67,6 +67,8 @@ def afiche(foto):
         e.attrib.update(x=str(x), y=str(y))
     limite = root.find(S+"text[@y='1180']")
     limite.text = "Prototipo académico para alumnos, con datos ficticios y sin integración con sistemas institucionales USS"
+    docente = texto(root, "Proyecto Integrador 2026   ·   Docente Rodrigo Correa Rojas")
+    docente.text = "Proyecto Integrador 2026   ·   Docente Dr. Rodrigo Correa Rojas"
     return guardar(root,"AforoFit-Afiche-A0")
 
 def triptico(foto):
@@ -76,6 +78,7 @@ def triptico(foto):
     fuera.remove(anterior)
     fuera.append(logo("dark",206,172,48))
     texto(fuera,"Sede Bellavista").set("y","198")
+    texto(fuera, "Docente · Rodrigo Correa Rojas").text = "Docente Dr. Rodrigo Correa Rojas"
     dentro = ET.parse(base/"interior.svg").getroot()
     img = next(e for e in dentro if e.tag==S+"image" and e.get("x")=="8")
     img.attrib.update(x="8",y="72",width="83",height=str(83*780/1380))
