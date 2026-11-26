@@ -6,6 +6,7 @@ import { Insignia } from "@/components/marca/insignia";
 import { MarcoAlumno } from "@/components/marca/marco-alumno";
 import { Tarjeta } from "@/components/marca/tarjeta";
 import { requerirRol } from "@/lib/auth/perfil";
+import { QrIngreso } from "./qr-ingreso";
 import { RutinaAlumno } from "./rutina-alumno";
 
 // Pospuestas por el CR-01 (sección 4.4): se muestran como «Próxima versión».
@@ -21,6 +22,7 @@ async function Contenido() {
   return (
     <MarcoAlumno titulo="Mi rutina" subtitulo={`Hola, ${perfil.nombre}`}>
       {/* B1, B3 y B4 del CR-01: objetivo y nivel, rutina del día en tiempo real y feedback. */}
+      <QrIngreso />
       <RutinaAlumno />
 
       {/* F-33: consulta verificable de lo que quedó guardado (visitas, cierres y feedback). */}

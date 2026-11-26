@@ -29,6 +29,8 @@ import { estadoAforo, textoCupos } from "@/lib/aforo/estado";
 import { useAforo } from "@/lib/aforo/useAforo";
 import { patronContiene, unirAlumnos } from "@/lib/ingreso/buscarAlumnos";
 import { pausaLector } from "@/lib/ingreso/pausaLector";
+import { CamaraQr } from "./camara-qr";
+import { esCodigoIngreso } from "@/lib/ingreso/codigoQr";
 import { capturarLectura } from "@/lib/ingreso/capturarLectura";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
 import {
@@ -56,7 +58,7 @@ type Lectura = {
   turno: number | null;
 };
 
-type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null };
+type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null; tarjetas: { tipo: string; uid: string }[] };
 
 const MAX_LECTURAS = 10; // historial solo en memoria
 const MAX_ALUMNOS_BUSCADOS = 8;
@@ -99,6 +101,9 @@ export function PantallaIngreso() {
   const [busqueda, setBusqueda] = useState("");
   const [alumnos, setAlumnos] = useState<AlumnoBuscado[]>([]);
   const [avisoVincular, setAvisoVincular] = useState<string | null>(null);
+  const [elegido, setElegido] = useState<AlumnoBuscado | null>(null);
+  const [tipoTarjeta, setTipoTarjeta] = useState("tne");
+  const [vinculando, setVinculando] = useState(false);
   const [busquedaAbierta, setBusquedaAbierta] = useState(false);
 
   const supabaseRef = useRef(createClient());
@@ -155,8 +160,9 @@ export function PantallaIngreso() {
   }, [enfocarLector]);
 
   // Procesa un código (del lector o manual). Devuelve true si el formato es válido.
-  const procesar = useCallback((texto: string) => {
-    const resultado = normalizarUid(texto);
+  const procesar = useCallback((texto: string, manual = false) => {
+    const codigo = manual && esCodigoIngreso(texto) ? texto.trim().toUpperCase() : null;
+    const resultado = codigo ? { ok: true as const, uid: codigo } : normalizarUid(texto);
     if (!resultado.ok) {
       setError(resultado.error);
       programarLimpieza();
@@ -165,7 +171,7 @@ export function PantallaIngreso() {
 
     const ahora = Date.now();
     const anterior = ultimaAceptadaRef.current;
-    if (anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
+    if (!codigo && anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
       // Lectura repetida de la misma tarjeta: se ignora sin mostrar nada.
       return true;
     }
@@ -205,11 +211,17 @@ export function PantallaIngreso() {
     };
 
     // Promise.resolve porque el constructor de Supabase es "thenable" y no tiene .catch().
-    void Promise.resolve(supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid }))
+    const consulta = codigo
+      ? supabaseRef.current.rpc("registrar_ingreso_codigo", { p_codigo: codigo })
+      : supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid });
+    void Promise.resolve(consulta)
       .then(({ data, error: errorRpc }) => {
         if (errorRpc) {
           console.error("Error en registrar_ingreso:", errorRpc);
-          terminar(mensajeErrorRpc(errorRpc));
+          if (codigo && ["codigo_invalido", "sin_tarjeta"].includes(errorRpc.message)) {
+            terminar({ tono: "error", tipo: "Rechazo", titulo: errorRpc.message === "sin_tarjeta" ? "Alumno sin credencial vinculada" : "Código vencido, usado o incorrecto",
+              detalle: "Solicita un nuevo código en el celular del alumno.", ofrecerVincular: false });
+          } else terminar(mensajeErrorRpc(errorRpc));
           return;
         }
         const respuesta = interpretarRespuesta(data);
@@ -233,11 +245,12 @@ export function PantallaIngreso() {
     const texto = busqueda.trim();
     if (texto.length < 2) return;
     // Dos consultas en vez de .or(): el texto del usuario no se interpola en el filtro.
+    setElegido(null);
     const patron = patronContiene(texto);
     const consultar = (columna: "nombre" | "rut") =>
       supabaseRef.current
         .from("alumnos")
-        .select("id, nombre, rut, carrera")
+        .select("id, nombre, rut, carrera, tarjetas(tipo,uid)")
         .ilike(columna, patron)
         .order("nombre")
         .limit(MAX_ALUMNOS_BUSCADOS);
@@ -254,11 +267,14 @@ export function PantallaIngreso() {
   };
 
   const vincular = async (alumno: AlumnoBuscado) => {
-    if (!uidPorVincular) return;
+    if (!uidPorVincular || vinculando) return;
+    setVinculando(true);
     const { data, error: errorVincular } = await supabaseRef.current.rpc("vincular_credencial", {
       p_uid: uidPorVincular,
       p_alumno_id: alumno.id,
+      p_tipo: tipoTarjeta,
     });
+    setVinculando(false);
     if (errorVincular) {
       console.error("Error en vincular_credencial:", errorVincular);
       setAvisoVincular(textoErrorRpc(errorVincular).titulo);
@@ -295,6 +311,8 @@ export function PantallaIngreso() {
 
   const abrirVincular = () => {
     manualAbiertoRef.current = true; // el buscador necesita el teclado
+    setElegido(null);
+    setTipoTarjeta("tne");
     setBusqueda("");
     setAlumnos([]);
     setAvisoVincular(null);
@@ -325,16 +343,20 @@ export function PantallaIngreso() {
     setManualAbierto(true);
   };
 
-  const cerrarManual = () => {
+  const cerrarManual = useCallback(() => {
     manualAbiertoRef.current = false;
     setManualAbierto(false);
     setTextoManual("");
     setTimeout(enfocarLector, 0);
-  };
+  }, [enfocarLector]);
+
+  const leerQr = useCallback((codigo: string) => {
+    if (procesar(codigo, true)) cerrarManual();
+  }, [procesar, cerrarManual]);
 
   const enviarManual = (evento: React.FormEvent) => {
     evento.preventDefault();
-    if (procesar(textoManual)) cerrarManual();
+    if (procesar(textoManual, true)) cerrarManual();
   };
 
   const nivel = aforo ? estadoAforo(aforo.ocupacion, aforo.capacidad, aforo.umbral_casi_lleno).etiqueta : null;
@@ -402,10 +424,11 @@ export function PantallaIngreso() {
                       autoFocus
                       value={textoManual}
                       onChange={(e) => setTextoManual(e.target.value)}
-                      placeholder="UID en hexadecimal, ej. 04:A3:7F:2B"
-                      aria-label="UID en hexadecimal"
+                      placeholder="UID o código de 6 caracteres"
+                      aria-label="UID o código de ingreso"
                       className="h-12 font-mono text-base uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
                     />
+                    <CamaraQr leer={leerQr} />
                     <div className="flex flex-wrap gap-2">
                       <Button type="submit">Registrar</Button>
                       <Button type="button" variant="ghost" onClick={cerrarManual}>
@@ -419,7 +442,7 @@ export function PantallaIngreso() {
                       <Keyboard aria-hidden />
                       Ingreso manual
                     </Button>
-                    <span className="text-[13px] text-tinta-suave">QR: próximamente</span>
+                    <span className="text-[13px] text-tinta-suave">Credencial o código QR</span>
                   </div>
                 )}
               </div>
@@ -563,7 +586,21 @@ export function PantallaIngreso() {
                     </Button>
                   </form>
                   {avisoVincular && <p className="text-sm font-medium text-red-600">{avisoVincular}</p>}
-                  {alumnos.length > 0 && (
+                  {elegido && <fieldset disabled={vinculando} className="space-y-3 rounded-xl border border-line p-3">
+                    <legend className="font-semibold">{elegido.nombre}</legend>
+                    <p className="text-sm">Credenciales vinculadas</p>
+                    {elegido.tarjetas.length ? <ul>{elegido.tarjetas.map(t =>
+                      <li key={t.uid} className="font-mono text-sm">{t.tipo === "tne" ? "TNE" : "TUI"} · {enmascararUid(t.uid)}</li>)}</ul>
+                      : <p className="text-sm text-tinta-suave">Sin credenciales vinculadas.</p>}
+                    <label className="block text-sm">Tipo de la nueva credencial
+                      <select className="block w-full rounded-lg border border-line p-2" value={tipoTarjeta}
+                        onChange={e => setTipoTarjeta(e.target.value)}>
+                        <option value="tne">TNE</option><option value="credencial_uss">TUI (credencial USS)</option>
+                      </select>
+                    </label>
+                    <Button onClick={() => void vincular(elegido)}>Confirmar vinculación</Button>
+                  </fieldset>}
+                  {!elegido && alumnos.length > 0 && (
                     <ul className="divide-y divide-line rounded-xl border border-line">
                       {alumnos.map((alumno) => (
                         <li key={alumno.id} className="flex items-center justify-between gap-3 p-3">
@@ -576,9 +613,9 @@ export function PantallaIngreso() {
                               </span>
                             </span>
                           </span>
-                          <Button size="sm" onClick={() => vincular(alumno)}>
+                          <Button size="sm" onClick={() => setElegido(alumno)}>
                             <CircleCheck aria-hidden />
-                            Vincular
+                            Elegir
                           </Button>
                         </li>
                       ))}

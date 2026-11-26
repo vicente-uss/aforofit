@@ -16,7 +16,7 @@ import { createClient } from "@/lib/supabase/client";
 
 type Pendiente = {
   id: string; alumno_id: string; alumno: string; implementos: string;
-  entregado_en: string; devuelto_en: string | null;
+  entregado_en: string; devuelto_en: string | null; pendientes: Stock[];
 };
 
 export function Prestamos() {
@@ -45,22 +45,25 @@ export function Prestamos() {
   const items = armarItems(stock, cantidades);
   const pendiente = pendientes.find(p => p.alumno_id === alumno?.id);
 
-  async function registrar(devolucion?: string) {
+  async function registrar(accion: "prestar" | "devolver" | "garantia", id?: string, detalle?: ReturnType<typeof armarItems>) {
     if (guardando || estado !== "listo") return;
-    if (devolucion && !window.confirm(m.confirmar)) return;
-    if (!devolucion && (!alumno || !items || pendiente)) return;
+    if (accion === "prestar" && (!alumno || !items || pendiente)) return;
+    if (accion === "devolver" && !window.confirm(detalle ? "¿Registrar las cantidades indicadas?" : "¿Devolver todos los implementos pendientes?")) return;
+    if (accion === "garantia" && !window.confirm("¿Entregaste la TNE al alumno?")) return;
     setGuardando(true);
-    const { error } = devolucion
-      ? await db.rpc("registrar_devolucion", { p_prestamo: devolucion })
-      : await db.rpc("registrar_prestamo", { p_alumno: alumno?.id, p_items: items });
-    setAviso(error ? mensajeError(error.message) : devolucion ? m.devuelto : m.prestado);
+    const { error } = accion === "prestar"
+      ? await db.rpc("registrar_prestamo", { p_alumno: alumno?.id, p_items: items })
+      : accion === "garantia"
+        ? await db.rpc("entregar_tne", { p_prestamo: id })
+        : await db.rpc("registrar_devolucion", { p_prestamo: id, p_items: detalle ?? null });
+    setAviso(error ? mensajeError(error.message) : accion === "devolver" ? m.devuelto : accion === "garantia" ? m.tneEntregada : m.prestado);
     if (!error) setCantidades({});
     await cargar();
     setGuardando(false);
   }
 
   // Solo presentación: el aviso de éxito va en verde y los errores en rojo.
-  const avisoExito = aviso === m.prestado || aviso === m.devuelto;
+  const avisoExito = aviso === m.prestado || aviso === m.devuelto || aviso === m.tneEntregada;
 
   return <div className="mx-auto max-w-5xl space-y-6">
     <EncabezadoPagina eyebrow="Profesor encargado" titulo={m.prestamos} subtitulo={m.garantia} />
@@ -88,7 +91,7 @@ export function Prestamos() {
                   max={i.disponible} step="1" disabled={!i.disponible} placeholder="0" value={cantidades[i.id] ?? ""}
                   onChange={e => setCantidades({ ...cantidades, [i.id]: e.target.value })} />
               </label>)}
-              <Button className="w-full" disabled={!items} onClick={() => void registrar()}>{m.prestar}</Button>
+              <Button className="w-full" disabled={!items} onClick={() => void registrar("prestar")}>{m.prestar}</Button>
             </fieldset>
           </>}
           {!alumno && <EstadoVacio icono={UserRound} titulo="Busca al alumno" className="py-6">
@@ -97,7 +100,7 @@ export function Prestamos() {
         </fieldset>
       </Tarjeta>
       <Tarjeta>
-        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} abiertos` : undefined}
+        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} pendientes` : undefined}
           accion={<Button variant="secondary" size="sm" disabled={guardando || estado === "cargando"} onClick={() => void cargar()}>
             <RefreshCw aria-hidden />{m.cargar}</Button>} />
         <div className="px-5 pb-5 pt-3">
@@ -108,15 +111,36 @@ export function Prestamos() {
               <li className="space-y-2 rounded-xl border border-line p-4" key={p.id}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <strong className="font-semibold text-navy-900">{p.alumno}</strong>
-                  {p.devuelto_en ? <Insignia tono="amber" punto>TNE sin retirar</Insignia> : <Insignia tono="blue" punto>Prestado</Insignia>}
+                  {p.devuelto_en ? <Insignia tono="amber" punto>TNE sin retirar</Insignia> : <Insignia tono="blue" punto>Implementos pendientes</Insignia>}
                 </div>
                 <p className="text-sm text-slate-700">{p.implementos}</p>
                 <time className="tnum block text-xs text-tinta-suave" dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
-                <div>{p.devuelto_en ? <p className="text-sm text-amber-800">{mensajeError("tne_pendiente")}</p>
-                  : <Button variant="success" size="sm" disabled={guardando} onClick={() => void registrar(p.id)}>{m.devolver}</Button>}</div>
+                {p.devuelto_en
+                  ? <Button size="sm" onClick={() => void registrar("garantia", p.id)} disabled={guardando}>Entregar TNE</Button>
+                  : <Devolucion pendientes={p.pendientes} ocupado={guardando} confirmar={detalle => void registrar("devolver", p.id, detalle)} />}
+
               </li>)}</ul>}
         </div>
       </Tarjeta>
     </div>
   </div>;
+}
+
+function Devolucion({ pendientes, ocupado, confirmar }: {
+  pendientes: Stock[]; ocupado: boolean; confirmar: (items: ReturnType<typeof armarItems>) => void;
+}) {
+  const [cantidades, cambiar] = useState<Record<number, string>>({});
+  const items = armarItems(pendientes, cantidades);
+  return <fieldset disabled={ocupado} className="space-y-3">
+    {pendientes.filter(i => i.disponible > 0).map(i => <label key={i.id} className="flex items-center justify-between gap-2">
+      <span className="text-sm">{i.nombre} · pendientes: {i.disponible}</span>
+      <Input type="number" min="0" max={i.disponible} step="1" placeholder="0" className="w-16"
+        aria-label={`Devolver ${i.nombre}`} value={cantidades[i.id] ?? ""}
+        onChange={e => cambiar({ ...cantidades, [i.id]: e.target.value })} />
+    </label>)}
+    <div className="flex flex-wrap gap-2">
+      <Button size="sm" disabled={!items} onClick={() => items && confirmar(items)}>Devolver cantidades indicadas</Button>
+      <Button size="sm" variant="secondary" onClick={() => confirmar(null)}>Devolver todo</Button>
+    </div>
+  </fieldset>;
 }

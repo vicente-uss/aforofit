@@ -8,13 +8,15 @@ export const m = {
   garantia: "Recibe la TNE como garantía antes de confirmar.", prestar: "Confirmar préstamo",
   abiertos: "Préstamos pendientes", devolver: "Registrar devolución",
   confirmar: "¿Recibiste todos los implementos y entregaste la TNE al alumno?",
-  prestado: "Préstamo registrado.", devuelto: "Devolución completa registrada.",
+  prestado: "Préstamo registrado.", devuelto: "Devolución registrada. La TNE sigue en el gimnasio.", tneEntregada: "TNE entregada.",
   ninguno: "No hay préstamos pendientes.", cargar: "Actualizar lista y stock",
   emision: "Fecha de emisión", guardar: "Registrar habilitación", guardado: "Vigencia actualizada.",
   vigente: "Vigente hasta", vencido: "Vencido el", sinFecha: "Sin certificado registrado.",
   seleccion: "Alumno seleccionado", cargando: "Cargando…",
 };
 const errores: Record<string, string> = {
+  devolucion_excesiva: "Revisa las cantidades: superan lo pendiente.",
+  tne_ya_entregada: "La TNE ya fue entregada.",
   sin_permiso: "Tu rol no permite realizar esta operación.",
   alumno_no_encontrado: "El alumno ya no está disponible.",
   prestamo_abierto: "El alumno tiene implementos pendientes de devolución.",
