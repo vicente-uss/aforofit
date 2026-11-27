@@ -85,7 +85,8 @@ try {
   await alumno.getByRole('button', { name: 'Activar', exact: true }).click();
   await expect(alumno.getByText('Alumno · Activa')).toBeVisible();
   await alumno.getByRole('link', { name: 'Volver a mi rutina del día' }).click();
-  await expect(alumno.getByText('Press propio QA')).toBeVisible();
+  await alumno.waitForURL(app + '/alumno');
+  await expect(alumno.getByText('Press propio QA', { exact: true })).toBeVisible();
 
   await entrar(profesor, 'profesor');
   await profesor.goto(app + '/profesor/rutinas');
@@ -112,10 +113,13 @@ try {
 
   // Una visita ficticia cerrada permite comprobar que ya está escuchando el canal.
   await esperarRealtime();
+  await kiosco.bringToFront();
   const lector = kiosco.getByLabel('Lector de credenciales');
   await lector.fill('0729785092');
+  const inicioTne = performance.now();
   await lector.press('Enter');
   await expect(alumno.getByText('Ya entraste', { exact: true })).toBeVisible();
+  console.log('Realtime de TNE a rutina visible: ' + Math.round(performance.now() - inicioTne) + ' ms');
   await expect(alumno.getByText('Mi fuerza actualizada QA')).toBeVisible();
   await expect(alumno.getByText(/Máquina en mantención/).first()).toBeVisible();
   await foto(alumno, '03-rutina-al-ingresar-y-mantencion');
@@ -130,6 +134,7 @@ try {
   await alumno.getByRole('button', { name: 'Activar', exact: true }).click();
   await expect(alumno.getByText('Profesor · Activa')).toBeVisible();
   await alumno.getByRole('link', { name: 'Volver a mi rutina del día' }).click();
+  await alumno.waitForURL(app + '/alumno');
 
   async function usarQr() {
     const respuesta = alumno.waitForResponse((r) => r.url().endsWith('/rpc/generar_codigo_ingreso') && r.ok());
@@ -144,7 +149,7 @@ try {
   await esperarRealtime();
   await usarQr();
   await expect(alumno.getByText('Ya entraste', { exact: true })).toBeVisible();
-  await expect(alumno.getByText('Press profesor QA')).toBeVisible();
+  await expect(alumno.getByText('Press profesor QA', { exact: true })).toBeVisible();
   await usarQr();
   await expect(alumno.getByRole('button', { name: /Me costó/ })).toBeVisible();
   await alumno.getByRole('button', { name: /Me costó/ }).click();
