@@ -63,7 +63,7 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | ✅ Implementado (F-20): devolución por implemento y bloqueo por pendientes |
 | RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ✅ Implementado (F-20) |
 | RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D20 | ✅ Implementado en S2 desde /admin/habilitacion |
-| RF26 | Permitir que el administrador configure capacidad, horario, período académico, progresión, cierre automático y modalidades de rutina | Alta | D01, D03, D07, D15 | 🟡 Parámetros por SQL; pantalla en próxima versión |
+| RF26 | Configurar capacidad, umbral, horarios, expiración de turnos, cierre automático, progresión y modalidades de rutina | Alta | D01, D07, D15, D20, D24, D25 | Implementado en 024 en rama de revisión |
 | RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ⏭ Próxima versión |
 | RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 | Sin cambio (prioridad media) |
 | RF29 | Registrar incidencias de mal uso | Media | Alcance aprobado | Sin cambio (prioridad media) |
@@ -247,7 +247,7 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 | CA31 | RF03, RNF04 | Un lector USB seleccionado y un QR válido | Se prueba el escaneo por lector y el respaldo QR | El lector se reconoce como teclado. El profesor escanea el QR o ingresa sus seis caracteres. El código dura dos minutos, sirve una vez y aplica las mismas reglas que la credencial |
 | CA32 | RNF05 | La vista del alumno a 360 px | Se completan las acciones principales definidas para esa vista | La vista es utilizable y las acciones principales requieren hasta dos toques |
 | CA33 | RNF07 | Datos ficticios y una habilitación registrada | Se revisan los formularios, registros y acceso a las medidas | Se usan datos ficticios, del certificado se guarda la vigencia y cada alumno consulta solo sus medidas |
-| CA34 | RF26, RNF08 | El panel administrador y parámetros iniciales | Se modifican capacidad, horario y cierre automático en `/admin/configuracion` | Los cambios se guardan y se aplican desde la configuración (`supabase/pruebas/configuracion.sql`). **Parcial** (D24): progresión y modalidades quedan por SQL |
+| CA34 | RF26, RNF08 | Administrador en `/admin/configuracion` | Modifica parámetros y vuelve a cargar la página | Se guardan y aplican los cambios; la certificación está definida en [024](configuracion-completa-024.md) |
 | CA35 | RNF09 | La URL de demo y el plan de contingencia | Se abre el despliegue y se revisa el video de respaldo | La URL es accesible para la demo y el video está disponible si falla la red |
 | CA36 | RNF10 | Un cambio de aplicación y otro de datos | Se revisa su historial | El cambio tiene un pull request revisado y el SQL correspondiente está en el repositorio |
 | CA37 | RNF11 | Un recorrido por las vistas de los roles y la pantalla pública | Se revisan los textos visibles | La interfaz se muestra en español |

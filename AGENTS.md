@@ -391,6 +391,8 @@ Actualizado: miércoles 25 de noviembre de 2026.
   `/alumno/rutinas` y `/profesor/rutinas`. Estado de esta rama de desarrollo, separado de la entrega comprometida
   por el CR-01. Ver [contrato de modalidades y validación](docs/contrato-modalidades-rutina-023.md).
 
+- RF26 (migración 024, rama de revisión): panel completo de capacidad, aforo, horarios, turnos, modalidades y cargas. Ver criterios, aplicación y reversión en [configuración completa](docs/configuracion-completa-024.md).
+
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
   desde el video de la prueba de Pau: cumple, 1,2 s o menos en 4 lecturas (`docs/medicion-ca29-2026-11-23.md`);
@@ -404,8 +406,6 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - [ ] F-30 implementado en la rama `aviso-tne` con la migración `020_aviso_tne.sql`. Pendiente de revisión e integración.
   El profesor puede avisar cuando solo queda pendiente la TNE. El aviso se ve en el perfil del alumno hasta que se registra la entrega.
 - [ ] Cargas iniciales de las plantillas: son de ejemplo; declararlas como supuesto o validarlas con el encargado
-- [ ] Limitación declarada (D24): la progresión (`configuracion.progresion`) y las modalidades de rutina se cambian por
-  SQL, no desde `/admin/configuracion`. CA34 queda parcial
 - [ ] Decidir si `certificado_hasta` de los alumnos ficticios se recalcula como emisión + 12 meses (hoy sigue en el
   23 de diciembre, vigente para la expo)
 - [ ] Activar en Supabase la protección contra claves filtradas (Vicente)

@@ -71,3 +71,24 @@ describe("textoCarga", () => {
     expect(textoCarga(null)).toBe("sin carga");
   });
 });
+
+describe("progresión con parámetros de 024", () => {
+  const parametros = { ...INICIAL, facil_kg: 0.5, redondeo_kg: 5 };
+
+  it("Fácil sube al menos un paso cuando el redondeo cancela el incremento", () => {
+    expect(nuevaCarga(40, "facil", parametros)).toBe(45);
+  });
+
+  it("Justo en cero conserva una carga que ya no es múltiplo del paso", () => {
+    expect(nuevaCarga(41, "justo", parametros)).toBe(41);
+  });
+
+  it("Justo configurable conserva la dirección del ajuste al cambiar el paso", () => {
+    expect(nuevaCarga(41, "justo", { ...parametros, justo_kg: 0.5 })).toBe(41);
+    expect(nuevaCarga(44, "justo", { ...parametros, justo_kg: -0.5 })).toBe(44);
+  });
+
+  it("Fácil respeta el mayor valor almacenable", () => {
+    expect(nuevaCarga(9999, "facil", parametros)).toBe(9999.9);
+  });
+});
