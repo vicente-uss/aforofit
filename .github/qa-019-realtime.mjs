@@ -1,6 +1,6 @@
-const assert = require('node:assert/strict');
-const { execFileSync } = require('node:child_process');
-const { chromium } = require('playwright');
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { chromium } from 'playwright';
 
 const app = 'http://127.0.0.1:3000';
 const sql = (query) => execFileSync('psql', [
@@ -94,7 +94,7 @@ async function main() {
     await hasta('ambos WebSockets y las dos pantallas muestran la espera', async () =>
       estadoAforo.cambios > 0 && estadoEspera.cambios > 0 &&
       await aforo.getByText('1 en espera', { exact: true }).isVisible() &&
-      await espera.getByText('Lina Secreto Reserva', { exact: true }).isVisible());
+      await espera.getByText('Lina S.', { exact: true }).isVisible());
     const respuestas = [
       aforo.waitForResponse((r) => r.url().includes('/rest/v1/aforo')),
       espera.waitForResponse((r) => r.url().includes('/rest/v1/turnos')),
@@ -104,7 +104,7 @@ async function main() {
     await Promise.all(respuestas);
     await pausa(500);
     assert.ok(await aforo.getByText('1 en espera', { exact: true }).isVisible());
-    assert.ok(await espera.getByText('Lina Secreto Reserva', { exact: true }).isVisible());
+    assert.ok(await espera.getByText('Lina S.', { exact: true }).isVisible());
     console.log('OK: ambos navegadores conservan el estado nuevo al recibir una respuesta HTTP atrasada');
 
     const anteriores = [estadoAforo.cambios, estadoEspera.cambios];

@@ -3,6 +3,7 @@
 set -euo pipefail
 : "${AFOROFIT_TEST_DATABASE_URL:?Indicar URL de la base de pruebas desechable}"
 case "$AFOROFIT_TEST_DATABASE_URL" in
+  *\?*|*\#*|*,*) echo 'La URL local no puede incluir opciones ni otros servidores'; exit 1 ;;
   postgres://*@127.0.0.1:*/*|postgresql://*@127.0.0.1:*/*|postgres://*@localhost:*/*|postgresql://*@localhost:*/*) ;;
   *) echo 'Se requiere una conexión local explícita'; exit 1 ;;
 esac
@@ -100,3 +101,74 @@ esperar_cron 'Historial de Cron confirma dos ejecuciones exitosas durante la pru
 db -c "select d.status, d.start_time, d.end_time, d.return_message
   from cron.job_run_details d join cron.job j using(jobid)
   where j.jobname='aforofit-reconciliar-aforo' order by d.start_time desc limit 5"
+
+# Conservar la reserva de C-3 para crear una visita y enfrentar todas las entradas
+# al mismo bloqueo, incluida la próxima ejecución programada de pg_cron.
+db <<'SQL'
+begin;
+select 1 from public.aforo where id=1 for update;
+update public.turnos set llamado_en=clock_timestamp() where estado='llamado';
+select privado.registrar_ingreso_en('FC:19:CC:03',clock_timestamp());
+insert into privado.codigos_ingreso(alumno_id,codigo,vence_en)
+select id,'QATEST',clock_timestamp()+interval '3 minutes' from public.alumnos where rut='EST019-C-4';
+commit;
+SQL
+visita=$(db -Atc "select v.id from public.visitas v join public.alumnos a on a.id=v.alumno_id
+  where a.rut='EST019-C-3' and v.salida is null")
+[[ -n "$visita" ]]
+
+como() {
+  local rol=$1 consulta=$2
+  db -c "begin;
+    select set_config('request.jwt.claims',jsonb_build_object('sub',p.id,'role','authenticated')::text,true)
+      from public.perfiles p where p.rol='$rol' order by p.id limit 1;
+    set local role authenticated;
+    $consulta;
+    commit"
+}
+
+PGAPPNAME=aforofit_qa_barrera db <<'SQL' &
+begin;
+select 1 from public.aforo where id=1 for update;
+select pg_sleep(65-extract(second from clock_timestamp()));
+commit;
+SQL
+barrera=$!
+esperar_cron 'Barrera de aforo adquirida' "select exists(select from pg_stat_activity
+  where application_name='aforofit_qa_barrera' and wait_event='PgSleep')"
+
+PGAPPNAME=aforofit_qa_uid como profesor "select public.registrar_ingreso('FC:19:CC:01')" & ingreso=$!
+PGAPPNAME=aforofit_qa_qr como profesor "select public.registrar_ingreso_codigo('QATEST')" & qr=$!
+PGAPPNAME=aforofit_qa_manual como profesor "select public.cerrar_visita('$visita'::uuid)" & manual=$!
+PGAPPNAME=aforofit_qa_config como admin "select public.actualizar_configuracion(1,horario,1)
+  from public.configuracion where id=1" & configuracion=$!
+esperar_cron 'Cuatro RPC y el job real compiten por el mismo bloqueo' "
+  select count(*)=4 and exists(select from pg_stat_activity
+    where query='select privado.procesar_aforo_programado()' and wait_event_type='Lock')
+  from pg_stat_activity where application_name in
+    ('aforofit_qa_uid','aforofit_qa_qr','aforofit_qa_manual','aforofit_qa_config') and wait_event_type='Lock'"
+fallo=0
+for pid in "$barrera" "$ingreso" "$qr" "$manual" "$configuracion"; do
+  wait "$pid" || fallo=1
+done
+[[ "$fallo" == 0 ]]
+
+db -v visita="$visita" <<'SQL'
+select set_config('aforofit_qa.visita', :'visita',false);
+do $$
+begin
+  if not exists(select from public.visitas where id=current_setting('aforofit_qa.visita')::uuid
+      and salida is not null and not cierre_automatico and cerrada_por is not null)
+    or exists(select from privado.codigos_ingreso where codigo='QATEST')
+    or (select count(*) from public.visitas where salida is null)
+      + (select count(*) from public.turnos where estado='llamado') <> 1
+    or not exists(select from public.aforo a where a.id=1 and a.capacidad=1
+      and a.ocupacion=(select count(*) from public.visitas where salida is null)
+      and a.en_espera=(select count(*) from public.turnos where estado='esperando')
+      and a.turno_llamado is not distinct from (select min(numero) from public.turnos where estado='llamado')) then
+    raise exception 'Carrera entre ingreso, QR, cierre manual, configuración y Cron inconsistente';
+  end if;
+  raise notice 'OK: QR consumido, cierre manual preservado y aforo consistente tras la carrera';
+end;
+$$;
+SQL

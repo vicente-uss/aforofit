@@ -16,7 +16,9 @@ declare
   v_alumno uuid;
   v_profesor uuid;
   v_actualizado timestamptz;
+  v_tupla tid;
   v_horario jsonb;
+  v_turno uuid;
   r jsonb;
   uid text;
 begin
@@ -63,10 +65,10 @@ begin
   perform pg_temp.ok('Vence exactamente al plazo y llama al siguiente',
     (select turno_llamado=2 and en_espera=1 from public.aforo where id=1)
     and exists(select from public.turnos where numero=1 and estado='expirado' and creado_en::date=h::date));
-  select actualizado_en into strict v_actualizado from public.aforo where id=1;
+  select actualizado_en, ctid into strict v_actualizado, v_tupla from public.aforo where id=1;
   perform privado.sincronizar_aforo(h+interval '19 minutes');
   perform pg_temp.ok('Sin cambios, no se actualiza el aforo',
-    (select actualizado_en=v_actualizado from public.aforo where id=1));
+    (select actualizado_en=v_actualizado and ctid=v_tupla from public.aforo where id=1));
 
   -- Dejar el turno 2 usado y la tercera visita abierta hasta su vencimiento.
   r := privado.registrar_ingreso_en('FC:19:00:05',h+interval '20 minutes');
@@ -91,6 +93,26 @@ begin
     and not exists(select from public.turnos where estado in ('esperando','llamado') and creado_en::date=h::date));
 
   select id into strict v_alumno from public.alumnos where rut='EST019-1';
+  -- El 4 de abril termina con una hora repetida. El 6 de septiembre salta de 23:59 a 01:00.
+  -- La zona de la conexión no debe alterar la fecha operativa del gimnasio.
+  set local time zone 'UTC';
+  insert into public.turnos(alumno_id,numero,estado,creado_en)
+  values(v_alumno,1,'esperando','2026-04-05 02:58:00+00') returning id into v_turno;
+  perform privado.sincronizar_aforo('2026-04-05 03:00:00+00');
+  perform pg_temp.ok('La hora repetida de otoño conserva el turno del mismo día Santiago',
+    (select estado='esperando' from public.turnos where id=v_turno));
+  perform privado.sincronizar_aforo('2026-04-05 04:00:00+00');
+  perform pg_temp.ok('El turno expira al llegar la medianoche después de la hora repetida',
+    (select estado='expirado' from public.turnos where id=v_turno));
+  insert into public.turnos(alumno_id,numero,estado,creado_en)
+  values(v_alumno,1,'esperando','2026-09-06 03:58:00+00') returning id into v_turno;
+  perform privado.sincronizar_aforo('2026-09-06 03:59:59+00');
+  perform pg_temp.ok('El turno permanece en espera hasta el salto de primavera',
+    (select estado='esperando' from public.turnos where id=v_turno));
+  perform privado.sincronizar_aforo('2026-09-06 04:00:00+00');
+  perform pg_temp.ok('El turno expira en el primer instante del día de 23 horas',
+    (select estado='expirado' from public.turnos where id=v_turno));
+
   select id into v_profesor from public.perfiles where rol='profesor' order by id limit 1;
   if v_profesor is null then raise exception 'Falta profesor ficticio'; end if;
   perform set_config('request.jwt.claims',jsonb_build_object('sub',v_profesor,'role','authenticated')::text,true);
