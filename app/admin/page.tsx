@@ -1,4 +1,4 @@
-import { Boxes, ChartColumn, ScanLine, ShieldCheck, SlidersHorizontal } from "lucide-react";
+import { ChartColumn, Dumbbell, Package, ScanLine, ShieldCheck, SlidersHorizontal } from "lucide-react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
 import { requerirRol } from "@/lib/auth/perfil";
@@ -20,9 +20,18 @@ async function Contenido() {
           color: "navy",
         },
         {
-          titulo: "Máquinas e implementos",
-          descripcion: "Catálogo con fotos y cantidades.",
-          icono: Boxes,
+          titulo: "Máquinas",
+          descripcion: "Administra las fichas, fotos y estados de las máquinas.",
+          href: "/admin/maquinas",
+          icono: Dumbbell,
+          color: "blue",
+        },
+        {
+          titulo: "Implementos",
+          descripcion: "Administra el inventario y consulta las unidades prestadas.",
+          href: "/admin/implementos",
+          icono: Package,
+          color: "navy",
         },
         {
           titulo: "Habilitación de alumnos",
