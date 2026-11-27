@@ -1,0 +1,62 @@
+name: Validación desechable 020
+on:
+  push:
+    branches: [aviso-tne]
+permissions:
+  contents: read
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+      - name: Levantar Supabase desechable
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+          supabase init
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
+      - name: Ejecutar suites SQL y verificar la reversión
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash .github/qa-019.sh
+          db() { psql postgresql://postgres:postgres@127.0.0.1:54322/postgres -X -v ON_ERROR_STOP=1 "$@"; }
+          db -f supabase/sql/020_aviso_tne.sql
+          db -f supabase/sql/020_aviso_tne.sql
+          db -f supabase/pruebas/020/aviso_tne.sql
+          db -f supabase/pruebas/prestamos.sql
+          db -f supabase/pruebas/historial.sql
+          db -f supabase/reversion/020_aviso_tne.sql
+          db -f supabase/pruebas/prestamos.sql
+          db -f supabase/pruebas/historial.sql
+          db -f supabase/sql/020_aviso_tne.sql
+          db -f supabase/pruebas/020/aviso_tne.sql
+      - name: Destruir entorno desechable
+        if: always()
+        run: supabase stop --no-backup
+  aplicacion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: local-build
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+      - run: npm audit
+      - run: npm audit --omit=dev

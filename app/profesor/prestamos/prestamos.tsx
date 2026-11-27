@@ -17,6 +17,14 @@ import { createClient } from "@/lib/supabase/client";
 type Pendiente = {
   id: string; alumno_id: string; alumno: string; implementos: string;
   entregado_en: string; devuelto_en: string | null; pendientes: Stock[];
+  aviso_tne_en?: string | null;
+};
+
+const EXITO = {
+  prestar: m.prestado,
+  devolver: m.devuelto,
+  garantia: m.tneEntregada,
+  avisar: m.avisoTneEnviado,
 };
 
 export function Prestamos() {
@@ -45,25 +53,27 @@ export function Prestamos() {
   const items = armarItems(stock, cantidades);
   const pendiente = pendientes.find(p => p.alumno_id === alumno?.id);
 
-  async function registrar(accion: "prestar" | "devolver" | "garantia", id?: string, detalle?: ReturnType<typeof armarItems>) {
+  async function registrar(accion: keyof typeof EXITO, id?: string, detalle?: ReturnType<typeof armarItems>) {
     if (guardando || estado !== "listo") return;
     if (accion === "prestar" && (!alumno || !items || pendiente)) return;
     if (accion === "devolver" && !window.confirm(detalle ? "¿Registrar las cantidades indicadas?" : "¿Devolver todos los implementos pendientes?")) return;
     if (accion === "garantia" && !window.confirm("¿Entregaste la TNE al alumno?")) return;
     setGuardando(true);
-    const { error } = accion === "prestar"
-      ? await db.rpc("registrar_prestamo", { p_alumno: alumno?.id, p_items: items })
-      : accion === "garantia"
-        ? await db.rpc("entregar_tne", { p_prestamo: id })
-        : await db.rpc("registrar_devolucion", { p_prestamo: id, p_items: detalle ?? null });
-    setAviso(error ? mensajeError(error.message) : accion === "devolver" ? m.devuelto : accion === "garantia" ? m.tneEntregada : m.prestado);
-    if (!error) setCantidades({});
+    const operaciones = {
+      prestar: () => db.rpc("registrar_prestamo", { p_alumno: alumno?.id, p_items: items }),
+      devolver: () => db.rpc("registrar_devolucion", { p_prestamo: id, p_items: detalle ?? null }),
+      garantia: () => db.rpc("entregar_tne", { p_prestamo: id }),
+      avisar: () => db.rpc("enviar_aviso_tne", { p_prestamo: id }),
+    };
+    const { error } = await operaciones[accion]();
+    setAviso(error ? mensajeError(error.message) : EXITO[accion]);
+    if (!error && accion !== "avisar") setCantidades({});
     await cargar();
     setGuardando(false);
   }
 
   // Solo presentación: el aviso de éxito va en verde y los errores en rojo.
-  const avisoExito = aviso === m.prestado || aviso === m.devuelto || aviso === m.tneEntregada;
+  const avisoExito = Object.values(EXITO).includes(aviso);
 
   return <div className="mx-auto max-w-5xl space-y-6">
     <EncabezadoPagina eyebrow="Profesor encargado" titulo={m.prestamos} subtitulo={m.garantia} />
@@ -116,7 +126,12 @@ export function Prestamos() {
                 <p className="text-sm text-slate-700">{p.implementos}</p>
                 <time className="tnum block text-xs text-tinta-suave" dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
                 {p.devuelto_en
-                  ? <Button size="sm" onClick={() => void registrar("garantia", p.id)} disabled={guardando}>Entregar TNE</Button>
+                  ? <div className="flex flex-wrap items-center gap-2">
+                    <Button size="sm" onClick={() => void registrar("garantia", p.id)} disabled={guardando}>Entregar TNE</Button>
+                    {p.aviso_tne_en && <Insignia tono="green">{m.avisoTneEnviado}</Insignia>}
+                    {p.aviso_tne_en === null && <Button size="sm" variant="secondary" disabled={guardando}
+                      onClick={() => void registrar("avisar", p.id)}>{m.avisarTne}</Button>}
+                  </div>
                   : <Devolucion pendientes={p.pendientes} ocupado={guardando} confirmar={detalle => void registrar("devolver", p.id, detalle)} />}
 
               </li>)}</ul>}

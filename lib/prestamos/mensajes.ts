@@ -9,6 +9,7 @@ export const m = {
   abiertos: "Préstamos pendientes", devolver: "Registrar devolución",
   confirmar: "¿Recibiste todos los implementos y entregaste la TNE al alumno?",
   prestado: "Préstamo registrado.", devuelto: "Devolución registrada. La TNE sigue en el gimnasio.", tneEntregada: "TNE entregada.",
+  avisarTne: "Avisar al alumno", avisoTneEnviado: "Aviso enviado", avisoTne: "Olvidaste retirar tu TNE",
   ninguno: "No hay préstamos pendientes.", cargar: "Actualizar lista y stock",
   emision: "Fecha de emisión", guardar: "Registrar habilitación", guardado: "Vigencia actualizada.",
   vigente: "Vigente hasta", vencido: "Vencido el", sinFecha: "Sin certificado registrado.",
