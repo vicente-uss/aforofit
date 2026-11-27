@@ -91,7 +91,7 @@ try {
     assert.deepEqual(await respuesta.json(), []);
   }
   const anon = await datosApi();
-  assert.ok([401, 403].includes(anon.status()));
+  assert.ok([401, 403].includes(anon.status));
 
   await historial.getByRole("button", { name: "Editar" }).first().click();
   dialogo = pagina.getByRole("dialog");
@@ -115,7 +115,7 @@ try {
   await dialogo.getByRole("button", { name: "Sí, eliminar" }).click();
   await pagina.getByText("Medición eliminada.").waitFor();
   await pagina.reload();
-  await pagina.getByRole("img", { name: "Evolución de Peso, 1 mediciones" }).waitFor();
+  await pagina.getByRole("img", { name: "Evolución de Peso, 1 medición" }).waitFor();
   assert.equal(await historial.getByRole("listitem").count(), 1);
   const propias = await datosApi("alumno");
   assert.equal(propias.ok, true);

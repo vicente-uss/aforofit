@@ -52,8 +52,10 @@ function Grafico({ serie, etiqueta }: { serie: ReturnType<typeof serieCronologic
     y: maximo === minimo ? 55 : 98 - 86 * (valor - minimo) / (maximo - minimo),
   }));
 
+  const cantidad = serie.length === 1 ? "1 medición" : `${serie.length} mediciones`;
+
   return (
-    <svg viewBox="0 0 300 110" role="img" aria-label={`Evolución de ${etiqueta}, ${serie.length} mediciones`} className="w-full rounded-xl bg-slate-50">
+    <svg viewBox="0 0 300 110" role="img" aria-label={`Evolución de ${etiqueta}, ${cantidad}`} className="w-full rounded-xl bg-slate-50">
       <path d="M12 12H288 M12 55H288 M12 98H288" className="stroke-slate-200" fill="none" />
       <polyline points={puntos.map(({ x, y }) => `${x},${y}`).join(" ")} className="stroke-blue-600" strokeWidth="2.5" strokeLinejoin="round" fill="none" />
       {puntos.map(({ id, x, y }) => <circle key={id} cx={x} cy={y} r="3.5" className="fill-blue-600" />)}
