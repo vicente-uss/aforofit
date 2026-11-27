@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Registro corporal · AforoFit" };
 async function Contenido() {
   const perfil = await requerirRol("alumno");
   return (
-    <MarcoAlumno titulo="Registro corporal" subtitulo="Solo tú puedes ver tus mediciones">
+    <MarcoAlumno titulo="Registro corporal" subtitulo="Mediciones privadas">
       <RegistroCorporal key={perfil.id} hoy={hoyEnSantiago()} />
     </MarcoAlumno>
   );

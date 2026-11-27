@@ -77,7 +77,7 @@ export function CompararMedidas({ mediciones }: { mediciones: Medicion[] }) {
   return (
     <Tarjeta className="space-y-3 p-4">
       <h2 className="font-semibold text-navy-900">Comparar mediciones</h2>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid gap-2 min-[400px]:grid-cols-2">
         <label className="min-w-0 space-y-1 text-sm font-medium text-navy-900">
           <span>Desde</span>
           <select className={selector} value={desde.id} onChange={(evento) => setDesde(evento.target.value)}>{opciones}</select>

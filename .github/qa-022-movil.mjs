@@ -47,7 +47,7 @@ async function datosApi(rol) {
 
 const navegador = await chromium.launch();
 try {
-  const movil = { viewport: { width: 360, height: 800 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true };
+  const movil = { viewport: { width: 360, height: 800 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true, locale: "es-CL", timezoneId: "America/Santiago" };
   const pagina = await navegador.newPage(movil);
   const errores = [];
   pagina.on("pageerror", (error) => errores.push(error.message));
