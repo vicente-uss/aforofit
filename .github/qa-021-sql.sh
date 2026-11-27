@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# qa-019 también ejecuta la suite de actualización 017 en el punto correcto,
-# las comprobaciones de permisos de 018 y la concurrencia y Cron de 019.
-bash .github/qa-019.sh
+# El trabajo de regresión usa otra base: sus pruebas de Cron dejan datos.
+bash .github/qa-019.sh --limpia
 db() { psql postgresql://postgres:postgres@127.0.0.1:54322/postgres -Xv ON_ERROR_STOP=1 "$@"; }
 suite() {
   local archivo=$1 registro

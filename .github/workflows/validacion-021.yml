@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        grupo: [sql, navegador]
+        grupo: [regresion, sql, navegador]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,6 +42,9 @@ jobs:
           sudo apt-get install -y postgresql-client
           supabase init
           supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
+      - name: Regresión 017–019 y Cron real
+        if: matrix.grupo == 'regresion'
+        run: bash .github/qa-019.sh
       - name: Certificar SQL, migraciones y reversión
         if: matrix.grupo == 'sql'
         run: bash .github/qa-021-sql.sh
