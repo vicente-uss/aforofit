@@ -218,7 +218,39 @@ try {
   assert.equal(db(`select count(*) from public.feedback f join public.visitas v on v.id=f.visita_id
     where v.id in ('${visitaSeleccion}','${visitaGeneracion}') and f.rutina_id=v.rutina_id`), '2');
   console.log('APROBADA primera rutina por selección y generación después del ingreso; feedback vinculado en ambas visitas');
-  console.log('APROBADOS editor, asignación, credencial HID simulada, canje manual del QR, Realtime, feedback y seis capturas a 360 px');
+  async function salirSinRutina(visita, salir) {
+    await salir();
+    await expect.poll(() => db(`select salida is not null and rutina_id is null
+      from public.visitas where id='${visita}'`)).toBe('t');
+    return db(`select to_jsonb(v) from public.visitas v where id='${visita}'`);
+  }
+
+  async function verificarRutinaTrasSalida(visita, historial, ejercicio, captura) {
+    await expect(rutinaDia.getByRole('heading', { name: 'Tu rutina del día' })).toBeVisible();
+    await expect(rutinaDia.getByText(ejercicio, { exact: true })).toBeVisible();
+    await expect(rutinaDia.getByRole('heading', { name: '¿Cómo estuvo tu entrenamiento de hoy?' })).toHaveCount(0);
+    await expect(rutinaDia.getByText('Ya entraste', { exact: true })).toHaveCount(0);
+    assert.equal(db(`select to_jsonb(v) from public.visitas v where id='${visita}'`), historial);
+    assert.equal(db(`select count(*) from public.feedback where visita_id='${visita}'`), '0');
+    await foto(alumno, captura);
+  }
+
+  const visitaSinRutinaGenerada = await entrarSinRutina(usarQr);
+  const historialGenerada = await salirSinRutina(visitaSinRutinaGenerada, usarQr);
+  await rutinaDia.getByRole('button', { name: 'Generar mi rutina', exact: true }).click();
+  await verificarRutinaTrasSalida(visitaSinRutinaGenerada, historialGenerada, 'Sentadilla guiada', '07-generacion-despues-de-salir');
+
+  const visitaSinRutinaSeleccionada = await entrarSinRutina(() => usarCredencial('0729785092', 'entrada'));
+  const historialSeleccionada = await salirSinRutina(visitaSinRutinaSeleccionada, () => usarCredencial('0729785090', 'salida'));
+  await alumno.getByRole('link', { name: /Mis rutinas/ }).click();
+  await alumno.waitForURL(app + '/alumno/rutinas');
+  await tarjetaPropia.getByRole('button', { name: 'Activar', exact: true }).click();
+  await expect(tarjetaPropia.getByText('Alumno · Activa')).toBeVisible();
+  await alumno.getByRole('link', { name: 'Volver a mi rutina del día' }).click();
+  await alumno.waitForURL(app + '/alumno');
+  await verificarRutinaTrasSalida(visitaSinRutinaSeleccionada, historialSeleccionada, 'Press propio QA', '08-seleccion-despues-de-salir');
+  console.log('APROBADAS generación y selección después de salir sin rutina, sin solicitud de feedback ni cambios de historial');
+  console.log('APROBADOS editor, asignación, credencial HID simulada, canje manual del QR, Realtime, feedback y ocho capturas a 360 px');
 } finally {
   await navegador.close();
 }

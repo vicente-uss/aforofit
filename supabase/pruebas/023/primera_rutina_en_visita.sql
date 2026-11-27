@@ -35,6 +35,7 @@ declare
   v_carga numeric;
   v_carga_siguiente numeric;
   v_resultado jsonb;
+  v_historial_visita jsonb;
 begin
   if v_tarjeta is null or v_prof is null then raise exception 'Faltan datos ficticios'; end if;
   v_ejercicios := jsonb_build_array(jsonb_build_object(
@@ -143,6 +144,38 @@ begin
   perform pg_temp.ok('asociación interna sin acceso de roles web',
     not has_function_privilege('anon', 'privado.asociar_primera_rutina_visita(uuid,uuid)', 'EXECUTE')
     and not has_function_privilege('authenticated', 'privado.asociar_primera_rutina_visita(uuid,uuid)', 'EXECUTE'));
+
+  -- Una visita ya cerrada sin rutina deja de ocultar la selección de fuera del gimnasio.
+  update public.rutinas set activa = false where alumno_id = v_alumno and activa;
+  perform set_config('request.jwt.claim.sub', v_prof::text, true);
+  set local role authenticated;
+  v_resultado := public.registrar_ingreso(v_tarjeta);
+  select id into strict v_visita from public.visitas where alumno_id = v_alumno and salida is null;
+  v_resultado := public.registrar_ingreso(v_tarjeta);
+  select to_jsonb(v) into strict v_historial_visita from public.visitas v where id = v_visita;
+  perform pg_temp.ok('la visita del día salió sin una rutina vinculada',
+    v_resultado->>'resultado' = 'salida' and exists (
+      select from public.visitas where id = v_visita and rutina_fijada and rutina_id is null
+        and (salida at time zone 'America/Santiago')::date = (now() at time zone 'America/Santiago')::date
+    ));
+  perform set_config('request.jwt.claim.sub', v_uid::text, true);
+  v_generada := public.generar_rutina(v_alumno);
+  perform pg_temp.ok('la rutina generada después de salir se muestra ese mismo día',
+    (select count(*) > 0 and bool_and(rutina_id = v_generada) from public.rutina_del_dia()));
+  perform pg_temp.ok('la visita sin rutina rechaza feedback para la generada después',
+    pg_temp.error_de(format('select public.registrar_feedback_visita(%L,%L,%L)',
+      v_visita, v_generada, 'me_costo')) = 'rutina_inactiva');
+
+  perform public.activar_rutina(v_propia);
+  perform pg_temp.ok('activar una rutina después de salir reemplaza solo la selección visible',
+    (select count(*) = 1 and bool_and(rutina_id = v_propia) from public.rutina_del_dia()));
+  perform pg_temp.ok('la RPC de feedback anterior también rechaza la nueva rutina para esa visita',
+    pg_temp.error_de(format('select public.registrar_feedback(%L,%L)',
+      v_propia, 'justo')) = 'rutina_inactiva');
+  perform pg_temp.ok('generar y activar después de salir conservan la fila de visita y su historial',
+    (select to_jsonb(v) = v_historial_visita from public.visitas v where id = v_visita)
+    and not exists (select from public.feedback where visita_id = v_visita));
+  reset role;
 end;
 $$;
 

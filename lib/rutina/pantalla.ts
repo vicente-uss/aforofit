@@ -32,6 +32,7 @@ export type Visita = {
   salida: string | null;
   cierre_automatico: boolean;
   cerrada_por: string | null; // profesor que la cerró a mano (D21, 012); null en salidas normales
+  rutina_id?: string | null; // null si 023 registró una visita sin rutina; ausente en visitas anteriores
 };
 
 export type AlumnoPropio = {
@@ -71,9 +72,9 @@ export function diaSantiago(fecha: Date): string {
   return fecha.toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
 }
 
-// Cierre automático (regla 6) o manual del profesor (D21): no se pide feedback.
+// Los cierres automáticos, manuales y las visitas sin rutina registrada quedan sin feedback.
 export function cerradaSinFeedback(visita: Visita): boolean {
-  return visita.cierre_automatico || visita.cerrada_por !== null;
+  return visita.cierre_automatico || visita.cerrada_por !== null || visita.rutina_id === null;
 }
 
 export function estaAdentro(visita: Visita | null): boolean {
@@ -95,7 +96,7 @@ export function pantallaAlumno(estado: EstadoAlumno): Pantalla {
     estado.cambiandoObjetivo || (!estado.hayRutina && !estado.feedbackUltimaVisita && (alumno.objetivo === null || alumno.nivel === null))
   )) return "elegir_objetivo";
   if (estado.hayRutina && estaAdentro(ultimaVisita)) return "adentro";
-  if (salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita!)) {
+  if (ultimaVisita && salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita)) {
     if (estado.feedbackUltimaVisita) return "feedback_enviado";
     if (estado.hayRutina && !estado.feedbackOmitido) return "esperando_feedback";
   }
@@ -176,7 +177,12 @@ export function normalizarVisita(data: unknown): Visita | null {
   if (typeof id !== "string" || typeof entrada !== "string") return null;
   if (salida !== null && typeof salida !== "string") return null;
   if (typeof cierre_automatico !== "boolean") return null;
-  return { id, entrada, salida, cierre_automatico, cerrada_por: cerradaPor };
+  const visita = { id, entrada, salida, cierre_automatico, cerrada_por: cerradaPor };
+  // La ausencia de rutina_fijada (o NULL en una fila histórica) conserva la conducta anterior.
+  if (data.rutina_fijada !== true) return visita;
+  const rutinaId = data.rutina_id;
+  if (rutinaId !== null && typeof rutinaId !== "string") return null;
+  return { ...visita, rutina_id: rutinaId };
 }
 
 export function normalizarAlumno(data: unknown): AlumnoPropio | null {

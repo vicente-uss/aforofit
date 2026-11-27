@@ -373,7 +373,8 @@ begin
     and case
       when v_visita.rutina_fijada is true and (
         v_visita.salida is null or (
-          not v_visita.cierre_automatico and v_visita.cerrada_por is null
+          v_visita.rutina_id is not null
+          and not v_visita.cierre_automatico and v_visita.cerrada_por is null
           and (v_visita.salida at time zone 'America/Santiago')::date =
               (now() at time zone 'America/Santiago')::date
           and not exists (select from public.feedback f where f.visita_id = v_visita.id)

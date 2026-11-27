@@ -82,6 +82,16 @@ describe("pantallaAlumno", () => {
       "esperando_feedback",
     );
   });
+  it("muestra la nueva rutina sin pedir feedback de una visita que cerró sin rutina", () => {
+    expect(pantallaAlumno(estado({
+      ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z", rutina_id: null }),
+    }))).toBe("fuera");
+  });
+  it("mantiene la consulta de feedback si la visita cerró con una rutina vinculada", () => {
+    expect(pantallaAlumno(estado({
+      ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z", rutina_id: "r1" }),
+    }))).toBe("esperando_feedback");
+  });
   it("salió hoy y ya respondió: feedback enviado", () => {
     expect(
       pantallaAlumno(
@@ -172,6 +182,16 @@ describe("normalizarVisita y normalizarAlumno", () => {
       cierre_automatico: false,
       cerrada_por: null,
     });
+  });
+  it("distingue una visita cerrada sin rutina de una fila anterior a 023", () => {
+    const base = visita({ salida: "2026-12-07T13:30:00Z" });
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: null })).toEqual({ ...base, rutina_id: null });
+    expect(normalizarVisita({ ...base, rutina_fijada: null, rutina_id: null })).toEqual(base);
+  });
+  it("conserva la referencia de una rutina vinculada y descarta referencias inválidas", () => {
+    const base = visita();
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: "r1" })).toEqual({ ...base, rutina_id: "r1" });
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: 12 })).toBeNull();
   });
   it("visita cerrada a mano trae cerrada_por", () => {
     expect(
