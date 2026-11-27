@@ -82,9 +82,9 @@ export function GestorRutinas({ rol, alumnoId }: { rol: Rol; alumnoId: string })
       supabase.rpc("modalidades_de_rutina"),
       supabase.from("rutinas")
         .select("id,nombre,origen,activa,plantillas(nombre),rutina_ejercicios(id,orden,ejercicio,maquina_id,series,repeticiones,minutos,carga_kg,nota_ajuste)")
-        .returns<RutinaDisponible[]>()
         .eq("alumno_id", alumnoId).is("archivada_en", null)
-        .order("activa", { ascending: false }).order("creada_en", { ascending: false }),
+        .order("activa", { ascending: false }).order("creada_en", { ascending: false })
+        .returns<RutinaDisponible[]>(),
       supabase.from("maquinas").select("id,nombre,estado").order("nombre"),
     ]);
     if (modalidades.error || rutinas.error || maquinas.error) {
