@@ -9,15 +9,19 @@ const sql = (query) => execFileSync('psql', [
 const pausa = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function observarCanal(pagina, canal) {
-  const estado = { conectado: false, cambios: 0 };
+  const estado = { conectado: false, cambios: 0, eventos: [] };
   pagina.on('websocket', (socket) => {
     socket.on('framereceived', ({ payload }) => {
-      const texto = String(payload);
-      if (!texto.includes('realtime:' + canal)) return;
-      if (texto.includes('phx_reply') && texto.includes('postgres_changes') && texto.includes('"ok"')) {
+      if (typeof payload !== 'string') return;
+      const [, , tema, evento, datos] = JSON.parse(payload);
+      if (tema !== 'realtime:' + canal) return;
+      if (estado.eventos.length < 15) {
+        estado.eventos.push({ evento, estado: datos.status, extension: datos.extension });
+      }
+      if (evento === 'phx_reply' && datos.status === 'ok' && datos.response?.postgres_changes) {
         estado.conectado = true;
       }
-      if (texto.includes('"postgres_changes"') && texto.includes('"record"')) estado.cambios++;
+      if (evento === 'postgres_changes' && datos.data?.record) estado.cambios++;
     });
   });
   return estado;
@@ -67,7 +71,7 @@ async function main() {
     for (const contexto of [publico, profesor]) {
       // Demostrar el transporte Realtime sin el sondeo de respaldo de 15 segundos.
       await contexto.addInitScript(() => {
-        const original = window.setInterval;
+        const original = window.setInterval.bind(window);
         window.setInterval = (fn, ms, ...args) => ms === 15000 ? 0 : original(fn, ms, ...args);
       });
     }
@@ -75,6 +79,15 @@ async function main() {
     const espera = await profesor.newPage();
     const estadoAforo = observarCanal(aforo, 'aforo-publico');
     const estadoEspera = observarCanal(espera, 'lista-espera');
+    for (const pagina of [aforo, espera]) {
+      pagina.on('pageerror', (error) => console.error('Error de página:', error.message));
+      pagina.on('response', (respuesta) => {
+        const ruta = new URL(respuesta.url()).pathname;
+        if (ruta.startsWith('/rest/v1/') && respuesta.status() >= 400) {
+          console.error('Data API:', respuesta.status(), ruta);
+        }
+      });
+    }
     const viejaAforo = await retenerLectura(aforo, 'aforo');
     await aforo.goto(app + '/aforo');
     await espera.goto(app + '/auth/login');
@@ -87,14 +100,28 @@ async function main() {
     await Promise.all([viejaAforo.capturada, viejaEspera.capturada]);
     await hasta('ambas suscripciones Postgres Changes', () => estadoAforo.conectado && estadoEspera.conectado, 15000);
 
-    sql(`
-      select privado.registrar_ingreso_en('FC:19:FE:01',clock_timestamp());
-      select privado.registrar_ingreso_en('FC:19:FE:02',clock_timestamp());
-    `);
-    await hasta('ambos WebSockets y las dos pantallas muestran la espera', async () =>
-      estadoAforo.cambios > 0 && estadoEspera.cambios > 0 &&
-      await aforo.getByText('1 en espera', { exact: true }).isVisible() &&
-      await espera.getByText('Lina S.', { exact: true }).isVisible());
+    // El acuse de unión del canal puede llegar antes de que la réplica esté lista.
+    try {
+      await hasta('una actualización de prueba llega a ambos suscriptores', async () => {
+        if (estadoAforo.cambios > 0 && estadoEspera.cambios > 0) return true;
+        sql('update public.aforo set actualizado_en=clock_timestamp() where id=1');
+        await pausa(600);
+        return false;
+      }, 15000);
+      const cambiosIniciales = [estadoAforo.cambios, estadoEspera.cambios];
+      assert.equal(sql("select privado.registrar_ingreso_en('FC:19:FE:01',clock_timestamp())->>'resultado'"), 'entrada');
+      assert.equal(sql("select privado.registrar_ingreso_en('FC:19:FE:02',clock_timestamp())->>'resultado'"), 'turno');
+      await hasta('ambos WebSockets y las dos pantallas muestran la espera', async () =>
+        estadoAforo.cambios > cambiosIniciales[0] && estadoEspera.cambios > cambiosIniciales[1] &&
+        await aforo.getByText('1 en espera', { exact: true }).isVisible() &&
+        await espera.getByText('Lina S.', { exact: true }).isVisible());
+    } catch (error) {
+      console.error(JSON.stringify({ estadoAforo, estadoEspera }));
+      console.error('Fila de aforo:', sql('select to_jsonb(a) from public.aforo a where id=1'));
+      console.error('Pantalla pública:', await aforo.locator('main').innerText());
+      console.error('Pantalla del profesor:', await espera.locator('main').innerText());
+      throw error;
+    }
     const respuestas = [
       aforo.waitForResponse((r) => r.url().includes('/rest/v1/aforo')),
       espera.waitForResponse((r) => r.url().includes('/rest/v1/turnos')),

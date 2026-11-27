@@ -61,6 +61,14 @@ SQL
 credenciales
 cuentas
 base_015
+if [[ ${1:-} == --limpia ]]; then
+  for archivo in supabase/sql/0{17,18,19}_*.sql; do
+    db -q -f "$archivo" >/dev/null
+  done
+  suite supabase/pruebas/estabilidad_019.sql
+  echo 'APROBADA instalación limpia 001–019'
+  exit 0
+fi
 suite supabase/pruebas/migracion_017.sql
 db -q -f supabase/sql/018_seguridad_final.sql
 db <<'SQL'
@@ -113,14 +121,4 @@ historicos >"$RUNNER_TEMP/historia-reaplicacion"
 diff -u "$RUNNER_TEMP/historia-con-cron" "$RUNNER_TEMP/historia-reaplicacion"
 echo 'APROBADOS datos históricos y trabajo ajeno durante reversión y reaplicación'
 
-supabase stop --no-backup
-supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
-credenciales
-cuentas
-base_015
-for archivo in supabase/sql/0{17,18,19}_*.sql; do
-  db -q -f "$archivo" >/dev/null
-done
-suite supabase/pruebas/estabilidad_019.sql || resultado=1
-echo 'APROBADA instalación limpia 001–019'
 exit "$resultado"

@@ -8,6 +8,10 @@ jobs:
   certificacion:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        grupo: [sql, realtime]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,10 +29,11 @@ jobs:
           supabase init
           supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
       - name: Certificar SQL, migraciones y Cron
+        if: matrix.grupo == 'sql'
         shell: bash
         run: bash .github/qa-019.sh
       - name: Validar Vitest, lint y auditorías de npm
-        if: ${{ !cancelled() }}
+        if: matrix.grupo == 'realtime'
         run: |
           npm ci
           npm test
@@ -36,17 +41,18 @@ jobs:
           npm audit
           npm audit --omit=dev
       - name: Certificar Realtime en Chromium
-        if: ${{ !cancelled() }}
+        if: matrix.grupo == 'realtime' && !cancelled()
         shell: bash
         run: |
           set -euo pipefail
+          bash .github/qa-019.sh --limpia
           eval "$(supabase status -o env)"
           export NEXT_PUBLIC_SUPABASE_URL="$API_URL"
           export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$ANON_KEY"
           export AFOROFIT_TEST_DATABASE_URL="$DB_URL"
           export NEXT_TELEMETRY_DISABLED=1
           npm run build
-          npm install --prefix "$RUNNER_TEMP/realtime-019" --no-save playwright
+          npm install --prefix "$RUNNER_TEMP/realtime-019" --no-save playwright@1.65.1
           "$RUNNER_TEMP/realtime-019/node_modules/.bin/playwright" install --with-deps chromium
           cp .github/qa-019-realtime.mjs "$RUNNER_TEMP/realtime-019/"
           npm start -- --hostname 127.0.0.1 >"$RUNNER_TEMP/next-019.log" 2>&1 &
