@@ -64,6 +64,7 @@ try {
   });
   const alumno = await movil.newPage();
   const cambios = cambiosVisitas(alumno);
+  const rutinaDia = alumno.getByRole('region', { name: 'Mi rutina', exact: true });
   const personal = await navegador.newContext({ viewport: { width: 360, height: 820 } });
   const profesor = await personal.newPage();
   const kiosco = await personal.newPage();
@@ -86,7 +87,7 @@ try {
   await expect(alumno.getByText('Alumno · Activa')).toBeVisible();
   await alumno.getByRole('link', { name: 'Volver a mi rutina del día' }).click();
   await alumno.waitForURL(app + '/alumno');
-  await expect(alumno.getByText('Press propio QA', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Press propio QA', { exact: true })).toBeVisible();
 
   await entrar(profesor, 'profesor');
   await profesor.goto(app + '/profesor/rutinas');
@@ -118,16 +119,16 @@ try {
   await lector.fill('0729785092');
   const inicioTne = performance.now();
   await lector.press('Enter');
-  await expect(alumno.getByText('Ya entraste', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Ya entraste', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Mi fuerza actualizada QA', { exact: true })).toBeVisible();
   console.log('Realtime de TNE a rutina visible: ' + Math.round(performance.now() - inicioTne) + ' ms');
-  await expect(alumno.getByText('Mi fuerza actualizada QA')).toBeVisible();
-  await expect(alumno.getByText(/Máquina en mantención/).first()).toBeVisible();
+  await expect(rutinaDia.getByText(/Máquina en mantención/).first()).toBeVisible();
   await foto(alumno, '03-rutina-al-ingresar-y-mantencion');
   await lector.fill('0729785090');
   await lector.press('Enter');
-  await expect(alumno.getByRole('heading', { name: '¿Cómo estuvo tu entrenamiento de hoy?' })).toBeVisible();
-  await alumno.getByRole('button', { name: /Me costó/ }).click();
-  await expect(alumno.getByText('Feedback registrado')).toBeVisible();
+  await expect(rutinaDia.getByRole('heading', { name: '¿Cómo estuvo tu entrenamiento de hoy?' })).toBeVisible();
+  await rutinaDia.getByRole('button', { name: /Me costó/ }).click();
+  await expect(rutinaDia.getByText('Feedback registrado')).toBeVisible();
 
   await alumno.getByRole('link', { name: /Mis rutinas/ }).click();
   await expect(alumno.getByText(/Asignada por el profesor/)).toBeVisible();
@@ -148,12 +149,12 @@ try {
 
   await esperarRealtime();
   await usarQr();
-  await expect(alumno.getByText('Ya entraste', { exact: true })).toBeVisible();
-  await expect(alumno.getByText('Press profesor QA', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Ya entraste', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Press profesor QA', { exact: true })).toBeVisible();
   await usarQr();
-  await expect(alumno.getByRole('button', { name: /Me costó/ })).toBeVisible();
-  await alumno.getByRole('button', { name: /Me costó/ }).click();
-  await expect(alumno.getByText('Feedback registrado')).toBeVisible();
+  await expect(rutinaDia.getByRole('button', { name: /Me costó/ })).toBeVisible();
+  await rutinaDia.getByRole('button', { name: /Me costó/ }).click();
+  await expect(rutinaDia.getByText('Feedback registrado')).toBeVisible();
   await foto(alumno, '04-feedback-profesor-sin-progresion');
   assert.equal(db(`select e.carga_kg from public.rutina_ejercicios e join public.rutinas r on r.id=e.rutina_id
     where r.nombre='Asignada actualizada QA'`), '40.0');
