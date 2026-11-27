@@ -50,6 +50,15 @@ $$;
 
 -- En las operaciones que pueden cambiar la selección se bloquea primero la fila del alumno.
 -- El generador de 011 usa la misma fila y se conserva el índice único parcial.
+-- Activar y generar ya tienen bloqueada la fila del alumno y validaron la modalidad.
+-- Si el cierre gana la carrera por la fila de visitas, el UPDATE reevalúa salida.
+create or replace function privado.asociar_primera_rutina_visita(p_alumno uuid, p_rutina uuid)
+returns void language sql set search_path = '' as $$
+  update public.visitas
+  set rutina_id = p_rutina
+  where alumno_id = p_alumno and salida is null and rutina_fijada is true and rutina_id is null;
+$$;
+
 create or replace function public.activar_rutina(p_rutina uuid)
 returns void language plpgsql security definer set search_path = '' as $$
 declare
@@ -67,6 +76,7 @@ begin
 
   update public.rutinas set activa = false where alumno_id = v_alumno and activa and id <> p_rutina;
   update public.rutinas set activa = true where id = p_rutina and not activa;
+  perform privado.asociar_primera_rutina_visita(v_alumno, p_rutina);
 end;
 $$;
 
@@ -166,7 +176,8 @@ drop trigger if exists fijar_rutina_visita on public.visitas;
 create trigger fijar_rutina_visita before insert on public.visitas
 for each row when (new.salida is null) execute function privado.fijar_rutina_visita();
 
-revoke all on function privado.fijar_rutina_visita(), privado.modalidad_rutina_habilitada(text)
+revoke all on function privado.fijar_rutina_visita(), privado.modalidad_rutina_habilitada(text),
+  privado.asociar_primera_rutina_visita(uuid, uuid)
 from public, anon, authenticated;
 revoke all on function public.modalidades_de_rutina(), public.activar_rutina(uuid),
   public.guardar_rutina_personalizada(uuid, uuid, text, jsonb), public.archivar_rutina_propia(uuid)
@@ -223,6 +234,7 @@ begin
   from public.plantilla_ejercicios e
   where e.plantilla_id = v_plantilla;
 
+  perform privado.asociar_primera_rutina_visita(p_alumno, v_rutina);
   return v_rutina;
 end;
 $$;

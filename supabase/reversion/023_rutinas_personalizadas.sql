@@ -177,5 +177,6 @@ begin
 end;
 $$;
 
+drop function if exists privado.asociar_primera_rutina_visita(uuid, uuid);
 drop function if exists privado.modalidad_rutina_habilitada(text);
 commit;

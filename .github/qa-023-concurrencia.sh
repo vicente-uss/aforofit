@@ -11,6 +11,8 @@ guardar() {
 }
 primera=$(guardar uno)
 segunda=$(guardar dos)
+db -q -c "update public.rutinas set activa=false where alumno_id='$alumno' and activa"
+visita=$(db -q -c "insert into public.visitas(alumno_id, entrada) values('$alumno', now()) returning id")
 # La primera sesión mantiene el bloqueo después de activar. La segunda, en otra conexión,
 # debe esperar y terminar con la selección que pidió.
 db -q -c "begin; $sesion select public.activar_rutina('$primera'); select pg_sleep(4); commit" &
@@ -36,4 +38,6 @@ done
 wait "$pid"
 wait "$segundo_pid"
 [[ $(db -c "select count(*)=1 and bool_and(id='$segunda') from public.rutinas where alumno_id='$alumno' and activa") == t ]]
-echo 'APROBADA activación simultánea en dos sesiones con espera de bloqueo observada'
+[[ $(db -c "select rutina_fijada and rutina_id='$primera' from public.visitas where id='$visita'") == t ]]
+db -q -c "update public.visitas set salida=entrada where id='$visita'"
+echo 'APROBADA activación simultánea: la visita conserva la primera rutina y queda activa la segunda'

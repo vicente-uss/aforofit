@@ -51,6 +51,7 @@ db -q -f supabase/sql/023_rutinas_personalizadas.sql
 historial >"$RUNNER_TEMP/despues-023"
 diff -u "$RUNNER_TEMP/antes-023" "$RUNNER_TEMP/despues-023"
 suite supabase/pruebas/023/rutinas_personalizadas.sql
+suite supabase/pruebas/023/primera_rutina_en_visita.sql
 
 if [[ ${1:-} == limpia ]]; then
   echo 'APROBADA instalación desde cero 001–023'
@@ -84,10 +85,12 @@ datos_completos() {
 datos_completos >"$RUNNER_TEMP/datos-023"
 db -q -f supabase/reversion/023_rutinas_personalizadas.sql
 [[ $(db -Atc "select to_regprocedure('public.activar_rutina(uuid)') is null
-  and to_regprocedure('privado.fijar_rutina_visita()') is null") == t ]]
+  and to_regprocedure('privado.fijar_rutina_visita()') is null
+  and to_regprocedure('privado.asociar_primera_rutina_visita(uuid,uuid)') is null") == t ]]
 datos_completos | diff "$RUNNER_TEMP/datos-023" -
 funciones_previas | diff "$RUNNER_TEMP/funciones-022" -
 db -q -f supabase/sql/023_rutinas_personalizadas.sql
 datos_completos | diff "$RUNNER_TEMP/datos-023" -
 suite supabase/pruebas/023/rutinas_personalizadas.sql
+suite supabase/pruebas/023/primera_rutina_en_visita.sql
 echo 'APROBADA actualización desde 022, reversión con historial y reaplicación de 023'

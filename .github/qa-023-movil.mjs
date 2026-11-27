@@ -161,7 +161,64 @@ try {
   assert.ok(cambios() >= 5, 'alta y salida por ambos medios publicadas por Realtime con sondeo desactivado');
   await alumno.goto(app + '/profesor/rutinas');
   await alumno.waitForURL('**/alumno');
-  console.log('APROBADOS editor, asignación, credencial HID simulada, canje manual del QR, Realtime, feedback y cuatro capturas a 360 px');
+  async function entrarSinRutina(ingresar) {
+    db(`update public.rutinas set activa=false where alumno_id='${alumnoId}' and activa`);
+    await alumno.reload();
+    await esperarRealtime();
+    await ingresar();
+    await expect.poll(() => db(`select count(*) from public.visitas
+      where alumno_id='${alumnoId}' and salida is null and rutina_fijada and rutina_id is null`)).toBe('1');
+    const visita = db(`select id from public.visitas where alumno_id='${alumnoId}'
+      and salida is null and rutina_fijada and rutina_id is null`);
+    assert.match(visita, /^[0-9a-f-]{36}$/, 'la visita empezó sin rutina');
+    return visita;
+  }
+
+  const visitaSeleccion = await entrarSinRutina(usarQr);
+  await alumno.getByRole('link', { name: /Mis rutinas/ }).click();
+  await alumno.waitForURL(app + '/alumno/rutinas');
+  const tarjetaPropia = alumno.locator('.shadow-card').filter({
+    has: alumno.getByRole('heading', { name: 'Mi fuerza actualizada QA', exact: true }),
+  }).filter({ visible: true });
+  await tarjetaPropia.getByRole('button', { name: 'Activar', exact: true }).click();
+  await expect(tarjetaPropia.getByText('Alumno · Activa')).toBeVisible();
+  await alumno.getByRole('link', { name: 'Volver a mi rutina del día' }).click();
+  await alumno.waitForURL(app + '/alumno');
+  await expect(rutinaDia.getByText('Ya entraste', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Press propio QA', { exact: true })).toBeVisible();
+  assert.equal(db(`select r.nombre from public.visitas v join public.rutinas r on r.id=v.rutina_id
+    where v.id='${visitaSeleccion}' and v.salida is null`), 'Mi fuerza actualizada QA');
+  await foto(alumno, '05-seleccion-despues-del-ingreso');
+  await esperarRealtime();
+  await usarQr();
+  await rutinaDia.getByRole('button', { name: /Justo/ }).click();
+  await expect(rutinaDia.getByText('Feedback registrado')).toBeVisible();
+
+  async function usarCredencial(codigo, resultado) {
+    await kiosco.bringToFront();
+    const respuesta = kiosco.waitForResponse((r) => r.url().endsWith('/rpc/registrar_ingreso') && r.ok());
+    await lector.fill(codigo);
+    await lector.press('Enter');
+    assert.equal((await (await respuesta).json()).resultado, resultado);
+  }
+
+  const visitaGeneracion = await entrarSinRutina(() => usarCredencial('0729785092', 'entrada'));
+  await expect(rutinaDia.getByRole('heading', { name: '¿Cuál es tu objetivo?' })).toBeVisible();
+  await rutinaDia.getByRole('button', { name: /^Fuerza/ }).click();
+  await rutinaDia.getByRole('button', { name: /^Principiante/ }).click();
+  await rutinaDia.getByRole('button', { name: 'Guardar y generar mi rutina' }).click();
+  await expect(rutinaDia.getByText('Ya entraste', { exact: true })).toBeVisible();
+  await expect(rutinaDia.getByText('Sentadilla guiada', { exact: true })).toBeVisible();
+  assert.equal(db(`select r.origen from public.visitas v join public.rutinas r on r.id=v.rutina_id
+    where v.id='${visitaGeneracion}' and v.salida is null`), 'sistema');
+  await foto(alumno, '06-generacion-despues-del-ingreso');
+  await usarCredencial('0729785090', 'salida');
+  await rutinaDia.getByRole('button', { name: /Me costó/ }).click();
+  await expect(rutinaDia.getByRole('heading', { name: 'Tu próxima sesión' })).toBeVisible();
+  assert.equal(db(`select count(*) from public.feedback f join public.visitas v on v.id=f.visita_id
+    where v.id in ('${visitaSeleccion}','${visitaGeneracion}') and f.rutina_id=v.rutina_id`), '2');
+  console.log('APROBADA primera rutina por selección y generación después del ingreso; feedback vinculado en ambas visitas');
+  console.log('APROBADOS editor, asignación, credencial HID simulada, canje manual del QR, Realtime, feedback y seis capturas a 360 px');
 } finally {
   await navegador.close();
 }
