@@ -6,6 +6,7 @@ import { Insignia } from "@/components/marca/insignia";
 import { MarcoAlumno } from "@/components/marca/marco-alumno";
 import { Tarjeta } from "@/components/marca/tarjeta";
 import { requerirRol } from "@/lib/auth/perfil";
+import { AvisoTne } from "./aviso-tne";
 import { QrIngreso } from "./qr-ingreso";
 import { RutinaAlumno } from "./rutina-alumno";
 
@@ -21,6 +22,7 @@ async function Contenido() {
 
   return (
     <MarcoAlumno titulo="Mi rutina" subtitulo={`Hola, ${perfil.nombre}`}>
+      <AvisoTne key={perfil.id} />
       {/* B1, B3 y B4 del CR-01: objetivo y nivel, rutina del día en tiempo real y feedback. */}
       <QrIngreso />
       <RutinaAlumno />

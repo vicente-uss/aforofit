@@ -397,7 +397,8 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
-- [ ] Pedido del Playback que queda: aviso «Olvidaste tu TNE» en el perfil del alumno, P2 (F-30). Los demás están hechos
+- [ ] F-30 implementado en la rama `aviso-tne` con la migración `020_aviso_tne.sql`. Pendiente de revisión e integración.
+  El profesor puede avisar cuando solo queda pendiente la TNE. El aviso se ve en el perfil del alumno hasta que se registra la entrega.
 - [ ] Cargas iniciales de las plantillas: son de ejemplo; declararlas como supuesto o validarlas con el encargado
 - [ ] Limitación declarada (D24): la progresión (`configuracion.progresion`) y las modalidades de rutina se cambian por
   SQL, no desde `/admin/configuracion`. CA34 queda parcial
