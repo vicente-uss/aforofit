@@ -12,7 +12,6 @@ import { RutinaAlumno } from "./rutina-alumno";
 // Pospuestas por el CR-01 (sección 4.4): se muestran como «Próxima versión».
 const PROXIMAS = [
   { titulo: "Mis rutinas", descripcion: "Elige tu rutina activa o crea una propia.", icono: ClipboardList },
-  { titulo: "Registro corporal", descripcion: "Anota tu peso y perímetros y revisa tu evolución.", icono: Ruler },
 ];
 
 async function Contenido() {
@@ -34,6 +33,19 @@ async function Contenido() {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-navy-900">Mi historial</p>
             <p className="text-xs text-tinta-suave">Tus visitas al gimnasio y tu feedback.</p>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
+        </Tarjeta>
+      </Link>
+
+      <Link href="/alumno/medidas" className="block rounded-2xl">
+        <Tarjeta className="flex items-center gap-3 p-3 transition-shadow hover:shadow-lift">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <Ruler className="h-[18px] w-[18px]" aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-navy-900">Registro corporal</p>
+            <p className="text-xs text-tinta-suave">Anota tus medidas y revisa tu evolución.</p>
           </div>
           <ArrowRight className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
         </Tarjeta>
