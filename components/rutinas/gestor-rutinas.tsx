@@ -155,7 +155,7 @@ export function GestorRutinas({ rol, alumnoId }: { rol: Rol; alumnoId: string })
                   {ORIGEN_RUTINA[rutina.origen]} · {datos.modalidades[rutina.origen] ? (rutina.activa ? "Activa" : "Disponible") : "Modalidad deshabilitada"}
                 </p>
                 {rol === "alumno" && rutina.origen === "profesor" && !rutina.activa && datos.modalidades.profesor &&
-                  <p className="mt-1 text-sm">Asignada por el profesor. Puedes activarla para tu próximo ingreso.</p>}
+                  <p className="mt-1 text-sm">Asignada por el profesor. Puedes elegirla como activa.</p>}
               </div>
               <details className="text-sm">
                 <summary className="cursor-pointer font-medium">Ver ejercicios</summary>
@@ -171,7 +171,7 @@ export function GestorRutinas({ rol, alumnoId }: { rol: Rol; alumnoId: string })
               <div className="flex flex-wrap gap-2">
                 {rol === "alumno" && !rutina.activa && datos.modalidades[rutina.origen] && (
                   <Button size="sm" disabled={ocupado || editor !== null}
-                    onClick={() => void ejecutar(() => supabase.rpc("activar_rutina", { p_rutina: rutina.id }), "Rutina activa para tu próximo ingreso.")}>Activar</Button>
+                    onClick={() => void ejecutar(() => supabase.rpc("activar_rutina", { p_rutina: rutina.id }), "Rutina activa.")}>Activar</Button>
                 )}
                 {rutina.origen === rol && datos.modalidades[rol] && (
                   <Button size="sm" variant="outline" disabled={ocupado || editor !== null}

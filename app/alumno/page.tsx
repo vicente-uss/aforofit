@@ -27,7 +27,7 @@ async function Contenido() {
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-navy-900">Mis rutinas</p>
-            <p className="text-xs text-tinta-suave">Crea una rutina o elige cuál usar en tu próximo ingreso.</p>
+            <p className="text-xs text-tinta-suave">Crea una rutina o elige cuál usar.</p>
           </div>
           <ArrowRight className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
         </Tarjeta>
