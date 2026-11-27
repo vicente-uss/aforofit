@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Dumbbell,
   ExternalLink,
   History,
   LayoutDashboard,
@@ -46,6 +47,8 @@ const MENU: Record<"profesor" | "admin", { titulo: string; items: Item[] }> = {
     items: [
       { href: "/admin", etiqueta: "Inicio", icono: LayoutDashboard },
       { href: "/ingreso", etiqueta: "Kiosco de ingreso", icono: ScanLine },
+      { href: "/admin/maquinas", etiqueta: "Máquinas", icono: Dumbbell },
+      { href: "/admin/implementos", etiqueta: "Implementos", icono: Package },
       { href: "/admin/habilitacion", etiqueta: "Habilitación", icono: ShieldCheck },
       { href: "/admin/configuracion", etiqueta: "Configuración", icono: SlidersHorizontal },
     ],

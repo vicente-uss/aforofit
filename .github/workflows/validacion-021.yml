@@ -1,0 +1,83 @@
+name: Validación desechable 021
+on:
+  push:
+    branches: [administracion-catalogo]
+permissions:
+  contents: read
+jobs:
+  calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm audit
+      - run: npm audit --omit=dev
+  catalogo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        grupo: [regresion, sql, navegador]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+      - name: Levantar Supabase desechable
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+          supabase init
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
+      - name: Regresión 017–019 y Cron real
+        if: matrix.grupo == 'regresion'
+        run: bash .github/qa-019.sh
+      - name: Certificar SQL, migraciones y reversión
+        if: matrix.grupo == 'sql'
+        run: bash .github/qa-021-sql.sh
+      - name: Compilar y certificar catálogo en Chromium con Storage HTTP
+        if: matrix.grupo == 'navegador'
+        run: |
+          set -euo pipefail
+          bash .github/qa-019.sh --limpia
+          eval "$(supabase status -o env)"
+          export NEXT_PUBLIC_SUPABASE_URL="$API_URL"
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$ANON_KEY"
+          export AFOROFIT_TEST_DATABASE_URL="$DB_URL"
+          export AFOROFIT_EVIDENCIA="$RUNNER_TEMP/evidencia-021"
+          export NEXT_TELEMETRY_DISABLED=1
+          psql "$DB_URL" -Xv ON_ERROR_STOP=1 -f supabase/sql/021_administracion_catalogo.sql
+          npm ci
+          npm run build
+          npm install --prefix "$RUNNER_TEMP/playwright-021" --no-save playwright@1.65.1
+          "$RUNNER_TEMP/playwright-021/node_modules/.bin/playwright" install --with-deps chromium
+          cp .github/qa-021-catalogo.mjs "$RUNNER_TEMP/playwright-021/"
+          npm start -- --hostname 127.0.0.1 >"$RUNNER_TEMP/next-021.log" 2>&1 &
+          trap 'cat "$RUNNER_TEMP/next-021.log"' EXIT
+          for intento in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/aforo >/dev/null; then break; fi
+            sleep 1
+          done
+          node "$RUNNER_TEMP/playwright-021/qa-021-catalogo.mjs"
+      - name: Adjuntar capturas
+        if: matrix.grupo == 'navegador' && !cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-catalogo-021
+          path: ${{ runner.temp }}/evidencia-021
+      - name: Destruir entorno desechable
+        if: always()
+        run: supabase stop --no-backup
