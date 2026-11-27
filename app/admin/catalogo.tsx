@@ -242,12 +242,13 @@ export function Catalogo({ tipo }: { tipo: "maquinas" | "implementos" }) {
                   <label className="grid gap-1 text-sm font-medium sm:col-span-2">Ajustes
                     <textarea name="ajustes" rows={3} required={!ficha} maxLength={1000} className={CAMPO} defaultValue={fichaMaquina?.ajustes ?? ""} />
                   </label>
-                  <label className="grid gap-1 text-sm font-medium">Estado
-                    <select name="estado" className={CAMPO} defaultValue={fichaMaquina?.estado ?? "disponible"}>
+                  <div className="grid gap-1 text-sm font-medium">
+                    <label htmlFor="estado-maquina">Estado</label>
+                    <select id="estado-maquina" name="estado" className={CAMPO} defaultValue={fichaMaquina?.estado ?? "disponible"}>
                       <option value="disponible">Disponible</option>
                       <option value="en_mantencion">En mantención</option>
                     </select>
-                  </label>
+                  </div>
                   <div className="min-w-0">
                     <label className="grid gap-1 text-sm font-medium">
                       {fichaMaquina?.foto_url ? "Reemplazar fotografía (opcional)" : "Fotografía"}
