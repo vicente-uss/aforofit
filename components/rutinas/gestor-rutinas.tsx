@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tarjeta } from "@/components/marca/tarjeta";
 import { Aviso } from "@/components/marca/aviso";
+import { patronContiene } from "@/lib/ingreso/buscarAlumnos";
 import { createClient } from "@/lib/supabase/client";
 import { textoErrorRutina } from "@/lib/rutina/mensajes";
 import { textoVolumen } from "@/lib/rutina/pantalla";
@@ -28,9 +29,9 @@ export function BuscarRutinasAlumno() {
     setElegido(null);
     setResultado("");
     setAlumnos([]);
-    const patron = buscar.trim().replace(/[\\%_]/g, "\\$&");
+    const patron = patronContiene(buscar.trim());
     const { data, error } = await supabase.from("alumnos").select("id,nombre,carrera")
-      .ilike("nombre", `%${patron}%`).order("nombre").limit(30);
+      .ilike("nombre", patron).order("nombre").limit(30);
     setBuscando(false);
     if (error) setResultado("No pudimos buscar alumnos. Inténtalo de nuevo.");
     else if (data.length === 0) setResultado("No encontramos alumnos con ese nombre.");

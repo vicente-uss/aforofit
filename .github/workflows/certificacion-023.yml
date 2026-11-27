@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        grupo: [actualizacion, limpia]
+        grupo: [actualizacion, limpia, regresion-019]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +55,12 @@ jobs:
           supabase init
           supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
       - name: SQL, instalación, actualización y reversión
-        run: bash .github/qa-023-sql.sh ${{ matrix.grupo }}
+        run: |
+          if [[ "${{ matrix.grupo }}" == regresion-019 ]]; then
+            bash .github/qa-019.sh
+          else
+            bash .github/qa-023-sql.sh ${{ matrix.grupo }}
+          fi
       - name: Chromium a 360 px y Realtime
         if: matrix.grupo == 'limpia'
         run: |

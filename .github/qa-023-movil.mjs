@@ -50,7 +50,7 @@ db(`
   update public.alumnos set certificado_hasta=current_date+365 where id='${alumnoId}';
   update public.configuracion set horario=(select jsonb_object_agg(d,'{"apertura":"00:00","ultimo_ingreso":"23:59","cierre":"23:59"}'::jsonb)
     from unnest(array['lunes','martes','miercoles','jueves','viernes','sabado','domingo']) d);
-  insert into public.tarjetas(uid,alumno_id) values('04:A3:7F:2B','${alumnoId}');
+  insert into public.tarjetas(uid,alumno_id,tipo) values('02:A3:7F:2B','${alumnoId}','credencial_uss');
   insert into public.visitas(alumno_id,entrada,salida) values('${alumnoId}',now()-interval '3 days 1 hour',now()-interval '3 days');
   update public.maquinas set estado='en_mantencion' where id=(select id from public.maquinas order by nombre limit 1);
 `);
@@ -102,11 +102,16 @@ try {
   await foto(profesor, '02-asignacion-profesor');
   await kiosco.goto(app + '/ingreso');
 
+  async function esperarRealtime() {
+    const inicial = cambios();
+    await expect.poll(() => {
+      if (cambios() === inicial) db(`update public.visitas set entrada=entrada where alumno_id='${alumnoId}' and salida is not null`);
+      return cambios();
+    }, { timeout: 20000, intervals: [400, 800] }).toBeGreaterThan(inicial);
+  }
+
   // Una visita ficticia cerrada permite comprobar que ya está escuchando el canal.
-  await expect.poll(() => {
-    if (!cambios()) db(`update public.visitas set entrada=entrada where alumno_id='${alumnoId}' and salida is not null`);
-    return cambios();
-  }, { timeout: 20000, intervals: [400, 800] }).toBeGreaterThan(0);
+  await esperarRealtime();
   const lector = kiosco.getByLabel('Lector de credenciales');
   await lector.fill('0729785092');
   await lector.press('Enter');
@@ -114,7 +119,7 @@ try {
   await expect(alumno.getByText('Mi fuerza actualizada QA')).toBeVisible();
   await expect(alumno.getByText(/Máquina en mantención/).first()).toBeVisible();
   await foto(alumno, '03-rutina-al-ingresar-y-mantencion');
-  await lector.fill('0729785092');
+  await lector.fill('0729785090');
   await lector.press('Enter');
   await expect(alumno.getByRole('heading', { name: '¿Cómo estuvo tu entrenamiento de hoy?' })).toBeVisible();
   await alumno.getByRole('button', { name: /Me costó/ }).click();
@@ -136,6 +141,7 @@ try {
     await kiosco.getByRole('button', { name: 'Registrar', exact: true }).click();
   }
 
+  await esperarRealtime();
   await usarQr();
   await expect(alumno.getByText('Ya entraste', { exact: true })).toBeVisible();
   await expect(alumno.getByText('Press profesor QA')).toBeVisible();
