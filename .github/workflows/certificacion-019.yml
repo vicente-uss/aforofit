@@ -1,0 +1,30 @@
+name: Certificación desechable 019
+on:
+  push:
+    branches: [estabilidad-final]
+permissions:
+  contents: read
+jobs:
+  certificacion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+      - name: Levantar Supabase desechable
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+          supabase init
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit
+      - name: Certificar SQL, migraciones y Cron
+        shell: bash
+        run: bash .github/qa-019.sh
+      - name: Destruir entorno desechable
+        if: always()
+        run: supabase stop --no-backup

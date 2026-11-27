@@ -269,76 +269,11 @@ begin
     return jsonb_build_object('ok', false, 'motivo', 'sin_permiso');
   end if;
 
-  if p_uid is null or not (
-    p_uid ~ '^[0-9A-F]{2}(:[0-9A-F]{2}){3} or p_tipo not in ('tne','credencial_uss') then
-    return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
-  end if;
-  if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then
-    return jsonb_build_object('ok', false, 'motivo', 'alumno_no_encontrado');
-  end if;
-
-  -- on conflict cubre dos vinculaciones simultáneas de la misma tarjeta.
-  insert into public.tarjetas (uid, alumno_id, tipo)
-  values (p_uid, p_alumno_id, p_tipo)
-  on conflict (uid) do nothing;
-
-  select t.alumno_id into v_dueno from public.tarjetas t where t.uid = p_uid;
-
-  if v_dueno is distinct from p_alumno_id then
-    return jsonb_build_object('ok', false, 'motivo', 'credencial_de_otro_alumno');
-  end if;
-
-  return jsonb_build_object('ok', true, 'motivo', null);
-end;
-$$;
-    or p_uid ~ '^[0-9A-F]{2}(:[0-9A-F]{2}){6} or p_tipo not in ('tne','credencial_uss') then
-    return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
-  end if;
-  if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then
-    return jsonb_build_object('ok', false, 'motivo', 'alumno_no_encontrado');
-  end if;
-
-  -- on conflict cubre dos vinculaciones simultáneas de la misma tarjeta.
-  insert into public.tarjetas (uid, alumno_id, tipo)
-  values (p_uid, p_alumno_id, p_tipo)
-  on conflict (uid) do nothing;
-
-  select t.alumno_id into v_dueno from public.tarjetas t where t.uid = p_uid;
-
-  if v_dueno is distinct from p_alumno_id then
-    return jsonb_build_object('ok', false, 'motivo', 'credencial_de_otro_alumno');
-  end if;
-
-  return jsonb_build_object('ok', true, 'motivo', null);
-end;
-$$;
-    or p_uid ~ '^[0-9A-F]{2}(:[0-9A-F]{2}){9} or p_tipo not in ('tne','credencial_uss') then
-    return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
-  end if;
-  if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then
-    return jsonb_build_object('ok', false, 'motivo', 'alumno_no_encontrado');
-  end if;
-
-  -- on conflict cubre dos vinculaciones simultáneas de la misma tarjeta.
-  insert into public.tarjetas (uid, alumno_id, tipo)
-  values (p_uid, p_alumno_id, p_tipo)
-  on conflict (uid) do nothing;
-
-  select t.alumno_id into v_dueno from public.tarjetas t where t.uid = p_uid;
-
-  if v_dueno is distinct from p_alumno_id then
-    return jsonb_build_object('ok', false, 'motivo', 'credencial_de_otro_alumno');
-  end if;
-
-  return jsonb_build_object('ok', true, 'motivo', null);
-end;
-$$;
-  ) then
-    return jsonb_build_object('ok', false, 'motivo', 'uid_invalido');
-  end if;
-
   if p_tipo is null or p_tipo not in ('tne','credencial_uss') then
     return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
+  end if;
+  if p_uid is null or p_uid !~ '^[0-9A-F]{2}(:[0-9A-F]{2}){3}((:[0-9A-F]{2}){3}){0,2}$' then
+    return jsonb_build_object('ok', false, 'motivo', 'uid_invalido');
   end if;
   if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then
     return jsonb_build_object('ok', false, 'motivo', 'alumno_no_encontrado');
