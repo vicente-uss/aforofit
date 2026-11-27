@@ -130,6 +130,12 @@ export function validarConfiguracion(form: FormularioConfiguracion): ResultadoVa
 
 // Errores de actualizar_configuracion (014), en palabras.
 const ERRORES: Record<string, { titulo: string; detalle: string }> = {
+  parametros_invalidos: { titulo: "Datos no válidos", detalle: "Revisa todos los campos antes de guardar." },
+  umbral_invalido: { titulo: "Umbral no válido", detalle: "Debe estar entre 1 y 100 %." },
+  expiracion_invalida: { titulo: "Plazo no válido", detalle: "Debe estar entre 1 y 120 minutos." },
+  modalidades_invalidas: { titulo: "Modalidades no válidas", detalle: "Recarga la página y revisa las tres modalidades." },
+  progresion_invalida: { titulo: "Progresión no válida", detalle: "Revisa los rangos de carga y reducción." },
+  configuracion_no_disponible: { titulo: "Configuración no disponible", detalle: "Avisa al equipo para revisar la instalación." },
   sin_permiso: { titulo: "Sin permiso", detalle: "Solo una cuenta de administrador cambia la configuración." },
   capacidad_invalida: { titulo: "Capacidad no válida", detalle: "Debe estar entre 1 y 100 personas." },
   cierre_invalido: { titulo: "Cierre automático no válido", detalle: "Debe estar entre 1 y 12 horas." },
@@ -147,7 +153,7 @@ export function textoErrorConfiguracion(error: {
     return { titulo: ERRORES[codigo].titulo, detalle: error.details?.trim() || ERRORES[codigo].detalle };
   }
   if (error.code === "PGRST202") {
-    return { titulo: "Falta la base de datos", detalle: "Avisa al equipo: la función no está instalada (014)." };
+    return { titulo: "Falta la base de datos", detalle: "Avisa al equipo para verificar la instalación de la migración 024." };
   }
   return { titulo: "Sin conexión", detalle: "Revisa la conexión e inténtalo de nuevo." };
 }

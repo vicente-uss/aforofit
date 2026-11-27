@@ -1,4 +1,4 @@
-// Regla 8 (progresión de cargas), la misma de privado.nueva_carga en supabase/sql/011_rutinas.sql.
+// Regla 8 (progresión de cargas), la misma de privado.nueva_carga en supabase/sql/024_configuracion_completa.sql.
 // La base de datos es la que guarda la carga; esta copia sirve para que la pantalla de F-02 muestre
 // «tu próxima carga» antes o después de responder. Función pura, probada con Vitest.
 
@@ -45,6 +45,7 @@ export function nuevaCarga(
   parametros: ParametrosProgresion,
 ): number | null {
   if (carga === null) return null;
+  if (valor === "justo" && parametros.justo_kg === 0) return carga;
   const bruta =
     valor === "facil"
       ? carga + parametros.facil_kg
@@ -55,7 +56,11 @@ export function nuevaCarga(
   let nueva = limpiar(pasos * parametros.redondeo_kg);
   // D25: si «me costó» no bajó la carga después de redondear, baja un paso.
   if (valor === "me_costo" && nueva >= carga) nueva = limpiar(carga - parametros.redondeo_kg);
-  return Math.max(nueva, 0);
+  if (valor === "facil" && nueva <= carga) nueva = limpiar(carga + parametros.redondeo_kg);
+  if (valor === "justo") {
+    nueva = parametros.justo_kg > 0 ? Math.max(nueva, carga) : Math.min(nueva, carga);
+  }
+  return Math.min(Math.max(nueva, 0), 9999.9);
 }
 
 // Texto para la pantalla, con coma decimal (es-CL): 42.5 → «42,5 kg». Cardio: «sin carga».
