@@ -74,8 +74,9 @@ begin
     'insert into public.mediciones(perfil_id,fecha,peso_kg,estatura_cm) values (%L,%L,75,175)',cuenta_b,hoy))='42501');
   perform pg_temp.ok('No se puede reasignar la propiedad', pg_temp.resultado(format(
     'update public.mediciones set perfil_id=%L where id=%L',cuenta_b,registro_a))='42501');
-  perform pg_temp.ok('No se puede sobrescribir el IMC', pg_temp.resultado(format(
-    'update public.mediciones set imc=20 where id=%L',registro_a))='42501');
+  perform pg_temp.ok('No se puede sobrescribir el IMC',
+    not has_column_privilege(current_user,'public.mediciones','imc','UPDATE') and pg_temp.resultado(format(
+    'update public.mediciones set imc=20 where id=%L',registro_a)) in ('42501','428C9'));
 
   perform set_config('request.jwt.claims',jsonb_build_object('sub',cuenta_b,'role','authenticated')::text,true);
   perform pg_temp.ok('Alumno B no puede leer el registro de A', not exists(select id from public.mediciones where id=registro_a));
