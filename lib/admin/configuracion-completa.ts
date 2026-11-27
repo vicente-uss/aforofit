@@ -1,4 +1,4 @@
-import { leerProgresion } from "@/lib/rutina/progresion";
+import { leerProgresion } from "../rutina/progresion";
 import {
   aFormulario,
   validarConfiguracion,

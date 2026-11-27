@@ -21,6 +21,7 @@ declare
   v_reduccion numeric;
   v_paso numeric;
   v_aforo public.aforo%rowtype;
+  v_contexto_anterior text;
 begin
   if not exists (
     select 1 from public.perfiles where id = (select auth.uid()) and rol = 'admin'
@@ -90,6 +91,8 @@ begin
 
   -- Orden de 019. El trigger reconcilia una vez, con todos los valores nuevos.
   perform 1 from public.aforo where id = 1 for update;
+  v_contexto_anterior := current_setting('aforofit.hora_configuracion', true);
+  perform set_config('aforofit.hora_configuracion', clock_timestamp()::text, true);
   update public.configuracion
   set capacidad = v_capacidad,
       horario = v_horario,
@@ -103,6 +106,7 @@ begin
     raise exception 'configuracion_no_disponible';
   end if;
 
+  perform set_config('aforofit.hora_configuracion', coalesce(v_contexto_anterior, ''), true);
   select * into strict v_aforo from public.aforo where id = 1;
   return jsonb_build_object('ocupacion', v_aforo.ocupacion, 'capacidad', v_aforo.capacidad);
 end;
