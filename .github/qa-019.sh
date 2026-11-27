@@ -55,7 +55,7 @@ historicos() {
 select 'visitas', md5(coalesce(string_agg(to_jsonb(v)::text, ',' order by v.id),'')) from public.visitas v;
 select 'turnos', md5(coalesce(string_agg(to_jsonb(t)::text, ',' order by t.id),'')) from public.turnos t;
 select 'prestamos', md5(coalesce(string_agg(to_jsonb(p)::text, ',' order by p.id),'')) from public.prestamos p;
-select 'feedback', md5(coalesce(string_agg(to_jsonb(r)::text, ',' order by to_jsonb(r)::text),'')) from public.rutinas r;
+select 'feedback', md5(coalesce(string_agg(to_jsonb(f)::text, ',' order by f.id),'')) from public.feedback f;
 SQL
 }
 credenciales
@@ -63,6 +63,17 @@ cuentas
 base_015
 suite supabase/pruebas/migracion_017.sql
 db -q -f supabase/sql/018_seguridad_final.sql
+db <<'SQL'
+with alumno as (select id from public.alumnos where rut='00.000.001-F'),
+rutina as (insert into public.rutinas(alumno_id,activa) select id,false from alumno returning id),
+visita as (
+  insert into public.visitas(alumno_id,entrada,salida)
+  select id,now()-interval '3 days 1 hour',now()-interval '3 days' from alumno returning id
+)
+insert into public.feedback(visita_id,rutina_id,valor) select visita.id,rutina.id,'justo' from visita,rutina;
+insert into public.turnos(alumno_id,numero,estado,creado_en)
+select id,1,'expirado',now()-interval '3 days' from public.alumnos where rut='00.000.001-F';
+SQL
 versiones
 funciones >"$RUNNER_TEMP/funciones-018"
 permisos >"$RUNNER_TEMP/permisos-018"
@@ -85,6 +96,7 @@ for archivo in supabase/pruebas/*.sql; do
   suite "$archivo" || resultado=1
 done
 bash supabase/pruebas/cron_concurrencia_019.sh || resultado=1
+db -qc "select cron.alter_job(jobid, active:=false) from cron.job where jobname='aforofit-reconciliar-aforo'"
 historicos >"$RUNNER_TEMP/historia-con-cron"
 db -q -f supabase/reversion/019_estabilidad_final.sql
 funciones >"$RUNNER_TEMP/funciones-reversion"

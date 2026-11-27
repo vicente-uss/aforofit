@@ -1,7 +1,7 @@
 "use client";
 
 import { ListOrdered } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EstadoVacio } from "@/components/marca/estado-vacio";
 import { Insignia } from "@/components/marca/insignia";
 import { EncabezadoPagina, EncabezadoTarjeta, Tarjeta } from "@/components/marca/tarjeta";
@@ -21,43 +21,45 @@ export function ListaEspera() {
   const [errorTurnos, setErrorTurnos] = useState(false);
   const [sinDatosAforo, setSinDatosAforo] = useState(false);
   const supabaseRef = useRef(createClient());
-  const peticionRef = useRef(0);
-  const diaRef = useRef<string | null>(null);
   const [diaTurnos, setDiaTurnos] = useState<string | null>(null);
-
-  const leer = useCallback(async () => {
-    const supabase = supabaseRef.current;
-    const peticion = ++peticionRef.current;
-    const dia = diaSantiago(new Date());
-    const { desde, hasta } = rangoDia(dia);
-    if (diaRef.current !== dia) {
-      diaRef.current = dia;
-      setDiaTurnos(dia);
-      setTurnos([]);
-      setErrorTurnos(false);
-    }
-    const [respuestaTurnos, respuestaAforo] = await Promise.all([
-      supabase
-        .from("turnos")
-        .select("numero, estado, creado_en, alumnos(nombre)")
-        .in("estado", ["esperando", "llamado"])
-        .gte("creado_en", desde)
-        .lt("creado_en", hasta)
-        .order("numero"),
-      supabase.from("aforo").select("ocupacion, capacidad").eq("id", 1).maybeSingle(),
-    ]);
-    if (!consultaEsperaVigente(peticion, peticionRef.current, dia, new Date())) return;
-    if (respuestaTurnos.error) console.error("Error al leer turnos:", respuestaTurnos.error);
-    if (respuestaAforo.error) console.error("Error al leer el aforo:", respuestaAforo.error);
-    // Cada lectura informa su propio error: si falla el aforo, los turnos se siguen mostrando.
-    setErrorTurnos(Boolean(respuestaTurnos.error));
-    setSinDatosAforo(Boolean(respuestaAforo.error) || !respuestaAforo.data);
-    setTurnos(respuestaTurnos.error ? [] : normalizarTurnos(respuestaTurnos.data));
-    setAforo(respuestaAforo.error ? null : respuestaAforo.data as Aforo | null);
-  }, []);
 
   useEffect(() => {
     const supabase = supabaseRef.current;
+    let peticionVigente = 0;
+    let diaVigente: string | null = null;
+    let activo = true;
+
+    const leer = async () => {
+      if (!activo) return;
+      const peticion = ++peticionVigente;
+      const dia = diaSantiago(new Date());
+      const { desde, hasta } = rangoDia(dia);
+      if (diaVigente !== dia) {
+        diaVigente = dia;
+        setDiaTurnos(dia);
+        setTurnos([]);
+        setErrorTurnos(false);
+      }
+      const [respuestaTurnos, respuestaAforo] = await Promise.all([
+        supabase
+          .from("turnos")
+          .select("numero, estado, creado_en, alumnos(nombre)")
+          .in("estado", ["esperando", "llamado"])
+          .gte("creado_en", desde)
+          .lt("creado_en", hasta)
+          .order("numero"),
+        supabase.from("aforo").select("ocupacion, capacidad").eq("id", 1).maybeSingle(),
+      ]);
+      if (!activo || !consultaEsperaVigente(peticion, peticionVigente, dia, new Date())) return;
+      if (respuestaTurnos.error) console.error("Error al leer turnos:", respuestaTurnos.error);
+      if (respuestaAforo.error) console.error("Error al leer el aforo:", respuestaAforo.error);
+      // Cada lectura informa su propio error: si falla el aforo, los turnos se siguen mostrando.
+      setErrorTurnos(Boolean(respuestaTurnos.error));
+      setSinDatosAforo(Boolean(respuestaAforo.error) || !respuestaAforo.data);
+      setTurnos(respuestaTurnos.error ? [] : normalizarTurnos(respuestaTurnos.data));
+      setAforo(respuestaAforo.error ? null : respuestaAforo.data as Aforo | null);
+    };
+
     void leer();
     // La reconciliación de aforo notifica cambios de turnos, también desde Cron.
     // No se publica la tabla turnos en Realtime.
@@ -71,11 +73,11 @@ export function ListaEspera() {
       .subscribe();
     const intervalo = setInterval(leer, INTERVALO_RESPALDO_MS);
     return () => {
-      ++peticionRef.current;
+      activo = false;
       clearInterval(intervalo);
       void supabase.removeChannel(canal);
     };
-  }, [leer]);
+  }, []);
 
   const turnosHoy = diaTurnos === diaSantiago(new Date()) ? turnos : [];
 
