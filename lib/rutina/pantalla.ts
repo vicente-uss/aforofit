@@ -58,6 +58,7 @@ export type EstadoAlumno = {
   feedbackUltimaVisita: boolean; // ya existe feedback para la última visita
   feedbackOmitido: boolean; // el alumno tocó «Ahora no» para la última visita
   cambiandoObjetivo: boolean;
+  generacionHabilitada?: boolean;
   ahora: Date;
 };
 
@@ -90,14 +91,15 @@ export function salioHoy(visita: Visita | null, ahora: Date): boolean {
 export function pantallaAlumno(estado: EstadoAlumno): Pantalla {
   const { alumno, ultimaVisita } = estado;
   if (alumno === null) return "sin_alumno";
-  if (alumno.objetivo === null || alumno.nivel === null || estado.cambiandoObjetivo) return "elegir_objetivo";
-  if (!estado.hayRutina) return "sin_rutina";
-  if (estaAdentro(ultimaVisita)) return "adentro";
+  if (estado.generacionHabilitada !== false && (
+    estado.cambiandoObjetivo || (!estado.hayRutina && !estado.feedbackUltimaVisita && (alumno.objetivo === null || alumno.nivel === null))
+  )) return "elegir_objetivo";
+  if (estado.hayRutina && estaAdentro(ultimaVisita)) return "adentro";
   if (salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita!)) {
     if (estado.feedbackUltimaVisita) return "feedback_enviado";
-    if (!estado.feedbackOmitido) return "esperando_feedback";
+    if (estado.hayRutina && !estado.feedbackOmitido) return "esperando_feedback";
   }
-  return "fuera";
+  return estado.hayRutina ? "fuera" : "sin_rutina";
 }
 
 // --- Validación de lo que llega de Supabase ------------------------------------------------

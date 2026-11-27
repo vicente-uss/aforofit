@@ -61,9 +61,14 @@ export type ErrorRutina = { titulo: string; detalle: string };
 
 // Errores conocidos: las funciones los lanzan con el código en error.message (011_rutinas.sql).
 const ERRORES: Record<string, ErrorRutina> = {
+  modalidad_deshabilitada: { titulo: "Modalidad deshabilitada", detalle: "Elige una modalidad habilitada." },
+  rutina_modificada: { titulo: "La rutina ya cambió", detalle: "Abre la versión actual para editarla." },
+  rutina_invalida: { titulo: "Rutina incompleta", detalle: "Ingresa un nombre y agrega entre 1 y 50 ejercicios." },
+  ejercicios_invalidos: { titulo: "Revisa los ejercicios", detalle: "Verifica los nombres, las máquinas, la carga, las series y las repeticiones o minutos." },
+  visita_abierta: { titulo: "Tu visita sigue abierta", detalle: "Pasa tu credencial al salir para responder." },
   feedback_ya_registrado: {
     titulo: "Ya respondiste por esta visita",
-    detalle: "Tus cargas ya se ajustaron. Vuelve a responder después de tu próxima visita.",
+    detalle: "Tu respuesta quedó guardada. Vuelve a responder después de tu próxima visita.",
   },
   visita_cierre_automatico: {
     titulo: "Tu visita se cerró sola",

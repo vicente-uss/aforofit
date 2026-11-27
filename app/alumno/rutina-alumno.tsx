@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { CircleCheck, Sparkles, UserX } from "lucide-react";
 import { Aviso } from "@/components/marca/aviso";
@@ -33,6 +34,8 @@ const ERRORES_QUE_RELEEN = [
   "visita_cierre_manual",
   "sin_visita",
   "rutina_inactiva",
+  "visita_abierta",
+  "modalidad_deshabilitada",
 ];
 
 /**
@@ -48,7 +51,7 @@ export function RutinaAlumno() {
   const [error, setError] = useState<ErrorRutina | null>(null);
   // Cargas antes de responder, para mostrar «antes → ahora» en «Tu próxima sesión».
   const [cargasAntes, setCargasAntes] = useState<Record<number, number | null> | null>(null);
-  const [respuesta, setRespuesta] = useState<ValorFeedback | null>(null);
+  const [respuesta, setRespuesta] = useState<{ valor: ValorFeedback; visitaId: string } | null>(null);
 
   if (!datos) {
     return (
@@ -58,14 +61,16 @@ export function RutinaAlumno() {
     );
   }
 
-  const { alumno, ejercicios, ultimaVisita } = datos;
+  const { alumno, ejercicios, ultimaVisita, generacionHabilitada, nombreRutina } = datos;
+  const respuestaActual = respuesta?.visitaId === ultimaVisita?.id ? respuesta : null;
   const pantalla = pantallaAlumno({
     alumno,
     hayRutina: ejercicios.length > 0,
     ultimaVisita,
-    feedbackUltimaVisita: datos.feedbackUltimaVisita,
+    feedbackUltimaVisita: datos.feedbackRutinaId !== null,
     feedbackOmitido: ultimaVisita !== null && omitidas.includes(ultimaVisita.id),
     cambiandoObjetivo,
+    generacionHabilitada,
     ahora: new Date(),
   });
 
@@ -108,16 +113,23 @@ export function RutinaAlumno() {
 
   async function responder(valor: ValorFeedback) {
     const rutinaId = ejercicios[0]?.rutina_id;
-    if (!rutinaId) return;
+    if (!rutinaId || !ultimaVisita) return;
     const antes = cargasPorOrden(ejercicios);
-    const ok = await ejecutar(() => supabase.rpc("registrar_feedback", { p_rutina: rutinaId, p_valor: valor }));
+    const ok = await ejecutar(async () => {
+      const nueva = await supabase.rpc("registrar_feedback_visita", {
+        p_visita: ultimaVisita.id, p_rutina: rutinaId, p_valor: valor,
+      });
+      return nueva.error?.code === "PGRST202"
+        ? supabase.rpc("registrar_feedback", { p_rutina: rutinaId, p_valor: valor })
+        : nueva;
+    });
     if (ok) {
       setCargasAntes(antes);
-      setRespuesta(valor);
+      setRespuesta({ valor, visitaId: ultimaVisita.id });
     }
   }
 
-  const botonCambiar = alumno?.objetivo && alumno.nivel && pantalla !== "elegir_objetivo" && (
+  const botonCambiar = generacionHabilitada && alumno?.objetivo && alumno.nivel && pantalla !== "elegir_objetivo" && (
     <Tarjeta className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
       <span className="text-sm">
         <span className="text-tinta-suave">Objetivo: </span>
@@ -165,12 +177,15 @@ export function RutinaAlumno() {
       {pantalla === "sin_rutina" && (
         <Tarjeta className="pb-5">
           <EstadoVacio icono={Sparkles} titulo={TEXTOS.sinRutinaTitulo} className="pb-5">
-            {TEXTOS.sinRutinaDetalle}
+            Elige una rutina disponible{generacionHabilitada ? " o genera una con tu objetivo y nivel." : "."}
           </EstadoVacio>
-          <div className="px-5">
-            <Button size="lg" className="w-full" disabled={ocupado} onClick={generarRutina}>
-              {ocupado ? "Generando…" : "Generar mi rutina"}
-            </Button>
+          <div className="space-y-2 px-5">
+            <Button asChild variant="outline" className="w-full"><Link href="/alumno/rutinas">Elegir rutina</Link></Button>
+            {generacionHabilitada && (
+              <Button size="lg" className="w-full" disabled={ocupado} onClick={generarRutina}>
+                {ocupado ? "Generando…" : "Generar mi rutina"}
+              </Button>
+            )}
           </div>
         </Tarjeta>
       )}
@@ -185,13 +200,16 @@ export function RutinaAlumno() {
       {pantalla === "esperando_feedback" && (
         <PreguntaFeedback
           ocupado={ocupado}
+          ajustaCargas={ejercicios[0]?.origen === "sistema"}
           onResponder={responder}
           onOmitir={() => ultimaVisita && setOmitidas((previas) => [...previas, ultimaVisita.id])}
         />
       )}
 
       {pantalla === "feedback_enviado" && (
-        <ProximaSesion cambios={compararCargas(cargasAntes, ejercicios)} respuesta={respuesta} />
+        ejercicios[0]?.origen === "sistema" && datos.feedbackRutinaId === ejercicios[0].rutina_id
+          ? <ProximaSesion cambios={compararCargas(respuestaActual ? cargasAntes : null, ejercicios)} respuesta={respuestaActual?.valor ?? null} />
+          : <Aviso tono="green" role="status" titulo="Feedback registrado" />
       )}
 
       {pantalla === "fuera" && (
@@ -206,6 +224,7 @@ export function RutinaAlumno() {
           {pantalla === "esperando_feedback" && (
             <h2 className="pt-2 text-[15px] font-semibold text-navy-900">Tu rutina de hoy</h2>
           )}
+          {nombreRutina && <p className="break-words text-lg font-semibold text-navy-900">{nombreRutina}</p>}
           <ListaEjercicios ejercicios={ejercicios} />
         </>
       )}

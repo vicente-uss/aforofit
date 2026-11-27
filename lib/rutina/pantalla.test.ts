@@ -47,14 +47,29 @@ describe("pantallaAlumno", () => {
     expect(pantallaAlumno(estado({ alumno: null }))).toBe("sin_alumno");
   });
   it("sin objetivo o sin nivel: elegir objetivo (B1)", () => {
-    expect(pantallaAlumno(estado({ alumno: { ...ALUMNO, objetivo: null } }))).toBe("elegir_objetivo");
-    expect(pantallaAlumno(estado({ alumno: { ...ALUMNO, nivel: null } }))).toBe("elegir_objetivo");
+    expect(pantallaAlumno(estado({ hayRutina: false, alumno: { ...ALUMNO, objetivo: null } }))).toBe("elegir_objetivo");
+    expect(pantallaAlumno(estado({ hayRutina: false, alumno: { ...ALUMNO, nivel: null } }))).toBe("elegir_objetivo");
   });
   it("«Cambiar objetivo» vuelve a elegir aunque ya tenga rutina", () => {
     expect(pantallaAlumno(estado({ cambiandoObjetivo: true, ultimaVisita: visita() }))).toBe("elegir_objetivo");
   });
   it("con objetivo pero sin rutina activa: ofrecer generarla", () => {
     expect(pantallaAlumno(estado({ hayRutina: false }))).toBe("sin_rutina");
+  });
+  it("una rutina personalizada aparece aunque el alumno no haya elegido objetivo", () => {
+    expect(pantallaAlumno(estado({
+      alumno: { ...ALUMNO, objetivo: null, nivel: null }, ultimaVisita: visita(),
+    }))).toBe("adentro");
+  });
+  it("omite el generador si la modalidad del sistema está deshabilitada", () => {
+    expect(pantallaAlumno(estado({
+      generacionHabilitada: false, hayRutina: false, alumno: { ...ALUMNO, nivel: null },
+    }))).toBe("sin_rutina");
+  });
+  it("recuerda el feedback guardado si se archivó la rutina activa", () => {
+    expect(pantallaAlumno(estado({
+      hayRutina: false, feedbackUltimaVisita: true, ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z" }),
+    }))).toBe("feedback_enviado");
   });
   it("sin visitas: fuera del gimnasio", () => {
     expect(pantallaAlumno(estado())).toBe("fuera");

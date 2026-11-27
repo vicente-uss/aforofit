@@ -17,10 +17,12 @@ const CARA: Record<ValorFeedback, { icono: LucideIcon; circulo: string; borde: s
 // B4 (RF18, CU03): se muestra solo después de la salida.
 export function PreguntaFeedback({
   ocupado,
+  ajustaCargas,
   onResponder,
   onOmitir,
 }: {
   ocupado: boolean;
+  ajustaCargas: boolean;
   onResponder: (valor: ValorFeedback) => void;
   onOmitir: () => void;
 }) {
@@ -31,7 +33,7 @@ export function PreguntaFeedback({
           Salida registrada
         </Insignia>
         <h2 className="text-[22px] font-semibold leading-tight text-navy-900">{TEXTOS.feedbackTitulo}</h2>
-        <p className="text-sm text-tinta-suave">{TEXTOS.feedbackDetalle}</p>
+        <p className="text-sm text-tinta-suave">{ajustaCargas ? TEXTOS.feedbackDetalle : "Tu respuesta queda guardada en el historial de la visita."}</p>
       </div>
       <div className="grid grid-cols-3 gap-2">
         {VALORES_FEEDBACK.map((valor) => {

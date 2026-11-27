@@ -1,0 +1,89 @@
+name: Certificación desechable 023
+on:
+  push:
+    branches: [rutinas-personalizadas]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  aplicacion:
+    name: Vitest, lint, build y auditoría npm
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: local-build
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+        if: "!cancelled()"
+      - run: npm run build
+        if: "!cancelled()"
+      - run: npm audit
+        if: "!cancelled()"
+      - run: npm audit --omit=dev
+        if: "!cancelled()"
+  integracion:
+    name: Supabase desechable · ${{ matrix.grupo }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        grupo: [actualizacion, limpia]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+      - name: Levantar Supabase desechable
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+          supabase init
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
+      - name: SQL, instalación, actualización y reversión
+        run: bash .github/qa-023-sql.sh ${{ matrix.grupo }}
+      - name: Chromium a 360 px y Realtime
+        if: matrix.grupo == 'limpia'
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          export NEXT_PUBLIC_SUPABASE_URL="$API_URL"
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$ANON_KEY"
+          export AFOROFIT_TEST_DATABASE_URL="$DB_URL"
+          export NEXT_TELEMETRY_DISABLED=1
+          npm ci --no-audit
+          npm run build
+          npm install --prefix "$RUNNER_TEMP/qa-023" --no-save playwright@1.65.1
+          "$RUNNER_TEMP/qa-023/node_modules/.bin/playwright" install --with-deps chromium
+          cp .github/qa-{019-realtime,023-movil}.mjs "$RUNNER_TEMP/qa-023/"
+          npm start -- --hostname 127.0.0.1 >"$RUNNER_TEMP/next-023.log" 2>&1 &
+          trap 'cat "$RUNNER_TEMP/next-023.log"' EXIT
+          for intento in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/auth/login >/dev/null; then break; fi
+            sleep 1
+          done
+          mkdir -p "$RUNNER_TEMP/evidencia-023"
+          node "$RUNNER_TEMP/qa-023/qa-023-movil.mjs" "$RUNNER_TEMP/evidencia-023"
+          node "$RUNNER_TEMP/qa-023/qa-019-realtime.mjs"
+      - uses: actions/upload-artifact@v4
+        if: matrix.grupo == 'limpia' && !cancelled()
+        with:
+          name: rutinas-personalizadas-360px
+          path: ${{ runner.temp }}/evidencia-023/*.png
+      - name: Destruir Supabase desechable
+        if: always()
+        run: supabase stop --no-backup
