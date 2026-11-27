@@ -23,6 +23,9 @@ esperar_cron() {
     sleep 1
   done
   echo "Cron no completó: $descripcion" >&2
+  db -c "select d.status, d.start_time, d.end_time, d.return_message
+    from cron.job_run_details d join cron.job j using(jobid)
+    where j.jobname='aforofit-reconciliar-aforo' order by d.start_time desc limit 5"
   return 1
 }
 
@@ -116,6 +119,7 @@ SQL
 visita=$(db -Atc "select v.id from public.visitas v join public.alumnos a on a.id=v.alumno_id
   where a.rut='EST019-C-3' and v.salida is null")
 [[ -n "$visita" ]]
+inicio_carrera=$(db -Atc 'select clock_timestamp()')
 
 como() {
   local rol=$1 consulta=$2
@@ -152,6 +156,10 @@ for pid in "$barrera" "$ingreso" "$qr" "$manual" "$configuracion"; do
   wait "$pid" || fallo=1
 done
 [[ "$fallo" == 0 ]]
+esperar_cron 'Cron terminó exitosamente después de competir por aforo' "
+  select exists(select from cron.job_run_details d join cron.job j using(jobid)
+  where j.jobname='aforofit-reconciliar-aforo' and d.status='succeeded'
+    and d.start_time >= '$inicio_carrera'::timestamptz)"
 
 db -v visita="$visita" <<'SQL'
 select set_config('aforofit_qa.visita', :'visita',false);
@@ -172,3 +180,22 @@ begin
 end;
 $$;
 SQL
+
+# El mismo UID nunca puede terminar asociado a dos alumnos aunque ambas RPC se solapen.
+resultados=$(mktemp -d)
+trap 'rm -f "$resultados/tne" "$resultados/tui"; rmdir "$resultados"' EXIT
+como profesor "select public.vincular_credencial('FC:19:CC:0F',id)
+  from public.alumnos where rut='EST019-C-1'" >"$resultados/tne" & tne=$!
+como profesor "select public.vincular_credencial('FC:19:CC:0F',id,'credencial_uss')
+  from public.alumnos where rut='EST019-C-2'" >"$resultados/tui" & tui=$!
+fallo=0
+for pid in "$tne" "$tui"; do
+  wait "$pid" || fallo=1
+done
+[[ "$fallo" == 0 ]]
+[[ $(grep -hFc '"ok": true' "$resultados/tne" "$resultados/tui" | awk '{s+=$1} END{print s}') == 1 ]]
+[[ $(grep -hFc '"motivo": "credencial_de_otro_alumno"' "$resultados/tne" "$resultados/tui" | awk '{s+=$1} END{print s}') == 1 ]]
+[[ $(db -Atc "select count(*) from public.tarjetas t join public.alumnos a on a.id=t.alumno_id
+  where t.uid='FC:19:CC:0F' and ((a.rut='EST019-C-1' and t.tipo='tne')
+    or (a.rut='EST019-C-2' and t.tipo='credencial_uss'))") == 1 ]]
+echo 'OK: Vinculación simultánea TNE/TUI conserva un solo titular y devuelve conflicto JSON'

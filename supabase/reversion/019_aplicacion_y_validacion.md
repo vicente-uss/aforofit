@@ -1,6 +1,6 @@
-# 019 — aplicación, reversión y validación pendiente
+# 019 — aplicación, reversión y validación
 
-**Candidato no certificado.** No aplicar a producción ni fusionar hasta ejecutar todas las pruebas y auditar. No se ha ejecutado PostgreSQL ni Vitest en el entorno de autoría.
+Los resultados, el commit certificado y la revisión se registran en el [PR #23](https://github.com/vicente-uss/aforofit/pull/23). El flujo de certificación usa Docker y Supabase CLI con PostgreSQL desechable dentro del runner.
 
 ## Decisiones
 
@@ -18,7 +18,7 @@
    select jobid, jobname, schedule, command, username, active
    from cron.job where jobname='aforofit-reconciliar-aforo';
    ```
-3. Ejecutar todas las suites Vitest y SQL (incluida la prueba de migración 017 en base separada), lint, build, auditorías npm completa y producción. Reproducir primero los defectos desde main, registrar los resultados.
+3. Ejecutar todas las suites Vitest y SQL, lint, build y ambas auditorías npm. Ejecutar la suite de migración 017 cuando la base aún esté en 015. Registrar los resultados por suite.
 4. Ejecutar `psql -v ON_ERROR_STOP=1 -f supabase/pruebas/estabilidad_019.sql` en la base local; ejecutar `bash supabase/pruebas/cron_concurrencia_019.sh` únicamente con URL local desechable y confirmación `AFOROFIT_TEST_DESTRUCTIVO=SI`. Destruir la base al terminar.
 5. Verificar en navegador Realtime de /aforo y /profesor/espera, UTC y Santiago, cruces de fecha y carreras con configuración; cubrir también feedback, QR, historial, préstamos, roles, TNE y TUI.
 6. Revisar historial del trabajo, sin errores ni duplicados:
@@ -41,4 +41,4 @@ Cron usa pg_cron dentro de Postgres, sin Vercel Cron, Edge Functions o servicios
 - https://supabase.com/pricing
 - https://supabase.com/docs/guides/platform/free-project-pausing
 
-Bloqueantes: instalación limpia/reaplicación, concurrencia real, permisos efectivos, ejecución real del trabajo, regresiones y Realtime aún sin validar. El resultado previo 497/497 corresponde a 018, no a 019.
+La línea base de 018 es de 497 comprobaciones. El PR documenta la instalación limpia, reaplicación, concurrencia, permisos, Cron, regresiones y Realtime en 019.

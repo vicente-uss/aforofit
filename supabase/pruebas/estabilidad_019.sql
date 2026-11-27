@@ -117,7 +117,8 @@ begin
   if v_profesor is null then raise exception 'Falta profesor ficticio'; end if;
   perform set_config('request.jwt.claims',jsonb_build_object('sub',v_profesor,'role','authenticated')::text,true);
   execute 'set local role authenticated';
-  foreach uid in array array[null::text,'','FC:19:00','fc:19:00:01','FC:19:00:GG','FC:19:00:01:02'] loop
+  foreach uid in array array[null::text,'','FC:19:00','fc:19:00:01','FC:19:00:GG','FC:19:00:Á1',
+    'FC:19:00:01:02',E'FC:19:00:01\n'] loop
     r := public.vincular_credencial(uid,v_alumno,'tne');
     perform pg_temp.ok('UID inválido retorna JSON sin excepción',r='{"ok":false,"motivo":"uid_invalido"}'::jsonb);
   end loop;
@@ -135,6 +136,8 @@ select pg_temp.ok('Cron único y activo',
 select pg_temp.ok('Cron y bloqueo privados sin EXECUTE para roles web',
   not has_function_privilege('anon','privado.procesar_aforo_programado()','EXECUTE')
   and not has_function_privilege('authenticated','privado.procesar_aforo_programado()','EXECUTE')
+  and not has_function_privilege('service_role','privado.procesar_aforo_programado()','EXECUTE')
   and not has_function_privilege('anon','privado.bloquear_configuracion_aforo()','EXECUTE')
-  and not has_function_privilege('authenticated','privado.bloquear_configuracion_aforo()','EXECUTE'));
+  and not has_function_privilege('authenticated','privado.bloquear_configuracion_aforo()','EXECUTE')
+  and not has_function_privilege('service_role','privado.bloquear_configuracion_aforo()','EXECUTE'));
 rollback;

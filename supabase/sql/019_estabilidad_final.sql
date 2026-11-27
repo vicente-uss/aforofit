@@ -272,7 +272,7 @@ begin
   if p_tipo is null or p_tipo not in ('tne','credencial_uss') then
     return jsonb_build_object('ok', false, 'motivo', 'tipo_invalido');
   end if;
-  if p_uid is null or p_uid !~ '^[0-9A-F]{2}(:[0-9A-F]{2}){3}((:[0-9A-F]{2}){3}){0,2}$' then
+  if p_uid is null or p_uid collate "C" !~ '^[0-9A-F]{2}(:[0-9A-F]{2}){3}((:[0-9A-F]{2}){3}){0,2}$' then
     return jsonb_build_object('ok', false, 'motivo', 'uid_invalido');
   end if;
   if not exists (select 1 from public.alumnos a where a.id = p_alumno_id) then

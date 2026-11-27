@@ -114,7 +114,7 @@ diff -u "$RUNNER_TEMP/historia-con-cron" "$RUNNER_TEMP/historia-reaplicacion"
 echo 'APROBADOS datos históricos y trabajo ajeno durante reversión y reaplicación'
 
 supabase stop --no-backup
-supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit
+supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit >/dev/null
 credenciales
 cuentas
 base_015
