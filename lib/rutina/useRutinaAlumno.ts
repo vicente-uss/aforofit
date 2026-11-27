@@ -14,8 +14,10 @@ import {
 export type DatosAlumno = {
   alumno: AlumnoPropio | null;
   ejercicios: EjercicioDelDia[];
+  nombreRutina: string | null;
+  generacionHabilitada: boolean;
   ultimaVisita: Visita | null;
-  feedbackUltimaVisita: boolean;
+  feedbackRutinaId: string | null;
 };
 
 // Respaldo por si Realtime se desconecta (riesgo R04), igual que /aforo.
@@ -33,13 +35,16 @@ export function useRutinaAlumno() {
   const [datos, setDatos] = useState<DatosAlumno | null>(null);
   const [sinConexion, setSinConexion] = useState(false);
   const [alumnoId, setAlumnoId] = useState<string | null>(null);
+  const revision = useRef(0);
   const supabaseRef = useRef(createClient());
 
   const leer = useCallback(async () => {
+    const lectura = ++revision.current;
     const supabase = supabaseRef.current;
 
     // RLS de alumnos (007): el alumno solo ve su propia fila.
     const respuestaAlumno = await supabase.from("alumnos").select("id, nombre, objetivo, nivel").maybeSingle();
+    if (lectura !== revision.current) return;
     if (respuestaAlumno.error) {
       setSinConexion(true);
       return;
@@ -47,11 +52,11 @@ export function useRutinaAlumno() {
     const alumno = normalizarAlumno(respuestaAlumno.data);
     if (!alumno) {
       setSinConexion(false);
-      setDatos({ alumno: null, ejercicios: [], ultimaVisita: null, feedbackUltimaVisita: false });
+      setDatos({ alumno: null, ejercicios: [], nombreRutina: null, generacionHabilitada: false, ultimaVisita: null, feedbackRutinaId: null });
       return;
     }
 
-    const [respuestaRutina, respuestaVisita] = await Promise.all([
+    const [respuestaRutina, respuestaVisita, modalidades] = await Promise.all([
       supabase.rpc("rutina_del_dia"),
       supabase
         .from("visitas")
@@ -60,36 +65,48 @@ export function useRutinaAlumno() {
         .select("*")
         .eq("alumno_id", alumno.id)
         .order("entrada", { ascending: false })
+        .order("id", { ascending: false })
         .limit(1)
         .maybeSingle(),
+      supabase.rpc("modalidades_de_rutina"),
     ]);
-    if (respuestaRutina.error || respuestaVisita.error) {
+    if (lectura !== revision.current) return;
+    if (respuestaRutina.error || respuestaVisita.error || (modalidades.error && modalidades.error.code !== "PGRST202")) {
       setSinConexion(true);
       return;
     }
 
     const ultimaVisita = normalizarVisita(respuestaVisita.data);
-    let feedbackUltimaVisita = false;
+    const ejercicios = normalizarEjercicios(respuestaRutina.data);
+    const idRutina = ejercicios[0]?.rutina_id;
+    const nombreRutina = idRutina && ejercicios[0].origen !== "sistema"
+      ? (await supabase.from("rutinas").select("nombre").eq("id", idRutina).maybeSingle()).data?.nombre ?? null
+      : null;
+    let feedbackRutinaId: string | null = null;
     if (ultimaVisita) {
       const respuestaFeedback = await supabase
         .from("feedback")
-        .select("id")
+        .select("rutina_id")
         .eq("visita_id", ultimaVisita.id)
         .maybeSingle();
+      if (lectura !== revision.current) return;
       if (respuestaFeedback.error) {
         setSinConexion(true);
         return;
       }
-      feedbackUltimaVisita = respuestaFeedback.data !== null;
+      feedbackRutinaId = respuestaFeedback.data?.rutina_id ?? null;
     }
 
+    if (lectura !== revision.current) return;
     setSinConexion(false);
     setAlumnoId(alumno.id);
     setDatos({
       alumno,
-      ejercicios: normalizarEjercicios(respuestaRutina.data),
+      ejercicios,
+      nombreRutina,
+      generacionHabilitada: modalidades.data?.sistema === true || modalidades.error?.code === "PGRST202",
       ultimaVisita,
-      feedbackUltimaVisita,
+      feedbackRutinaId,
     });
   }, []);
 
@@ -109,24 +126,7 @@ export function useRutinaAlumno() {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "visitas", filter: `alumno_id=eq.${alumnoId}` },
-        (cambio) => {
-          // La fila nueva se aplica al tiro para cambiar de pantalla sin esperar (CA11, 2 s o menos);
-          // después se relee todo para traer la rutina y el feedback al día.
-          const visita = cambio.eventType === "DELETE" ? null : normalizarVisita(cambio.new);
-          if (visita) {
-            setDatos((previos) =>
-              previos
-                ? {
-                    ...previos,
-                    ultimaVisita: visita,
-                    feedbackUltimaVisita:
-                      previos.ultimaVisita?.id === visita.id ? previos.feedbackUltimaVisita : false,
-                  }
-                : previos,
-            );
-          }
-          void leer();
-        },
+        () => { void leer(); },
       )
       .subscribe();
     return () => {

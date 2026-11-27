@@ -47,14 +47,29 @@ describe("pantallaAlumno", () => {
     expect(pantallaAlumno(estado({ alumno: null }))).toBe("sin_alumno");
   });
   it("sin objetivo o sin nivel: elegir objetivo (B1)", () => {
-    expect(pantallaAlumno(estado({ alumno: { ...ALUMNO, objetivo: null } }))).toBe("elegir_objetivo");
-    expect(pantallaAlumno(estado({ alumno: { ...ALUMNO, nivel: null } }))).toBe("elegir_objetivo");
+    expect(pantallaAlumno(estado({ hayRutina: false, alumno: { ...ALUMNO, objetivo: null } }))).toBe("elegir_objetivo");
+    expect(pantallaAlumno(estado({ hayRutina: false, alumno: { ...ALUMNO, nivel: null } }))).toBe("elegir_objetivo");
   });
   it("«Cambiar objetivo» vuelve a elegir aunque ya tenga rutina", () => {
     expect(pantallaAlumno(estado({ cambiandoObjetivo: true, ultimaVisita: visita() }))).toBe("elegir_objetivo");
   });
   it("con objetivo pero sin rutina activa: ofrecer generarla", () => {
     expect(pantallaAlumno(estado({ hayRutina: false }))).toBe("sin_rutina");
+  });
+  it("una rutina personalizada aparece aunque el alumno no haya elegido objetivo", () => {
+    expect(pantallaAlumno(estado({
+      alumno: { ...ALUMNO, objetivo: null, nivel: null }, ultimaVisita: visita(),
+    }))).toBe("adentro");
+  });
+  it("omite el generador si la modalidad del sistema está deshabilitada", () => {
+    expect(pantallaAlumno(estado({
+      generacionHabilitada: false, hayRutina: false, alumno: { ...ALUMNO, nivel: null },
+    }))).toBe("sin_rutina");
+  });
+  it("recuerda el feedback guardado si se archivó la rutina activa", () => {
+    expect(pantallaAlumno(estado({
+      hayRutina: false, feedbackUltimaVisita: true, ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z" }),
+    }))).toBe("feedback_enviado");
   });
   it("sin visitas: fuera del gimnasio", () => {
     expect(pantallaAlumno(estado())).toBe("fuera");
@@ -66,6 +81,16 @@ describe("pantallaAlumno", () => {
     expect(pantallaAlumno(estado({ ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z" }) }))).toBe(
       "esperando_feedback",
     );
+  });
+  it("muestra la nueva rutina sin pedir feedback de una visita que cerró sin rutina", () => {
+    expect(pantallaAlumno(estado({
+      ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z", rutina_id: null }),
+    }))).toBe("fuera");
+  });
+  it("mantiene la consulta de feedback si la visita cerró con una rutina vinculada", () => {
+    expect(pantallaAlumno(estado({
+      ultimaVisita: visita({ salida: "2026-12-07T13:30:00Z", rutina_id: "r1" }),
+    }))).toBe("esperando_feedback");
   });
   it("salió hoy y ya respondió: feedback enviado", () => {
     expect(
@@ -157,6 +182,16 @@ describe("normalizarVisita y normalizarAlumno", () => {
       cierre_automatico: false,
       cerrada_por: null,
     });
+  });
+  it("distingue una visita cerrada sin rutina de una fila anterior a 023", () => {
+    const base = visita({ salida: "2026-12-07T13:30:00Z" });
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: null })).toEqual({ ...base, rutina_id: null });
+    expect(normalizarVisita({ ...base, rutina_fijada: null, rutina_id: null })).toEqual(base);
+  });
+  it("conserva la referencia de una rutina vinculada y descarta referencias inválidas", () => {
+    const base = visita();
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: "r1" })).toEqual({ ...base, rutina_id: "r1" });
+    expect(normalizarVisita({ ...base, rutina_fijada: true, rutina_id: 12 })).toBeNull();
   });
   it("visita cerrada a mano trae cerrada_por", () => {
     expect(

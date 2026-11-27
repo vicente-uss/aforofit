@@ -387,6 +387,10 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - F-20, F-27 y F-21 (PR #21, fusionado el 25 de noviembre, `fb43ce2`; commit integrado auditado `61a4012`): 017 agrega devoluciones por cantidad, entrega separada de TNE, selección TNE/TUI y QR de seis caracteres de un solo uso, con vencimiento de dos minutos. Se conserva la firma SQL de un argumento para el cliente 015. Resultados consolidados de Codex: **198 Vitest + 231 SQL locales = 429 comprobaciones aprobadas**, lint/build y vista previa Vercel OK. El coordinador informó completada la validación y el canje manual; falta adjuntar los resultados por suite del Supabase remoto y la evidencia física de cámara y lector (CA31). En el navegador de prueba no apareció el botón de cámara por compatibilidad de BarcodeDetector. No se declara escaneo por cámara aprobado.
 - Se actualiza la cifra de referencia para el afiche a 429 comprobaciones automatizadas locales; falta trasladarla al archivo gráfico y exportar A0.
 
+- F-22, rama `rutinas-personalizadas`: RF13–RF15, CA15, CA16 y CA38 en la migración 023 y las pantallas
+  `/alumno/rutinas` y `/profesor/rutinas`. Estado de esta rama de desarrollo, separado de la entrega comprometida
+  por el CR-01. Ver [contrato de modalidades y validación](docs/contrato-modalidades-rutina-023.md).
+
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
   desde el video de la prueba de Pau: cumple, 1,2 s o menos en 4 lecturas (`docs/medicion-ca29-2026-11-23.md`);

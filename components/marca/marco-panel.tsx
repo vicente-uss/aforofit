@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ClipboardList,
   Dumbbell,
   ExternalLink,
   History,
@@ -39,6 +40,7 @@ const MENU: Record<"profesor" | "admin", { titulo: string; items: Item[] }> = {
       { href: "/profesor/adentro", etiqueta: "Quiénes están adentro", icono: Users },
       { href: "/profesor/prestamos", etiqueta: "Préstamos", icono: Package },
       { href: "/profesor/maquinas", etiqueta: "Mantención", icono: Wrench },
+      { href: "/profesor/rutinas", etiqueta: "Rutinas de alumnos", icono: ClipboardList },
       { href: "/profesor/historial", etiqueta: "Historial", icono: History },
     ],
   },

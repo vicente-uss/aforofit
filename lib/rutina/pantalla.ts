@@ -32,6 +32,7 @@ export type Visita = {
   salida: string | null;
   cierre_automatico: boolean;
   cerrada_por: string | null; // profesor que la cerró a mano (D21, 012); null en salidas normales
+  rutina_id?: string | null; // null si 023 registró una visita sin rutina; ausente en visitas anteriores
 };
 
 export type AlumnoPropio = {
@@ -58,6 +59,7 @@ export type EstadoAlumno = {
   feedbackUltimaVisita: boolean; // ya existe feedback para la última visita
   feedbackOmitido: boolean; // el alumno tocó «Ahora no» para la última visita
   cambiandoObjetivo: boolean;
+  generacionHabilitada?: boolean;
   ahora: Date;
 };
 
@@ -70,9 +72,9 @@ export function diaSantiago(fecha: Date): string {
   return fecha.toLocaleDateString("en-CA", { timeZone: "America/Santiago" });
 }
 
-// Cierre automático (regla 6) o manual del profesor (D21): no se pide feedback.
+// Los cierres automáticos, manuales y las visitas sin rutina registrada quedan sin feedback.
 export function cerradaSinFeedback(visita: Visita): boolean {
-  return visita.cierre_automatico || visita.cerrada_por !== null;
+  return visita.cierre_automatico || visita.cerrada_por !== null || visita.rutina_id === null;
 }
 
 export function estaAdentro(visita: Visita | null): boolean {
@@ -90,14 +92,15 @@ export function salioHoy(visita: Visita | null, ahora: Date): boolean {
 export function pantallaAlumno(estado: EstadoAlumno): Pantalla {
   const { alumno, ultimaVisita } = estado;
   if (alumno === null) return "sin_alumno";
-  if (alumno.objetivo === null || alumno.nivel === null || estado.cambiandoObjetivo) return "elegir_objetivo";
-  if (!estado.hayRutina) return "sin_rutina";
-  if (estaAdentro(ultimaVisita)) return "adentro";
-  if (salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita!)) {
+  if (estado.generacionHabilitada !== false && (
+    estado.cambiandoObjetivo || (!estado.hayRutina && !estado.feedbackUltimaVisita && (alumno.objetivo === null || alumno.nivel === null))
+  )) return "elegir_objetivo";
+  if (estado.hayRutina && estaAdentro(ultimaVisita)) return "adentro";
+  if (ultimaVisita && salioHoy(ultimaVisita, estado.ahora) && !cerradaSinFeedback(ultimaVisita)) {
     if (estado.feedbackUltimaVisita) return "feedback_enviado";
-    if (!estado.feedbackOmitido) return "esperando_feedback";
+    if (estado.hayRutina && !estado.feedbackOmitido) return "esperando_feedback";
   }
-  return "fuera";
+  return estado.hayRutina ? "fuera" : "sin_rutina";
 }
 
 // --- Validación de lo que llega de Supabase ------------------------------------------------
@@ -174,7 +177,12 @@ export function normalizarVisita(data: unknown): Visita | null {
   if (typeof id !== "string" || typeof entrada !== "string") return null;
   if (salida !== null && typeof salida !== "string") return null;
   if (typeof cierre_automatico !== "boolean") return null;
-  return { id, entrada, salida, cierre_automatico, cerrada_por: cerradaPor };
+  const visita = { id, entrada, salida, cierre_automatico, cerrada_por: cerradaPor };
+  // La ausencia de rutina_fijada (o NULL en una fila histórica) conserva la conducta anterior.
+  if (data.rutina_fijada !== true) return visita;
+  const rutinaId = data.rutina_id;
+  if (rutinaId !== null && typeof rutinaId !== "string") return null;
+  return { ...visita, rutina_id: rutinaId };
 }
 
 export function normalizarAlumno(data: unknown): AlumnoPropio | null {
