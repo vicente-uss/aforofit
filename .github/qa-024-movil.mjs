@@ -36,7 +36,7 @@ try {
   await umbral.fill('101');
   await guardar.click();
   await expect(umbral).toHaveAttribute('aria-invalid', 'true');
-  await expect(admin.getByRole('alert')).toContainText('Revisa los campos marcados');
+  await expect(admin.getByRole('alert').filter({ hasText: 'Revisa los campos marcados' })).toBeVisible();
 
   await capacidad.fill('23');
   await umbral.fill('75');

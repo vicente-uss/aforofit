@@ -70,7 +70,7 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [015_prestamos_y_habilitacion.sql](supabase/sql/015_prestamos_y_habilitacion.sql) | Crea préstamos, detalle, vistas de stock y pendientes, devolución completa y habilitación por emisión. | Deduce la emisión desde el vencimiento existente y conserva la vigencia. |
 | [017_devoluciones_qr_tarjetas.sql](supabase/sql/017_devoluciones_qr_tarjetas.sql) | Devoluciones por cantidad, entrega separada de TNE, tipo TNE/TUI y QR de respaldo; conserva la firma anterior de devolución. | Inicializa cantidades devueltas según el estado histórico. |
 
-No existe migración 016; ejecutar 017 después de 015.
+La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
 
 ## Usuarios de prueba
 
@@ -101,7 +101,7 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos, devolver cantidades y entregar la TNE por separado. |
 | `/profesor/historial` | Profesor | Consultar visitas y préstamos por fecha en Santiago. |
 | `/admin` | Administrador | Abrir los módulos de administración. |
-| `/admin/configuracion` | Administrador | Cambiar capacidad, horario por día y horas para cierre automático. |
+| `/admin/configuracion` | Administrador | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |
 | `/admin/habilitacion` | Administrador | Buscar al alumno, revisar su vigencia y registrar la fecha de emisión. |
 
 ## Pruebas
