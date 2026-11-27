@@ -31,9 +31,14 @@ export function useAforo(nombreCanal: string) {
 
   useEffect(() => {
     const supabase = supabaseRef.current;
+    let vigente = 0;
+    let activo = true;
 
     const leer = async () => {
+      if (!activo) return;
+      const peticion = ++vigente;
       const { data, error } = await supabase.from("aforo").select(COLUMNAS).eq("id", 1).maybeSingle();
+      if (!activo || peticion !== vigente) return;
       if (error || !data) {
         setSinConexion(true);
         return;
@@ -51,11 +56,13 @@ export function useAforo(nombreCanal: string) {
         "postgres_changes",
         { event: "*", schema: "public", table: "aforo", filter: "id=eq.1" },
         (cambio) => {
+          if (!activo) return;
           // Un DELETE no trae fila nueva: se vuelve a leer la tabla.
           if (cambio.eventType === "DELETE") {
             void leer();
             return;
           }
+          ++vigente;
           setSinConexion(false);
           setAforo(cambio.new as FilaAforo);
         },
@@ -64,6 +71,7 @@ export function useAforo(nombreCanal: string) {
 
     const intervalo = setInterval(leer, INTERVALO_RESPALDO_MS);
     return () => {
+      activo = false;
       clearInterval(intervalo);
       void supabase.removeChannel(canal);
     };

@@ -1,5 +1,9 @@
 -- Ejecutar en una base de prueba con 018 y las tres cuentas de demostración.
 begin;
+-- Storage activa esta variable durante los borrados por su API. Aquí solo hay
+-- metadatos ficticios y rollback. Las políticas RLS siguen evaluando cada rol.
+set local storage.allow_delete_query = 'true';
+
 create function pg_temp.ok(caso text, correcto boolean) returns void language plpgsql as $$
 begin
   if correcto is not true then raise exception 'FALLÓ: %', caso; end if;

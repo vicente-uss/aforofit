@@ -39,6 +39,7 @@ const MOTIVOS: Record<string, string> = {
   gimnasio_cerrado: "El gimnasio está cerrado hoy",
   sin_permiso: "Esta pantalla requiere la sesión de un profesor",
   credencial_de_otro_alumno: "La credencial ya pertenece a otro alumno", // CA03
+  uid_invalido: "Formato de credencial inválido",
   tipo_invalido: "Elige TNE o TUI",
   alumno_no_encontrado: "Alumno no encontrado",
 };
