@@ -108,8 +108,9 @@ begin
   perform pg_temp.ok('La devolución parcial todavía impide entregar la TNE',
     pg_temp.error_de(format('select public.entregar_tne(%L)',prestamo))='prestamo_abierto');
 
-  perform public.registrar_devolucion(segundo);
-  perform pg_temp.ok('Cliente 015: la misma operación repone la unidad y entrega la TNE',
+  perform public.registrar_devolucion(segundo, null);
+  perform public.entregar_tne(segundo);
+  perform pg_temp.ok('Operaciones separadas reponen la unidad y entregan la TNE',
     (select devuelto=1 from public.prestamo_items where prestamo_id=segundo)
     and (select devuelto_en is not null and tne_devuelta from public.prestamos where id=segundo)
     and (select disponible=1 from public.stock_prestamos where id=basquet));

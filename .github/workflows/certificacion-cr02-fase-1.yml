@@ -1,7 +1,7 @@
 name: Certificación desechable CR-02
 on:
   push:
-    branches: [cr02-inscripcion-acceso, cr02-profesor-admin]
+    branches: [cr02-inscripcion-acceso, cr02-profesor-admin, cr02-prestamos-inventario]
   workflow_dispatch:
 permissions:
   contents: read
@@ -59,7 +59,12 @@ jobs:
           if [[ "$GRUPO_QA" == regresion-019 ]]; then
             bash .github/qa-019.sh
           else
-            bash .github/qa-cr02-fase-1-sql.sh
+            if [[ -f supabase/sql/029_prestamos_inventario.sql ]]; then
+              bash .github/qa-cr02-fase-1-sql.sh fase-3
+              bash .github/qa-cr02-prestamos-concurrencia.sh
+            else
+              bash .github/qa-cr02-fase-1-sql.sh
+            fi
             bash .github/qa-023-concurrencia.sh
             bash .github/qa-024-concurrencia.sh
             psql "$AFOROFIT_TEST_DATABASE_URL" -Xv ON_ERROR_STOP=1 <<'SQL'
@@ -83,7 +88,7 @@ jobs:
           npm run build
           npm install --prefix "$RUNNER_TEMP/qa-cr02" --no-save playwright@1.65.1
           "$RUNNER_TEMP/qa-cr02/node_modules/.bin/playwright" install --with-deps chromium
-          cp .github/qa-{019-realtime,023-movil,024-movil,cr02-fase-1-movil,cr02-modo-admin}.mjs "$RUNNER_TEMP/qa-cr02/"
+          cp .github/qa-{019-realtime,023-movil,024-movil,cr02-fase-1-movil,cr02-modo-admin,cr02-prestamos-movil}.mjs "$RUNNER_TEMP/qa-cr02/"
           npm start -- --hostname 127.0.0.1 >"$RUNNER_TEMP/next-cr02.log" 2>&1 &
           trap 'cat "$RUNNER_TEMP/next-cr02.log"' EXIT
           for intento in {1..30}; do
@@ -96,6 +101,7 @@ jobs:
           node "$RUNNER_TEMP/qa-cr02/qa-019-realtime.mjs"
           node "$RUNNER_TEMP/qa-cr02/qa-cr02-fase-1-movil.mjs" "$RUNNER_TEMP/evidencia-cr02"
           node "$RUNNER_TEMP/qa-cr02/qa-cr02-modo-admin.mjs" "$RUNNER_TEMP/evidencia-cr02"
+          node "$RUNNER_TEMP/qa-cr02/qa-cr02-prestamos-movil.mjs" "$RUNNER_TEMP/evidencia-cr02"
       - uses: actions/upload-artifact@v4
         if: matrix.grupo == 'cr02' && !cancelled()
         with:

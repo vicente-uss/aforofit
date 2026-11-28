@@ -1,6 +1,6 @@
 # CR-02 · Segunda validación y ampliación funcional de AforoFit
 
-**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador, con revisión formal del equipo y del encargado pendiente. El PR #31 integró CR02-01 a CR02-04 con las migraciones 025 a 027. La rama `cr02-profesor-admin` incorpora CR02-06 para revisión con la migración 028. [Configuración y pruebas del modo administrador](cr-02-modo-administrador.md).
+**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador, con revisión formal del equipo y del encargado pendiente. El PR #31 integró CR02-01 a CR02-04 con las migraciones 025 a 027. El PR #32 integró CR02-06 con la migración 028. CR02-05 y CR02-11 pasan a revisión con la migración 029. [Modo administrador](cr-02-modo-administrador.md) · [Préstamos e inventario](cr-02-prestamos-inventario.md).
 **Origen:** apuntes de la segunda validación presencial con el encargado del gimnasio y aclaraciones posteriores del coordinador. No constituye transcripción literal ni acta firmada del encargado.
 **Base preservada:** main `d91dc915bbcdb3d900062d9cb815cbd54ad33a6e` (PR #29 documental integrado), migraciones hasta 024; PR #28 certificado con 793 comprobaciones (278 Vitest + 515 SQL). El alcance original CR-01 queda como referencia histórica. No se promete ganar la evaluación ni se declara aprobado lo nuevo antes de comprobarlo.
 
@@ -55,7 +55,7 @@ Reservas ordinarias presenciales entre 08:00 y 16:00, módulos de 80 minutos, se
 | 1 | diseno-cr02 | Figma: navegación, formularios, estados, diseño USS |
 | 2 | inscripcion-acceso-cr02 | Modelo personas, certificados, RUT, excepción, datos demo |
 | 3 | cr02-profesor-admin | Contrato de permisos y modo de encargado |
-| 4 | prestamos-inventario-cr02 | Identidad de solicitante y catálogo |
+| 4 | cr02-prestamos-inventario | Identidad de solicitante y catálogo |
 | 5 | multicancha-cr02 | Calendario, prioridad, responsable, nómina, correo |
 | 6 | reportes-cr02 | Datos y consultas de los módulos anteriores |
 | 7 | rutinas-demo-cr02 | Programa transcrito, cuentas demo y fotos |
