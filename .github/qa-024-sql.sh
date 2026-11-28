@@ -62,6 +62,7 @@ SQL
 fi
 
 echo 'APROBADA instalación limpia 001–024'
+[[ "${1:-}" != base ]] || exit 0
 echo 'SUITES CONSOLIDADAS 024 (contar desde aquí)'
 for archivo in supabase/pruebas/*.sql supabase/pruebas/{020,021,medidas,023,024}/*.sql; do
   # La suite migracion_017 se ejecuta desde 015 en el trabajo regresion-019.

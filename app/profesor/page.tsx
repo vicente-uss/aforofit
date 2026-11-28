@@ -1,4 +1,4 @@
-import { ClipboardList, History, ListOrdered, Monitor, Package, ScanLine, Users, Wrench } from "lucide-react";
+import { ClipboardList, History, ListOrdered, Monitor, Package, ScanLine, UserRoundPlus, Users, Wrench } from "lucide-react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
 import { requerirRol } from "@/lib/auth/perfil";
@@ -18,6 +18,13 @@ async function Contenido() {
           href: "/ingreso",
           icono: ScanLine,
           color: "navy",
+        },
+        {
+          titulo: "Inscripciones",
+          descripcion: "Registra personas y administra sus certificados.",
+          href: "/profesor/inscripciones",
+          icono: UserRoundPlus,
+          color: "blue",
         },
         {
           titulo: "Aforo en vivo",

@@ -12,6 +12,10 @@ Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base 
 
 ## 1. Qué es AforoFit
 
+**CR-02 fase 1 (28 de noviembre, rama `cr02-inscripcion-acceso`).** La fase amplía la inscripción y el acceso del gimnasio a estudiantes, funcionarios/colaboradores y deportistas destacados. El profesor administra las fichas y sus certificados privados. La documentación de alcance histórico de abajo corresponde a CR-01: desde 025 y 026 se agrega identificación por RUT y autorización excepcional de una visita, manteniendo las reglas de horario, aforo y espera. Se usan únicamente identidades y documentos ficticios. El criterio institucional para acreditar deportistas destacados sigue pendiente.
+
+Desde 027, Inscripciones, Habilitación y el kiosco comparten el estado del certificado médico. Administración actualiza las fechas históricas. El profesor gestiona las fechas y archivos de las fichas con adjuntos. La vigencia incluye el último día en hora de Santiago. El reemplazo de un adjunto deja el archivo anterior pendiente de retiro por la API de Storage.
+
 Sistema web para el gimnasio (sala de musculación) de la **Universidad San Sebastián (USS), sede Bellavista**.
 Lo usan **solo alumnos** de la universidad. Es el **Proyecto Integrador** (evaluación Solemne) del
 ramo Taller de Ingeniería de Software, Grupo 6, noviembre–diciembre de 2026.

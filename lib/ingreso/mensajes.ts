@@ -12,6 +12,7 @@ export type ResultadoIngreso = {
   turno: number | null;
   ocupacion: number;
   capacidad: number;
+  estado_certificado?: "pendiente" | "vencido";
 };
 
 export type RespuestaVinculacion = { ok: boolean; motivo: string | null };
@@ -42,6 +43,12 @@ const MOTIVOS: Record<string, string> = {
   uid_invalido: "Formato de credencial inválido",
   tipo_invalido: "Elige TNE o TUI",
   alumno_no_encontrado: "Alumno no encontrado",
+  rut_no_registrado: "RUT no registrado",
+  rut_duplicado: "Más de una inscripción tiene ese RUT",
+  rut_invalido: "RUT inválido",
+  persona_no_encontrada: "Inscripción no encontrada",
+  visita_ya_abierta: "La persona ya tiene una visita abierta",
+  autorizacion_no_requerida: "La persona está habilitada para ingresar",
 };
 
 const TEXTO_GENERICO = "No se pudo registrar el ingreso";
@@ -66,7 +73,7 @@ function esTextoONulo(valor: unknown): valor is string | null {
 // Un motivo desconocido no invalida la respuesta: lo informa textoMotivo.
 export function interpretarRespuesta(data: unknown): ResultadoIngreso | null {
   if (!esObjeto(data)) return null;
-  const { resultado, motivo, alumno, turno, ocupacion, capacidad } = data;
+  const { resultado, motivo, alumno, turno, ocupacion, capacidad, estado_certificado } = data;
 
   const resultadoValido = RESULTADOS.find((opcion) => opcion === resultado);
   if (!resultadoValido || !esTextoONulo(motivo)) return null;
@@ -88,6 +95,7 @@ export function interpretarRespuesta(data: unknown): ResultadoIngreso | null {
     turno: turno as number | null,
     ocupacion: ocupacion as number,
     capacidad: capacidad as number,
+    ...(estado_certificado === "pendiente" || estado_certificado === "vencido" ? { estado_certificado } : {}),
   };
 }
 
@@ -134,7 +142,7 @@ export function mensajeIngreso(respuesta: ResultadoIngreso): MensajeKiosco {
         tono: "espera",
         tipo: "Turno",
         titulo: respuesta.turno !== null ? `Gimnasio lleno · tu turno es el ${respuesta.turno}` : "Gimnasio lleno",
-        detalle: "Vuelve a pasar tu credencial cuando la pantalla llame tu turno",
+        detalle: "Vuelve a identificarte cuando la pantalla llame tu turno",
         ofrecerVincular: false,
       };
     case "rechazo":
@@ -142,7 +150,8 @@ export function mensajeIngreso(respuesta: ResultadoIngreso): MensajeKiosco {
       return {
         tono: "error",
         tipo: "Rechazo",
-        titulo: textoMotivo(respuesta.motivo),
+        titulo: respuesta.estado_certificado === "pendiente" ? "Certificado médico pendiente"
+          : respuesta.estado_certificado === "vencido" ? "Certificado médico vencido" : textoMotivo(respuesta.motivo),
         detalle: respuesta.motivo === "credencial_no_registrada" ? "Puedes vincularla a un alumno" : aforo,
         ofrecerVincular: respuesta.motivo === "credencial_no_registrada",
       };

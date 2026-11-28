@@ -77,8 +77,13 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [022_registro_corporal.sql](supabase/sql/022_registro_corporal.sql) | Mediciones privadas y evolución. | Conserva los datos existentes. |
 | [023_rutinas_personalizadas.sql](supabase/sql/023_rutinas_personalizadas.sql) | Rutinas por origen, selección e historial. | Conserva los datos existentes. |
 | [024_configuracion_completa.sql](supabase/sql/024_configuracion_completa.sql) | Configuración de aforo, turnos, modalidades y progresión. | Conserva los datos existentes. |
+| [025_inscripciones_certificados.sql](supabase/sql/025_inscripciones_certificados.sql) | Categorías de persona, ficha privada del profesor y bucket privado de certificados. | Conserva los identificadores y la vigencia histórica registrada. |
+| [026_acceso_rut_excepciones.sql](supabase/sql/026_acceso_rut_excepciones.sql) | Acceso por RUT y registro de excepciones por visita o turno. | Conserva credenciales, visitas, turnos y rutinas. |
+| [027_vigencia_y_retiro_certificados.sql](supabase/sql/027_vigencia_y_retiro_certificados.sql) | Unifica el estado médico de inscripción, habilitación y acceso, y registra el retiro de adjuntos reemplazados. | Conserva fechas, fichas y documentos asociados. |
 
 La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
+
+Aplica 025 a 027 en orden al entorno de prueba para habilitar CR-02 fase 1. La [certificación de CR-02 fase 1](.github/workflows/certificacion-cr02-fase-1.yml) ejecuta la regresión y las pruebas nuevas con un proyecto Supabase desechable.
 
 ## Usuarios de prueba
 
@@ -98,13 +103,14 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/auth/login` | Sin sesión | Iniciar sesión con correo y contraseña. |
 | `/auth/forgot-password`, `/auth/update-password` | Recuperación de cuenta | Solicitar el correo y definir una nueva contraseña con la sesión de recuperación. |
 | `/auth/confirm`, `/auth/error` | Flujo de Auth | El primero procesa el enlace de confirmación; el segundo muestra errores de acceso. |
-| `/ingreso` | Profesor y admin | Leer credencial, ingresar UID o código QR de seis caracteres y vincular TNE/TUI. |
+| `/ingreso` | Profesor y admin | Leer o vincular TNE/TUI, registrar acceso por RUT, ingresar un UID o usar QR. Solo el profesor puede autorizar una visita excepcional. |
 | `/aforo` | Pública, sin sesión | Ver ocupación, cupos, espera y turno llamado con nombre abreviado. |
 | `/alumno` | Alumno | Elegir objetivo y nivel, ver ejercicios, cargas y mantención, y responder el feedback; generar QR. |
 | `/alumno/historial` | Alumno | Consultar sus visitas y feedback. |
 | `/alumno/rutinas` | Alumno | Crear, editar, archivar y seleccionar rutinas. |
 | `/alumno/medidas` | Alumno | Registrar peso, estatura y perímetro de cintura, IMC e historial privado. |
 | `/profesor` | Profesor | Abrir los módulos del encargado. |
+| `/profesor/inscripciones` | Profesor | Inscribir y editar personas, consultar el estado de sus certificados y descargar sus archivos privados. |
 | `/profesor/espera` | Profesor | Consultar la lista de espera y los turnos llamados. |
 | `/profesor/adentro` | Profesor | Revisar quién sigue adentro y cerrar una visita a mano. |
 | `/profesor/maquinas` | Profesor | Marcar una máquina disponible o en mantención. |
@@ -113,7 +119,7 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/profesor/rutinas` | Profesor | Crear, asignar y editar rutinas de origen profesor. |
 | `/admin` | Administrador | Abrir los módulos de administración. |
 | `/admin/configuracion` | Administrador | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |
-| `/admin/habilitacion` | Administrador | Buscar al alumno, revisar su vigencia y registrar la fecha de emisión. |
+| `/admin/habilitacion` | Administrador | Consultar el estado médico de una persona y registrar la emisión de certificados históricos. Las fichas con adjuntos se gestionan en Inscripciones. |
 | `/admin/maquinas` | Administrador | Administrar máquinas y fotos. |
 | `/admin/implementos` | Administrador | Administrar implementos y stock. |
 
@@ -169,7 +175,11 @@ Total: **515 SQL + 278 Vitest = 793**. Cron, concurrencia, Chromium y reversión
 
 ## Limitaciones de esta versión
 
-Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal es privado y utiliza datos ficticios; la progresión y modalidades se administran desde el panel. RF28–RF31 no están implementados. El QR de respaldo se canjea con seis caracteres en Ingreso manual; en navegadores compatibles también se ofrece cámara (BarcodeDetector). Para probarlo, abre una sesión de alumno con credencial vinculada, genera el QR y canjea el código desde otra sesión de profesor en `/ingreso`. Vence en dos minutos y sirve una vez. CA31 físico sigue pendiente.
+Las identidades, credenciales y documentos de prueba son ficticios. En CR-02 fase 1 se inscriben estudiantes, funcionarios/colaboradores y deportistas destacados. El profesor puede guardar una ficha con documentos pendientes. Para estudiantes se registra el certificado de alumno regular y el acceso conserva la validación médica. Los deportistas destacados están exentos del certificado médico y el mecanismo institucional de acreditación sigue pendiente. Los certificados admiten PDF, JPG o PNG de hasta 10 MB (10.485.760 bytes) por archivo. Los RUT de demostración que terminan en F conservan el acceso por credencial y requieren un RUT válido para el acceso manual.
+
+Al reemplazar un archivo, Inscripciones guarda primero la ficha y luego retira el adjunto anterior mediante Storage. Si el retiro falla, se reintenta al volver a Inscripciones. Las cargas abandonadas antes de guardar que quedaron sin una marca de retiro (incluidas las previas a 027) requieren revisión operativa.
+
+El QR de respaldo se canjea con seis caracteres en Ingreso manual; en navegadores compatibles también se ofrece cámara (BarcodeDetector). Para probarlo, abre una sesión de alumno con credencial vinculada, genera el QR y canjea el código desde otra sesión de profesor en `/ingreso`. Vence en dos minutos y sirve una vez. CA31 físico sigue pendiente. RF28–RF31 siguen pendientes.
 
 ## Kiosco de ingreso en Chrome
 
