@@ -1,16 +1,16 @@
 import { ChartColumn, Dumbbell, Package, ScanLine, ShieldCheck, SlidersHorizontal } from "lucide-react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
-import { requerirRol } from "@/lib/auth/perfil";
+import { requerirAdministracion } from "@/lib/auth/perfil";
 import { Suspense } from "react";
 
 async function Contenido() {
   // La validación del rol se hace en el servidor.
-  const perfil = await requerirRol("admin");
+  const { perfil } = await requerirAdministracion();
 
   return (
     <PanelRol
-      perfil={perfil}
+      perfil={{ ...perfil, rol: "admin" }}
       secciones={[
         {
           titulo: "Kiosco de ingreso",
@@ -34,7 +34,7 @@ async function Contenido() {
           color: "navy",
         },
         {
-          titulo: "Habilitación de alumnos",
+          titulo: "Habilitación de personas",
           descripcion: "Certificado vigente: un año desde su emisión (D20).",
           href: "/admin/habilitacion",
           icono: ShieldCheck,

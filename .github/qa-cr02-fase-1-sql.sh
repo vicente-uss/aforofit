@@ -20,6 +20,9 @@ for migracion in supabase/sql/02{5,6,7}_*.sql; do
 done
 snapshot | diff -u "$RUNNER_TEMP/datos-antes-cr02" -
 echo 'APROBADA actualización 024–027 con registros existentes'
+db -q -f supabase/sql/028_modo_administrador.sql
+snapshot | diff -u "$RUNNER_TEMP/datos-antes-cr02" -
+echo 'APROBADA actualización a 028 con registros existentes'
 
 echo 'SUITES CONSOLIDADAS CR-02 (contar desde aquí)'
 registro=$(mktemp)

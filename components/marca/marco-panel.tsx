@@ -81,15 +81,17 @@ function PildoraAforo() {
 /**
  * Contenedor del profesor y del admin: barra lateral navy de 256 px (en celular se abre con un botón),
  * barra superior con el aforo en vivo y el contenido sobre el fondo canvas. Solo presentación: el
- * rol lo sigue validando cada página en el servidor (requerirRol).
+ * acceso lo sigue validando cada página en el servidor.
  */
 export function MarcoPanel({
   rol,
   usuario,
+  controlModo,
   children,
 }: {
   rol: "profesor" | "admin";
   usuario: ReactNode;
+  controlModo?: ReactNode;
   children: ReactNode;
 }) {
   const ruta = usePathname();
@@ -144,6 +146,7 @@ export function MarcoPanel({
               <Link
                 key={href}
                 href={href}
+                prefetch={rol === "admin" ? false : undefined}
                 aria-current={activo ? "page" : undefined}
                 className={cn(
                   "relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
@@ -167,6 +170,7 @@ export function MarcoPanel({
           </a>
         </nav>
 
+        {controlModo}
         <div className="flex items-center justify-between gap-2 border-t border-white/10 px-4 py-4">
           <span className="min-w-0 truncate text-sm font-medium text-white">{usuario}</span>
           <LogoutButton oscuro />

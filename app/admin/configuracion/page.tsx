@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CargandoPanel } from "@/components/cargando-panel";
-import { requerirRol } from "@/lib/auth/perfil";
+import { requerirAdministracion } from "@/lib/auth/perfil";
 import { FormularioConfiguracion } from "./formulario-configuracion";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 async function Contenido() {
   // Solo el admin (D24); la base vuelve a validarlo en actualizar_configuracion.
-  await requerirRol("admin");
+  await requerirAdministracion();
   return <FormularioConfiguracion />;
 }
 

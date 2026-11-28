@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 import { esRol, panelDeRol, type Rol } from "./roles";
 
 export type Perfil = {
@@ -45,6 +46,18 @@ export async function requerirRol(rol: Rol): Promise<Perfil> {
   if (perfil.rol !== rol) redirect(panelDeRol(perfil.rol));
   return perfil;
 }
+
+export const requerirAdministracion = cache(async () => {
+  const perfil = await obtenerPerfil();
+  if (!perfil) redirect("/auth/login");
+  if (perfil.rol === "admin") return { perfil, venceEn: null };
+  if (perfil.rol !== "profesor") redirect(panelDeRol(perfil.rol));
+
+  const supabase = await createClient();
+  const { data: venceEn, error } = await supabase.rpc("vencimiento_modo_admin");
+  if (error || typeof venceEn !== "string") redirect("/profesor");
+  return { perfil, venceEn };
+});
 
 /**
  * Valida en el servidor que el usuario tenga alguno de los roles permitidos
