@@ -4,7 +4,7 @@ Lunes 23 de noviembre de 2026, 17:15 (actualizado el martes 24: el Avance 3 se a
 AGENTS.md 10, la lista inicial de pendientes del Avance 3, la [auditoría integral](auditoria-proyecto-frameworks-2026-11-23.md), el
 [CR-01](cr-01-linea-base-entrega-final.md), los [complementos](complementos-avances-1-y-2.md), la
 [auditoría de interfaces](auditoria-interfaces-2026-11-23.md) y `afiche-contenido.md`. Los ordena por hito y por
-prioridad. Es la única lista de trabajo vigente (la lista inicial de pendientes se eliminó el 24 de noviembre).
+prioridad. La actualización del 27 de noviembre al final de este documento prevalece sobre el calendario histórico.
 
 ## 0. Modo de trabajo hasta el cierre
 
@@ -81,7 +81,7 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 
 | ID | Tarea | Tipo | Requisitos y criterios | Cuándo | Tiempo humano |
 |---|---|---|---|---|---|
-| F-09 ✅ | Configuración mínima desde `/admin`: capacidad, horario y cierre automático (D24; el período académico ya no aplica por D20). Solo después de F-01 a F-03 | Agente | RF26 · CA34 | Jue 26 | 45 min |
+| F-09 ✅ | Configuración completa desde `/admin` (024): capacidad, horario, cierre automático, expiración, umbral, modalidades y progresión (D24; el período académico ya no aplica por D20). Solo después de F-01 a F-03 | Agente | RF26 · CA34 | Jue 26 | 45 min |
 | F-28 ✅ | Botón «Cerrar visita» en `/profesor` para quien no marcó la salida (D21, pedido del encargado), con prueba | Agente | R6 · RF08 | Jue 26 | 30 min |
 | F-29 ✅ | Nombre e inicial del apellido junto al turno llamado en `/aforo` y `/profesor/espera` (D22, pedido del encargado), con prueba | Agente | RF10 · D14 | Mié 25 | 30 min |
 | F-31 ✅ | Cantidades reales de implementos (`supabase/sql/010_implementos_reales.sql`, aplicado el 24 nov: 5 implementos, 9 unidades; PR #10) | Persona | RF21 | Mar 24 | Hecho |
@@ -89,10 +89,10 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 | F-10 ✅ | Préstamo básico con la TNE: varios implementos, devolución completa y bloqueo con pendientes (S1 del CR-01) | Agente | RF22, RF23 · CA19, CA20 | Vie 27 | 1,5 h |
 | F-11 ✅ | Habilitación desde `/admin`: vigencia del certificado (S2 del CR-01) | Agente | RF25 · CA28 | Vie 27 | 45 min |
 | F-12 | Matriz de cobertura con las columnas «implementado» y «resultado de prueba» | Claude | Rúbrica 4 «Coherencia» | Dom 29 | 30 min |
-| F-13 ✅ | Diagramas al día: ER con las tablas nuevas y secuencia con la rutina | Claude | — | Dom 29 | 30 min |
+| F-13 🟡 | Actualizar ER y secuencias de los complementos 020–024 | Claude | — | Dom 29 | 30 min |
 | F-14 | Medir los RNF que faltan: RNF02 en la rutina, RNF03 en computador, Android y iPhone, RNF05 a 360 px | Persona | CA11, CA30, CA32 | Sáb 28 | 45 min |
 | F-15 | Guion de defensa por integrante: qué explica cada uno y 3 preguntas probables de su área | Claude + Persona | Rúbrica 4 «Participación» | Dom 29 | 1 h |
-| F-16 | Activar en Supabase la protección contra claves filtradas | Persona | RNF06 | Cualquier día | 2 min |
+| F-16 ✅ | Security Advisor considerado auditado por coordinador; protección de claves filtradas sujeta al plan | Persona | RNF06 | Cualquier día | 2 min |
 | F-26 ✅ | Aviso visible en `/ingreso` cuando la página pierde el foco («Lector en pausa: haz clic aquí») y guía para abrir el kiosco en modo pantalla completa de Chrome (hallazgo de Pau, 23 nov) | Agente | RNF04 · CA31 | Mié 25 | 30 min |
 | F-17 | Revisión cruzada de los complementos de los avances 1 y 2 por otro integrante | Persona | FW-IR 9.2 | Antes del 30 | 20 min |
 | F-18 ✅ | Decidir R9 con el encargado: sí bloquea (D19, acta del 24 de noviembre) | Externo | R9 | Mar 24, 17:00 | Hecho |
@@ -101,16 +101,16 @@ Rúbrica 4: alcance, funcionamiento, calidad técnica, pruebas, coherencia, afic
 
 | ID | Tarea | Tipo | Requisitos |
 |---|---|---|---|
-| F-19 | Registro corporal privado con IMC | Agente | RF27 · CA22, CA39 |
+| F-19 ✅ | Registro corporal privado con IMC | Agente | RF27 · CA22, CA39 |
 | F-20 ✅ | Devoluciones parciales y garantías pendientes (préstamo completo) | Agente | RF23, RF24 · CA21 |
 | F-21 🟡 | QR de respaldo fusionado; canje manual informado, cámara y lector físico pendientes (CA31) | Agente | RF03 · CA31 |
-| F-22 | Rutinas creadas por el alumno o asignadas por el profesor | Agente | RF13 a RF15 · CA15, CA16, CA38 |
-| F-23 | Turno llamado que vence solo, sin esperar otra lectura (detalle menor aceptado) | Agente | RF10 |
-| F-24 | Pantallas del catálogo: máquinas con foto e implementos | Agente | RF19, RF21 · CA25, CA27 |
+| F-22 ✅ | Rutinas creadas por el alumno o asignadas por el profesor | Agente | RF13 a RF15 · CA15, CA16, CA38 |
+| F-23 ✅ | Turno llamado que vence solo, sin esperar otra lectura (019) | Agente | RF10 |
+| F-24 ✅ | Pantallas del catálogo: máquinas con foto e implementos | Agente | RF19, RF21 · CA25, CA27 |
 | F-27 ✅ | Selección TNE/TUI al vincular y listado de tarjetas; repetir validación física | Agente | RF02 · D17 |
 | F-25 ✅ | Cantidades de implementos y período académico confirmados en el Playback (F-31 y D20) | Externo | Hecho |
 | F-33 ✅ | Historial de visitas, feedback y préstamos; PR #20 fusionado | Agente | F-33 |
-| F-30 | Aviso «Olvidaste tu TNE» en el perfil del alumno, enviado por el profesor (pedido del encargado) | Agente | RF24 · P5 |
+| F-30 ✅ | Aviso «Olvidaste tu TNE» en el perfil del alumno, enviado por el profesor (pedido del encargado) | Agente | RF24 · P5 |
 
 **Regla para P2:** solo se suma al afiche lo que esté fusionado y probado **antes del jueves 26**. Lo que entre
 después se muestra en la demo, pero el afiche lo deja como «próxima versión».
@@ -193,3 +193,16 @@ PR #20 y #21 fusionados. Código complementario cerrado; 429 comprobaciones loca
 | Lun 30 | F-07 y F-08: base demo 0/20, respaldo, congelamiento y cierre CR-01 con evidencia; etiquetar versión. |
 | 1–2 dic | Ensayar demo y defensa, respaldos offline. |
 | 3 dic | Exposición final. |
+
+## Actualización vigente · 27 de noviembre
+
+Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
+
+- [x] PR #22–#28 fusionados y requisitos altos implementados.
+- [x] Afiche A0 enviado según coordinador.
+- [ ] Certificar main posterior a fusión y comprobar producción (incluidos Cron, Realtime y nuevas funciones).
+- [ ] Decidir RF28–RF31 antes de congelar; no comprometer funcionalidades no certificadas.
+- [ ] Completar evidencia por CA, lector y cámara en gimnasio, pruebas de dispositivos y revisión cruzada.
+- [ ] Actualizar diagramas de los complementos y medir nuevamente PF/LOC con el método original; las estimaciones del Avance 3 son históricas.
+- [ ] Imprimir 20 trípticos, actualizar banco de capturas, preparar guion y ensayo, limpiar datos ficticios de demo y ramas.
+- [ ] Congelar y etiquetar versión el lunes 30 de noviembre; exposición final jueves 3 de diciembre.

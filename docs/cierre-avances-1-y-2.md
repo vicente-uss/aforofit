@@ -1,5 +1,7 @@
 # AforoFit — Documento maestro al cierre del Avance 2
 
+> **Actualización de estado (27 de noviembre):** este documento conserva el cierre histórico de los avances 1 y 2. Para el estado actual de main tras 024, consultar [AGENTS.md](../AGENTS.md), [requisitos](requisitos-casos-uso-criterios.md), [pruebas](pruebas-ejecutadas.md) y [plan vigente](plan-cierre-avance-3-y-final.md). No interpretar los pendientes históricos como estado actual.
+
 **Corte: 17 de noviembre de 2026.** El estado vigente está en [AGENTS.md, sección 10](../AGENTS.md#10-estado-actual), y lo construido para el Avance 3 en el [plan de cierre](plan-cierre-avance-3-y-final.md). Documento de continuidad para incorporar a una persona al equipo o dar contexto a una IA antes del Avance 3. Se lee en orden: propuesta original, análisis y diseño, evidencia técnica y trabajo siguiente.
 
 Los avances 1 y 2 obtuvieron **7,0**, según el registro del equipo. La [pauta docente](bases-proyecto-integrador.md) define lo evaluado. Los PDF muestran lo presentado. El registro de decisiones y reglas está consolidado más abajo. Para retomar una tarea, consulta también el artefacto enlazado y revisa el código de la rama donde trabajarás.

@@ -34,7 +34,7 @@ El registro canónico de [D01–D17](../AGENTS.md#decisiones-vigentes-d01d17) re
 
 ## 2. Requisitos funcionales
 
-Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Origen traza cada uno al problema (P), la decisión (D) o la regla de negocio (R) que lo justifica.
+Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. Al 27 de noviembre, los 27 de prioridad alta están implementados en main; esto no equivale a aprobación de todos los CA físicos. Se conserva CR-01 como línea base histórica y se distingue de los complementos integrados. La columna Origen traza cada uno al problema (P), la decisión (D) o la regla de negocio (R) que lo justifica.
 
 | ID | El sistema debe… | Prioridad | Origen | Línea base de la entrega final ([CR-01](cr-01-linea-base-entrega-final.md)) |
 | --- | --- | --- | --- | --- |
@@ -50,25 +50,25 @@ Son 31 requisitos: 27 de prioridad alta y 4 de prioridad media. La columna Orige
 | RF10 | Asignar un número de turno cuando el gimnasio está lleno y llamar los turnos en orden | Alta | P4, D14, R4 | ✅ Implementado |
 | RF11 | Permitir que el alumno defina su objetivo y su nivel de entrenamiento | Alta | D12 | ✅ Implementado (B1) |
 | RF12 | Generar una rutina con plantillas por objetivo y nivel, usando solo máquinas registradas | Alta | D12 | ✅ Implementado (B2) |
-| RF13 | Permitir que el alumno cree y edite su propia rutina | Alta | D09, D15 | ⏭ Próxima versión |
-| RF14 | Permitir que el profesor cree, asigne y edite la rutina de un alumno | Alta | D09, D15 | ⏭ Próxima versión |
-| RF15 | Permitir que el alumno elija su rutina activa entre las disponibles | Alta | D15 | ⏭ Próxima versión |
+| RF13 | Permitir que el alumno cree y edite su propia rutina | Alta | D09, D15 | ✅ Implementado (023, PR #27) |
+| RF14 | Permitir que el profesor cree, asigne y edite la rutina de un alumno | Alta | D09, D15 | ✅ Implementado (023, PR #27) |
+| RF15 | Permitir que el alumno elija su rutina activa entre las disponibles | Alta | D15 | ✅ Implementado (023, PR #27) |
 | RF16 | Mostrar la rutina activa en el celular del alumno al registrar su entrada, en tiempo real | Alta | D13 | ✅ Implementado (B3) |
 | RF17 | Advertir en la rutina cuando un ejercicio usa una máquina en mantención | Alta | D06, R7 | ✅ Implementado (B3) |
 | RF18 | Registrar el feedback al salir y ajustar las cargas de la próxima sesión según los parámetros | Alta | D07, R8 | ✅ Implementado (B4) |
-| RF19 | Registrar máquinas con foto, patrón de movimiento y ajustes | Alta | P7 | 🟡 Datos por SQL; pantalla en próxima versión |
+| RF19 | Registrar máquinas con foto, patrón de movimiento y ajustes | Alta | P7 | ✅ Implementado (021, PR #26) |
 | RF20 | Cambiar el estado de una máquina entre Disponible y En mantención | Alta | D05 | ✅ Implementado (B5) |
-| RF21 | Registrar implementos con su cantidad disponible | Alta | P5 | 🟡 Datos por SQL; pantalla en próxima versión |
+| RF21 | Registrar implementos con su cantidad disponible | Alta | P5 | ✅ Implementado (021, PR #26) |
 | RF22 | Registrar un préstamo con varios implementos y la TNE como garantía | Alta | P5, D04, D16 | ✅ Implementado en S1 |
 | RF23 | Registrar devoluciones parciales e impedir un nuevo préstamo mientras haya pendientes | Alta | P5, R9 | ✅ Implementado (F-20): devolución por implemento y bloqueo por pendientes |
 | RF24 | Mostrar los préstamos abiertos y las TNE de garantía pendientes de devolver | Alta | P5 | ✅ Implementado (F-20) |
 | RF25 | Permitir que el administrador habilite alumnos y registre la vigencia de su certificado | Alta | P6, D20 | ✅ Implementado en S2 desde /admin/habilitacion |
-| RF26 | Configurar capacidad, umbral, horarios, expiración de turnos, cierre automático, progresión y modalidades de rutina | Alta | D01, D07, D15, D20, D24, D25 | Implementado en 024 en rama de revisión |
-| RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ⏭ Próxima versión |
-| RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 | Sin cambio (prioridad media) |
-| RF29 | Registrar incidencias de mal uso | Media | Alcance aprobado | Sin cambio (prioridad media) |
-| RF30 | Generar reportes de asistencia por carrera, horario y uso de máquinas y préstamos | Media | P1 | Sin cambio (prioridad media) |
-| RF31 | Alertar al administrador cuando un alumno deja de venir | Media | Alcance aprobado | Sin cambio (prioridad media) |
+| RF26 | Configurar capacidad, umbral, horarios, expiración de turnos, cierre automático, progresión y modalidades de rutina | Alta | D01, D07, D15, D20, D24, D25 | ✅ Implementado (024, PR #28) |
+| RF27 | Permitir que el alumno registre su peso y perímetros y vea su evolución con IMC | Alta | Alcance aprobado | ✅ Implementado (022, PR #25) |
+| RF28 | Repartir el orden de los ejercicios entre los alumnos presentes (experimental) | Media | P7, D08 | Pendiente de decisión (prioridad media) |
+| RF29 | Registrar incidencias de mal uso | Media | Alcance aprobado | Pendiente de decisión (prioridad media) |
+| RF30 | Generar reportes de asistencia por carrera, horario y uso de máquinas y préstamos | Media | P1 | Pendiente de decisión (prioridad media) |
+| RF31 | Alertar al administrador cuando un alumno deja de venir | Media | Alcance aprobado | Pendiente de decisión (prioridad media) |
 
 ## 3. Requisitos no funcionales
 
@@ -201,7 +201,7 @@ Los flujos principales y los casos de apoyo se especifican a continuación. Los 
 ## 6. Criterios de aceptación
 
 > **Línea base de la entrega final (CR-01, aprobado el 23 de noviembre):** se activan CA11, CA12, CA13, CA14, CA24 y
-> CA26. Préstamos cubre CA19, CA20 y CA21, y S2 cubre CA28. Quedan como «no aplica en esta versión» CA15, CA16 y CA38 (rutinas del profesor y del alumno), CA22 y CA39 (registro corporal).
+> CA26. Préstamos cubre CA19, CA20 y CA21, y S2 cubre CA28. En la línea base original quedaban fuera CA15, CA16, CA38, CA22 y CA39; los complementos 022 y 023 los incorporan a la versión actual.
 
 CA01–CA22 corresponden al Avance 2 presentado. Los criterios complementarios de abajo completan la trazabilidad documental. Su ejecución y evidencias se registran por separado.
 
@@ -261,7 +261,7 @@ CA23–CA39 detallan la aceptación de requisitos ya documentados. CA40–CA43 s
 
 ## 7. Supuestos y pendientes
 
-Queda pendiente incorporar un criterio directo para la unicidad de visita abierta (R5). D19 confirma que una TNE no devuelta bloquea un nuevo préstamo; 017 lo conserva. Estos puntos están consolidados en el [documento maestro](cierre-avances-1-y-2.md#reglas-de-negocio-r1r9).
+CA44 incorpora el criterio directo de unicidad de visita abierta (R5). D19 confirma que una TNE no devuelta bloquea un nuevo préstamo; 017 lo conserva. Estos puntos están consolidados en el [documento maestro](cierre-avances-1-y-2.md#reglas-de-negocio-r1r9).
 
 Ninguno bloquea el Avance 2. Los supuestos quedan como parámetros configurables y se declaran en la presentación.
 
@@ -295,3 +295,19 @@ Los códigos remiten al [registro de decisiones](#1-decisiones-y-trazabilidad), 
 ### Estado de implementación adicional (25 nov)
 
 CR-01 conserva la decisión original del 23 de noviembre. PR #20 incorpora F-33 (historial de alumno y profesor); PR #21 incorpora F-20, F-27 y F-21 como complementos. CA20/CA21 y el flujo QR tienen pruebas SQL locales; CA31 manual informado como validado, cámara y lector físico pendientes. F-33 distingue implementos pendientes, TNE pendiente y cerrado. Ver [ronda 3 de pruebas](pruebas-ejecutadas.md#ronda-3--25-de-noviembre-de-2026-pr-20-y-21). La matriz final por CA (F-12) requiere evidencia de las pruebas físicas y remotas restantes.
+
+## 9. Estado de integración y evidencia · 27 de noviembre
+
+Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
+
+| Criterios | Evidencia automatizada | Estado |
+|---|---|---|
+| CA17, CA18, CA34 | SQL 024 y Chromium | Aprobados en certificación desechable |
+| CA15, CA16, CA38 | SQL 023, Chromium y regresión 024 | Aprobados en certificación desechable |
+| CA25, CA27 | SQL 021 y certificación PR #26 | Aprobados en entorno desechable |
+| CA22, CA39 | SQL 022 y certificación PR #25 | Aprobados en entorno desechable |
+| CA44 | registrar_ingreso.sql | Aprobado en SQL |
+| CA31 | Entrada HID simulada y canje manual QR | Falta evidencia física de lector y cámara |
+| CA40–CA43 | RF28–RF31 | Pendientes; no declarar aprobados |
+
+Consultar [pruebas ejecutadas](pruebas-ejecutadas.md) y completar resultados por CA en producción antes del congelamiento.

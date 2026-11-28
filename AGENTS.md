@@ -6,7 +6,9 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: martes 24 de noviembre de 2026, después del Avance 3 y del Playback con el encargado.
+Última actualización: viernes 27 de noviembre de 2026, después de la integración de 024.
+
+Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
 
 ## 1. Qué es AforoFit
 
@@ -387,11 +389,11 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - F-20, F-27 y F-21 (PR #21, fusionado el 25 de noviembre, `fb43ce2`; commit integrado auditado `61a4012`): 017 agrega devoluciones por cantidad, entrega separada de TNE, selección TNE/TUI y QR de seis caracteres de un solo uso, con vencimiento de dos minutos. Se conserva la firma SQL de un argumento para el cliente 015. Resultados consolidados de Codex: **198 Vitest + 231 SQL locales = 429 comprobaciones aprobadas**, lint/build y vista previa Vercel OK. El coordinador informó completada la validación y el canje manual; falta adjuntar los resultados por suite del Supabase remoto y la evidencia física de cámara y lector (CA31). En el navegador de prueba no apareció el botón de cámara por compatibilidad de BarcodeDetector. No se declara escaneo por cámara aprobado.
 - Se actualiza la cifra de referencia para el afiche a 429 comprobaciones automatizadas locales; falta trasladarla al archivo gráfico y exportar A0.
 
-- F-22, rama `rutinas-personalizadas`: RF13–RF15, CA15, CA16 y CA38 en la migración 023 y las pantallas
-  `/alumno/rutinas` y `/profesor/rutinas`. Estado de esta rama de desarrollo, separado de la entrega comprometida
-  por el CR-01. Ver [contrato de modalidades y validación](docs/contrato-modalidades-rutina-023.md).
-
-- RF26 (migración 024, rama de revisión): panel completo de capacidad, aforo, horarios, turnos, modalidades y cargas. Ver criterios, aplicación y reversión en [configuración completa](docs/configuracion-completa-024.md).
+- PR #22 / 018: seguridad y permisos; 497 comprobaciones (211 Vitest + 286 SQL).
+- PR #23 / 019: Cron autónomo, expiración de turnos, aforo y Realtime; 530 comprobaciones (214 + 316).
+- PR #24 / 020: aviso TNE; PR #26 / 021: catálogo; PR #25 / 022: medidas privadas. Main certificado en `7deae9e`: 654 comprobaciones (248 + 406).
+- PR #27 / 023: RF13–RF15, CA15, CA16 y CA38; `/alumno/rutinas` y `/profesor/rutinas`; 718 comprobaciones (255 + 463). [Contrato](docs/contrato-modalidades-rutina-023.md).
+- PR #28 / 024: RF26, CA17, CA18 y CA34; 793 comprobaciones (278 + 515), según la certificación del PR. [Configuración](docs/configuracion-completa-024.md).
 
 **Pendiente** (lista priorizada por hito en `docs/plan-cierre-avance-3-y-final.md`)
 - [ ] Comparar en `/ingreso` la lectura normalizada con NFC Tools por tarjeta (UID enmascarados). CA29 ya está medido
@@ -403,29 +405,21 @@ Actualizado: miércoles 25 de noviembre de 2026.
 - [ ] Complementos de los avances 1 y 2 (`docs/complementos-avances-1-y-2.md`): árbol de problemas, objetivos medibles,
   interesados, decisión de enfoque, plan semana a semana, verificación de requisitos, plan de calidad, ADR-01 a ADR-04 y
   guion del Playback con el encargado. Falta solo la revisión de otro integrante (el acta y RNF08 ya están resueltos)
-- [ ] F-30 implementado en la rama `aviso-tne` con la migración `020_aviso_tne.sql`. Pendiente de revisión e integración.
-  El profesor puede avisar cuando solo queda pendiente la TNE. El aviso se ve en el perfil del alumno hasta que se registra la entrega.
+- [x] F-30: aviso TNE, integrado mediante PR #24 / 020.
 - [ ] Cargas iniciales de las plantillas: son de ejemplo; declararlas como supuesto o validarlas con el encargado
 - [ ] Decidir si `certificado_hasta` de los alumnos ficticios se recalcula como emisión + 12 meses (hoy sigue en el
   23 de diciembre, vigente para la expo)
-- [ ] Activar en Supabase la protección contra claves filtradas (Vicente)
-- [ ] Detalle menor aceptado: un turno llamado que nadie reclama expira recién cuando se pasa otra tarjeta, así que
-  `/aforo` puede mostrar "Turno N" unos minutos de más
+- [x] Security Advisor: 24 advertencias y 1 sugerencia consideradas auditadas por el coordinador; protección de claves filtradas sujeta al plan de Supabase.
+- [x] Expiración autónoma de turnos: PR #23 / 019; Cron y Realtime certificados en entorno desechable. Verificar en producción.
 - [ ] Hallazgo de Pau con el lector (23 nov), ya mitigado con F-26 (PR #16): aviso «Lector en pausa: haz clic aquí» y
   guía de modo kiosco de Chrome en el README. Falta que Pau lo pruebe con el lector físico
 - [x] Hallazgo de Pau (23 nov): F-27 corregido en PR #21; se distingue TNE y TUI al vincular. Una tarjeta pertenece a un único alumno, que puede tener varias (R1, D17). Repetir prueba física con ambas.
 - [ ] Detalle menor aceptado: `vincular_credencial` con un UID de formato inválido devuelve un error de restricción y el
   kiosco lo muestra como "Sin conexión". No ocurre en la práctica porque el kiosco siempre envía el UID normalizado
-- [ ] Entrega final: B1 a B5 implementados (PR #11, #12 y #13), más F-29, F-26, F-32 y F-09 (PR #15 y #16) y S1 y S2
-  (PR #17). Falta solo evidencia, documentación y el ensayo de la demo. CA11 medido el 25 de
-  noviembre: cerca de 1 s (`docs/pruebas-ejecutadas.md`, ronda 2). Dejar la base limpia antes de la expo (F-07)
+- [ ] Certificar main tras la fusión de #28, comprobar producción, completar evidencia por CA y ensayo. Dejar la base de demo limpia (F-07).
 - [ ] CA31: probar escaneo QR con cámara en un navegador compatible, y lector físico con TNE/TUI. El canje manual funciona según el coordinador. Registrar evidencia; no ampliar alcance sin acuerdo.
-- [ ] Afiche en formato A0, con el nombre del profesor (Bastián, archivo cerrado el jueves 26). Cambiar las capturas del
-  kiosco y de `/aforo` por las nuevas de `docs/evidencia/fidelidad/` (PR #19). Ya tiene la foto del
-  lector, el nombre del docente (Rodrigo Correa Rojas) y la versión 4 con la rutina implementada; falta revisarlo en
-  equipo y exportarlo en PDF para imprimir en A0 (no en PNG). Se imprime en la facultad.
-- [ ] Trípticos: 20 a color, impresos en la facultad (indicación del 24 de noviembre, después del aviso del 19 que los
-  había reemplazado por el afiche). Falta diseñarlos a partir del contenido del afiche.
+- [x] Afiche A0 enviado, según el coordinador.
+- [ ] Imprimir 20 trípticos a color.
 
 Ver el [cierre de los avances 1 y 2](docs/cierre-avances-1-y-2.md#pendientes-revisados) para el detalle de validaciones, evidencia y trabajo restante.
 
@@ -461,7 +455,7 @@ D01–D11 provienen de la entrevista, D12–D16 del diseño, D17 del levantamien
 | D24 | RNF08: pantalla mínima en `/admin` (capacidad, horario y cierre automático) después de la rutina; si no alcanza el jueves 26, limitación declarada. CA34 queda parcial |
 | D25 | Regla 8: «me costó» siempre baja al menos un paso de redondeo (`redondeo_kg`), sin quedar negativa (revisión del PR #11, 24 nov) |
 
-Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA22):
+Requisitos (RF01–RF31, RNF01–RNF11), casos de uso (CU01–CU16) y criterios de aceptación (CA01–CA44):
 [documento de requisitos y trazabilidad](docs/requisitos-casos-uso-criterios.md#1-decisiones-y-trazabilidad). CA01–CA22 corresponden a la entrega original. La matriz incluye los criterios complementarios de la revisión documental.
 
 Otras decisiones: ingreso con la TNE y QR de respaldo · repositorio público (Vercel Hobby solo

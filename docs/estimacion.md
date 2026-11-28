@@ -1,5 +1,7 @@
 # Estimación del Avance 3 · AforoFit (versión 0.3)
 
+> Nota de cierre (27 de noviembre): las cifras de 207 PF y 5.350 LOC son estimaciones históricas del Avance 3, no un recuento del main posterior a 024. Se conserva la evaluación original; queda pendiente la medición final reproducible de PF y LOC con su alcance y método explícitos.
+
 Actualizado: lunes 23 de noviembre de 2026, 22:00. Las cifras y fórmulas están en la planilla
 **"AforoFit — Estimación Avance 3"** (hojas Resumen, Puntos de función, Pesos IFPUG, LOC por componentes, COCOMO,
 Productividad, Factores propios, Recursos y costos, Costos por rol, Riesgos y Pruebas). Si cambia un supuesto, se

@@ -1,5 +1,7 @@
 # AforoFit — Diagramas de análisis y diseño
 
+> **Estado al 27 de noviembre:** estos diagramas reflejan su versión histórica. Falta actualizar y verificar el modelo ER y las secuencias respecto de 020–024 (aviso TNE, catálogo, mediciones, rutina fijada por visita y configuración). No se declaran diagramas finales certificados.
+
 El documento maestro conserva los [diagramas y estados del Avance 2](cierre-avances-1-y-2.md#diagramas-completos).
 
 Grupo 6 · Taller de Ingeniería de Software · Entrega final · Actualizado el 25 de noviembre de 2026
