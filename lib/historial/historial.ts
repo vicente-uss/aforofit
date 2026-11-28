@@ -16,7 +16,8 @@ export type VisitaHistorial = {
 
 export type PrestamoHistorial = {
   id: string;
-  alumno: string;
+  solicitante: string;
+  detalleSolicitante: string | null;
   implementos: string; // «Balón de fútbol × 1, Paleta × 2»
   entregado_en: string;
   devuelto_en: string | null;
@@ -177,15 +178,30 @@ export function feedbackPorVisita(data: unknown): Record<string, string> {
   return mapa;
 }
 
-// Préstamos con alumnos(nombre) y prestamo_items(cantidad, implementos(nombre)).
+// La ficha del solicitante se obtiene por la FK de alumno o por la de externo.
 export function normalizarPrestamos(data: unknown): PrestamoHistorial[] {
   if (!Array.isArray(data)) return [];
   const prestamos: PrestamoHistorial[] = [];
   for (const f of data) {
     if (!esObjeto(f) || typeof f.id !== "string" || typeof f.entregado_en !== "string") continue;
     if (f.devuelto_en !== null && typeof f.devuelto_en !== "string") continue;
-    const alumno = primero(f.alumnos);
     if (typeof f.tne_devuelta !== "boolean") continue;
+    const alumno = primero(f.alumnos);
+    const externo = primero(f.solicitantes_externos);
+    const esExterno = externo !== null || typeof f.externo_id === "string";
+    const ficha = esExterno ? externo : alumno;
+    const nombre = typeof ficha?.nombre === "string" ? ficha.nombre : esExterno ? "Solicitante externo" : "Alumno";
+    let detalleSolicitante: string | null = null;
+    if (esExterno) {
+      const numero = externo?.numero;
+      const identificacion = typeof numero === "number" || typeof numero === "string"
+        ? `Externo #${numero}`
+        : typeof f.externo_id === "string" ? `Ficha externa · ${f.externo_id}` : null;
+      const referencia = typeof externo?.referencia === "string" ? externo.referencia : null;
+      detalleSolicitante = [identificacion, referencia].filter(Boolean).join(" · ") || null;
+    } else if (typeof alumno?.rut === "string") {
+      detalleSolicitante = alumno.rut;
+    }
     const items = Array.isArray(f.prestamo_items) ? f.prestamo_items : [];
     const implementos = items
       .map((it) => {
@@ -197,7 +213,8 @@ export function normalizarPrestamos(data: unknown): PrestamoHistorial[] {
       .sort((a, b) => a.localeCompare(b, "es-CL"));
     prestamos.push({
       id: f.id,
-      alumno: alumno && typeof alumno.nombre === "string" ? alumno.nombre : "Alumno",
+      solicitante: nombre,
+      detalleSolicitante,
       implementos: implementos.join(", "),
       entregado_en: f.entregado_en,
       devuelto_en: f.devuelto_en as string | null,

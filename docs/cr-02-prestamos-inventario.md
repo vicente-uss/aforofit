@@ -10,6 +10,8 @@ La fase parte del PR #32 fusionado en `0069a0b`. La migración [029](../supabase
 
 PostgreSQL serializa los préstamos de la misma persona y bloquea las filas de inventario en orden de ID. Una persona con implementos o TNE pendientes conserva el bloqueo aunque vuelva a buscarse por nombre. Tanto los préstamos nuevos como los históricos se mantienen independientes de visitas y aforo.
 
+En **Historial**, la fecha seleccionada muestra préstamos de alumnos inscritos y solicitantes externos. Los externos se distinguen por su número de ficha y la referencia cuando está registrada. El historial distingue implementos pendientes, TNE pendiente y préstamo cerrado.
+
 ## Inventario deportivo
 
 En **Administración → Implementos**, el administrador o profesor con modo administrador activo puede crear y editar fichas con categoría, total, foto opcional y habilitación para préstamo. El stock muestra total, unidades disponibles y prestadas. Desactivar el préstamo conserva la ficha y permite devolver unidades ya prestadas. PostgreSQL rechaza reducir el total bajo las unidades prestadas. Las fichas con historial se conservan.

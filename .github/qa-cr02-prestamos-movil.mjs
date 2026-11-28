@@ -34,6 +34,16 @@ sql(`
   insert into public.implementos (nombre, categoria, cantidad_total, prestable) values
     ('QA 029 balón', 'QA cancha', 4, true), ('QA 029 peto', 'QA cancha', 2, true),
     ('QA 029 fijo', 'QA cancha', 1, false);
+  with alumno as (
+    insert into public.alumnos (nombre, rut) values ('QA Alumno Historial', 'QA-PR33-01') returning id
+  ), prestamo as (
+    insert into public.prestamos (alumno_id, profesor_id, devuelto_en, tne_devuelta)
+    select alumno.id, u.id, now(), true from alumno cross join auth.users u
+    where u.email = 'profesor.demo@aforofit.cl'
+    returning id
+  )
+  insert into public.prestamo_items (prestamo_id, implemento_id, cantidad, devuelto)
+  select p.id, i.id, 1, 1 from prestamo p cross join public.implementos i where i.nombre = 'QA 029 peto';
 `);
 
 const navegador = await chromium.launch();
@@ -86,6 +96,9 @@ try {
     const segundo = pendientes.filter({ hasText: 'QA equipo dos' });
     await expect(primero).toBeVisible();
     await expect(segundo).toBeVisible();
+    const identidadUno = await primero.getByText(/^Externo #\d+ · QA equipo uno$/).innerText();
+    const identidadDos = await segundo.getByText(/^Externo #\d+ · QA equipo dos$/).innerText();
+    assert.notEqual(identidadUno.split(' · ')[0], identidadDos.split(' · ')[0]);
     await primero.getByRole('spinbutton', { name: 'Devolver QA 029 balón' }).fill('1');
     await primero.getByRole('button', { name: 'Devolver cantidades indicadas' }).click();
     await expect(primero.getByText('QA 029 balón · pendientes: 1')).toBeVisible();
@@ -94,8 +107,32 @@ try {
     await expect(primero.getByRole('button', { name: 'Avisar al alumno' })).toHaveCount(0);
     await sinDesborde(pagina);
     await pagina.screenshot({ path: path.join(process.argv[2], `prestamos-garantia-${ancho}.png`) });
+
+    const historial = pagina.getByRole('list', { name: 'Préstamos', exact: true }).getByRole('listitem');
+    const historialUno = historial.filter({ has: pagina.getByText(identidadUno, { exact: true }) });
+    const historialDos = historial.filter({ has: pagina.getByText(identidadDos, { exact: true }) });
+    await pagina.goto(app + '/profesor/historial');
+    await expect(historialUno.getByText(nombre, { exact: true })).toBeVisible();
+    await expect(historialUno.getByText('TNE pendiente', { exact: true })).toBeVisible();
+    await expect(historialDos.getByText(nombre, { exact: true })).toBeVisible();
+    await expect(historialDos.getByText('Implementos pendientes', { exact: true })).toBeVisible();
+
+    await pagina.goto(app + '/profesor/prestamos');
     await primero.getByRole('button', { name: 'Entregar TNE' }).click();
     await expect(primero).toHaveCount(0);
+
+    await pagina.goto(app + '/profesor/historial');
+    await expect(historialUno.getByText('Cerrado', { exact: true })).toBeVisible();
+    await expect(historialUno.getByText('TNE entregada', { exact: true })).toBeVisible();
+    await expect(historialDos.getByText('Implementos pendientes', { exact: true })).toBeVisible();
+    const historialAlumno = historial.filter({ has: pagina.getByText('QA Alumno Historial', { exact: true }) });
+    await expect(historialAlumno.getByText('QA-PR33-01', { exact: true })).toBeVisible();
+    await expect(historialAlumno.getByText('Cerrado', { exact: true })).toBeVisible();
+    await sinDesborde(pagina);
+    await pagina.screenshot({ path: path.join(process.argv[2], `historial-prestamos-${ancho}.png`) });
+    console.log(`OK historial de préstamos de homónimos externos y alumno inscrito a ${ancho} px`);
+
+    await pagina.goto(app + '/profesor/prestamos');
     await segundo.getByRole('button', { name: 'Devolver todo' }).click();
     await segundo.getByRole('button', { name: 'Entregar TNE' }).click();
     await expect(segundo).toHaveCount(0);
