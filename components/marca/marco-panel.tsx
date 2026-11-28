@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CalendarDays,
   ClipboardList,
   Dumbbell,
   ExternalLink,
@@ -41,6 +42,7 @@ const MENU: Record<"profesor" | "admin", { titulo: string; items: Item[] }> = {
       { href: "/profesor/espera", etiqueta: "Lista de espera", icono: ListOrdered },
       { href: "/profesor/adentro", etiqueta: "Quiénes están adentro", icono: Users },
       { href: "/profesor/prestamos", etiqueta: "Préstamos", icono: Package },
+      { href: "/profesor/multicancha", etiqueta: "Multicancha", icono: CalendarDays },
       { href: "/profesor/maquinas", etiqueta: "Mantención", icono: Wrench },
       { href: "/profesor/rutinas", etiqueta: "Rutinas de alumnos", icono: ClipboardList },
       { href: "/profesor/historial", etiqueta: "Historial", icono: History },
@@ -98,6 +100,7 @@ export function MarcoPanel({
   const [abierto, setAbierto] = useState(false);
   const menu = MENU[rol];
   const raiz = `/${rol}`;
+  const multicancha = rol === "profesor" && ruta.startsWith("/profesor/multicancha");
 
   // Al navegar en celular, el menú se cierra.
   useEffect(() => setAbierto(false), [ruta]);
@@ -191,10 +194,10 @@ export function MarcoPanel({
             </button>
             <p className="min-w-0 truncate text-sm">
               <span className="font-semibold text-navy-900">Gimnasio USS Bellavista</span>
-              <span className="hidden text-tinta-suave sm:inline"> · Sala de musculación</span>
+              <span className="hidden text-tinta-suave sm:inline"> · {multicancha ? "Multicancha" : "Sala de musculación"}</span>
             </p>
           </div>
-          <PildoraAforo />
+          {!multicancha && <PildoraAforo />}
         </header>
         <main className="mx-auto w-full max-w-[1400px] p-4 md:p-8">{children}</main>
       </div>
