@@ -6,9 +6,9 @@ El alumno recibe su rutina en el celular y el profesor gestiona los préstamos d
 
 Proyecto Integrador del Grupo 6 · Taller de Ingeniería de Software · [Abrir AforoFit en producción](https://aforofit.vercel.app)
 
-## Estado al 25 de noviembre de 2026
+## Estado al 27 de noviembre de 2026
 
-En `main` están implementados el ingreso por credencial, la lista de espera con llamado automático, el cierre manual de visitas, las rutinas por objetivo y nivel, los avisos de mantención y el feedback con progresión. El profesor puede prestar varios implementos, registrar devoluciones parciales y entregar la TNE por separado. El alumno dispone de QR de respaldo e historial de visitas y feedback; el profesor consulta el historial diario de visitas y préstamos. El administrador configura el gimnasio y registra certificados con vigencia de doce meses. PR #20 y #21 fusionados: **198 Vitest y 231 SQL locales (429 comprobaciones)** según Codex; lint y build OK. Canje manual de QR informado por el coordinador; escaneo con cámara y evidencia física CA31 pendientes.
+Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
 
 ## Prototipo navegable
 
@@ -70,6 +70,14 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [015_prestamos_y_habilitacion.sql](supabase/sql/015_prestamos_y_habilitacion.sql) | Crea préstamos, detalle, vistas de stock y pendientes, devolución completa y habilitación por emisión. | Deduce la emisión desde el vencimiento existente y conserva la vigencia. |
 | [017_devoluciones_qr_tarjetas.sql](supabase/sql/017_devoluciones_qr_tarjetas.sql) | Devoluciones por cantidad, entrega separada de TNE, tipo TNE/TUI y QR de respaldo; conserva la firma anterior de devolución. | Inicializa cantidades devueltas según el estado histórico. |
 
+| [018_seguridad_final.sql](supabase/sql/018_seguridad_final.sql) | Seguridad, roles, permisos y RPC. | Conserva los datos existentes. |
+| [019_estabilidad_final.sql](supabase/sql/019_estabilidad_final.sql) | Cron, expiración de turnos y reconciliación de aforo. | Conserva los datos existentes. |
+| [020_aviso_tne.sql](supabase/sql/020_aviso_tne.sql) | Aviso de TNE pendiente. | Conserva los datos existentes. |
+| [021_administracion_catalogo.sql](supabase/sql/021_administracion_catalogo.sql) | CRUD de catálogo, stock y fotos. | Conserva los datos existentes. |
+| [022_registro_corporal.sql](supabase/sql/022_registro_corporal.sql) | Mediciones privadas y evolución. | Conserva los datos existentes. |
+| [023_rutinas_personalizadas.sql](supabase/sql/023_rutinas_personalizadas.sql) | Rutinas por origen, selección e historial. | Conserva los datos existentes. |
+| [024_configuracion_completa.sql](supabase/sql/024_configuracion_completa.sql) | Configuración de aforo, turnos, modalidades y progresión. | Conserva los datos existentes. |
+
 La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
 
 ## Usuarios de prueba
@@ -94,15 +102,20 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/aforo` | Pública, sin sesión | Ver ocupación, cupos, espera y turno llamado con nombre abreviado. |
 | `/alumno` | Alumno | Elegir objetivo y nivel, ver ejercicios, cargas y mantención, y responder el feedback; generar QR. |
 | `/alumno/historial` | Alumno | Consultar sus visitas y feedback. |
+| `/alumno/rutinas` | Alumno | Crear, editar, archivar y seleccionar rutinas. |
+| `/alumno/medidas` | Alumno | Registrar peso, estatura y perímetro de cintura, IMC e historial privado. |
 | `/profesor` | Profesor | Abrir los módulos del encargado. |
 | `/profesor/espera` | Profesor | Consultar la lista de espera y los turnos llamados. |
 | `/profesor/adentro` | Profesor | Revisar quién sigue adentro y cerrar una visita a mano. |
 | `/profesor/maquinas` | Profesor | Marcar una máquina disponible o en mantención. |
 | `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos, devolver cantidades y entregar la TNE por separado. |
 | `/profesor/historial` | Profesor | Consultar visitas y préstamos por fecha en Santiago. |
+| `/profesor/rutinas` | Profesor | Crear, asignar y editar rutinas de origen profesor. |
 | `/admin` | Administrador | Abrir los módulos de administración. |
 | `/admin/configuracion` | Administrador | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |
 | `/admin/habilitacion` | Administrador | Buscar al alumno, revisar su vigencia y registrar la fecha de emisión. |
+| `/admin/maquinas` | Administrador | Administrar máquinas y fotos. |
+| `/admin/implementos` | Administrador | Administrar implementos y stock. |
 
 ## Pruebas
 
@@ -114,7 +127,7 @@ npm run lint
 npm run build
 ```
 
-Se esperan 198 casos Vitest aprobados, lint sin errores y compilación exitosa. En el **SQL Editor del proyecto de prueba**, con 001–015 y 017 aplicados, las tres cuentas configuradas y sin visitas ni turnos de una demo anterior, ejecuta cada archivo completo por separado. Cada uno abre una transacción con `begin` y termina con `rollback`: los cambios en las filas se revierten. Revisa los mensajes `OK` o la tabla de resultados del script. Una excepción indica qué caso falló.
+Se esperan 278 casos Vitest aprobados, lint sin errores y build exitoso. Ejecuta las suites SQL únicamente en Supabase desechable mediante [certificación 024](.github/workflows/certificacion-024.yml). No ejecutar suites automatizadas en producción. Las pruebas históricas se cuentan una sola vez.
 
 | Archivo | Qué comprueba | Casos OK |
 |---|---|---:|
@@ -126,8 +139,18 @@ Se esperan 198 casos Vitest aprobados, lint sin errores y compilación exitosa. 
 | [prestamos.sql](supabase/pruebas/prestamos.sql) | Stock, devoluciones parciales y completas, dos firmas SQL, TNE, permisos y vigencia | 37 |
 | [ingreso_codigo.sql](supabase/pruebas/ingreso_codigo.sql) | QR de un uso, vencimiento, reemplazo, permisos y reglas de acceso | 14 |
 | [historial.sql](supabase/pruebas/historial.sql) | Lectura por rol, visitas y estados de préstamos | 9 |
+| [estabilidad_019.sql](supabase/pruebas/estabilidad_019.sql) | Estabilidad y turnos | 30 |
+| [seguridad_018.sql](supabase/pruebas/seguridad_018.sql) | Seguridad y roles | 55 |
+| [020/aviso_tne.sql](supabase/pruebas/020/aviso_tne.sql) | Aviso TNE | 21 |
+| [021/catalogo.sql](supabase/pruebas/021/catalogo.sql) | Catálogo y stock | 27 |
+| [medidas/mediciones.sql](supabase/pruebas/medidas/mediciones.sql) | Privacidad y medidas | 42 |
+| [023/rutinas_personalizadas.sql](supabase/pruebas/023/rutinas_personalizadas.sql) | Rutinas y modalidades | 38 |
+| [023/primera_rutina_en_visita.sql](supabase/pruebas/023/primera_rutina_en_visita.sql) | Primera rutina y visitas | 19 |
+| [024/configuracion_completa.sql](supabase/pruebas/024/configuracion_completa.sql) | Configuración y validaciones | 30 |
+| [024/modalidades_y_feedback.sql](supabase/pruebas/024/modalidades_y_feedback.sql) | Modalidades y feedback | 22 |
+| [migracion_017.sql](supabase/pruebas/migracion_017.sql) | Actualización histórica en base 015 | 2 |
 
-Las ocho suites anteriores suman 229 casos locales. Las dos comprobaciones restantes son de [migracion_017.sql](supabase/pruebas/migracion_017.sql), que se ejecuta con `psql -f` únicamente en una base local desechable con 001–015, antes de 017. No ejecutar esa suite en SQL Editor remoto: incluye commits y reaplica la migración.
+Total: **515 SQL + 278 Vitest = 793**. Cron, concurrencia, Chromium y reversión se verifican adicionalmente. `migracion_017.sql` requiere el estado anterior a 017 y se ejecuta en el trabajo histórico de CI.
 
 ## Preparar y ensayar la demo
 
@@ -146,7 +169,7 @@ Las ocho suites anteriores suman 229 casos locales. Las dos comprobaciones resta
 
 ## Limitaciones de esta versión
 
-Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal queda para una próxima versión. La progresión y las modalidades de rutina se configuran solo por SQL (D24). El QR de respaldo se canjea con seis caracteres en Ingreso manual; en navegadores compatibles también se ofrece cámara (BarcodeDetector). Para probarlo, abre una sesión de alumno con credencial vinculada, genera el QR y canjea el código desde otra sesión de profesor en `/ingreso`. Vence en dos minutos y sirve una vez. CA31 físico sigue pendiente.
+Solo se inscriben alumnos. Las identidades, credenciales y fechas de certificado son ficticias. El registro corporal es privado y utiliza datos ficticios; la progresión y modalidades se administran desde el panel. RF28–RF31 no están implementados. El QR de respaldo se canjea con seis caracteres en Ingreso manual; en navegadores compatibles también se ofrece cámara (BarcodeDetector). Para probarlo, abre una sesión de alumno con credencial vinculada, genera el QR y canjea el código desde otra sesión de profesor en `/ingreso`. Vence en dos minutos y sirve una vez. CA31 físico sigue pendiente.
 
 ## Kiosco de ingreso en Chrome
 

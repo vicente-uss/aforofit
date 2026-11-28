@@ -126,3 +126,17 @@ Los totales provienen de los informes de Codex, no se suman entre rondas. Audito
 | CA31, F-21 | Generación y canje manual informados por el coordinador; botón de cámara no disponible en su navegador. Prueba física de cámara y lector pendiente. |
 
 El coordinador informó completada la validación antes de pedir el cierre documental; no se recibieron resultados detallados de las ocho suites en Supabase remoto (229 casos esperados) ni evidencia independiente de aplicación de 017. No registrar esos totales como aprobados en remoto. Pendientes F-05, CA29 en la red USS, CA30 y CA32, CA31 físico y CA34 parcial.
+
+## Ronda 4 · 26 y 27 de noviembre de 2026
+
+Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
+
+| Hito | Vitest | SQL | Total |
+|---|---:|---:|---:|
+| PR #22 / 018 | 211 | 286 | 497 |
+| PR #23 / 019 | 214 | 316 | 530 |
+| Main hasta 022 (`7deae9e`) | 248 | 406 | 654 |
+| PR #27 / 023 (`b1fa349`) | 255 | 463 | 718 |
+| PR #28 / 024 (`5ac9df4`) | 278 | 515 | 793 |
+
+52 SQL nuevas (30 configuración y 22 modalidades/feedback), 23 Vitest nuevas sobre la línea base 023. Instalación limpia, actualización desde 023, reversión y reaplicación con historial conservado; concurrencia, Cron y Realtime certificados adicionalmente. Chromium: cinco secciones a 360 y 1280 px, persistencia, rutina visible en 319 ms con TNE simulada, generación/selección durante y después del ingreso. [Capturas](https://github.com/vicente-uss/aforofit/actions/runs/46075145155/artifacts/15234478946). No sumar las repeticiones de suites ni inferir resultados físicos a partir de la simulación. La prueba histórica 017 (2 SQL) se ejecutó en el trabajo de regresión. Ver desglose completo en README.
