@@ -1,6 +1,6 @@
 # CR-02 · Segunda validación y ampliación funcional de AforoFit
 
-**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador; revisión formal del equipo y del encargado pendiente. No implementado aún.
+**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador; revisión formal del equipo y del encargado pendiente. La rama `cr02-inscripcion-acceso` implementa CR02-01 a CR02-04 con las migraciones 025 y 026.
 **Origen:** apuntes de la segunda validación presencial con el encargado del gimnasio y aclaraciones posteriores del coordinador. No constituye transcripción literal ni acta firmada del encargado.
 **Base preservada:** main `d91dc915bbcdb3d900062d9cb815cbd54ad33a6e` (PR #29 documental integrado), migraciones hasta 024; PR #28 certificado con 793 comprobaciones (278 Vitest + 515 SQL). El alcance original CR-01 queda como referencia histórica. No se promete ganar la evaluación ni se declara aprobado lo nuevo antes de comprobarlo.
 

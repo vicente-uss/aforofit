@@ -33,6 +33,7 @@ import { CamaraQr } from "./camara-qr";
 import { esCodigoIngreso } from "@/lib/ingreso/codigoQr";
 import { capturarLectura } from "@/lib/ingreso/capturarLectura";
 import { normalizarUid } from "@/lib/ingreso/normalizarUid";
+import { normalizarRut } from "@/lib/ingreso/rut";
 import {
   enmascararUid,
   interpretarRespuesta,
@@ -56,6 +57,7 @@ type Lectura = {
   // Solo para mostrar (Avatar y recuadro del turno): vienen en la misma respuesta de registrar_ingreso.
   nombre: string | null;
   turno: number | null;
+  excepcion?: string;
 };
 
 type AlumnoBuscado = { id: string; nombre: string; rut: string | null; carrera: string | null; tarjetas: { tipo: string; uid: string }[] };
@@ -86,7 +88,7 @@ function formatoHora(fecha: Date) {
   });
 }
 
-export function PantallaIngreso() {
+export function PantallaIngreso({ puedeAutorizar }: { puedeAutorizar: boolean }) {
   // Aforo en vivo solo para mostrarlo: no participa en la validación ni bloquea el ingreso.
   const { aforo, sinConexion: sinAforo } = useAforo("aforo-kiosco");
   const [enPausa, avisarFoco] = useReducer(pausaLector, false);
@@ -94,6 +96,7 @@ export function PantallaIngreso() {
   const [lecturas, setLecturas] = useState<Lectura[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [manualAbierto, setManualAbierto] = useState(false);
+  const [modoManual, setModoManual] = useState<"credencial" | "rut">("credencial");
   const [textoManual, setTextoManual] = useState("");
 
   // Vinculación de una credencial no registrada (regla 1, CA02 y CA03).
@@ -124,7 +127,7 @@ export function PantallaIngreso() {
     cancelarLimpieza();
     temporizadorRef.current = setTimeout(() => {
       setError(null);
-      setUltima((actual) => (actual && (!actual.mensaje || actual.mensaje.ofrecerVincular) ? actual : null));
+      setUltima((actual) => (actual && (!actual.mensaje || actual.mensaje.ofrecerVincular || actual.excepcion) ? actual : null));
     }, DURACION_MENSAJE_MS);
   }, [cancelarLimpieza]);
 
@@ -160,9 +163,13 @@ export function PantallaIngreso() {
   }, [enfocarLector]);
 
   // Procesa un código (del lector o manual). Devuelve true si el formato es válido.
-  const procesar = useCallback((texto: string, manual = false) => {
-    const codigo = manual && esCodigoIngreso(texto) ? texto.trim().toUpperCase() : null;
-    const resultado = codigo ? { ok: true as const, uid: codigo } : normalizarUid(texto);
+  const procesar = useCallback((texto: string, manual = false, modo: "credencial" | "rut" | "excepcion" = "credencial") => {
+    const codigo = modo === "credencial" && manual && esCodigoIngreso(texto) ? texto.trim().toUpperCase() : null;
+    const rut = modo === "rut" ? normalizarRut(texto) : null;
+    const resultado = modo === "rut"
+      ? rut ? { ok: true as const, uid: rut } : { ok: false as const, error: "Ingresa un RUT válido, sin puntos y con guion." }
+      : modo === "excepcion" ? { ok: true as const, uid: texto }
+      : codigo ? { ok: true as const, uid: codigo } : normalizarUid(texto);
     if (!resultado.ok) {
       setError(resultado.error);
       programarLimpieza();
@@ -171,11 +178,11 @@ export function PantallaIngreso() {
 
     const ahora = Date.now();
     const anterior = ultimaAceptadaRef.current;
-    if (!codigo && anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
+    if (modo !== "excepcion" && !codigo && anterior && anterior.uid === resultado.uid && ahora - anterior.ms < VENTANA_REPETIDA_MS) {
       // Lectura repetida de la misma tarjeta: se ignora sin mostrar nada.
       return true;
     }
-    ultimaAceptadaRef.current = { uid: resultado.uid, ms: ahora };
+    if (modo !== "excepcion") ultimaAceptadaRef.current = { uid: resultado.uid, ms: ahora };
 
     const lectura: Lectura = {
       id: siguienteIdRef.current++,
@@ -193,16 +200,18 @@ export function PantallaIngreso() {
     // Las reglas 1 a 6 se validan en la base de datos (registrar_ingreso), no aquí:
     // así el lector, el ingreso manual y el QR pasan por el mismo lugar.
     const inicio = performance.now();
-    const terminar = (mensaje: MensajeKiosco, datos?: { nombre: string | null; turno: number | null }) => {
+    const terminar = (mensaje: MensajeKiosco, datos?: Pick<Lectura, "nombre" | "turno" | "excepcion">) => {
       const completa: Lectura = {
         ...lectura,
         mensaje,
         ms: Math.round(performance.now() - inicio),
         nombre: datos?.nombre ?? null,
         turno: datos?.turno ?? null,
+        excepcion: datos?.excepcion,
       };
-      setUltima(completa);
       setLecturas((previas) => [completa, ...previas].slice(0, MAX_LECTURAS));
+      if (lectura.id !== siguienteIdRef.current - 1) return;
+      setUltima(completa);
       if (mensaje.ofrecerVincular) setUidPorVincular(resultado.uid);
 
       // El mensaje queda unos segundos y la pantalla vuelve a esperar otra tarjeta.
@@ -211,9 +220,11 @@ export function PantallaIngreso() {
     };
 
     // Promise.resolve porque el constructor de Supabase es "thenable" y no tiene .catch().
-    const consulta = codigo
-      ? supabaseRef.current.rpc("registrar_ingreso_codigo", { p_codigo: codigo })
-      : supabaseRef.current.rpc("registrar_ingreso", { p_uid: resultado.uid });
+    const supabase = supabaseRef.current;
+    const consulta = modo === "excepcion" ? supabase.rpc("autorizar_acceso_excepcional", { p_persona: texto })
+      : rut ? supabase.rpc("registrar_ingreso_rut", { p_rut: rut })
+      : codigo ? supabase.rpc("registrar_ingreso_codigo", { p_codigo: codigo })
+      : supabase.rpc("registrar_ingreso", { p_uid: resultado.uid });
     void Promise.resolve(consulta)
       .then(({ data, error: errorRpc }) => {
         if (errorRpc) {
@@ -221,6 +232,9 @@ export function PantallaIngreso() {
           if (codigo && ["codigo_invalido", "sin_tarjeta"].includes(errorRpc.message)) {
             terminar({ tono: "error", tipo: "Rechazo", titulo: errorRpc.message === "sin_tarjeta" ? "Alumno sin credencial vinculada" : "Código vencido, usado o incorrecto",
               detalle: "Solicita un nuevo código en el celular del alumno.", ofrecerVincular: false });
+          } else if (rut && ["rut_invalido", "rut_duplicado"].includes(errorRpc.message)) {
+            terminar({ tono: "error", tipo: "Rechazo", titulo: textoMotivo(errorRpc.message),
+              detalle: "Revisa el RUT o la inscripción.", ofrecerVincular: false });
           } else terminar(mensajeErrorRpc(errorRpc));
           return;
         }
@@ -230,14 +244,25 @@ export function PantallaIngreso() {
           terminar(mensajeRespuestaInvalida());
           return;
         }
-        terminar(mensajeIngreso(respuesta), { nombre: respuesta.alumno?.nombre ?? null, turno: respuesta.turno });
+        const mensaje = mensajeIngreso(respuesta);
+        if (modo === "excepcion" && respuesta.resultado === "turno") {
+          mensaje.detalle = "Autorización registrada para este turno. Vuelve a identificarte cuando te llamen.";
+        }
+        if (modo === "excepcion" && respuesta.resultado === "entrada") {
+          mensaje.detalle = `Ingreso excepcional registrado · ${mensaje.detalle}`;
+        }
+        terminar(mensaje, {
+          nombre: respuesta.alumno?.nombre ?? null,
+          turno: respuesta.turno,
+          excepcion: puedeAutorizar && respuesta.motivo === "certificado_no_vigente" ? respuesta.alumno?.id : undefined,
+        });
       })
       .catch((errorInesperado: unknown) => {
         console.error("Falló la llamada a registrar_ingreso:", errorInesperado);
         terminar(mensajeErrorRpc({}));
       });
     return true;
-  }, [cancelarLimpieza, programarLimpieza]);
+  }, [cancelarLimpieza, programarLimpieza, puedeAutorizar]);
 
   // Busca alumnos ficticios por nombre o RUT para vincular la credencial (el profesor puede leerlos).
   const buscarAlumnos = async (evento: React.FormEvent) => {
@@ -338,8 +363,10 @@ export function PantallaIngreso() {
     }
   };
 
-  const abrirManual = () => {
+  const abrirManual = (modo: "credencial" | "rut") => {
     manualAbiertoRef.current = true;
+    setModoManual(modo);
+    setTextoManual("");
     setManualAbierto(true);
   };
 
@@ -356,7 +383,7 @@ export function PantallaIngreso() {
 
   const enviarManual = (evento: React.FormEvent) => {
     evento.preventDefault();
-    if (procesar(textoManual, true)) cerrarManual();
+    if (procesar(textoManual, true, modoManual)) cerrarManual();
   };
 
   const nivel = aforo ? estadoAforo(aforo.ocupacion, aforo.capacidad, aforo.umbral_casi_lleno).etiqueta : null;
@@ -417,18 +444,29 @@ export function PantallaIngreso() {
                 {manualAbierto ? (
                   <form onSubmit={enviarManual} className="space-y-2">
                     <Label htmlFor="uid-manual" className="text-[13px] font-semibold text-navy-900">
-                      Ingreso manual
+                      {modoManual === "rut" ? "RUT sin puntos y con guion" : "Ingreso manual"}
                     </Label>
                     <Input
                       id="uid-manual"
                       autoFocus
                       value={textoManual}
                       onChange={(e) => setTextoManual(e.target.value)}
-                      placeholder="UID o código de 6 caracteres"
-                      aria-label="UID o código de ingreso"
+                      placeholder={modoManual === "rut" ? "RUT" : "UID o código de 6 caracteres"}
+                      aria-label={modoManual === "rut" ? "RUT sin puntos y con guion" : "UID o código de ingreso"}
+                      maxLength={modoManual === "rut" ? 10 : undefined}
+                      inputMode={modoManual === "rut" ? "none" : undefined}
                       className="h-12 font-mono text-base uppercase tracking-wider placeholder:normal-case placeholder:tracking-normal"
                     />
-                    <CamaraQr leer={leerQr} />
+                    {modoManual === "rut" ? (
+                      <div role="group" aria-label="Teclado para RUT" className="grid grid-cols-3 gap-2">
+                        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "-", "0", "K"].map((tecla) => (
+                          <Button key={tecla} type="button" variant="outline" className="h-11"
+                            onClick={() => setTextoManual((actual) => (actual + tecla).slice(0, 10))}>{tecla}</Button>
+                        ))}
+                        <Button type="button" variant="ghost" className="col-span-3"
+                          onClick={() => setTextoManual((actual) => actual.slice(0, -1))}>Borrar último carácter</Button>
+                      </div>
+                    ) : <CamaraQr leer={leerQr} />}
                     <div className="flex flex-wrap gap-2">
                       <Button type="submit">Registrar</Button>
                       <Button type="button" variant="ghost" onClick={cerrarManual}>
@@ -438,11 +476,11 @@ export function PantallaIngreso() {
                   </form>
                 ) : (
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <Button variant="secondary" onClick={abrirManual}>
+                    <Button variant="secondary" onClick={() => abrirManual("rut")}>
                       <Keyboard aria-hidden />
-                      Ingreso manual
+                      Ingresar por RUT
                     </Button>
-                    <span className="text-[13px] text-tinta-suave">Credencial o código QR</span>
+                    <Button variant="ghost" onClick={() => abrirManual("credencial")}>Ingreso manual</Button>
                   </div>
                 )}
               </div>
@@ -524,8 +562,19 @@ export function PantallaIngreso() {
                         <Avatar nombre={ultima.nombre} />
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-navy-900">{ultima.nombre}</p>
-                          <p className="text-xs text-tinta-suave">Alumno identificado</p>
+                          <p className="text-xs text-tinta-suave">Persona identificada</p>
                         </div>
+                      </div>
+                    )}
+
+                    {ultima.excepcion && (
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Button variant="outline" onClick={() => {
+                          if (ultima.id === siguienteIdRef.current - 1 && ultima.excepcion) {
+                            procesar(ultima.excepcion, false, "excepcion");
+                          }
+                        }}>Autorizar esta visita</Button>
+                        <Button variant="ghost" onClick={() => setUltima(null)}>Descartar</Button>
                       </div>
                     )}
 

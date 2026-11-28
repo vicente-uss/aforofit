@@ -58,6 +58,14 @@ describe("mensajeIngreso", () => {
     expect(m.ofrecerVincular).toBe(false);
   });
 
+  it.each(["pendiente", "vencido"] as const)("muestra el estado médico %s de CR-02", (estado) => {
+    const respuesta = interpretarRespuesta({
+      ...base, resultado: "rechazo", motivo: "certificado_no_vigente", estado_certificado: estado,
+    });
+    expect(respuesta?.estado_certificado).toBe(estado);
+    expect(mensajeIngreso(respuesta!).titulo).toBe(`Certificado médico ${estado}`);
+  });
+
   it("fuera de horario: rechaza con el texto del criterio (CA05)", () => {
     const m = mensajeIngreso({ ...base, resultado: "rechazo", motivo: "fuera_de_horario" });
     expect(m.titulo).toBe("Fuera del horario de ingreso");

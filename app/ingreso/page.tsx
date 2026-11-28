@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 // pueden ejecutar registrar_ingreso en la base de datos. El computador del gimnasio queda con la
 // sesión del profesor abierta.
 async function Contenido() {
-  await requerirAlgunRol(ROLES_KIOSCO);
-  return <PantallaIngreso />;
+  const perfil = await requerirAlgunRol(ROLES_KIOSCO);
+  return <PantallaIngreso puedeAutorizar={perfil.rol === "profesor"} />;
 }
 
 export default function PaginaIngreso() {

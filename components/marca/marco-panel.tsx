@@ -12,6 +12,7 @@ import {
   ScanLine,
   ShieldCheck,
   SlidersHorizontal,
+  UserRoundPlus,
   Users,
   Wrench,
   X,
@@ -36,6 +37,7 @@ const MENU: Record<"profesor" | "admin", { titulo: string; items: Item[] }> = {
     items: [
       { href: "/profesor", etiqueta: "Inicio", icono: LayoutDashboard },
       { href: "/ingreso", etiqueta: "Kiosco de ingreso", icono: ScanLine },
+      { href: "/profesor/inscripciones", etiqueta: "Inscripciones", icono: UserRoundPlus },
       { href: "/profesor/espera", etiqueta: "Lista de espera", icono: ListOrdered },
       { href: "/profesor/adentro", etiqueta: "Quiénes están adentro", icono: Users },
       { href: "/profesor/prestamos", etiqueta: "Préstamos", icono: Package },
