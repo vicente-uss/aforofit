@@ -210,7 +210,7 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
       <Tarjeta className="p-4 sm:p-5">
         <h2 className="mb-4 text-lg font-semibold text-navy-900">{ficha ? "Editar inscripción" : "Nueva inscripción"}</h2>
         <form key={claveFormulario} onSubmit={guardar}>
-          <fieldset disabled={ocupado} className="grid min-w-0 gap-4 sm:grid-cols-2">
+          <fieldset disabled={ocupado} className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
             {CAMPOS.map(({ nombre, etiqueta, ...config }) => {
               const valor = ficha?.[nombre];
               const inicial = nombre === "rut" && typeof valor === "string" ? valor.replaceAll(".", "") : valor;
@@ -243,7 +243,7 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
               <textarea name="antecedentes" rows={3} maxLength={4000} defaultValue={ficha?.antecedentes ?? ""}
                 className="block w-full rounded-md border border-line p-3" />
             </label>
-            <div className="space-y-3 rounded-lg border border-line p-3 sm:col-span-2">
+            <div className="min-w-0 space-y-3 rounded-lg border border-line p-3 sm:col-span-2">
               <p className="text-sm text-tinta-suave">PDF, JPG o PNG de hasta 10 MB por archivo.</p>
               {tipo === "deportista_destacado" ? (
                 <p className="text-sm font-medium">Exento de certificado médico.</p>
@@ -251,7 +251,7 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
                 <>
                   <label className="block space-y-1 text-sm font-medium">
                     <span>Certificado médico</span>
-                    <Input type="file" name="medico" accept={TIPOS_CERTIFICADO.join(",")} />
+                    <Input type="file" name="medico" accept={TIPOS_CERTIFICADO.join(",")} className="min-w-0 max-w-full" />
                   </label>
                   <label className="block space-y-1 text-sm font-medium">
                     <span>Fecha de emisión del certificado médico</span>
@@ -262,17 +262,21 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
                       ? `${ficha.certificado_hasta < hoy ? "Vencido" : "Vigente"} · hasta ${ficha.certificado_hasta.split("-").reverse().join("/")}`
                       : "Certificado médico pendiente"}
                   </p>
-                  {ficha?.medico && <Button type="button" variant="outline" onClick={() => void descargar(ficha.medico!)}>Descargar certificado médico</Button>}
+                  {ficha?.medico && (
+                    <Button type="button" variant="outline" className="h-auto min-h-10 max-w-full whitespace-normal py-2"
+                      onClick={() => void descargar(ficha.medico!)}>Descargar certificado médico</Button>
+                  )}
                 </>
               )}
               {tipo === "estudiante" && (
                 <>
                   <label className="block space-y-1 text-sm font-medium">
                     <span>Certificado de alumno regular</span>
-                    <Input type="file" name="alumno_regular" accept={TIPOS_CERTIFICADO.join(",")} />
+                    <Input type="file" name="alumno_regular" accept={TIPOS_CERTIFICADO.join(",")} className="min-w-0 max-w-full" />
                   </label>
                   {ficha?.alumno_regular
-                    ? <Button type="button" variant="outline" onClick={() => void descargar(ficha.alumno_regular!)}>Descargar certificado de alumno regular</Button>
+                    ? <Button type="button" variant="outline" className="h-auto min-h-10 max-w-full whitespace-normal py-2"
+                      onClick={() => void descargar(ficha.alumno_regular!)}>Descargar certificado de alumno regular</Button>
                     : <p className="text-sm">Certificado de alumno regular pendiente</p>}
                 </>
               )}
