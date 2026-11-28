@@ -6,15 +6,17 @@ Este archivo es la fuente única de contexto para cualquier IA o persona que tra
 Si algo de aquí contradice otro documento, manda este archivo. Si cambias el alcance, las reglas o
 el estado, actualiza este archivo en el mismo pull request.
 
-Última actualización: viernes 27 de noviembre de 2026, después de la integración de 024.
+Última actualización: sábado 28 de noviembre de 2026, CR-02 fase 2 en revisión.
 
 Al cierre del 27 de noviembre, los PR #22–#28 están fusionados en main (base de referencia `0e730a22aa7d401787c7b10a3834444a8bb480a8`). Las migraciones 018–024 cubren seguridad, estabilidad autónoma, aviso TNE, administración de catálogo, registro corporal privado, rutinas personalizadas y configuración completa. **27/27 RF de prioridad alta implementados**; RF28–RF31 siguen pendientes de decisión. La certificación del PR #28 (commit `5ac9df4af1bc4735337f623f89452e73413f6bc1`) registra **793 comprobaciones únicas (278 Vitest + 515 SQL)** en entorno desechable, lint/build correctos y cero vulnerabilidades reportadas por ambas auditorías npm; [GitHub Actions 46075145155](https://github.com/vicente-uss/aforofit/actions/runs/46075145155). La certificación posterior a la fusión y la comprobación de producción quedan pendientes. Security Advisor: 24 advertencias y 1 sugerencia, consideradas auditadas por el coordinador; no se adjuntó un desglose independiente. CA31 físico (lector TNE/TUI y cámara QR en el gimnasio) sigue pendiente de evidencia.
 
 ## 1. Qué es AforoFit
 
-**CR-02 fase 1 (28 de noviembre, rama `cr02-inscripcion-acceso`).** La fase amplía la inscripción y el acceso del gimnasio a estudiantes, funcionarios/colaboradores y deportistas destacados. El profesor administra las fichas y sus certificados privados. La documentación de alcance histórico de abajo corresponde a CR-01: desde 025 y 026 se agrega identificación por RUT y autorización excepcional de una visita, manteniendo las reglas de horario, aforo y espera. Se usan únicamente identidades y documentos ficticios. El criterio institucional para acreditar deportistas destacados sigue pendiente.
+**CR-02 fase 1 (28 de noviembre, PR #31 fusionado en `52e9dcf`).** La fase amplía la inscripción y el acceso del gimnasio a estudiantes, funcionarios/colaboradores y deportistas destacados. El profesor administra las fichas y sus certificados privados. La documentación de alcance histórico de abajo corresponde a CR-01: desde 025 y 026 se agrega identificación por RUT y autorización excepcional de una visita, manteniendo las reglas de horario, aforo y espera. Se usan únicamente identidades y documentos ficticios. El criterio institucional para acreditar deportistas destacados sigue pendiente.
 
 Desde 027, Inscripciones, Habilitación y el kiosco comparten el estado del certificado médico. Administración actualiza las fechas históricas. El profesor gestiona las fechas y archivos de las fichas con adjuntos. La vigencia incluye el último día en hora de Santiago. El reemplazo de un adjunto deja el archivo anterior pendiente de retiro por la API de Storage.
+
+**CR-02 fase 2 (28 de noviembre, rama `cr02-profesor-admin`).** La migración 028 implementa CR02-06 para revisión. `profesor.demo` puede abrir Administración con un PIN de demo configurado en Vault. El permiso dura 30 minutos por sesión y se valida en Next.js y PostgreSQL. `admin.demo` conserva su acceso y el rol del profesor sigue siendo `profesor`. La activación se prepara exclusivamente en un entorno de demostración con datos ficticios. [Configuración y pruebas](docs/cr-02-modo-administrador.md).
 
 Sistema web para el gimnasio (sala de musculación) de la **Universidad San Sebastián (USS), sede Bellavista**.
 Lo usan **solo alumnos** de la universidad. Es el **Proyecto Integrador** (evaluación Solemne) del
@@ -265,6 +267,8 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 | **Jue 3 dic** | Entrega final y expo (70 % de la nota; fecha confirmada el 25 de noviembre) | Prototipo funcionando en vivo, código con instrucciones, evidencia de pruebas, afiche y 20 trípticos, defensa de todos |
 
 ## 10. Estado actual
+
+CR-02 fase 1 está fusionada por PR #31. CR-02 fase 2 incorpora el modo administrador temporal en 028 y queda sujeta a auditoría del PR. El ensayo con el PIN de la demostración requiere un entorno separado.
 
 Actualizado: miércoles 25 de noviembre de 2026.
 

@@ -80,10 +80,11 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [025_inscripciones_certificados.sql](supabase/sql/025_inscripciones_certificados.sql) | Categorías de persona, ficha privada del profesor y bucket privado de certificados. | Conserva los identificadores y la vigencia histórica registrada. |
 | [026_acceso_rut_excepciones.sql](supabase/sql/026_acceso_rut_excepciones.sql) | Acceso por RUT y registro de excepciones por visita o turno. | Conserva credenciales, visitas, turnos y rutinas. |
 | [027_vigencia_y_retiro_certificados.sql](supabase/sql/027_vigencia_y_retiro_certificados.sql) | Unifica el estado médico de inscripción, habilitación y acceso, y registra el retiro de adjuntos reemplazados. | Conserva fechas, fichas y documentos asociados. |
+| [028_modo_administrador.sql](supabase/sql/028_modo_administrador.sql) | Permiso administrativo temporal para la cuenta del encargado. | Conserva los roles y requiere configurar Vault para la demo. |
 
 La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
 
-Aplica 025 a 027 en orden al entorno de prueba para habilitar CR-02 fase 1. La [certificación de CR-02 fase 1](.github/workflows/certificacion-cr02-fase-1.yml) ejecuta la regresión y las pruebas nuevas con un proyecto Supabase desechable.
+Aplica 025 a 028 en orden al entorno de prueba. Sigue la [configuración del modo administrador](docs/cr-02-modo-administrador.md) para preparar la demo. La [certificación de CR-02](.github/workflows/certificacion-cr02-fase-1.yml) ejecuta la regresión y las pruebas nuevas con un proyecto Supabase desechable.
 
 ## Usuarios de prueba
 
@@ -92,7 +93,7 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | Correo | Rol | Acceso principal |
 |---|---|---|
 | `alumno.demo@aforofit.cl` | Alumno (Antonia) | Su rutina y feedback en `/alumno` |
-| `profesor.demo@aforofit.cl` | Profesor | Kiosco, panel del profesor, espera, visitas, máquinas y préstamos |
+| `profesor.demo@aforofit.cl` | Profesor | Kiosco, panel del profesor, espera, visitas, máquinas, préstamos y modo Administración con PIN de demo |
 | `admin.demo@aforofit.cl` | Administrador | Kiosco, panel de administración, configuración y habilitación |
 
 ## Pantallas y rutas
@@ -117,11 +118,11 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos, devolver cantidades y entregar la TNE por separado. |
 | `/profesor/historial` | Profesor | Consultar visitas y préstamos por fecha en Santiago. |
 | `/profesor/rutinas` | Profesor | Crear, asignar y editar rutinas de origen profesor. |
-| `/admin` | Administrador | Abrir los módulos de administración. |
-| `/admin/configuracion` | Administrador | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |
-| `/admin/habilitacion` | Administrador | Consultar el estado médico de una persona y registrar la emisión de certificados históricos. Las fichas con adjuntos se gestionan en Inscripciones. |
-| `/admin/maquinas` | Administrador | Administrar máquinas y fotos. |
-| `/admin/implementos` | Administrador | Administrar implementos y stock. |
+| `/admin` | Admin o profesor en modo Administración | Abrir los módulos de administración. |
+| `/admin/configuracion` | Admin o profesor en modo Administración | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |
+| `/admin/habilitacion` | Admin o profesor en modo Administración | Consultar el estado médico de una persona y registrar la emisión de certificados históricos. Las fichas con adjuntos se gestionan en Inscripciones. |
+| `/admin/maquinas` | Admin o profesor en modo Administración | Administrar máquinas y fotos. |
+| `/admin/implementos` | Admin o profesor en modo Administración | Administrar implementos y stock. |
 
 ## Pruebas
 

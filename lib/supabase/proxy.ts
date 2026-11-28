@@ -122,7 +122,11 @@ export async function updateSession(request: NextRequest) {
     (rol) => rol !== perfil.rol && coincide(pathname, panelDeRol(rol)),
   );
   if (panelAjeno) {
-    return redirigir(miPanel);
+    if (perfil.rol !== "profesor" || !coincide(pathname, "/admin")) {
+      return redirigir(miPanel);
+    }
+    const { data: venceEn, error } = await supabase.rpc("vencimiento_modo_admin");
+    if (error || typeof venceEn !== "string") return redirigir(miPanel);
   }
 
   // El kiosco es solo para profesor y admin: el alumno vuelve a su panel.

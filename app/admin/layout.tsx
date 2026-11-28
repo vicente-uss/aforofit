@@ -1,19 +1,26 @@
 import { Suspense, type ReactNode } from "react";
 import { MarcoPanel } from "@/components/marca/marco-panel";
-import { NombreUsuario } from "@/components/marca/nombre-usuario";
+import { SalidaAdministracion } from "@/components/marca/modo-admin";
+import { CargandoPanel } from "@/components/cargando-panel";
+import { requerirAdministracion } from "@/lib/auth/perfil";
 
-// Contenedor visual de /admin/*. La validación del rol sigue en cada página (requerirRol).
-export default function Layout({ children }: { children: ReactNode }) {
+async function MarcoAdministracion({ children }: { children: ReactNode }) {
+  const { perfil, venceEn } = await requerirAdministracion();
   return (
     <MarcoPanel
       rol="admin"
-      usuario={
-        <Suspense fallback="…">
-          <NombreUsuario />
-        </Suspense>
-      }
+      usuario={perfil.nombre}
+      controlModo={venceEn ? <SalidaAdministracion venceEn={venceEn} /> : null}
     >
       {children}
     </MarcoPanel>
+  );
+}
+
+export default function Layout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<CargandoPanel />}>
+      <MarcoAdministracion>{children}</MarcoAdministracion>
+    </Suspense>
   );
 }
