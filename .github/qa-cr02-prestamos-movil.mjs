@@ -14,7 +14,16 @@ function sql(input) {
 }
 
 async function sinDesborde(pagina) {
-  assert.ok(await pagina.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
+  const { ancho, visible, elementos } = await pagina.evaluate(() => {
+    const ancho = document.documentElement.scrollWidth;
+    const visible = window.innerWidth;
+    const elementos = ancho <= visible ? [] : [...document.querySelectorAll('main *')].flatMap(elemento => {
+      const { right } = elemento.getBoundingClientRect();
+      return right > visible ? [`${elemento.tagName} ${elemento.className} (${Math.round(right)} px)`] : [];
+    }).slice(0, 8);
+    return { ancho, visible, elementos };
+  });
+  assert.ok(ancho <= visible, `Contenido de ${ancho} px en pantalla de ${visible} px. ${elementos.join(', ')}`);
 }
 
 const pin = String(randomInt(100000, 1000000));

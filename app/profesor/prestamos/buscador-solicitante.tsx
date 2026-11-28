@@ -48,8 +48,8 @@ export function BuscadorSolicitante({ db, elegir }: {
           {actual.personas.map(persona => <li key={`${persona.externo}-${persona.id}`}>
             <button type="button" className="w-full rounded-md px-3 py-2 text-left hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2"
               onClick={() => elegir(persona)}>
-              <span className="block break-words text-sm font-medium">{persona.nombre}</span>
-              <span className="block break-words text-xs text-tinta-suave">{persona.referencia || `Ficha · ${persona.id.slice(0, 8)}`}</span>
+              <span className="block text-sm font-medium [overflow-wrap:anywhere]">{persona.nombre}</span>
+              <span className="block text-xs text-tinta-suave [overflow-wrap:anywhere]">{persona.referencia || `Ficha · ${persona.id.slice(0, 8)}`}</span>
             </button>
           </li>)}
         </ul>

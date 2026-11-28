@@ -106,15 +106,15 @@ export function Prestamos() {
     {aviso && <Aviso tono={avisoExito ? "green" : "red"} role="status" className="animate-pop-in">
       <span className="font-semibold">{aviso}</span>
     </Aviso>}
-    <div className="grid gap-6 lg:grid-cols-2">
-      <Tarjeta>
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <Tarjeta className="min-w-0">
         <EncabezadoTarjeta titulo="Nuevo préstamo" />
         <fieldset disabled={guardando} className="min-w-0 space-y-4 px-5 pb-5 pt-4">
           {!solicitante && <BuscadorSolicitante db={db} elegir={persona => { elegir(persona); setAviso(""); }} />}
           {solicitante && <div className="space-y-3 rounded-xl border border-line bg-slate-50 px-3 py-3">
-            <div className="flex min-w-0 items-start gap-3">
+            <div className="flex items-start gap-3">
               <Avatar nombre={solicitante.nombre} />
-              <div className="min-w-0 break-words">
+              <div className="min-w-0 flex-1 [overflow-wrap:anywhere]">
                 <p className="text-xs text-tinta-suave">{solicitante.nuevo ? "Nuevo solicitante externo" : solicitante.referencia || "Ficha seleccionada"}</p>
                 <p className="font-semibold text-navy-900">{solicitante.nombre}</p>
               </div>
@@ -133,7 +133,7 @@ export function Prestamos() {
                 onChange={e => setBuscarImplemento(e.target.value)} />
               {stockVisible.length === 0 && <p className="text-sm text-tinta-suave">No hay implementos para mostrar.</p>}
               {stockVisible.map(i => <label key={i.id} className="flex items-center justify-between gap-3">
-                <span className="min-w-0 break-words"><span className="block text-sm font-medium text-navy-900">{i.nombre}</span>
+                <span className="min-w-0 [overflow-wrap:anywhere]"><span className="block text-sm font-medium text-navy-900">{i.nombre}</span>
                   <small className="tnum block text-xs text-tinta-suave">{i.categoria && `${i.categoria} · `}{m.disponible}: {i.disponible}</small></span>
                 <Input aria-label={`${m.cantidad} · ${i.nombre}`} className="tnum w-16 shrink-0 text-center sm:w-20" type="number" min="0"
                   max={i.disponible} step="1" disabled={!i.disponible} placeholder="0" value={cantidades[i.id] ?? ""}
@@ -149,8 +149,8 @@ export function Prestamos() {
           </>}
         </fieldset>
       </Tarjeta>
-      <Tarjeta>
-        <EncabezadoTarjeta titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} pendientes` : undefined}
+      <Tarjeta className="min-w-0">
+        <EncabezadoTarjeta className="flex-wrap" titulo={m.abiertos} subtitulo={estado === "listo" ? `${pendientes.length} pendientes` : undefined}
           accion={<Button variant="secondary" size="sm" disabled={guardando || estado === "cargando"} onClick={() => void cargar()}>
             <RefreshCw aria-hidden />{m.cargar}</Button>} />
         <div className="px-5 pb-5 pt-3">
@@ -160,13 +160,13 @@ export function Prestamos() {
             : <ul aria-label={m.abiertos} className="space-y-3">{pendientes.map(p =>
               <li className="space-y-2 rounded-xl border border-line p-4" key={p.id}>
                 <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div className="min-w-0 break-words">
+                  <div className="min-w-0 [overflow-wrap:anywhere]">
                     <strong className="font-semibold text-navy-900">{p.alumno}</strong>
                     {p.referencia && <p className="text-xs text-tinta-suave">{p.referencia}</p>}
                   </div>
                   {p.devuelto_en ? <Insignia tono="amber" punto>TNE sin retirar</Insignia> : <Insignia tono="blue" punto>Implementos pendientes</Insignia>}
                 </div>
-                <p className="break-words text-sm text-slate-700">{p.implementos}</p>
+                <p className="text-sm text-slate-700 [overflow-wrap:anywhere]">{p.implementos}</p>
                 <time className="tnum block text-xs text-tinta-suave" dateTime={p.entregado_en}>{new Date(p.entregado_en).toLocaleString("es-CL", { timeZone: "America/Santiago" })}</time>
                 {p.devuelto_en
                   ? <div className="flex flex-wrap items-center gap-2">
@@ -191,7 +191,7 @@ function Devolucion({ pendientes, ocupado, confirmar }: {
   const items = armarItems(pendientes, cantidades);
   return <fieldset disabled={ocupado} className="space-y-3">
     {pendientes.filter(i => i.disponible > 0).map(i => <label key={i.id} className="flex items-center justify-between gap-2">
-      <span className="min-w-0 break-words text-sm">{i.nombre} · pendientes: {i.disponible}</span>
+      <span className="min-w-0 text-sm [overflow-wrap:anywhere]">{i.nombre} · pendientes: {i.disponible}</span>
       <Input type="number" min="0" max={i.disponible} step="1" placeholder="0" className="w-16 shrink-0"
         aria-label={`Devolver ${i.nombre}`} value={cantidades[i.id] ?? ""}
         onChange={e => cambiar({ ...cantidades, [i.id]: e.target.value })} />
