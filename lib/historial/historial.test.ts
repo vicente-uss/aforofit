@@ -146,7 +146,7 @@ describe("normalizar lo que llega de Supabase", () => {
         entregado_en: "2026-12-07T13:00:00Z",
         devuelto_en: "2026-12-07T14:00:00Z",
         tne_devuelta: true,
-        alumnos: [{ nombre: "Antonia" }],
+        alumnos: [{ nombre: "Antonia", rut: "00.000.001-F" }],
         prestamo_items: [
           { cantidad: 2, implementos: { nombre: "Balón de vóleibol" } },
           { cantidad: 1, implementos: [{ nombre: "Balón de básquetbol" }] },
@@ -155,7 +155,26 @@ describe("normalizar lo que llega de Supabase", () => {
       { id: "malo", entregado_en: 5 },
     ]);
     expect(r.map((p) => p.id)).toEqual(["p1", "p2"]);
+    expect(r.map((p) => [p.solicitante, p.detalleSolicitante])).toEqual([
+      ["Antonia", "00.000.001-F"], ["Benjamín", null],
+    ]);
     expect(r[0].implementos).toBe("Balón de básquetbol × 1, Balón de vóleibol × 2");
+  });
+
+  it.each([
+    { numero: 42, referencia: "Equipo A", devuelto: null, tne: false, estado: "implementos", detalle: "Externo #42 · Equipo A" },
+    { numero: 43, referencia: "Equipo B", devuelto: "2026-12-07T15:00:00Z", tne: false, estado: "tne", detalle: "Externo #43 · Equipo B" },
+    { numero: 44, referencia: null, devuelto: "2026-12-07T15:00:00Z", tne: true, estado: "cerrado", detalle: "Externo #44" },
+  ])("identifica al solicitante externo con estado $estado", ({ numero, referencia, devuelto, tne, estado, detalle }) => {
+    const externo = { nombre: "Sofía Soto", numero, referencia };
+    const [prestamo] = normalizarPrestamos([{
+      id: "prestamo", externo_id: "ficha-externa", entregado_en: "2026-12-07T13:00:00Z",
+      devuelto_en: devuelto, tne_devuelta: tne, alumnos: null,
+      solicitantes_externos: tne ? [externo] : externo,
+      prestamo_items: [{ cantidad: 1, implementos: { nombre: "Paleta" } }],
+    }]);
+    expect(prestamo).toMatchObject({ solicitante: "Sofía Soto", detalleSolicitante: detalle, implementos: "Paleta × 1" });
+    expect(estadoPrestamo(prestamo)).toBe(estado);
   });
 });
 

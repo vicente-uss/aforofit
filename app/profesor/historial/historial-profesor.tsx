@@ -67,7 +67,11 @@ export function HistorialProfesor() {
           .order("entrada"),
         supabase
           .from("prestamos")
-          .select("id, entregado_en, devuelto_en, tne_devuelta, alumnos(nombre), prestamo_items(cantidad, implementos(nombre))")
+          .select(`
+            id, entregado_en, devuelto_en, tne_devuelta, externo_id,
+            alumnos(nombre, rut), solicitantes_externos(nombre, numero, referencia),
+            prestamo_items(cantidad, implementos(nombre))
+          `)
           .gte("entregado_en", desde)
           .lt("entregado_en", hasta)
           .order("entregado_en"),
@@ -210,11 +214,12 @@ export function HistorialProfesor() {
                   {TEXTOS.prestamosVacioDetalle}
                 </EstadoVacio>
               ) : (
-                <ul className="divide-y divide-line">
+                <ul aria-label={TEXTOS.prestamosTitulo} className="divide-y divide-line">
                   {datos.prestamos.map((p) => (
                     <li key={p.id} className="flex flex-wrap items-center gap-x-4 gap-y-1.5 py-3">
-                      <span className="min-w-0 flex-1 basis-56">
-                        <span className="block truncate font-semibold text-navy-900">{p.alumno}</span>
+                      <span className="min-w-0 flex-1 basis-56 [overflow-wrap:anywhere]">
+                        <span className="block font-semibold text-navy-900">{p.solicitante}</span>
+                        {p.detalleSolicitante && <span className="block text-xs text-slate-600">{p.detalleSolicitante}</span>}
                         <span className="block text-sm text-slate-600">{p.implementos}</span>
                       </span>
                       <span className="tnum text-sm text-slate-700">
