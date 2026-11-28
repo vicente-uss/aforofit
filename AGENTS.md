@@ -83,6 +83,8 @@ fuera del prototipo (D10, limitación de alcance documentada).
 
 ## 3. Alcance
 
+> **CR-02 (27 de noviembre):** [segunda validación y ampliación](docs/cr-02-segunda-validacion.md) y [brief de Figma](docs/figma-cr02-brief.md). Propuesta acordada con el coordinador, pendiente de revisión del equipo; amplía el alcance histórico sin declarar implementadas las nuevas funciones. Las restricciones antiguas de solo alumnos, préstamos por lector y roles separados se revisan específicamente en CR-02. La versión 024 se conserva como referencia certificada. No modificar producción para desarrollar CR-02.
+
 ### Prioridad alta (comprometido para la entrega final)
 
 - **Ingreso y salida con credencial**: la TNE es la credencial principal (D17); la TUI (credencial USS) también se contempla. QR como respaldo.
