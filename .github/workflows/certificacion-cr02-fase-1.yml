@@ -54,6 +54,7 @@ jobs:
       - name: Ejecutar suites SQL
         env:
           GRUPO_QA: ${{ matrix.grupo }}
+          AFOROFIT_TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
         run: |
           if [[ "$GRUPO_QA" == regresion-019 ]]; then
             bash .github/qa-019.sh
@@ -61,6 +62,13 @@ jobs:
             bash .github/qa-cr02-fase-1-sql.sh
             bash .github/qa-023-concurrencia.sh
             bash .github/qa-024-concurrencia.sh
+            psql "$AFOROFIT_TEST_DATABASE_URL" -Xv ON_ERROR_STOP=1 <<'SQL'
+          delete from public.visitas where rutina_id in (
+            select id from public.rutinas where nombre in ('Carrera 023 uno', 'Carrera 023 dos'));
+          delete from public.rutinas where nombre in ('Carrera 023 uno', 'Carrera 023 dos');
+          delete from public.alumnos where rut in ('QA-024-D', 'QA-024-A', 'QA-024-R', 'QA-024-N');
+          select privado.sincronizar_aforo();
+          SQL
           fi
       - name: Chromium, Storage y Realtime
         if: matrix.grupo == 'cr02'
