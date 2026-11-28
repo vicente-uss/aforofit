@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { calendario, estadoModulo, fechaAgenda, fechaValida, horarioTexto, modulosDelDia, rutIntegrante, seSuperponen, type Modulo, type Reserva } from "./agenda";
+import { bloquesDelDia, calendario, columnasParalelas, estadoModulo, fechaAgenda, fechaValida, hayConflicto, horarioTexto,
+  modulosDelDia, periodoAgenda, rutIntegrante, seSuperponen, type Modulo, type Reserva, type Serie } from "./agenda";
 
-const modulo: Modulo = { id: 1, dias: [1, 2, 3, 4, 5], hora_inicio: "08:00:00", hora_fin: "09:20:00" };
+const modulo: Modulo = { id: 1, dias: [1, 2, 3, 4, 5], hora_inicio: "08:00:00", hora_fin: "09:20:00", reservable: true };
 const bloques = (tipo: Reserva["tipo"], cancelada = false): Reserva[] => [{
   id: "reserva", tipo, titulo: null, inicio: "", fin: "", fecha: "2026-12-07", version: "",
   hora_inicio: "09:00:00", hora_fin: "09:15:00", cancelada_en: cancelada ? "2026-11-28" : null,
   responsable: null, carrera: null, correo: null, responsable_id: null, multicancha_integrantes: [],
+  espacio: "multicancha",
 }];
 
 describe("Calendario de multicancha", () => {
@@ -52,5 +54,34 @@ describe("Calendario de multicancha", () => {
   it("normaliza RUT con puntos y verifica el dígito", () => {
     expect(rutIntegrante("12.345.678-5")).toBe("12345678-5");
     expect(rutIntegrante("12.345.678-0")).toBeNull();
+  });
+  it("agrupa series por semana civil de lunes a domingo, aunque cambie el mes", () => {
+    expect(periodoAgenda("2026-12-02", "semana")).toMatchObject({
+      dias: ["2026-11-30", "2026-12-01", "2026-12-02", "2026-12-03", "2026-12-04", "2026-12-05", "2026-12-06"],
+      anterior: "2026-11-25", siguiente: "2026-12-09",
+    });
+    expect(periodoAgenda("2026-12-01", "mes").dias).toHaveLength(31);
+  });
+  it("expande solo ocurrencias dentro de la vigencia de la serie", () => {
+    const serie: Serie = { id: "judo", titulo: "Judo", espacio: "multicancha", dia: 1, hora_inicio: "08:30",
+      hora_fin: "10:00", vigente_desde: "2026-12-07", vigente_hasta: "2026-12-14", version: "1" };
+    expect(bloquesDelDia("2026-12-07", [], [serie])[0].serie).toBe(serie);
+    expect(bloquesDelDia("2026-12-14", [], [serie])).toHaveLength(1);
+    expect(bloquesDelDia("2026-12-15", [], [serie])).toHaveLength(0);
+    expect(bloquesDelDia("2026-12-21", [], [serie])).toHaveLength(0);
+  });
+  it("coloca eventos simultáneos en paralelo y distingue el conflicto de espacio", () => {
+    const eventos = bloquesDelDia("2026-12-07", [
+      ...bloques("ordinaria"), { ...bloques("institucional")[0], id: "espejo", espacio: "sala_espejo" },
+    ], []);
+    expect(columnasParalelas(eventos)[0].columnas).toHaveLength(2);
+    expect(hayConflicto(eventos[0], eventos)).toBe(false);
+    eventos[1].espacio = "multicancha";
+    expect(hayConflicto(eventos[0], eventos)).toBe(true);
+  });
+  it("omite la sala espejo al calcular disponibilidad y conserva las franjas no reservables", () => {
+    const eventos = [{ ...bloques("institucional")[0], espacio: "sala_espejo" as const }];
+    expect(estadoModulo(modulo, eventos, "2026-12-07", "2026-12-06", "10:00")).toBe("disponible");
+    expect(estadoModulo({ ...modulo, reservable: false }, eventos, "2026-12-07", "2026-12-06", "10:00")).toBe("no_reservable");
   });
 });

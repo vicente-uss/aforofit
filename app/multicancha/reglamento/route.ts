@@ -1,19 +1,16 @@
 import { requerirAlgunRol } from "@/lib/auth/perfil";
-import { ARCHIVOS, buscarReglamento } from "@/lib/multicancha/reglamento";
+import { cargarReglamento } from "@/lib/multicancha/reglamento";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET() {
   await requerirAlgunRol(["profesor", "alumno"]);
-  const { bucket, nombre, error } = await buscarReglamento(await createClient());
-  if (error) return new Response("No se pudo consultar el reglamento.", { status: 503 });
-  if (!nombre) return new Response("El reglamento oficial aún no está disponible.", { status: 404 });
-  const descarga = await bucket.download(nombre);
-  if (!descarga.data) return new Response("No se pudo descargar el reglamento.", { status: 503 });
-  return new Response(descarga.data.stream(), {
+  const reglamento = await cargarReglamento(await createClient()).catch(() => null);
+  if (!reglamento) return new Response("No se pudo descargar el reglamento.", { status: 503 });
+  return new Response(new Blob([new Uint8Array(reglamento.contenido)]).stream(), {
     headers: {
       "Cache-Control": "private, no-store",
-      "Content-Type": ARCHIVOS[nombre],
-      "Content-Disposition": `attachment; filename="${nombre}"`,
+      "Content-Type": reglamento.mime,
+      "Content-Disposition": `attachment; filename="${reglamento.nombre}"`,
     },
   });
 }

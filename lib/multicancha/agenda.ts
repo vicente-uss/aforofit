@@ -8,12 +8,16 @@ export const TIPOS = {
 } as const;
 
 export type Tipo = keyof typeof TIPOS;
-export type Modulo = { id: number; dias: number[]; hora_inicio: string; hora_fin: string };
+export const ESPACIOS = { multicancha: "Multicancha", sala_espejo: "Sala espejo" } as const;
+export type Espacio = keyof typeof ESPACIOS;
+export type Vista = "dia" | "semana" | "mes";
+export type Modulo = { id: number; dias: number[]; hora_inicio: string; hora_fin: string; reservable: boolean };
 export type Integrante = { nombre: string; rut: string; carrera: string };
 export type Horario = { fecha: string; hora_inicio: string; hora_fin: string };
 export type Reserva = Horario & {
   id: string;
   tipo: Tipo;
+  espacio: Espacio;
   titulo: string | null;
   inicio: string;
   fin: string;
@@ -25,6 +29,12 @@ export type Reserva = Horario & {
   responsable_id: string | null;
   multicancha_integrantes: Integrante[];
 };
+export type Serie = {
+  id: string; titulo: string; espacio: Espacio; dia: number; hora_inicio: string; hora_fin: string;
+  vigente_desde: string; vigente_hasta: string | null; version: string;
+};
+export type BloqueAgenda = Horario & { id: string; tipo: Tipo; espacio: Espacio; titulo: string } &
+  ({ reserva: Reserva; serie?: never } | { serie: Serie; reserva?: never });
 export type Evento = {
   id: number;
   fecha: string;
@@ -36,7 +46,7 @@ export type Evento = {
 
 type DatosEvento = Horario & { responsable?: string; titulo?: string };
 
-export const CAMPOS_RESERVA = "id, tipo, titulo, inicio, fin, fecha, hora_inicio, hora_fin, version, cancelada_en, responsable, carrera, correo, responsable_id, multicancha_integrantes(nombre, rut, carrera)";
+export const CAMPOS_RESERVA = "id, tipo, titulo, espacio, inicio, fin, fecha, hora_inicio, hora_fin, version, cancelada_en, responsable, carrera, correo, responsable_id, multicancha_integrantes(nombre, rut, carrera)";
 export const RUTA_PROFESOR = "/profesor/multicancha";
 export const RUTA_ALUMNO = "/alumno/reservas";
 export const RUTA_REGLAMENTO = "/multicancha/reglamento";
@@ -84,8 +94,44 @@ export function calendario(fecha: string) {
 }
 
 export function modulosDelDia(modulos: Modulo[], fecha: string) {
-  const diaIso = fechaCivil(fecha).getUTCDay() || 7;
-  return modulos.filter(({ dias }) => dias.includes(diaIso));
+  return modulos.filter(({ dias }) => dias.includes(diaSemana(fecha)));
+}
+
+export function diaSemana(fecha: string) {
+  return fechaCivil(fecha).getUTCDay() || 7;
+}
+
+export function desplazarDia(fecha: string, dias: number) {
+  const civil = fechaCivil(fecha);
+  civil.setUTCDate(civil.getUTCDate() + dias);
+  const siguiente = civil.toISOString().split("T")[0];
+  return fechaValida(siguiente) ? siguiente : null;
+}
+
+export function periodoAgenda(fecha: string, vista: Vista) {
+  if (vista === "mes") {
+    const mes = calendario(fecha);
+    return { dias: mes.dias, anterior: mes.anterior, siguiente: mes.siguiente };
+  }
+  if (vista === "semana") {
+    const lunes = 1 - diaSemana(fecha);
+    return {
+      dias: Array.from({ length: 7 }, (_, i) => desplazarDia(fecha, lunes + i)).filter((dia) => dia !== null),
+      anterior: desplazarDia(fecha, -7), siguiente: desplazarDia(fecha, 7),
+    };
+  }
+  return { dias: [fecha], anterior: desplazarDia(fecha, -1), siguiente: desplazarDia(fecha, 1) };
+}
+
+export function bloquesDelDia(fecha: string, reservas: Reserva[], series: Serie[]): BloqueAgenda[] {
+  const dia = diaSemana(fecha);
+  return [
+    ...reservas.filter((reserva) => reserva.fecha === fecha && !reserva.cancelada_en).map((reserva) => ({
+      ...reserva, titulo: reserva.responsable ?? reserva.titulo ?? TIPOS[reserva.tipo], reserva,
+    })),
+    ...series.filter((s) => s.dia === dia && s.vigente_desde <= fecha && (!s.vigente_hasta || fecha <= s.vigente_hasta))
+      .map((serie) => ({ ...serie, fecha, tipo: "institucional" as const, serie })),
+  ];
 }
 
 export function horarioTexto(horario: Pick<Horario, "hora_inicio" | "hora_fin">) {
@@ -96,11 +142,39 @@ export function seSuperponen(a: Pick<Horario, "hora_inicio" | "hora_fin">, b: Pi
   return a.hora_inicio.slice(0, 5) < b.hora_fin.slice(0, 5) && b.hora_inicio.slice(0, 5) < a.hora_fin.slice(0, 5);
 }
 
-export function estadoModulo(modulo: Modulo, reservas: Reserva[], fecha: string, hoy: string, horaActual: string) {
-  const ocupadas = reservas.filter((r) => !r.cancelada_en && seSuperponen(modulo, r));
+export function columnasParalelas(eventos: BloqueAgenda[]) {
+  type Grupo = { fin: string; columnas: BloqueAgenda[][] };
+  const grupos: Grupo[] = [];
+  for (const evento of [...eventos].sort((a, b) => a.hora_inicio.localeCompare(b.hora_inicio))) {
+    const inicio = evento.hora_inicio.slice(0, 5);
+    const fin = evento.hora_fin.slice(0, 5);
+    let grupo = grupos.at(-1);
+    if (!grupo || grupo.fin <= inicio) {
+      grupo = { fin, columnas: [] };
+      grupos.push(grupo);
+    }
+    const libre = grupo.columnas.find((columna) => columna.at(-1)!.hora_fin.slice(0, 5) <= inicio);
+    if (libre) libre.push(evento);
+    else grupo.columnas.push([evento]);
+    if (fin > grupo.fin) grupo.fin = fin;
+  }
+  return grupos;
+}
+
+export function hayConflicto(evento: BloqueAgenda, eventos: BloqueAgenda[]) {
+  return eventos.some((otro) => otro !== evento && otro.espacio === evento.espacio && seSuperponen(evento, otro));
+}
+
+export function estadoModulo(
+  modulo: Modulo,
+  reservas: (Horario & { tipo: Tipo; espacio: Espacio; cancelada_en?: string | null })[],
+  fecha: string, hoy: string, horaActual: string,
+) {
+  const ocupadas = reservas.filter((r) => r.espacio === "multicancha" && !r.cancelada_en && seSuperponen(modulo, r));
   if (ocupadas.some((r) => r.tipo === "institucional")) return "institucional";
   if (ocupadas.some((r) => r.tipo === "bloqueo")) return "bloqueo";
   if (ocupadas.length) return "ordinaria";
+  if (!modulo.reservable) return "no_reservable";
   if (fecha < hoy || (fecha === hoy && modulo.hora_inicio.slice(0, 5) <= horaActual)) return "transcurrido";
   return "disponible";
 }

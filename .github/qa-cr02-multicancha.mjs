@@ -14,6 +14,7 @@ const destino = process.argv[2];
 const nombre = 'QA Responsable Multicancha';
 const participante = 'QA Integrante ' + 'NombreLargo'.repeat(9);
 const fecha = sql("select date_trunc('week', now() at time zone 'America/Santiago')::date + 14;");
+const miercoles = sql(`select date '${fecha}' + 2;`);
 const calendario = `${app}/profesor/multicancha?fecha=${fecha}`;
 
 function sql(input) {
@@ -93,7 +94,7 @@ try {
   const rutaAnterior = await anterior.getAttribute('href');
   await anterior.click();
   await expect(profesor).toHaveURL(app + rutaAnterior);
-  await expect(profesor.getByText('Sin bloques registrados para este día.')).toBeVisible();
+  await expect(profesor.getByText('Reservas y actividades', { exact: true })).toBeVisible();
   const siguiente = profesor.getByRole('link', { name: 'Mes siguiente' });
   const rutaSiguiente = await siguiente.getAttribute('href');
   await siguiente.click();
@@ -104,7 +105,7 @@ try {
   await profesor.getByRole('button', { name: 'Ir', exact: true }).click();
   await expect(profesor).toHaveURL(calendario);
   await profesor.getByRole('link', { name: 'Preparar reserva de 08:00–09:20' }).click();
-  const nuevo = profesor.locator('#nuevo-bloque');
+  const nuevo = profesor.locator('#nuevo-bloque form').first();
   await expect(nuevo.getByLabel('Módulo')).toHaveValue('1');
   await nuevo.getByLabel('Nombre del responsable').fill(nombre);
   await nuevo.getByLabel('Carrera del responsable').fill('Ingeniería Ficticia');
@@ -115,11 +116,13 @@ try {
   await reserva.locator('summary').first().click();
   await expect(reserva.getByText('Cuenta de alumno vinculada')).toBeVisible();
   const idReserva = await reserva.getAttribute('data-bloque');
-  const sinAdjunto = (await descargar(profesor, reserva.getByRole('link', { name: 'Descargar borrador de correo' }))).toString();
-  assert.match(sinAdjunto, /To: alumno\.demo@aforofit\.cl/);
-  assert.match(sinAdjunto, /X-Unsent: 1/);
-  assert.doesNotMatch(sinAdjunto, /Content-Disposition: attachment/);
-  console.log('OK creación presencial y descarga manual sin reglamento');
+  const provisional = (await descargar(profesor, reserva.getByRole('link', { name: 'Descargar borrador de correo' }))).toString();
+  assert.match(provisional, /To: alumno\.demo@aforofit\.cl/);
+  assert.match(provisional, /X-Unsent: 1/);
+  assert.match(provisional, /Content-Disposition: attachment; filename="reglamento-provisional\.pdf"/);
+  await reserva.getByRole('button', { name: 'Enviar confirmación por Gmail' }).click();
+  await expect(reserva.getByRole('alert')).toContainText('Gmail SMTP no está configurado');
+  console.log('OK creación presencial, adjunto provisional y error explícito sin credenciales SMTP');
 
   await nuevo.getByLabel('Tipo de bloque').selectOption('institucional');
   await nuevo.getByLabel('Nombre de la actividad').fill('QA Taller institucional');
@@ -159,7 +162,8 @@ try {
   const propia = alumno.locator(`[data-reserva="${idReserva}"]`);
   await expect(alumno.locator('[data-reserva]')).toHaveCount(1);
   await expect(propia.getByText('09:30–10:50 · Confirmada')).toBeVisible();
-  await expect(alumno.getByText('Reglamento oficial pendiente.')).toBeVisible();
+  const pdfProvisional = await descargar(alumno, alumno.getByRole('link', { name: 'Descargar reglamento provisional' }));
+  assert.match(pdfProvisional.subarray(0, 8).toString(), /^%PDF-/);
   await expect(alumno.getByRole('button', { name: /Crear reserva|Cancelar reserva|Guardar cambios/ })).toHaveCount(0);
   const privado = await alumno.request.get(`${app}/profesor/multicancha/correo/${idReserva}`, { maxRedirects: 0 });
   assert.equal(privado.status(), 307);
@@ -215,6 +219,42 @@ try {
   await expect(propia.getByText(participante)).toBeVisible();
   await expect(propia.getByRole('button', { name: 'Guardar nómina' })).toHaveCount(0);
   console.log('OK cancelación con confirmación e historial en ambos roles');
+
+  const agendaMiercoles = `${app}/profesor/multicancha?fecha=${miercoles}`;
+  await profesor.goto(agendaMiercoles);
+  const paralelo = profesor.locator('[data-columnas="2"]').filter({ hasText: 'Gym USS' });
+  await expect(paralelo.getByText('Conflicto de espacio', { exact: true })).toHaveCount(2);
+  const espejo = profesor.locator('[data-serie]').filter({ hasText: 'PEFI danza urbana' });
+  await expect(espejo.getByText('Sala espejo · Actividad semanal')).toBeVisible();
+  for (const [vista, nombreVista] of [['semana', 'Semana'], ['mes', 'Mes']]) {
+    await profesor.getByRole('navigation', { name: 'Vistas del calendario' }).getByRole('link', { name: nombreVista }).click();
+    await expect(profesor).toHaveURL(`${agendaMiercoles}&vista=${vista}`);
+    await expect(profesor.locator('[data-columnas="2"]').filter({ hasText: 'Gym USS' }).first()).toBeVisible();
+    for (const ancho of [360, 1280]) {
+      await profesor.setViewportSize({ width: ancho, height: 900 });
+      await comprobarAncho(profesor, `Vista ${vista} ${ancho}`);
+      await profesor.screenshot({ path: path.join(destino, `multicancha-${vista}-${ancho}.png`), fullPage: true });
+    }
+  }
+  await profesor.goto(agendaMiercoles);
+  const nuevaSerie = profesor.locator('#nuevo-bloque details').filter({ hasText: 'Nueva actividad semanal' });
+  await nuevaSerie.locator('summary').click();
+  await nuevaSerie.getByLabel('Nombre de la serie').fill('QA Serie de los miércoles');
+  await nuevaSerie.getByLabel('Espacio').selectOption('sala_espejo');
+  await nuevaSerie.getByLabel('Hora de inicio').fill('09:30');
+  await nuevaSerie.getByLabel('Hora de término').fill('10:20');
+  await nuevaSerie.getByRole('button', { name: 'Crear serie semanal' }).click();
+  await expect(nuevaSerie.getByText('Serie semanal creada.')).toBeVisible();
+  const serie = profesor.locator('[data-serie]').filter({ hasText: 'QA Serie de los miércoles' });
+  await serie.locator('summary').first().click();
+  await serie.getByText('Editar serie semanal', { exact: true }).click();
+  await serie.getByLabel('Hora de término').fill('10:35');
+  await serie.getByRole('button', { name: 'Guardar serie' }).click();
+  await expect(serie.getByText(/09:30–10:35 · QA Serie/)).toBeVisible();
+  const proximoMiercoles = sql(`select date '${miercoles}' + 7;`);
+  await profesor.goto(`${app}/profesor/multicancha?fecha=${proximoMiercoles}`);
+  await expect(serie.getByText(/09:30–10:35 · QA Serie/)).toBeVisible();
+  console.log('OK solapamiento institucional, vistas paralelas y recurrencia editable');
 } finally {
   await navegador.close();
 }

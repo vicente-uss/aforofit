@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { requerirAlgunRol, requerirRol } from "@/lib/auth/perfil";
 import { createClient } from "@/lib/supabase/server";
-import { CORREO, fechaValida, HORA, RUTA_ALUMNO, RUTA_PROFESOR, rutIntegrante, UUID } from "./agenda";
+import { CORREO, ESPACIOS, fechaValida, HORA, RUTA_ALUMNO, RUTA_PROFESOR, rutIntegrante, UUID } from "./agenda";
+import { confirmacionReserva } from "./correo";
+import { cargarReglamento } from "./reglamento";
+import { configuracionSmtp, enviarConfirmacionSmtp } from "./smtp";
 
 type Resultado = { error?: string; exito?: string };
 
@@ -18,6 +21,7 @@ const MENSAJES: Record<string, string> = {
   multicancha_datos: "Revisa los campos de la reserva.",
   multicancha_nomina: "Revisa el nombre, el RUT y la carrera de cada integrante.",
   multicancha_rut_repetido: "Hay un RUT repetido en la nómina.",
+  multicancha_maximo: "La nómina supera el máximo de participantes, incluido el responsable.",
 };
 
 function campo(datos: FormData, clave: string) {
@@ -71,14 +75,71 @@ export async function guardarReserva(_: Resultado, datos: FormData): Promise<Res
   const inicio = campo(datos, "inicio");
   const fin = campo(datos, "fin");
   const titulo = campo(datos, "titulo");
+  const espacio = campo(datos, "espacio");
   if (!HORA.test(inicio) || (!HORA.test(fin) && fin !== "24:00") || inicio >= fin) {
     return { error: MENSAJES.multicancha_horario };
   }
-  if (!textoValido(titulo)) return { error: "Indica el nombre de la actividad o el motivo del bloqueo." };
+  if (!textoValido(titulo) || !Object.hasOwn(ESPACIOS, espacio)) {
+    return { error: "Indica el nombre de la actividad o el motivo del bloqueo y el espacio." };
+  }
   const { error } = await supabase.rpc("guardar_multicancha", {
-    ...comunes, p_hora_inicio: inicio, p_hora_fin: fin, p_titulo: titulo,
+    ...comunes, p_hora_inicio: inicio, p_hora_fin: fin, p_titulo: titulo, p_espacio: espacio,
   });
   return resultado(error, id ? "Bloque actualizado." : "Bloque creado.");
+}
+
+export async function guardarSerie(_: Resultado, datos: FormData): Promise<Resultado> {
+  await requerirRol("profesor");
+  const id = campo(datos, "id");
+  const version = campo(datos, "version");
+  const titulo = campo(datos, "titulo");
+  const espacio = campo(datos, "espacio");
+  const dia = campo(datos, "dia");
+  const inicio = campo(datos, "inicio");
+  const fin = campo(datos, "fin");
+  const desde = campo(datos, "desde");
+  const hasta = campo(datos, "hasta");
+  if ((id && (!UUID.test(id) || !UUID.test(version))) || !textoValido(titulo) || !Object.hasOwn(ESPACIOS, espacio)
+    || !/^[1-7]$/.test(dia) || !fechaValida(desde) || (hasta && (!fechaValida(hasta) || hasta < desde))) {
+    return { error: "Revisa el nombre, el espacio, el día y las fechas de la serie semanal." };
+  }
+  if (!HORA.test(inicio) || (!HORA.test(fin) && fin !== "24:00") || inicio >= fin) {
+    return { error: MENSAJES.multicancha_horario };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("guardar_serie_multicancha", {
+    p_titulo: titulo, p_espacio: espacio, p_dia: Number(dia), p_inicio: inicio, p_fin: fin,
+    p_desde: desde, p_hasta: hasta || null, p_id: id || null, p_version: version || null,
+  });
+  return resultado(error, id ? "Serie actualizada." : "Serie semanal creada.");
+}
+
+export async function enviarConfirmacion(_: Resultado, datos: FormData): Promise<Resultado> {
+  await requerirRol("profesor");
+  const id = campo(datos, "id");
+  const version = campo(datos, "version");
+  if (!UUID.test(id) || !UUID.test(version)) return { error: MENSAJES.multicancha_version };
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("multicancha_reservas")
+    .select("fecha, hora_inicio, hora_fin, responsable, correo")
+    .eq("id", id).eq("version", version).eq("tipo", "ordinaria").is("cancelada_en", null).maybeSingle();
+  if (error) return { error: "No se pudo consultar la reserva. Puedes descargar el borrador EML." };
+  if (!data?.responsable || !data.correo) return { error: MENSAJES.multicancha_version };
+  const config = configuracionSmtp();
+  if (!config) return { error: "Gmail SMTP no está configurado en este entorno. Usa el borrador EML." };
+  if (!config.autorizados.has(data.correo)) {
+    return { error: "Este correo no está autorizado para la demo. Usa una dirección de prueba autorizada." };
+  }
+  try {
+    const adjunto = await cargarReglamento(supabase);
+    const texto = confirmacionReserva({ ...data, responsable: data.responsable }, true, adjunto.provisional);
+    if (await enviarConfirmacionSmtp(config, data.correo, texto, adjunto)) {
+      return { exito: "Gmail aceptó la confirmación con el reglamento adjunto." };
+    }
+  } catch {
+    // La interfaz conserva el EML y omite detalles del proveedor y sus credenciales.
+  }
+  return { error: "No se pudo confirmar el envío con Gmail. Usa el borrador EML si necesitas enviarlo manualmente." };
 }
 
 export async function cancelarReserva(_: Resultado, datos: FormData): Promise<Resultado> {

@@ -1,7 +1,7 @@
 import { requerirRol } from "@/lib/auth/perfil";
 import { CORREO, UUID } from "@/lib/multicancha/agenda";
 import { borradorCorreo, confirmacionReserva } from "@/lib/multicancha/correo";
-import { ARCHIVOS, buscarReglamento } from "@/lib/multicancha/reglamento";
+import { cargarReglamento } from "@/lib/multicancha/reglamento";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -16,16 +16,10 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   if (!data?.responsable || !data.correo || !CORREO.test(data.correo)) {
     return new Response("Reserva activa no encontrada.", { status: 404 });
   }
-  const reglamento = await buscarReglamento(supabase);
-  if (reglamento.error) return new Response("No se pudo consultar el reglamento.", { status: 503 });
-  const nombre = reglamento.nombre;
-  let adjunto;
-  if (nombre) {
-    const archivo = await reglamento.bucket.download(nombre);
-    if (!archivo.data) return new Response("No se pudo adjuntar el reglamento.", { status: 503 });
-    adjunto = { nombre, mime: ARCHIVOS[nombre], contenido: Buffer.from(await archivo.data.arrayBuffer()) };
-  }
-  const borrador = borradorCorreo(data.correo, confirmacionReserva({ ...data, responsable: data.responsable }, Boolean(adjunto)), adjunto);
+  const adjunto = await cargarReglamento(supabase).catch(() => null);
+  if (!adjunto) return new Response("No se pudo adjuntar el reglamento.", { status: 503 });
+  const borrador = borradorCorreo(data.correo,
+    confirmacionReserva({ ...data, responsable: data.responsable }, true, adjunto.provisional), adjunto);
   return new Response(new Blob([borrador]).stream(), {
     headers: {
       "Cache-Control": "private, no-store",

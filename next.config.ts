@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  outputFileTracingIncludes: {
+    "/profesor/multicancha": ["./lib/multicancha/recursos/reglamento-provisional.pdf"],
+    "/profesor/multicancha/correo/*": ["./lib/multicancha/recursos/reglamento-provisional.pdf"],
+    "/multicancha/reglamento": ["./lib/multicancha/recursos/reglamento-provisional.pdf"],
+  },
   async headers() {
     return [{
       source: "/:path*",

@@ -35,6 +35,8 @@ declare
   v_otra uuid;
   v_bloqueo uuid;
   v_actividad uuid;
+  v_serie uuid;
+  v_nomina jsonb;
   v_version uuid;
   v_version_antigua uuid;
   v_aforo jsonb;
@@ -58,10 +60,19 @@ begin
   select count(*) into v_prestamos from public.prestamos;
 
   perform pg_temp.verificar((select count(*) = 5 and bool_and(hora_fin - hora_inicio = interval '80 minutes')
-    from public.multicancha_modulos), '030 catálogo provisional de cinco módulos de 80 minutos');
-  perform pg_temp.verificar((select count(*) = 4 from pg_class where relnamespace = 'public'::regnamespace
-    and relname in ('multicancha_modulos','multicancha_reservas','multicancha_integrantes','multicancha_historial')
-    and relrowsecurity), '030 RLS activo en las cuatro tablas');
+    from public.multicancha_modulos where reservable), '030 cinco módulos confirmados de 80 minutos');
+  perform pg_temp.verificar((select count(*) = 6 from pg_class where relnamespace = 'public'::regnamespace
+    and relname in ('multicancha_modulos','multicancha_reservas','multicancha_integrantes','multicancha_historial',
+      'multicancha_configuracion','multicancha_series') and relrowsecurity), '030 RLS activo en las seis tablas públicas');
+  perform pg_temp.verificar((select array_agg(hora_inicio order by hora_inicio) = array['16:00','17:30','19:00','20:25']::time[]
+    and array_agg(hora_fin order by hora_inicio) = array['17:20','18:50','20:20','21:45']::time[]
+    from public.multicancha_modulos where not reservable), '030 cuatro franjas no reservables');
+  perform pg_temp.verificar((select count(*) = 17 and count(*) filter (where dia = 3 and espacio = 'sala_espejo'
+    and titulo = 'PEFI danza urbana' and hora_inicio = '14:40' and hora_fin = '16:00') = 1
+    from public.multicancha_series), '030 carga semanal confirmada con la sala espejo');
+  select jsonb_agg(jsonb_build_object('nombre','QA','carrera','QA','rut', concat(n,'-',dv)) order by n) into v_nomina
+  from generate_series(91000001,91000013) n cross join unnest(string_to_array('0,1,2,3,4,5,6,7,8,9,K', ',')) dv
+  where privado.rut_valido(concat(n,'-',dv));
   perform pg_temp.verificar((select not public from storage.buckets where id = 'multicancha'), '030 reglamento en bucket privado');
   perform pg_temp.verificar(
     privado.instante_multicancha(timestamp '2026-04-04 08:00') = timestamptz '2026-04-04 11:00+00'
@@ -98,7 +109,7 @@ begin
     p_responsable => 'Sin verificar', p_carrera => 'QA Carrera', p_correo => 'qa030-no-confirmado@example.test');
   perform public.guardar_multicancha(v_lunes + 1, 'ordinaria', 3::smallint,
     p_responsable => 'Ambiguo', p_carrera => 'QA Carrera', p_correo => 'qa030-ambiguo@example.test');
-  perform public.guardar_multicancha(v_lunes + 1, 'ordinaria', 4::smallint,
+  perform public.guardar_multicancha(v_lunes + 1, 'ordinaria', 5::smallint,
     p_responsable => 'Rol distinto', p_carrera => 'QA Carrera', p_correo => 'qa030-admin@example.test');
   perform pg_temp.verificar((select count(*) = 4 and bool_and(responsable_id is null)
     from public.multicancha_reservas where fecha = v_lunes + 1),
@@ -129,6 +140,28 @@ begin
     'multicancha_modulo', '030 reserva ordinaria fuera de día habilitado se rechaza');
   perform pg_temp.rechaza(format($q$select public.guardar_multicancha(%L,'ordinaria',null)$q$, v_lunes),
     'multicancha_modulo', '030 no admite intervalos libres para reservas ordinarias');
+  perform pg_temp.rechaza(format($q$select public.guardar_multicancha(%L,'ordinaria',6::smallint)$q$, v_lunes),
+    'multicancha_modulo', '030 una franja vespertina no admite reserva');
+  perform pg_temp.rechaza(format($q$select public.guardar_multicancha(%L,'ordinaria',4::smallint,
+    p_responsable=>'QA',p_carrera=>'QA',p_correo=>'qa@example.test')$q$, v_lunes),
+    'multicancha_superposicion', '030 Judo ocupa la multicancha y bloquea el módulo ordinario');
+  perform public.guardar_multicancha(v_lunes, 'institucional', p_hora_inicio => '17:40',
+    p_hora_fin => '18:20', p_titulo => 'QA Institucional simultánea');
+  perform pg_temp.verificar((select count(*) = 2 from public.multicancha_reservas where fecha = v_lunes
+    and tipo = 'institucional' and espacio = 'multicancha' and hora_inicio < '18:00' and hora_fin > '18:00'),
+    '030 dos actividades institucionales simultáneas pueden compartir espacio con aviso');
+  perform public.guardar_multicancha(v_lunes, 'institucional', p_hora_inicio => '08:10',
+    p_hora_fin => '09:10', p_titulo => 'QA Otro espacio', p_espacio => 'sala_espejo');
+  perform pg_temp.verificar((select espacio = 'sala_espejo' from public.multicancha_reservas where titulo = 'QA Otro espacio'),
+    '030 un uso independiente de la sala espejo puede coexistir con la reserva de cancha');
+  v_serie := public.guardar_serie_multicancha('QA Semanal', 'sala_espejo', 1::smallint, '08:15', '08:45', v_lunes);
+  perform public.guardar_serie_multicancha('QA Semanal editada', 'sala_espejo', 1::smallint, '08:20', '08:45', v_lunes,
+    v_lunes + 14, v_serie, (select version from public.multicancha_series where id = v_serie));
+  perform pg_temp.verificar((select titulo = 'QA Semanal editada' and vigente_hasta = v_lunes + 14
+    and editada_por = v_profesor from public.multicancha_series where id = v_serie),
+    '030 profesor crea y edita una serie con vigencia, horario y autor');
+  perform pg_temp.rechaza(format($q$select public.guardar_serie_multicancha('QA Incompatible','multicancha',1::smallint,
+    '08:15','09:00',%L)$q$, v_lunes), 'multicancha_superposicion', '030 una serie nueva protege una reserva ordinaria existente');
   perform pg_temp.rechaza($q$select public.guardar_multicancha('2000-01-03','ordinaria',1::smallint,
     p_responsable=>'QA', p_carrera=>'QA', p_correo=>'qa@example.test')$q$, 'multicancha_pasado', '030 no crea bloques en el pasado');
   perform pg_temp.rechaza(format($q$select public.guardar_multicancha(%L,'institucional',p_hora_inicio=>'19:00',
@@ -154,6 +187,19 @@ begin
     p_responsable=>'QA',p_carrera=>'QA',p_correo=>'qa@example.test')$q$, v_lunes),
     'multicancha_superposicion', '030 una actividad registrada tiene prioridad sobre un módulo');
   perform public.guardar_nomina_multicancha(v_otra, (select version from public.multicancha_reservas where id = v_otra),
+    v_nomina);
+  perform pg_temp.verificar((select count(*) = 13 from public.multicancha_integrantes where reserva_id = v_otra),
+    '030 máximo inicial de 14 incluye responsable y admite 13 compañeros');
+  perform pg_temp.rechaza(format($q$select public.guardar_nomina_multicancha(%L,%L,%L)$q$, v_otra,
+    (select version from public.multicancha_reservas where id = v_otra), v_nomina || (v_nomina -> 0)),
+    'multicancha_maximo', '030 máximo inicial rechaza 14 compañeros');
+  reset role;
+  update public.multicancha_configuracion set max_participantes = 3;
+  set local role authenticated;
+  perform pg_temp.rechaza(format($q$select public.guardar_nomina_multicancha(%L,%L,%L)$q$, v_otra,
+    (select version from public.multicancha_reservas where id = v_otra), jsonb_path_query_array(v_nomina, '$[0 to 2]')),
+    'multicancha_maximo', '030 el máximo configurado se aplica al guardar la nómina');
+  perform public.guardar_nomina_multicancha(v_otra, (select version from public.multicancha_reservas where id = v_otra),
     '[{"nombre":"QA ajeno","rut":"12345678-5","carrera":"QA ajena"}]');
   perform pg_temp.verificar((select count(*) = 1 from public.multicancha_integrantes where reserva_id = v_otra),
     '030 profesor completa nómina presencial y consulta integrantes');
@@ -167,6 +213,10 @@ begin
     '030 el alumno no ve la nómina ajena');
   perform pg_temp.verificar((select count(*) = 0 from public.multicancha_historial),
     '030 el alumno no accede a las auditorías');
+  perform pg_temp.verificar((select count(*) = 0 from public.multicancha_series),
+    '030 el alumno no lee las series de la agenda del profesor');
+  perform pg_temp.rechaza(format($q$select public.guardar_serie_multicancha('QA','multicancha',1::smallint,
+    '08:00','09:20',%L)$q$, v_lunes), 'sin_permiso', '030 el alumno no puede editar la programación semanal');
   perform pg_temp.rechaza(format('select public.guardar_multicancha(%L,%L)', v_lunes, 'ordinaria'),
     'sin_permiso', '030 alumno no puede crear ni editar horarios por RPC');
   perform pg_temp.rechaza(format('select public.cancelar_multicancha(%L,%L)', v_reserva, v_version),

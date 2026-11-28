@@ -42,7 +42,7 @@ export function Formulario({ accion, children }: {
   );
 }
 
-export function Nomina({ reserva }: { reserva: Reserva }) {
+export function Nomina({ reserva, maximo }: { reserva: Reserva; maximo: number | null }) {
   const { multicancha_integrantes: integrantes, cancelada_en: cancelada } = reserva;
   if (cancelada) {
     return integrantes.length === 0 ? <p className="text-sm text-slate-600">Sin integrantes registrados.</p> : (
@@ -59,18 +59,19 @@ export function Nomina({ reserva }: { reserva: Reserva }) {
 
   return (
     <Formulario accion={guardarNomina}>
-      {(pendiente) => <CamposNomina key={reserva.version} reserva={reserva} pendiente={pendiente} />}
+      {(pendiente) => <CamposNomina key={reserva.version} reserva={reserva} maximo={maximo} pendiente={pendiente} />}
     </Formulario>
   );
 }
 
-function CamposNomina({ reserva, pendiente }: { reserva: Reserva; pendiente: boolean }) {
+function CamposNomina({ reserva, maximo, pendiente }: { reserva: Reserva; maximo: number | null; pendiente: boolean }) {
   const integrantes = reserva.multicancha_integrantes;
   const contador = useRef(integrantes.length);
   const [filas, setFilas] = useState(() => integrantes.map((integrante, id) => ({ ...integrante, id })));
   return (
     <fieldset disabled={pendiente} className="min-w-0 space-y-3">
           <VersionReserva reserva={reserva} />
+          {maximo !== null && <p className="text-sm text-slate-600">Máximo {maximo} participantes, incluido el responsable.</p>}
           {filas.length === 0 && <p className="text-sm text-slate-600">Sin integrantes registrados.</p>}
           {filas.map((fila, indice) => (
             <fieldset key={fila.id} className="min-w-0 space-y-2 rounded-xl border border-line p-3">
@@ -91,7 +92,7 @@ function CamposNomina({ reserva, pendiente }: { reserva: Reserva; pendiente: boo
             </fieldset>
           ))}
           <div className="flex flex-wrap gap-2">
-            <button type="button" className={SECUNDARIO} onClick={() => {
+            <button type="button" className={SECUNDARIO} disabled={maximo !== null && filas.length + 1 >= maximo} onClick={() => {
               const id = contador.current++;
               setFilas([...filas, { id, nombre: "", rut: "", carrera: "" }]);
             }}>

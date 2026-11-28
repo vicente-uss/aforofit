@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { BOTON, CAMPO } from "@/components/multicancha/estilos";
 import { Campo, Formulario, VersionReserva } from "@/components/multicancha/formularios";
-import { cancelarReserva, guardarReserva } from "@/lib/multicancha/acciones";
+import { cancelarReserva, enviarConfirmacion, guardarReserva, guardarSerie } from "@/lib/multicancha/acciones";
 import {
-  FIN_CALENDARIO, INICIO_CALENDARIO, horarioTexto, modulosDelDia, type Modulo, type Reserva, type Tipo,
+  FIN_CALENDARIO, INICIO_CALENDARIO, ESPACIOS, diaSemana, horarioTexto, modulosDelDia,
+  type Espacio, type Modulo, type Reserva, type Serie, type Tipo,
 } from "@/lib/multicancha/agenda";
 
 type PropsBloque = {
@@ -26,8 +27,7 @@ export function FormularioBloque(props: PropsBloque) {
 function CamposBloque({ modulos, dia, moduloInicial, reserva, pendiente }: PropsBloque & { pendiente: boolean }) {
   const [fecha, setFecha] = useState(dia);
   const [tipo, setTipo] = useState<Tipo>(reserva?.tipo ?? "ordinaria");
-  const [hastaMedianoche, setHastaMedianoche] = useState(reserva?.hora_fin.startsWith("24:00") ?? false);
-  const disponibles = modulosDelDia(modulos, fecha);
+  const disponibles = modulosDelDia(modulos, fecha).filter((modulo) => modulo.reservable);
   const mantieneHorario = reserva && fecha === reserva.fecha;
 
   return (
@@ -74,30 +74,101 @@ function CamposBloque({ modulos, dia, moduloInicial, reserva, pendiente }: Props
               <Campo etiqueta={tipo === "institucional" ? "Nombre de la actividad" : "Motivo del bloqueo"}>
                 <input name="titulo" className={CAMPO} required maxLength={160} defaultValue={reserva?.titulo ?? ""} />
               </Campo>
-              <div className="grid grid-cols-2 gap-2">
-                <Campo etiqueta="Hora de inicio">
-                  <input name="inicio" className={CAMPO} type="time" required defaultValue={reserva?.hora_inicio.slice(0, 5)} />
-                </Campo>
-                <Campo etiqueta="Hora de término">
-                  {hastaMedianoche ? (
-                    <>
-                      <input className={CAMPO} value="24:00" readOnly />
-                      <input name="fin" type="hidden" value="24:00" />
-                    </>
-                  ) : <input name="fin" className={CAMPO} type="time" required
-                    defaultValue={reserva?.hora_fin.startsWith("24:00") ? "" : reserva?.hora_fin.slice(0, 5)} />}
-                </Campo>
-              </div>
-              <label className="flex items-center gap-2 text-sm text-navy-900">
-                <input type="checkbox" checked={hastaMedianoche} onChange={(evento) => setHastaMedianoche(evento.target.checked)} />
-                Termina a medianoche
-              </label>
+              <SelectorEspacio espacio={reserva?.espacio} />
+              <HorasBloque horario={reserva} />
             </>
           )}
           <button type="submit" className={BOTON}>
             {pendiente ? "Guardando…" : reserva ? "Guardar cambios" : tipo === "ordinaria" ? "Crear reserva" : "Crear bloque"}
           </button>
     </fieldset>
+  );
+}
+
+function SelectorEspacio({ espacio = "multicancha" }: { espacio?: Espacio }) {
+  return (
+    <Campo etiqueta="Espacio">
+      <select name="espacio" className={CAMPO} defaultValue={espacio}>
+        {Object.entries(ESPACIOS).map(([id, nombre]) => <option key={id} value={id}>{nombre}</option>)}
+      </select>
+    </Campo>
+  );
+}
+
+function HorasBloque({ horario }: { horario?: Pick<Serie, "hora_inicio" | "hora_fin"> }) {
+  const fin = horario?.hora_fin.slice(0, 5);
+  const [medianoche, setMedianoche] = useState(fin === "24:00");
+  return (
+    <>
+      <div className="grid grid-cols-2 gap-2">
+        <Campo etiqueta="Hora de inicio">
+          <input name="inicio" className={CAMPO} type="time" required defaultValue={horario?.hora_inicio.slice(0, 5)} />
+        </Campo>
+        <Campo etiqueta="Hora de término">
+          {medianoche ? (
+            <>
+              <input className={CAMPO} value="24:00" readOnly />
+              <input name="fin" type="hidden" value="24:00" />
+            </>
+          ) : <input name="fin" className={CAMPO} type="time" required defaultValue={fin === "24:00" ? "" : fin} />}
+        </Campo>
+      </div>
+      <label className="flex items-center gap-2 text-sm text-navy-900">
+        <input type="checkbox" checked={medianoche} onChange={(evento) => setMedianoche(evento.target.checked)} />
+        Termina a medianoche
+      </label>
+    </>
+  );
+}
+
+export function FormularioSerie({ fecha, serie }: { fecha: string; serie?: Serie }) {
+  return (
+    <Formulario accion={guardarSerie}>
+      {(pendiente) => (
+        <fieldset key={serie?.version} disabled={pendiente} className="min-w-0 space-y-3">
+          <VersionReserva reserva={serie} />
+          <Campo etiqueta="Nombre de la serie">
+            <input name="titulo" required maxLength={160} defaultValue={serie?.titulo} className={CAMPO} />
+          </Campo>
+          <SelectorEspacio espacio={serie?.espacio} />
+          <Campo etiqueta="Día de la semana">
+            <select name="dia" defaultValue={serie?.dia ?? diaSemana(fecha)} className={CAMPO}>
+              {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((dia, i) => (
+                <option key={dia} value={i + 1}>{dia}</option>
+              ))}
+            </select>
+          </Campo>
+          <HorasBloque horario={serie} />
+          <div className="grid gap-2 sm:grid-cols-2">
+            <Campo etiqueta="Vigente desde">
+              <input name="desde" type="date" required min={INICIO_CALENDARIO} max={FIN_CALENDARIO}
+                defaultValue={serie?.vigente_desde ?? fecha} className={CAMPO} />
+            </Campo>
+            <Campo etiqueta="Vigente hasta (opcional)">
+              <input name="hasta" type="date" min={INICIO_CALENDARIO} max={FIN_CALENDARIO}
+                defaultValue={serie?.vigente_hasta ?? ""} className={CAMPO} />
+            </Campo>
+          </div>
+          {serie && <p className="text-sm text-slate-600">Los cambios se aplican a toda la serie. Para finalizarla, indica una fecha de término.</p>}
+          <button type="submit" className={BOTON}>{pendiente ? "Guardando…" : serie ? "Guardar serie" : "Crear serie semanal"}</button>
+        </fieldset>
+      )}
+    </Formulario>
+  );
+}
+
+export function EnviarConfirmacion({ reserva }: { reserva: Reserva }) {
+  return (
+    <Formulario accion={enviarConfirmacion}>
+      {(pendiente) => (
+        <>
+          <VersionReserva reserva={reserva} />
+          <button type="submit" disabled={pendiente} className={BOTON}>
+            {pendiente ? "Enviando…" : "Enviar confirmación por Gmail"}
+          </button>
+        </>
+      )}
+    </Formulario>
   );
 }
 

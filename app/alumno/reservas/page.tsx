@@ -25,10 +25,11 @@ async function Contenido({ searchParams }: { searchParams: Parametros }) {
   const filtro = historial
     ? base.or(`cancelada_en.not.is.null,fin.lte.${ahora}`)
     : base.is("cancelada_en", null).gt("fin", ahora);
-  const [consulta, reglamento] = await Promise.all([
+  const [consulta, reglamento, configuracion] = await Promise.all([
     filtro.order("inicio", { ascending: !historial }).order("id")
       .range(pagina * TAMANO_PAGINA, pagina * TAMANO_PAGINA + TAMANO_PAGINA),
     buscarReglamento(supabase),
+    supabase.from("multicancha_configuracion").select("max_participantes").single(),
   ]);
   const reservas = (consulta.data ?? []) as Reserva[];
   const ruta = (numero: number) => `${RUTA_ALUMNO}?vista=${historial ? "historial" : "proximas"}&pagina=${numero}`;
@@ -41,9 +42,11 @@ async function Contenido({ searchParams }: { searchParams: Parametros }) {
       <Tarjeta className="space-y-2 p-4">
         <h1 className="text-xl font-semibold text-navy-900">Mis reservas</h1>
         <p className="text-sm text-slate-700">Solicita las reservas y los cambios de horario presencialmente con el profesor.</p>
-        {reglamento.nombre
-          ? <a href={RUTA_REGLAMENTO} className={SECUNDARIO}><Download size={16} aria-hidden /> Descargar reglamento oficial</a>
-          : <p className="text-sm text-slate-600">{reglamento.error ? "No se pudo consultar el reglamento." : "Reglamento oficial pendiente."}</p>}
+        {reglamento.error
+          ? <p className="text-sm text-slate-600">No se pudo consultar el reglamento.</p>
+          : <a href={RUTA_REGLAMENTO} className={SECUNDARIO}>
+            <Download size={16} aria-hidden /> Descargar reglamento {reglamento.nombre ? "oficial" : "provisional"}
+          </a>}
       </Tarjeta>
       <nav className="flex gap-2" aria-label="Estado de las reservas">
         <Link href={RUTA_ALUMNO} className={SECUNDARIO} aria-current={!historial ? "page" : undefined}>Próximas</Link>
@@ -63,7 +66,7 @@ async function Contenido({ searchParams }: { searchParams: Parametros }) {
             <summary className="cursor-pointer text-sm font-semibold text-navy-900">
               Nómina ({reserva.multicancha_integrantes.length})
             </summary>
-            <div className="pt-3"><Nomina reserva={reserva} /></div>
+            <div className="pt-3"><Nomina reserva={reserva} maximo={configuracion.data?.max_participantes ?? null} /></div>
           </details>
         </Tarjeta>
       ))}

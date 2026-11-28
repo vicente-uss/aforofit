@@ -20,7 +20,7 @@ Desde 027, Inscripciones, Habilitación y el kiosco comparten el estado del cert
 
 **CR-02 fase 3 (28 de noviembre, PR #33 fusionado en `0b85c6e`).** La migración 029 amplía los préstamos a solicitantes externos por nombre y el inventario a los implementos deportivos. Las fichas existentes conservan sus IDs, el profesor confirma la recepción física de la TNE y registra su entrega por separado. La referencia certificada informada para esta fase es de 920 comprobaciones en entorno desechable (300 Vitest y 620 SQL). [Operación y pruebas](docs/cr-02-prestamos-inventario.md).
 
-**CR-02 fase 4 (28 de noviembre, rama `cr02-multicancha-reservas`).** La migración 030 implementa CR02-07 a CR02-09. El profesor administra un calendario independiente del gimnasio. El alumno vinculado consulta sus reservas y edita su nómina. Los módulos y días son provisionales. Las actividades prioritarias exigen resolver los conflictos explícitamente. La confirmación queda preparada para envío manual, con el reglamento adjunto cuando el encargado lo entregue. [Operación, decisiones y pruebas](docs/cr-02-multicancha-reservas.md).
+**CR-02 fase 4 (28 de noviembre, PR #34, rama `cr02-multicancha-reservas`).** La migración 030 implementa CR02-07 a CR02-09. La agenda diaria, semanal y mensual distingue espacios y admite actividades institucionales simultáneas con aviso si comparten espacio. Las reservas ordinarias conservan exclusión transaccional frente a usos incompatibles. Se confirman cinco módulos ordinarios y se precargan cuatro franjas no reservables y la programación semanal editable. La nómina tiene un máximo configurable de 14 personas, incluido el responsable. El profesor puede enviar la confirmación por Gmail SMTP con el reglamento provisional del prototipo y conserva el borrador EML para respaldo. [Operación, decisiones y pruebas](docs/cr-02-multicancha-reservas.md).
 
 Sistema web para el gimnasio (sala de musculación) de la **Universidad San Sebastián (USS), sede Bellavista**.
 Lo usan **solo alumnos** de la universidad. Es el **Proyecto Integrador** (evaluación Solemne) del
@@ -208,7 +208,7 @@ Pantalla pública ────────────────────�
 
 ### Variables de entorno
 
-Solo estas dos, en `.env.local` (local) y en Vercel (producción):
+Variables públicas de Supabase en `.env.local` y Vercel:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
@@ -216,6 +216,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
 Nunca usar ni subir la clave `secret` / `service_role`. Nunca subir `.env.local`.
+El envío de prueba de multicancha usa `SMTP_USER` y `SMTP_PASS` únicamente en el servidor. `SMTP_DESTINATARIOS_AUTORIZADOS` agrega al buzón remitente direcciones de prueba autorizadas, separadas por comas.
 
 ## 7. Convenciones
 
@@ -272,7 +273,7 @@ El encargado está disponible para ver el prototipo los martes cerca de las 17:0
 
 ## 10. Estado actual
 
-CR-02 fases 1 a 3 están fusionadas por los PR #31 a #33. Las fotos, categorías y cantidades del inventario ampliado siguen pendientes de confirmación por el encargado. CR-02 fase 4 pasa a auditoría con la migración 030, las secciones Multicancha y Mis reservas y el borrador manual de correo. Quedan por confirmar el horario y los días oficiales, el reglamento, la operación de nómina y la autorización de un proveedor de correo.
+CR-02 fases 1 a 3 están fusionadas por los PR #31 a #33. Las fotos, categorías y cantidades del inventario ampliado siguen pendientes de confirmación por el encargado. CR-02 fase 4 está en auditoría en el PR #34 con agenda multivista, programación semanal, nómina y confirmación SMTP con respaldo EML. Quedan pendientes el reglamento oficial, el traspaso de las reservas vigentes de Outlook y la verificación de entrega real a un buzón de prueba autorizado en la vista previa.
 
 Actualizado: miércoles 25 de noviembre de 2026.
 

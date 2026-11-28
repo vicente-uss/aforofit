@@ -2,14 +2,16 @@ import { fechaTexto, horarioTexto, type Horario } from "./agenda";
 
 export const ASUNTO_CONFIRMACION = "Confirmación de reserva de multicancha";
 
-export function confirmacionReserva(reserva: Horario & { responsable: string }, conReglamento: boolean) {
+export function confirmacionReserva(reserva: Horario & { responsable: string }, conReglamento: boolean, provisional = false) {
   return [
     `Hola, ${reserva.responsable}:`,
     "",
     "Tu reserva de la multicancha USS Bellavista está confirmada.",
     `${fechaTexto(reserva.fecha)} · ${horarioTexto(reserva)} (hora de Santiago).`,
     "Si tienes tu cuenta vinculada, puedes completar la nómina de tu equipo en Mis reservas.",
-    ...(conReglamento ? ["Adjuntamos el reglamento oficial de la multicancha."] : []),
+    ...(conReglamento ? [provisional
+      ? "Adjuntamos el reglamento provisional de la multicancha para la demostración del prototipo."
+      : "Adjuntamos el reglamento oficial de la multicancha."] : []),
     "",
     "Saludos,",
     "Equipo del gimnasio",

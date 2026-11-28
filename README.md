@@ -82,7 +82,7 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [027_vigencia_y_retiro_certificados.sql](supabase/sql/027_vigencia_y_retiro_certificados.sql) | Unifica el estado médico de inscripción, habilitación y acceso, y registra el retiro de adjuntos reemplazados. | Conserva fechas, fichas y documentos asociados. |
 | [028_modo_administrador.sql](supabase/sql/028_modo_administrador.sql) | Permiso administrativo temporal para la cuenta del encargado. | Conserva los roles y requiere configurar Vault para la demo. |
 | [029_prestamos_inventario.sql](supabase/sql/029_prestamos_inventario.sql) | Préstamos por nombre e inventario deportivo. | Conserva los préstamos y fichas existentes. |
-| [030_multicancha_reservas.sql](supabase/sql/030_multicancha_reservas.sql) | Calendario, reservas, bloqueos, nómina, historial y bucket privado del reglamento. | Cinco módulos ordinarios provisionales. |
+| [030_multicancha_reservas.sql](supabase/sql/030_multicancha_reservas.sql) | Agenda multivista, reservas, bloqueos, series semanales, nómina e historial. | Cinco módulos, cuatro franjas no reservables y 17 series semanales. |
 
 La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
 

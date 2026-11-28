@@ -54,3 +54,11 @@ competir 'actividad institucional y reserva simultáneas' "$fecha_institucional"
     p_hora_inicio=>'08:05',p_hora_fin=>'08:45',p_titulo=>'QA Clase');" \
   "select public.guardar_multicancha('$fecha_institucional','ordinaria',1::smallint,
     p_responsable=>'QA Concurrente',p_carrera=>'QA',p_correo=>'concurrencia@example.test');"
+
+fecha_serie=$(db -c "select date '$fecha' + 2")
+competir 'la serie no desplaza una reserva concurrente de la multicancha' "$fecha_serie" \
+  "select public.guardar_multicancha('$fecha_serie','ordinaria',1::smallint,
+    p_responsable=>'QA Concurrente',p_carrera=>'QA',p_correo=>'concurrencia@example.test');" \
+  "select public.guardar_serie_multicancha('QA Recurrente','multicancha',3::smallint,
+    '08:20','09:20','$fecha_serie');"
+[[ $(db -c "select count(*) from public.multicancha_series where titulo = 'QA Recurrente'") == 0 ]]
