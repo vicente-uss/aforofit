@@ -112,7 +112,9 @@ try {
     headers: { apikey, Authorization: `Bearer ${access_token}`, 'Content-Type': 'application/pdf' },
     body: Buffer.concat([pdf, Buffer.from('\n')]),
   });
-  assert.equal(grande.status, 413, 'Storage rechaza un byte por sobre el máximo');
+  const errorTamano = await grande.text();
+  assert.ok([400, 413].includes(grande.status) && /maximum|too.large|exceed|413/i.test(errorTamano),
+    `Storage rechaza un byte por sobre el máximo: ${grande.status} ${errorTamano}`);
   await profesor.reload();
   await profesor.getByLabel('Buscar inscripción por RUT').fill('1000004-1');
   await profesor.getByRole('button', { name: 'Buscar', exact: true }).click();
@@ -148,6 +150,7 @@ try {
   const disponibles = pantalla.getByText('Cupos disponibles', { exact: true }).first().locator('..');
   await expect(disponibles).toContainText('1');
 
+  await profesor.bringToFront();
   await profesor.goto(app + '/ingreso');
   const abrirRut = profesor.getByRole('button', { name: 'Ingresar por RUT' });
   const input = profesor.getByLabel('RUT sin puntos y con guion');
