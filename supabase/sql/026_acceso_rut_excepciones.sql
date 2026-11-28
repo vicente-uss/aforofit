@@ -128,7 +128,7 @@ begin
   end if;
   return privado.respuesta_ingreso('turno', null, v_alumno, v_turno.numero, p_ahora);
 end;
-$;
+$$;
 
 -- Conserva la firma utilizada por NFC, QR y las pruebas históricas.
 create or replace function privado.registrar_ingreso_en(p_uid text, p_ahora timestamptz default now())
