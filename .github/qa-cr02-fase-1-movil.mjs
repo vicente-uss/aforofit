@@ -73,6 +73,15 @@ try {
   assert.equal(pdf.length, 10 * 1024 * 1024);
   const archivo = { name: 'certificado-ficticio.pdf', mimeType: 'application/pdf', buffer: pdf };
   const hoy = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Santiago' }).format(new Date());
+  const admin = await navegador.newPage({ viewport: { width: 360, height: 820 } });
+  await login(admin, 'admin');
+  await admin.goto(app + '/admin/habilitacion');
+
+  async function consultarAdmin(nombre) {
+    await admin.getByLabel('Buscar por nombre').fill(nombre);
+    await admin.getByRole('button', { name: 'Buscar', exact: true }).click();
+    await admin.getByRole('button', { name: nombre, exact: true }).click();
+  }
 
   async function llenarFicha(nombre, rut, categoria) {
     await tipo.selectOption(categoria);
@@ -132,16 +141,57 @@ try {
   await expect(profesor.getByRole('button', { name: 'Descargar certificado de alumno regular' })).toBeVisible();
   await profesor.screenshot({ path: path.join(process.argv[2], '360-inscripcion.png'), fullPage: true });
   assert.equal(await profesor.evaluate(() => document.documentElement.scrollWidth), 360);
+  await consultarAdmin('Estudiante editado');
+  await expect(admin.getByText(/Certificado médico vigente hasta/)).toBeVisible();
+  await expect(admin.getByRole('button', { name: 'Registrar habilitación' })).toHaveCount(0);
+
+  // El primer retiro falla después de guardar la ficha. Al volver, se reintenta por Storage.
+  const esRetiro = (req) => req.method() === 'DELETE' && new URL(req.url()).pathname === '/storage/v1/object/certificados';
+  await profesor.route('**/storage/v1/object/certificados', (interceptada) => esRetiro(interceptada.request())
+    ? interceptada.fulfill({ status: 503, json: { message: 'Falla de retiro de prueba' },
+      headers: { 'Access-Control-Allow-Origin': app } })
+    : interceptada.continue());
+  await profesor.getByLabel('Certificado médico', { exact: true }).setInputFiles({ ...archivo, buffer: pdfDePrueba() });
+  await profesor.getByLabel('Fecha de emisión del certificado médico').fill('2000-01-01');
+  await guardar.click();
+  await expect(confirmado).toContainText('El retiro de archivos se reintentará');
+  await expect(profesor.getByText(/Certificado médico vencido el/)).toBeVisible();
+  const descargaAnterior = () => fetch(api + ruta, { headers: { apikey, Authorization: `Bearer ${access_token}` } });
+  assert.ok((await descargaAnterior()).ok, 'El archivo anterior sigue pendiente de retiro');
+  await profesor.unroute('**/storage/v1/object/certificados');
+  const retiro = profesor.waitForResponse((r) => esRetiro(r.request()) && r.ok());
+  await profesor.reload();
+  await retiro;
+  await expect.poll(async () => (await descargaAnterior()).ok).toBe(false);
+  await consultarAdmin('Estudiante editado');
+  await expect(admin.getByText(/Certificado médico vencido el/)).toBeVisible();
+  await expect(admin.getByRole('button', { name: 'Registrar habilitación' })).toHaveCount(0);
 
   await profesor.getByRole('button', { name: 'Nueva inscripción' }).click();
   await llenarFicha('Deportista de prueba', '1000005-K', 'deportista_destacado');
   await expect(profesor.getByText('Exento de certificado médico.')).toBeVisible();
   await guardar.click();
   await expect(confirmado).toBeVisible();
+  await consultarAdmin('Deportista de prueba');
+  await expect(admin.getByText('Exento de certificado médico.', { exact: true })).toBeVisible();
+  await expect(admin.getByRole('button', { name: 'Registrar habilitación' })).toHaveCount(0);
   await profesor.getByRole('button', { name: 'Nueva inscripción' }).click();
   await llenarFicha('Funcionario de prueba', '1000006-8', 'funcionario_colaborador');
   await guardar.click();
   await expect(confirmado).toBeVisible();
+  execFileSync('psql', [db, '-Xv', 'ON_ERROR_STOP=1', '-c', `
+    update public.alumnos set certificado_emision = current_date, certificado_hasta = current_date + 365 where rut = '1000006-8';
+  `]);
+  await consultarAdmin('Funcionario de prueba');
+  await expect(admin.getByText('Certificado médico pendiente', { exact: true })).toBeVisible();
+  await expect(admin.getByRole('button', { name: 'Registrar habilitación' })).toHaveCount(0);
+  await expect(profesor.getByText('Certificado médico pendiente', { exact: true })).toBeVisible();
+  await admin.screenshot({ path: path.join(process.argv[2], '360-habilitacion-coherente.png'), fullPage: true });
+  await consultarAdmin('Antonia Fictia Rivas');
+  await admin.getByLabel('Fecha de emisión', { exact: true }).fill(hoy);
+  await admin.getByRole('button', { name: 'Registrar habilitación' }).click();
+  await expect(admin.getByRole('status').filter({ hasText: 'Vigencia actualizada.' })).toBeVisible();
+  await expect(admin.getByText(/Certificado médico vigente hasta/)).toBeVisible();
 
   const pantalla = await navegador.newPage();
   const realtime = pantalla.waitForEvent('websocket', { predicate: (ws) => ws.url().includes('/realtime/v1/') });
@@ -169,6 +219,8 @@ try {
     await input.fill(rut);
     await registrar.click();
   }
+  await marcar('1000004-1');
+  await expect(profesor.getByText('Certificado médico vencido', { exact: true })).toBeVisible();
   await marcar('1000006-8');
   await expect(profesor.getByText('Certificado médico pendiente', { exact: true })).toBeVisible();
   await profesor.getByRole('button', { name: 'Autorizar esta visita' }).click();
@@ -177,8 +229,10 @@ try {
   await expect(profesor.getByText('Hasta luego, Deportista de prueba')).toBeVisible();
   await marcar('1000006-8');
   await expect(profesor.getByText('Bienvenido/a, Funcionario de prueba')).toBeVisible();
+  await consultarAdmin('Funcionario de prueba');
+  await expect(admin.getByText('Certificado médico pendiente', { exact: true })).toBeVisible();
   assert.equal(await profesor.evaluate(() => document.documentElement.scrollWidth), 360);
-  console.log('APROBADOS formulario, descarga privada, límite real de Storage, RUT con K, turnos, excepción y Realtime a 360 px');
+  console.log('APROBADOS formulario, vigencia coherente entre roles y kiosco, retiro con reintento, Storage, RUT, excepción y Realtime a 360 px');
 } finally {
   await navegador.close();
 }

@@ -4,7 +4,7 @@ db() { psql 'postgresql://postgres:postgres@127.0.0.1:54322/postgres' -Xv ON_ERR
 
 bash .github/qa-024-sql.sh base
 
-# Comprueba que 025 y 026 preservan los datos e identificadores históricos.
+# Comprueba que las migraciones de CR-02 preservan los datos e identificadores históricos.
 snapshot() {
   db -Atc "
     select to_jsonb(a) - 'tipo_persona' from public.alumnos a order by id;
@@ -15,11 +15,11 @@ snapshot() {
     select to_jsonb(p) from public.prestamos p order by id;"
 }
 snapshot >"$RUNNER_TEMP/datos-antes-cr02"
-for migracion in supabase/sql/02{5,6}_*.sql; do
+for migracion in supabase/sql/02{5,6,7}_*.sql; do
   db -q -f "$migracion"
 done
 snapshot | diff -u "$RUNNER_TEMP/datos-antes-cr02" -
-echo 'APROBADA actualización 024–026 con registros existentes'
+echo 'APROBADA actualización 024–027 con registros existentes'
 
 echo 'SUITES CONSOLIDADAS CR-02 (contar desde aquí)'
 registro=$(mktemp)

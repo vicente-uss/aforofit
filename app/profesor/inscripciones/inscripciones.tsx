@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Tarjeta } from "@/components/marca/tarjeta";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { normalizarRut } from "@/lib/ingreso/rut";
 import { BUCKET_CERTIFICADOS, TIPOS_CERTIFICADO, errorCertificado } from "@/lib/inscripciones/certificados";
+import { textoVigencia, type VigenciaCertificado } from "@/lib/inscripciones/vigencia";
 import { createClient } from "@/lib/supabase/client";
 
 const TIPOS = {
@@ -17,11 +18,9 @@ const TIPOS = {
 type TipoPersona = keyof typeof TIPOS;
 type Documento = "medico" | "alumno_regular";
 type Persona = { id: string; nombre: string; rut: string | null };
-type Ficha = Persona & {
+type Ficha = Persona & VigenciaCertificado & {
   tipo_persona: TipoPersona;
   carrera: string | null;
-  certificado_emision: string | null;
-  certificado_hasta: string | null;
   correo?: string;
   nacimiento?: string;
   telefono?: string;
@@ -56,6 +55,18 @@ const ERRORES: Record<string, string> = {
   archivo_invalido: "No se pudo asociar el archivo. Selecciónalo nuevamente.",
 };
 
+async function retirarCertificados(supabase: ReturnType<typeof createClient>) {
+  try {
+    const { data: rutas, error } = await supabase.rpc("certificados_pendientes_de_retiro");
+    if (error) return false;
+    if (!rutas?.length) return true;
+    const { error: errorRetiro } = await supabase.storage.from(BUCKET_CERTIFICADOS).remove(rutas);
+    return !errorRetiro;
+  } catch {
+    return false;
+  }
+}
+
 export function Inscripciones({ profesorId }: { profesorId: string }) {
   const [supabase] = useState(createClient);
   const [ficha, setFicha] = useState<Ficha | null>(null);
@@ -65,11 +76,17 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
   const [aviso, setAviso] = useState("");
   const [error, setError] = useState("");
   const [claveFormulario, setClaveFormulario] = useState(0);
+  const [archivoMedicoSeleccionado, setArchivoMedicoSeleccionado] = useState(false);
   const bucket = supabase.storage.from(BUCKET_CERTIFICADOS);
+
+  useEffect(() => {
+    void retirarCertificados(supabase);
+  }, [supabase]);
 
   function abrir(datos: Ficha | null) {
     setFicha(datos);
     setTipo(datos?.tipo_persona ?? "estudiante");
+    setArchivoMedicoSeleccionado(false);
     setClaveFormulario((clave) => clave + 1);
   }
 
@@ -160,10 +177,17 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
         throw new Error(ERRORES[errorGuardar.message] ?? "No se pudo confirmar el guardado. Busca el RUT antes de reintentar.");
       }
       abrir(data);
-      setAviso("Inscripción guardada.");
+      const retiroCompletado = await retirarCertificados(supabase);
+      setAviso(retiroCompletado ? "Inscripción guardada."
+        : "Inscripción guardada. El retiro de archivos se reintentará al volver a Inscripciones.");
     } catch (problema) {
       if (nuevasRutas.length && (!guardadoEnviado || rechazoConfirmado)) {
-        await bucket.remove(nuevasRutas).catch(() => {});
+        try {
+          const { error: errorDescarte } = await supabase.rpc("descartar_cargas_certificados", { p_rutas: nuevasRutas });
+          if (!errorDescarte) await retirarCertificados(supabase);
+        } catch {
+          // La falla original se informa aunque Storage esté temporalmente indisponible.
+        }
       }
       setError(problema instanceof Error && problema.message ? problema.message : "No se pudo guardar la inscripción.");
     } finally {
@@ -227,7 +251,11 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
             })}
             <label className="space-y-1 text-sm font-medium">
               <span>Tipo de persona</span>
-              <select value={tipo} onChange={(e) => setTipo(e.target.value as TipoPersona)}
+              <select value={tipo} onChange={(e) => {
+                const elegido = e.target.value as TipoPersona;
+                if (elegido === "deportista_destacado") setArchivoMedicoSeleccionado(false);
+                setTipo(elegido);
+              }}
                 className="block h-10 w-full rounded-md border border-line bg-white px-3">
                 {Object.entries(TIPOS).map(([valor, etiqueta]) => <option key={valor} value={valor}>{etiqueta}</option>)}
               </select>
@@ -251,16 +279,16 @@ export function Inscripciones({ profesorId }: { profesorId: string }) {
                 <>
                   <label className="block space-y-1 text-sm font-medium">
                     <span>Certificado médico</span>
-                    <Input type="file" name="medico" accept={TIPOS_CERTIFICADO.join(",")} className="min-w-0 max-w-full" />
+                    <Input type="file" name="medico" accept={TIPOS_CERTIFICADO.join(",")} className="min-w-0 max-w-full"
+                      onChange={(e) => setArchivoMedicoSeleccionado(Boolean(e.currentTarget.files?.length))} />
                   </label>
                   <label className="block space-y-1 text-sm font-medium">
                     <span>Fecha de emisión del certificado médico</span>
-                    <Input type="date" name="certificado_emision" max={hoy} defaultValue={ficha?.certificado_emision ?? ""} />
+                    <Input type="date" name="certificado_emision" max={hoy} defaultValue={ficha?.certificado_emision ?? ""}
+                      disabled={!archivoMedicoSeleccionado && !ficha?.medico} />
                   </label>
                   <p className="text-sm">
-                    {ficha?.certificado_hasta
-                      ? `${ficha.certificado_hasta < hoy ? "Vencido" : "Vigente"} · hasta ${ficha.certificado_hasta.split("-").reverse().join("/")}`
-                      : "Certificado médico pendiente"}
+                    {ficha && ficha.estado_certificado !== "exento" ? textoVigencia(ficha) : "Certificado médico pendiente"}
                   </p>
                   {ficha?.medico && (
                     <Button type="button" variant="outline" className="h-auto min-h-10 max-w-full whitespace-normal py-2"
