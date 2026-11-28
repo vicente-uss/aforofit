@@ -1,6 +1,6 @@
 # CR-02 · Segunda validación y ampliación funcional de AforoFit
 
-**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador, con revisión formal del equipo y del encargado pendiente. El PR #31 integró CR02-01 a CR02-04 con las migraciones 025 a 027. El PR #32 integró CR02-06 con la migración 028. CR02-05 y CR02-11 pasan a revisión con la migración 029. [Modo administrador](cr-02-modo-administrador.md) · [Préstamos e inventario](cr-02-prestamos-inventario.md).
+**Fecha:** 27 de noviembre de 2026. **Estado:** requisitos acordados con el coordinador, con revisión formal del equipo y del encargado pendiente. El PR #31 integró CR02-01 a CR02-04 con las migraciones 025 a 027. El PR #32 integró CR02-06 con la migración 028. El PR #33 integró CR02-05 y CR02-11 con la migración 029. CR02-07 a CR02-09 pasan a auditoría con la migración 030. [Modo administrador](cr-02-modo-administrador.md) · [Préstamos e inventario](cr-02-prestamos-inventario.md) · [Multicancha y reservas](cr-02-multicancha-reservas.md).
 **Origen:** apuntes de la segunda validación presencial con el encargado del gimnasio y aclaraciones posteriores del coordinador. No constituye transcripción literal ni acta firmada del encargado.
 **Base preservada:** main `d91dc915bbcdb3d900062d9cb815cbd54ad33a6e` (PR #29 documental integrado), migraciones hasta 024; PR #28 certificado con 793 comprobaciones (278 Vitest + 515 SQL). El alcance original CR-01 queda como referencia histórica. No se promete ganar la evaluación ni se declara aprobado lo nuevo antes de comprobarlo.
 

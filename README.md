@@ -81,10 +81,12 @@ Nunca uses la clave `service_role` en la app ni subas `.env.local` al repositori
 | [026_acceso_rut_excepciones.sql](supabase/sql/026_acceso_rut_excepciones.sql) | Acceso por RUT y registro de excepciones por visita o turno. | Conserva credenciales, visitas, turnos y rutinas. |
 | [027_vigencia_y_retiro_certificados.sql](supabase/sql/027_vigencia_y_retiro_certificados.sql) | Unifica el estado médico de inscripción, habilitación y acceso, y registra el retiro de adjuntos reemplazados. | Conserva fechas, fichas y documentos asociados. |
 | [028_modo_administrador.sql](supabase/sql/028_modo_administrador.sql) | Permiso administrativo temporal para la cuenta del encargado. | Conserva los roles y requiere configurar Vault para la demo. |
+| [029_prestamos_inventario.sql](supabase/sql/029_prestamos_inventario.sql) | Préstamos por nombre e inventario deportivo. | Conserva los préstamos y fichas existentes. |
+| [030_multicancha_reservas.sql](supabase/sql/030_multicancha_reservas.sql) | Calendario, reservas, bloqueos, nómina, historial y bucket privado del reglamento. | Cinco módulos ordinarios provisionales. |
 
 La numeración salta de 015 a 017. En instalaciones nuevas, continúa en orden con los archivos 018 a 024 de `supabase/sql/`. La 019 requiere `pg_cron`. Para actualizar desde 023, aplica [024](supabase/sql/024_configuracion_completa.sql) antes de desplegar el panel. Consulta las [instrucciones de configuración, reversión y certificación](docs/configuracion-completa-024.md).
 
-Aplica 025 a 028 en orden al entorno de prueba. Sigue la [configuración del modo administrador](docs/cr-02-modo-administrador.md) para preparar la demo. La [certificación de CR-02](.github/workflows/certificacion-cr02-fase-1.yml) ejecuta la regresión y las pruebas nuevas con un proyecto Supabase desechable.
+Aplica 025 a 030 en orden al entorno de prueba. Sigue la [configuración del modo administrador](docs/cr-02-modo-administrador.md) y la [guía de multicancha](docs/cr-02-multicancha-reservas.md) para preparar la demo. La [certificación de CR-02](.github/workflows/certificacion-cr02-fase-1.yml) ejecuta la regresión y las pruebas nuevas con un proyecto Supabase desechable.
 
 ## Usuarios de prueba
 
@@ -117,6 +119,8 @@ Las contraseñas de las cuentas compartidas se entregan por privado. Si creaste 
 | `/profesor/maquinas` | Profesor | Marcar una máquina disponible o en mantención. |
 | `/profesor/prestamos` | Profesor | Identificar al alumno, ver stock, prestar varios implementos, devolver cantidades y entregar la TNE por separado. |
 | `/profesor/historial` | Profesor | Consultar visitas y préstamos por fecha en Santiago. |
+| `/profesor/multicancha` | Profesor | Consultar el calendario y gestionar reservas, actividades, bloqueos y confirmaciones. |
+| `/alumno/reservas` | Alumno | Consultar sus reservas, editar la nómina y descargar el reglamento oficial cuando esté disponible. |
 | `/profesor/rutinas` | Profesor | Crear, asignar y editar rutinas de origen profesor. |
 | `/admin` | Admin o profesor en modo Administración | Abrir los módulos de administración. |
 | `/admin/configuracion` | Admin o profesor en modo Administración | Cambiar capacidad, umbral, horarios, cierre automático, expiración de turnos, modalidades de rutina y progresión de cargas. |

@@ -1,4 +1,4 @@
-import { ArrowRight, ClipboardList, History, Ruler } from "lucide-react";
+import { ArrowRight, CalendarDays, ClipboardList, History, Ruler } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { CargandoPanel } from "@/components/cargando-panel";
@@ -28,6 +28,19 @@ async function Contenido() {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-navy-900">Mis rutinas</p>
             <p className="text-xs text-tinta-suave">Crea una rutina o elige cuál usar.</p>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
+        </Tarjeta>
+      </Link>
+
+      <Link href="/alumno/reservas" className="block rounded-2xl">
+        <Tarjeta className="flex items-center gap-3 p-3 transition-shadow hover:shadow-lift">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+            <CalendarDays className="h-[18px] w-[18px]" aria-hidden />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-navy-900">Mis reservas</p>
+            <p className="text-xs text-tinta-suave">Consulta tus horarios y edita la nómina de tu equipo.</p>
           </div>
           <ArrowRight className="h-4 w-4 shrink-0 text-blue-600" aria-hidden />
         </Tarjeta>

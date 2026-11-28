@@ -1,4 +1,4 @@
-import { ClipboardList, History, ListOrdered, Monitor, Package, ScanLine, UserRoundPlus, Users, Wrench } from "lucide-react";
+import { CalendarDays, ClipboardList, History, ListOrdered, Monitor, Package, ScanLine, UserRoundPlus, Users, Wrench } from "lucide-react";
 import { CargandoPanel } from "@/components/cargando-panel";
 import { PanelRol } from "@/components/panel-rol";
 import { requerirRol } from "@/lib/auth/perfil";
@@ -53,6 +53,13 @@ async function Contenido() {
           href: "/profesor/prestamos",
           icono: Package,
           color: "violet",
+        },
+        {
+          titulo: "Multicancha",
+          descripcion: "Consulta el calendario y gestiona reservas, bloqueos y actividades.",
+          href: "/profesor/multicancha",
+          icono: CalendarDays,
+          color: "blue",
         },
         {
           titulo: "Asignar rutinas",
