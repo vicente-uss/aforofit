@@ -89,10 +89,18 @@ try {
 
   await profesor.goto(calendario);
   await expect(profesor.getByRole('heading', { name: 'Multicancha', exact: true })).toBeVisible();
-  await profesor.getByRole('link', { name: 'Mes anterior' }).click();
+  const anterior = profesor.getByRole('link', { name: 'Mes anterior' });
+  const rutaAnterior = await anterior.getAttribute('href');
+  await anterior.click();
+  await expect(profesor).toHaveURL(app + rutaAnterior);
   await expect(profesor.getByText('Sin bloques registrados para este día.')).toBeVisible();
-  await profesor.getByRole('link', { name: 'Mes siguiente' }).click();
-  await profesor.getByLabel('Ir a fecha').fill(fecha);
+  const siguiente = profesor.getByRole('link', { name: 'Mes siguiente' });
+  const rutaSiguiente = await siguiente.getAttribute('href');
+  await siguiente.click();
+  await expect(profesor).toHaveURL(app + rutaSiguiente);
+  const irAFecha = profesor.getByLabel('Ir a fecha');
+  await expect(irAFecha).toHaveValue(new URL(app + rutaSiguiente).searchParams.get('fecha'));
+  await irAFecha.fill(fecha);
   await profesor.getByRole('button', { name: 'Ir', exact: true }).click();
   await expect(profesor).toHaveURL(calendario);
   await profesor.getByRole('link', { name: 'Preparar reserva de 08:00–09:20' }).click();

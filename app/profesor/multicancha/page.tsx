@@ -208,17 +208,9 @@ async function Contenido({ searchParams }: { searchParams: Parametros }) {
     <div className="space-y-5">
       <EncabezadoPagina titulo="Multicancha" subtitulo="Reservas presenciales y actividades de la sede Bellavista · Hora de Santiago"
         accion={fecha >= hoy && <a href="#nuevo-bloque" className={SECUNDARIO}><Plus size={17} aria-hidden /> Nuevo bloque</a>} />
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(260px,340px)_minmax(0,1fr)]">
-        <div className="grid min-w-0 items-start gap-4 md:grid-cols-2 xl:grid-cols-1">
-          <Calendario key={fecha} fecha={fecha} hoy={hoy} />
-          {fecha >= hoy && (
-            <Tarjeta id="nuevo-bloque" className="min-w-0 scroll-mt-20 space-y-3 p-4 sm:p-5">
-              <h2 className="font-semibold text-navy-900">Nuevo bloque</h2>
-              <FormularioBloque key={`${fecha}-${moduloInicial}`} modulos={modulos} dia={fecha} moduloInicial={moduloInicial} />
-            </Tarjeta>
-          )}
-        </div>
-        <div className="min-w-0 space-y-4">
+      <div className="grid items-start gap-5 xl:grid-cols-[minmax(260px,340px)_minmax(0,1fr)] xl:grid-rows-[auto_1fr]">
+        <Calendario key={fecha} fecha={fecha} hoy={hoy} />
+        <div className="min-w-0 space-y-4 xl:col-start-2 xl:row-span-2 xl:row-start-1">
           <Tarjeta className="space-y-4 p-4 sm:p-5">
             <h2 className="text-lg font-semibold capitalize text-navy-900">{fechaTexto(fecha)}</h2>
             <div className="space-y-2">
@@ -258,6 +250,12 @@ async function Contenido({ searchParams }: { searchParams: Parametros }) {
             <Historial pagina={pagina} eventos={historial.data as Evento[]} fecha={fecha} />
           </div>
         </div>
+        {fecha >= hoy && (
+          <Tarjeta id="nuevo-bloque" className="min-w-0 scroll-mt-20 space-y-3 p-4 sm:p-5 xl:col-start-1 xl:row-start-2">
+            <h2 className="font-semibold text-navy-900">Nuevo bloque</h2>
+            <FormularioBloque key={`${fecha}-${moduloInicial}`} modulos={modulos} dia={fecha} moduloInicial={moduloInicial} />
+          </Tarjeta>
+        )}
       </div>
     </div>
   );
