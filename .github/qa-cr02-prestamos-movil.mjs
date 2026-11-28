@@ -109,7 +109,7 @@ try {
     await pagina.getByLabel('Fotografía (opcional)').setInputFiles({
       name: 'qa.png',
       mimeType: 'image/png',
-      buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVQIHWP4DwQACfsD/Y3tFXgAAAAASUVORK5CYII=', 'base64'),
+      buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMQC5vzHwADlgIIpSJ4MwAAAABJRU5ErkJggg==', 'base64'),
     });
     await sinDesborde(pagina);
     await pagina.getByRole('button', { name: 'Guardar', exact: true }).click();
